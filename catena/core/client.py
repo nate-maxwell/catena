@@ -3,6 +3,7 @@ import functools
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
+from PySide6TK import Resources
 
 import catena.core.toolbar
 from catena.core.panes.node_graph import NodeGraphPane
@@ -19,7 +20,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         super().__init__(
             window_name="Catena",
             min_size=(800, 600),
-            icon_path=QtWrappers.BUTTON_BLACK_40X40,
+            icon_path=Resources.BUTTON_BLACK_40X40,
         )
 
         options = QtWidgets.QMainWindow.DockOption

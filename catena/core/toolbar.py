@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
+from PySide6TK import Resources
 
 from catena.core import about
 from catena.core import shortcuts
@@ -64,17 +65,17 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self.add_toolbar_separator()
 
     def _action_queue_section(self) -> None:
-        self.add_toolbar_command("Save", image_path=QtWrappers.BUTTON_CYAN_40X40)
-        self.add_toolbar_command("Undo", image_path=QtWrappers.BUTTON_ORANGE_40X40)
-        self.add_toolbar_command("Redo", image_path=QtWrappers.BUTTON_ORANGE_40X40)
+        self.add_toolbar_command("Save", image_path=Resources.BUTTON_CYAN_40X40)
+        self.add_toolbar_command("Undo", image_path=Resources.BUTTON_ORANGE_40X40)
+        self.add_toolbar_command("Redo", image_path=Resources.BUTTON_ORANGE_40X40)
 
     def _create_section(self) -> None:
         self.add_toolbar_command(
-            "Create\nPanel", image_path=QtWrappers.BUTTON_BLUE_40X40
+            "Create\nPanel", image_path=Resources.BUTTON_BLUE_40X40
         )
         self.add_toolbar_command(
-            "Create\nVariant", image_path=QtWrappers.BUTTON_BLUE_40X40
+            "Create\nVariant", image_path=Resources.BUTTON_BLUE_40X40
         )
         self.add_toolbar_command(
-            "Create\nXsition", image_path=QtWrappers.BUTTON_BLUE_40X40
+            "Create\nXsition", image_path=Resources.BUTTON_BLUE_40X40
         )
