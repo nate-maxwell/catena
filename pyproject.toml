@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+
+[tool.setuptools]
+packages = ["catena"]
+
+[project]
+name = "Catena"
+authors = [
+    {name = "Nathan Maxwell"}
+]
+description = "A hobby application for managing storyboards or the progression state between scenes using images."
+readme = "README.md"
+requires-python = ">=3.10"
+keywords = ["python", "PySide", "editor", "story", "board", "storyboard", "story-board"]
+license = { file = "LICENSE" }
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    'importlib-metadata; python_version<"3.10"',
+    "PySide6",
+    "package @ git+https://github.com/nate-maxwell/core_utils.git",
+    "package @ git+https://github.com/nate-maxwell/broker.git",
+    "package @ git+https://github.com/nate-maxwell/PySide6TK.git",
+]
+version = "0.1.0"
+
+[project.urls]
+Homepage = "https://github.com/nate-maxwell/catena"
+Source = "https://github.com/nate-maxwell/catena"

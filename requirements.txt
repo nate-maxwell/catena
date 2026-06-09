@@ -1,0 +1,4 @@
+PySide6
+package @ git+https://github.com/nate-maxwell/core_utils.git
+package @ git+https://github.com/nate-maxwell/broker.git
+package @ git+https://github.com/nate-maxwell/PySide6TK.git
