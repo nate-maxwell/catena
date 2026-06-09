@@ -22,7 +22,9 @@ class CatenaEditor(QtWrappers.MainWindow):
         )
 
         options = QtWidgets.QMainWindow.DockOption
-        self.setDockOptions(options.AllowNestedDocks | options.AllowTabbedDocks | options.AnimatedDocks)
+        self.setDockOptions(
+            options.AllowNestedDocks | options.AllowTabbedDocks | options.AnimatedDocks
+        )
         self.split_vertical = functools.partial(split_vertical, self)
         self.split_horizontal = functools.partial(split_horizontal, self)
         self._create_widgets()

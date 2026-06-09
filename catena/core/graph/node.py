@@ -1,20 +1,63 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+from dataclasses import field
+from enum import Enum
+from typing import Any
+
+import broker
 from PySide6 import QtCore
 from PySide6 import QtGui
 from PySide6 import QtWidgets
 
+from catena.core import pubsub
 from catena.core.graph.port import Port
 from catena.core.graph.port import PortType
+
+
+class FieldType(str, Enum):
+    FLOAT = "float"
+    INT = "int"
+    STR = "str"
+    BOOL = "bool"
+    COLOR = "color"
+    VEC2 = "vec2"
+    VEC3 = "vec3"
+    CHOICE = "choice"
+
+
+@dataclass
+class FieldDefinition(object):
+    """
+    Describes a single editable field on a node.
+
+    Args:
+        name (str): The field's identifier key.
+        label (str): Human-readable display name.
+        field_type (FieldType): The input type.
+        default (Any): The default value for this field.
+        options (list[str]): Valid choices when ``field_type`` is ``FieldType.CHOICE``.
+        min_value (float | None): Minimum value for numeric fields.
+        max_value (float | None): Maximum value for numeric fields.
+    """
+
+    name: str
+    label: str
+    field_type: FieldType
+    default: Any = None
+    options: list[str] = field(default_factory=list)
+    min_value: float | None = None
+    max_value: float | None = None
 
 
 class BaseNode(QtWidgets.QGraphicsItem):
     """
     Base class for nodes placed on a GraphView.
 
-    Subclass this and implement ``_build`` to add ports using ``add_port``.
-    The node renders a header bar with a title and a body region sized to
-    ``body_height``. It is draggable and selectable by default.
+    Subclass this and implement ``_build`` to add ports using ``add_port`` and
+    fields using ``add_field``. Fields can be queried via ``get_fields`` to
+    build a properties panel, and their values read and written via
+    ``get_field_value`` and ``set_field_value``.
 
     Args:
         title (str): Text displayed in the node header.
@@ -28,10 +71,26 @@ class BaseNode(QtWidgets.QGraphicsItem):
         body_height (int): Body region height.
 
     Example:
-        class MyNode(BaseNode):
+
+        class BlurNode(BaseNode):
             def _build(self) -> None:
-                self.port_in = self.add_port(PortType.INPUT, "value")
-                self.port_out = self.add_port(PortType.OUTPUT, "result")
+                self.port_in = self.add_port(PortType.INPUT, "image")
+                self.port_out = self.add_port(PortType.OUTPUT, "image")
+                self.add_field(FieldDefinition(
+                    name="radius",
+                    label="Radius",
+                    field_type=FieldType.STR,
+                    default=1.0,
+                    min_value=0.0,
+                    max_value=100.0,
+                ))
+                self.add_field(FieldDefinition(
+                    name="quality",
+                    label="Quality",
+                    field_type=FieldType.CHOICE,
+                    default="medium",
+                    options=["low", "medium", "high"],
+                ))
     """
 
     _HEADER_HEIGHT: int = 28
@@ -57,6 +116,8 @@ class BaseNode(QtWidgets.QGraphicsItem):
         self.width = width
         self.body_height = body_height
         self._ports: list[Port] = []
+        self._fields: dict[str, FieldDefinition] = {}
+        self._field_values: dict[str, Any] = {}
 
         self.setFlag(QtWidgets.QGraphicsItem.GraphicsItemFlag.ItemIsMovable)
         self.setFlag(QtWidgets.QGraphicsItem.GraphicsItemFlag.ItemIsSelectable)
@@ -65,6 +126,15 @@ class BaseNode(QtWidgets.QGraphicsItem):
 
         self._build()
         self._update_wires()
+
+    def _build(self) -> None:
+        """
+        Override to add ports and fields to the node.
+
+        Called once during ``__init__``. Use ``add_port`` to create ports,
+        ``add_field`` to register fields, and ``self._HEADER_HEIGHT`` as the
+        y offset for body content.
+        """
 
     @property
     def total_height(self) -> int:
@@ -93,14 +163,59 @@ class BaseNode(QtWidgets.QGraphicsItem):
         output_count = sum(1 for p in self._ports if p.port_type == PortType.OUTPUT)
 
         port = Port(port_type, name, self)
-        y = self._HEADER_HEIGHT + self._PORT_MARGIN + (
-            input_count if port_type == PortType.INPUT else output_count
-        ) * self._PORT_SPACING
+        y = (
+            self._HEADER_HEIGHT
+            + self._PORT_MARGIN
+            + (input_count if port_type == PortType.INPUT else output_count)
+            * self._PORT_SPACING
+        )
 
         x = 0 if port_type == PortType.INPUT else self.width
         port.setPos(x, y)
         self._ports.append(port)
         return port
+
+    def add_field(self, definition: FieldDefinition) -> None:
+        """
+        Register a field on this node.
+
+        Args:
+            definition (FieldDefinition): The field definition to register.
+        """
+        self._fields[definition.name] = definition
+        self._field_values[definition.name] = definition.default
+
+    def get_fields(self) -> list[FieldDefinition]:
+        """
+        Return all field definitions in order of registration.
+
+        Returns:
+            list[FieldDefinition]: All registered field definitions.
+        """
+        return list(self._fields.values())
+
+    def get_field_value(self, name: str) -> Any:
+        """
+        Return the current value of a field.
+
+        Args:
+            name (str): The field's identifier key.
+        Returns:
+            Any: The current value.
+        """
+        return self._field_values[name]
+
+    def set_field_value(self, name: str, value: Any) -> None:
+        """
+        Set the value of a field.
+
+        Args:
+            name (str): The field's identifier key.
+            value (Any): The new value.
+        """
+        if name not in self._fields:
+            raise KeyError(f"No field '{name}' on node '{self.title}'.")
+        self._field_values[name] = value
 
     def input_ports(self) -> list[Port]:
         """
@@ -151,14 +266,6 @@ class BaseNode(QtWidgets.QGraphicsItem):
                         nodes.append(parent)
         return nodes
 
-    def _build(self) -> None:
-        """
-        Override to add ports and child items to the node.
-
-        Called once during ``__init__``. Use ``add_port`` to create ports and
-        ``self._HEADER_HEIGHT`` as the y offset for body content.
-        """
-
     def _update_wires(self) -> None:
         for port in self._ports:
             for wire in port.wires:
@@ -205,8 +312,15 @@ class BaseNode(QtWidgets.QGraphicsItem):
 
         header_rect = QtCore.QRectF(0, 0, self.width, self._HEADER_HEIGHT)
         header_path = QtGui.QPainterPath()
-        header_path.addRoundedRect(header_rect, self._CORNER_RADIUS, self._CORNER_RADIUS)
-        square_patch = QtCore.QRectF(0, self._CORNER_RADIUS, self.width, self._HEADER_HEIGHT - self._CORNER_RADIUS)
+        header_path.addRoundedRect(
+            header_rect, self._CORNER_RADIUS, self._CORNER_RADIUS
+        )
+        square_patch = QtCore.QRectF(
+            0,
+            self._CORNER_RADIUS,
+            self.width,
+            self._HEADER_HEIGHT - self._CORNER_RADIUS,
+        )
         header_path.addRect(square_patch)
         painter.fillPath(header_path, QtGui.QBrush(self._COLOR_HEADER))
 
@@ -231,13 +345,15 @@ class BaseNode(QtWidgets.QGraphicsItem):
             if port.port_type == PortType.INPUT:
                 painter.drawText(
                     QtCore.QRectF(10, py - 8, self.width * 0.5, 16),
-                    QtCore.Qt.AlignmentFlag.AlignVCenter | QtCore.Qt.AlignmentFlag.AlignLeft,
+                    QtCore.Qt.AlignmentFlag.AlignVCenter
+                    | QtCore.Qt.AlignmentFlag.AlignLeft,
                     port.name,
                 )
             else:
                 painter.drawText(
                     QtCore.QRectF(self.width * 0.5, py - 8, self.width * 0.5 - 10, 16),
-                    QtCore.Qt.AlignmentFlag.AlignVCenter | QtCore.Qt.AlignmentFlag.AlignRight,
+                    QtCore.Qt.AlignmentFlag.AlignVCenter
+                    | QtCore.Qt.AlignmentFlag.AlignRight,
                     port.name,
                 )
 
@@ -248,3 +364,13 @@ class BaseNode(QtWidgets.QGraphicsItem):
         painter.setPen(border_pen)
         painter.setBrush(QtCore.Qt.BrushStyle.NoBrush)
         painter.drawRoundedRect(rect, self._CORNER_RADIUS, self._CORNER_RADIUS)
+
+    def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        """
+        Called when the node is double-clicked.
+
+        Args:
+            event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
+        """
+        broker.emit(pubsub.NODE_DOUBLE_CLICK, fields=self._fields)
+        super().mouseDoubleClickEvent(event)
