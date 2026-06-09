@@ -1,8 +1,8 @@
 from PySide6 import QtCore
 from PySide6 import QtWidgets
 
-from editor.core.panes.pane import DockablePane
-from editor.core.panes.pane import PaneConfig
+from catena.core.panes.pane import DockablePane
+from catena.core.panes.pane import PaneConfig
 
 
 class OutlinerPane(DockablePane):

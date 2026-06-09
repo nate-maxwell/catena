@@ -1,14 +1,14 @@
 from PySide6 import QtCore
 from PySide6 import QtWidgets
 
-from editor.core.panes.pane import DockablePane
-from editor.core.panes.pane import PaneConfig
+from catena.core.panes.pane import DockablePane
+from catena.core.panes.pane import PaneConfig
 
 
-class PropertiesPane(DockablePane):
+class ContentBrowser(DockablePane):
     pane_config = PaneConfig(
-        title="Properties",
-        default_area=QtCore.Qt.DockWidgetArea.RightDockWidgetArea,
+        title="ContentBrowser",
+        default_area=QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,
     )
 
     def create_widgets(self) -> None:

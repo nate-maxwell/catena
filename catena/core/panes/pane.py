@@ -38,7 +38,7 @@ class PaneConfig(object):
 
 class DockablePane(QtWidgets.QDockWidget):
     """
-    Base class for dockable editor panes.
+    Base class for dockable catena panes.
 
     Subclass this and implement ``create_widgets``, ``create_layouts``,
     and ``create_connections`` to build the pane's content. All child

@@ -1,16 +1,16 @@
 import functools
 
-from PySide6 import QtCore
-from PySide6 import QtWidgets
+from PySide6TK import QtCore
+from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
-import editor.core.toolbar
-from editor.core.panes.content_browser import ContentBrowser
-from editor.core.panes.outliner import OutlinerPane
-from editor.core.panes.properties import PropertiesPane
-from editor.core.panes.resize import split_horizontal
-from editor.core.panes.resize import split_vertical
-from editor.core.panes.viewport import Viewport
+import catena.core.toolbar
+from catena.core.panes.content_browser import ContentBrowser
+from catena.core.panes.outliner import OutlinerPane
+from catena.core.panes.properties import PropertiesPane
+from catena.core.panes.resize import split_horizontal
+from catena.core.panes.resize import split_vertical
+from catena.core.panes.viewport import Viewport
 
 
 class CatenaEditor(QtWrappers.MainWindow):
@@ -21,11 +21,8 @@ class CatenaEditor(QtWrappers.MainWindow):
             icon_path=QtWrappers.BUTTON_BLACK_40X40,
         )
 
-        self.setDockOptions(
-            QtWidgets.QMainWindow.DockOption.AllowNestedDocks
-            | QtWidgets.QMainWindow.DockOption.AllowTabbedDocks
-            | QtWidgets.QMainWindow.DockOption.AnimatedDocks
-        )
+        options = QtWidgets.QMainWindow.DockOption
+        self.setDockOptions(options.AllowNestedDocks | options.AllowTabbedDocks | options.AnimatedDocks)
         self.split_vertical = functools.partial(split_vertical, self)
         self.split_horizontal = functools.partial(split_horizontal, self)
         self._create_widgets()
@@ -33,8 +30,8 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._create_connections()
 
     def _create_widgets(self) -> None:
-        self.shortcut_toolbar = editor.core.toolbar.ClientWindowToolbar(self)
-        self.editor_toolbar = editor.core.toolbar.EditorActionToolbar()
+        self.shortcut_toolbar = catena.core.toolbar.ClientWindowToolbar(self)
+        self.editor_toolbar = catena.core.toolbar.EditorActionToolbar()
         self.pane_outliner = OutlinerPane(self)
         self.pane_properties = PropertiesPane(self)
         self.content_browser = ContentBrowser(self)

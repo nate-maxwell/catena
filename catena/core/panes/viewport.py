@@ -1,8 +1,8 @@
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 
-from editor.core.panes.pane import DockablePane
-from editor.core.panes.pane import PaneConfig
+from catena.core.panes.pane import DockablePane
+from catena.core.panes.pane import PaneConfig
 
 
 class Viewport(DockablePane):

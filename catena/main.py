@@ -2,7 +2,7 @@ import sys
 
 from PySide6TK import QtWrappers
 
-from editor.core.client import CatenaEditor
+from catena.core.client import CatenaEditor
 
 
 def main() -> int:

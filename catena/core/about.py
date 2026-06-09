@@ -7,14 +7,14 @@ from PySide6TK import QtWrappers
 repo_url = "https://github.com/nate-maxwell/PyGameEditor"
 documentation_url = "https://github.com/nate-maxwell/PyGameEditor"
 
-about_1 = "A hobby project editor for pygame games."
+about_1 = "A hobby project catena for pygame games."
 about_2 = "Developed by Nate Maxwell."
 abouts = [about_1, about_2]
 
 
 class AboutWidget(QtWidgets.QMainWindow):
     """
-    Simple widget showing the about-info of the editor.
+    Simple widget showing the about-info of the catena.
     Includes a link to the code repo and documentation.
     """
 

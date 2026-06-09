@@ -1,8 +1,8 @@
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
 
-from editor.core import about
-from editor.core import shortcuts
+from catena.core import about
+from catena.core import shortcuts
 
 
 class ClientWindowToolbar(QtWrappers.Toolbar):
