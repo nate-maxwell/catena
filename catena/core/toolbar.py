@@ -62,8 +62,6 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self.add_toolbar_separator()
         self._create_section()
         self.add_toolbar_separator()
-        self._play_section()
-        self.add_toolbar_separator()
 
     def _action_queue_section(self) -> None:
         self.add_toolbar_command("Save", image_path=QtWrappers.BUTTON_CYAN_40X40)
@@ -77,8 +75,6 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self.add_toolbar_command(
             "Create\nVariant", image_path=QtWrappers.BUTTON_BLUE_40X40
         )
-        self.add_toolbar_command("Import", image_path=QtWrappers.BUTTON_YELLOW_40X40)
-
-    def _play_section(self) -> None:
-        self.add_toolbar_command("Play", image_path=QtWrappers.BUTTON_GREEN_40X40)
-        self.add_toolbar_command("Stop", image_path=QtWrappers.BUTTON_RED_40X40)
+        self.add_toolbar_command(
+            "Create\nXsition", image_path=QtWrappers.BUTTON_BLUE_40X40
+        )

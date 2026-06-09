@@ -81,12 +81,12 @@ class OutroNode(BaseNode):
         self.port_in = self.add_port(PortType.INPUT, "Pane")
 
 
-class PaneNode(BaseNode):
+class PanelNode(BaseNode):
 
     _COLOR_HEADER = QtGui.QColor(160, 60, 60)
 
     def __init__(self) -> None:
-        super().__init__(title="Pane", width=180, body_height=40)
+        super().__init__(title="Panel", width=180, body_height=40)
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Previous")
@@ -133,8 +133,8 @@ class PaneNode(BaseNode):
                 name="fit_mode",
                 label="Fit Mode",
                 field_type=FieldType.CHOICE,
-                default="fit",
-                options=["fit", "fill", "stretch", "none"],
+                default="Fit",
+                options=["Fit", "Fill", "Stretch", "None"],
             )
         )
         self.add_field(
@@ -163,10 +163,13 @@ class NodeGraphWindow(QtWidgets.QMainWindow):
 
     def _populate(self) -> None:
         self.node_start = StartNode()
-        self.node_pane_a = PaneNode()
-        self.node_pane_b = PaneNode()
+        self.node_pane_a = PanelNode()
+        self.node_pane_a.set_field_value(
+            "filepath", "T:/git/catena/catena/core/resources/PIC_Example_Board.png"
+        )
+        self.node_pane_b = PanelNode()
         self.node_transition = TransitionNode()
-        self.node_pane_c = PaneNode()
+        self.node_pane_c = PanelNode()
         self.node_outro = OutroNode()
 
         self.graph.add_node(self.node_start, 0, 0)

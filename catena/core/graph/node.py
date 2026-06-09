@@ -372,5 +372,5 @@ class BaseNode(QtWidgets.QGraphicsItem):
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
-        broker.emit(pubsub.NODE_DOUBLE_CLICK, fields=self._fields)
+        broker.emit(pubsub.NODE_DOUBLE_CLICK, node=self)
         super().mouseDoubleClickEvent(event)

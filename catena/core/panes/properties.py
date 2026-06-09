@@ -4,11 +4,11 @@ from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
+from catena.core import pubsub
+from catena.core.graph.node import BaseNode
+from catena.core.graph.node import FieldType
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
-from catena.core.graph.node import FieldDefinition
-from catena.core.graph.node import FieldType
-from catena.core import pubsub
 
 
 class PropertiesPane(DockablePane):
@@ -31,13 +31,14 @@ class PropertiesPane(DockablePane):
         self.content_layout.addWidget(self.label)
         self.content_layout.addStretch()
 
-    def _refresh_properties(self, fields: dict[str, FieldDefinition]) -> None:
+    def _refresh_properties(self, node: BaseNode) -> None:
         QtWrappers.clear_layout(self.content_layout)
 
-        for definition in fields.values():
+        for definition in node.get_fields():
             row = QtWidgets.QHBoxLayout()
             label = QtWidgets.QLabel(definition.label, self.content_widget)
             row.addWidget(label)
+            current_value = node.get_field_value(definition.name)
 
             if definition.field_type == FieldType.FLOAT:
                 widget = QtWidgets.QDoubleSpinBox(self.content_widget)
@@ -46,8 +47,11 @@ class PropertiesPane(DockablePane):
                     widget.setMinimum(definition.min_value)
                 if definition.max_value is not None:
                     widget.setMaximum(definition.max_value)
-                if definition.default is not None:
-                    widget.setValue(definition.default)
+                if current_value is not None:
+                    widget.setValue(current_value)
+                widget.valueChanged.connect(
+                    lambda v, n=definition.name: node.set_field_value(n, v)
+                )
 
             elif definition.field_type == FieldType.INT:
                 widget = QtWidgets.QSpinBox(self.content_widget)
@@ -55,39 +59,54 @@ class PropertiesPane(DockablePane):
                     widget.setMinimum(int(definition.min_value))
                 if definition.max_value is not None:
                     widget.setMaximum(int(definition.max_value))
-                if definition.default is not None:
-                    widget.setValue(definition.default)
+                if current_value is not None:
+                    widget.setValue(current_value)
+                widget.valueChanged.connect(
+                    lambda v, n=definition.name: node.set_field_value(n, v)
+                )
 
             elif definition.field_type == FieldType.STR:
                 widget = QtWidgets.QLineEdit(self.content_widget)
-                if definition.default is not None:
-                    widget.setText(definition.default)
+                if current_value is not None:
+                    widget.setText(current_value)
+                widget.textChanged.connect(
+                    lambda v, n=definition.name: node.set_field_value(n, v)
+                )
 
             elif definition.field_type == FieldType.BOOL:
                 widget = QtWidgets.QCheckBox(self.content_widget)
-                if definition.default is not None:
-                    widget.setChecked(definition.default)
+                if current_value is not None:
+                    widget.setChecked(current_value)
+                widget.toggled.connect(
+                    lambda v, n=definition.name: node.set_field_value(n, v)
+                )
 
             elif definition.field_type == FieldType.CHOICE:
                 widget = QtWidgets.QComboBox(self.content_widget)
                 widget.addItems(definition.options)
-                if definition.default is not None:
-                    widget.setCurrentText(definition.default)
+                if current_value is not None:
+                    widget.setCurrentText(current_value)
+                widget.currentTextChanged.connect(
+                    lambda v, n=definition.name: node.set_field_value(n, v)
+                )
 
             elif definition.field_type in (FieldType.VEC2, FieldType.VEC3):
                 widget = QtWidgets.QLineEdit(self.content_widget)
-                if definition.default is not None:
-                    widget.setText(str(definition.default))
+                if current_value is not None:
+                    widget.setText(str(current_value))
+                widget.textChanged.connect(
+                    lambda v, n=definition.name: node.set_field_value(n, v)
+                )
 
             elif definition.field_type == FieldType.COLOR:
                 widget = QtWidgets.QPushButton(self.content_widget)
-                if definition.default is not None:
-                    color = QtGui.QColor(*definition.default)
+                if current_value is not None:
+                    color = QtGui.QColor(*current_value)
                     widget.setStyleSheet(f"background-color: {color.name()};")
                 widget.setText("")
 
             else:
-                widget = QtWidgets.QLabel(str(definition.default), self.content_widget)
+                widget = QtWidgets.QLabel(str(current_value), self.content_widget)
 
             row.addWidget(widget)
             self.content_layout.addLayout(row)
