@@ -5,7 +5,7 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 import catena.core.toolbar
-from catena.core.panes.content_browser import ContentBrowser
+from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.outliner import OutlinerPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
@@ -34,7 +34,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         self.editor_toolbar = catena.core.toolbar.EditorActionToolbar()
         self.pane_outliner = OutlinerPane(self)
         self.pane_properties = PropertiesPane(self)
-        self.content_browser = ContentBrowser(self)
+        self.node_graph = NodeGraphPane(self)
         self.viewport = Viewport(self)
 
     def _create_layouts(self) -> None:
@@ -50,12 +50,12 @@ class CatenaEditor(QtWrappers.MainWindow):
         )
         self.splitDockWidget(
             self.viewport,
-            self.content_browser,
+            self.node_graph,
             QtCore.Qt.Orientation.Vertical,
         )
 
         self.split_vertical(self.pane_outliner, self.pane_properties, 0.5)
-        self.split_vertical(self.viewport, self.content_browser, 0.6)
+        self.split_vertical(self.viewport, self.node_graph, 0.6)
         self.split_horizontal(self.viewport, self.pane_outliner, 0.75)
         self.addToolBar(self.shortcut_toolbar)
         self.addToolBarBreak()

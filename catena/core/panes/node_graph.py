@@ -1,19 +1,18 @@
 from PySide6TK import QtCore
-from PySide6TK import QtWidgets
 
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
+from catena.core.graph import example_graph
 
 
-class ContentBrowser(DockablePane):
+class NodeGraphPane(DockablePane):
     pane_config = PaneConfig(
-        title="ContentBrowser",
+        title="Node Graph",
         default_area=QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,
     )
 
     def create_widgets(self) -> None:
-        self.label = QtWidgets.QLabel("", self.content_widget)
+        self.graph = example_graph.NodeGraphWindow()
 
     def create_layouts(self) -> None:
-        self.content_layout.addWidget(self.label)
-        self.content_layout.addStretch()
+        self.content_layout.addWidget(self.graph)

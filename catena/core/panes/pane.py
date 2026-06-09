@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from dataclasses import field
 
-from PySide6 import QtCore
-from PySide6 import QtWidgets
+from PySide6TK import QtCore
+from PySide6TK import QtWidgets
 
 
 @dataclass
