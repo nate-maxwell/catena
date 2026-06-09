@@ -32,8 +32,9 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
         self.add_menu_command(menu, "Quit")
 
     def _edit_section(self) -> None:
-        menu = self.add_menu("Edit")
         manager = shortcuts.init_shortcut_manager(self.parent())
+
+        menu = self.add_menu("Edit")
         self.add_menu_command(menu, "Undo")
         self.add_menu_command(menu, "Redo")
         self.add_menu_command(menu, "Shortcuts", manager.show_editor)
@@ -71,14 +72,13 @@ class EditorActionToolbar(QtWrappers.Toolbar):
 
     def _create_section(self) -> None:
         self.add_toolbar_command(
-            "Create\nActor", image_path=QtWrappers.BUTTON_BLUE_40X40
+            "Create\nPanel", image_path=QtWrappers.BUTTON_BLUE_40X40
         )
         self.add_toolbar_command(
-            "Create\nScript", image_path=QtWrappers.BUTTON_BLUE_40X40
+            "Create\nVariant", image_path=QtWrappers.BUTTON_BLUE_40X40
         )
         self.add_toolbar_command("Import", image_path=QtWrappers.BUTTON_YELLOW_40X40)
 
     def _play_section(self) -> None:
         self.add_toolbar_command("Play", image_path=QtWrappers.BUTTON_GREEN_40X40)
-        self.add_toolbar_command("Sim", image_path=QtWrappers.BUTTON_GREEN_40X40)
         self.add_toolbar_command("Stop", image_path=QtWrappers.BUTTON_RED_40X40)
