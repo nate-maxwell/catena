@@ -1,4 +1,4 @@
-from PySide6 import QtWidgets
+from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView
 
 from catena.core.nodes.outro import OutroNode

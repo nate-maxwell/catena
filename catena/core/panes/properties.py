@@ -1,6 +1,5 @@
 import broker
 from PySide6TK import QtCore
-from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 from PySide6TK.Nodes import BaseNode
@@ -37,6 +36,10 @@ class PropertiesPane(DockablePane):
         for definition in node.get_fields():
             row = QtWidgets.QHBoxLayout()
             label = QtWidgets.QLabel(definition.label, self.content_widget)
+            label.setSizePolicy(
+                QtWidgets.QSizePolicy.Policy.Expanding,
+                QtWidgets.QSizePolicy.Policy.Fixed,
+            )
             row.addWidget(label)
             current_value = node.get_field_value(definition.name)
 
@@ -99,11 +102,11 @@ class PropertiesPane(DockablePane):
                 )
 
             elif definition.field_type == FieldType.COLOR:
-                widget = QtWidgets.QPushButton(self.content_widget)
+                widget = QtWrappers.ColorButton()
                 if current_value is not None:
-                    color = QtGui.QColor(*current_value)
-                    widget.setStyleSheet(f"background-color: {color.name()};")
-                widget.setText("")
+                    r, g, b, a = current_value
+                    color = f"#{a:02x}{r:02x}{g:02x}{b:02x}"
+                    widget.set_color(color)
 
             else:
                 widget = QtWidgets.QLabel(str(current_value), self.content_widget)
