@@ -11,10 +11,11 @@ class TransitionNode(CatenaNode):
     _COLOR_HEADER = QtGui.QColor(100, 60, 160)
 
     def __init__(self) -> None:
-        super().__init__(title="Transition", width=240, body_height=40)
+        super().__init__(title="Transition", width=240, body_height=60)
 
     def _build(self) -> None:
-        self.port_in = self.add_port(PortType.INPUT, "Pane")
+        self.port_in_from = self.add_port(PortType.INPUT, "From")
+        self.port_in_to = self.add_port(PortType.INPUT, "To")
         self.port_out = self.add_port(PortType.OUTPUT, "Post Transition")
 
         self.add_field(

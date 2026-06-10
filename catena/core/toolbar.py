@@ -61,21 +61,28 @@ class EditorActionToolbar(QtWrappers.Toolbar):
     def build(self) -> None:
         self._action_queue_section()
         self.add_toolbar_separator()
-        self._create_section()
+        self._sequence_section()
         self.add_toolbar_separator()
+        self._image_edit_section()
 
     def _action_queue_section(self) -> None:
-        self.add_toolbar_command("Save", image_path=Resources.BUTTON_CYAN_40X40)
-        self.add_toolbar_command("Undo", image_path=Resources.BUTTON_ORANGE_40X40)
-        self.add_toolbar_command("Redo", image_path=Resources.BUTTON_ORANGE_40X40)
+        self.add_toolbar_command("Save", image_path=Resources.BUTTON_BLACK_40X40)
+        self.add_toolbar_command("Undo", image_path=Resources.BUTTON_BLACK_40X40)
+        self.add_toolbar_command("Redo", image_path=Resources.BUTTON_BLACK_40X40)
 
-    def _create_section(self) -> None:
+    def _sequence_section(self) -> None:
+        self.add_toolbar_command("Panel", image_path=Resources.BUTTON_GREEN_40X40)
+        self.add_toolbar_command("Start", image_path=Resources.BUTTON_RED_40X40)
+        self.add_toolbar_command("Trans", image_path=Resources.BUTTON_PURPLE_40X40)
+        self.add_toolbar_command("Outro", image_path=Resources.BUTTON_CYAN_40X40)
+
+    def _image_edit_section(self) -> None:
+        self.add_toolbar_command("Overlay", image_path=Resources.BUTTON_YELLOW_40X40)
         self.add_toolbar_command(
-            "Create\nPanel", image_path=Resources.BUTTON_BLUE_40X40
+            "Color\nGrade", image_path=Resources.BUTTON_YELLOW_40X40
         )
+        self.add_toolbar_command("Crop", image_path=Resources.BUTTON_YELLOW_40X40)
+        self.add_toolbar_command("Zoom", image_path=Resources.BUTTON_YELLOW_40X40)
         self.add_toolbar_command(
-            "Create\nVariant", image_path=Resources.BUTTON_BLUE_40X40
-        )
-        self.add_toolbar_command(
-            "Create\nXsition", image_path=Resources.BUTTON_BLUE_40X40
+            "Water\nMark", image_path=Resources.BUTTON_YELLOW_40X40
         )

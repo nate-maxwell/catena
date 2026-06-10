@@ -1,8 +1,8 @@
 from PySide6TK import QtCore
 
-from catena.core import example_graph
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
+from catena.core.nodes.graph import CatenaGraphView
 
 
 class NodeGraphPane(DockablePane):
@@ -12,7 +12,7 @@ class NodeGraphPane(DockablePane):
     )
 
     def create_widgets(self) -> None:
-        self.graph = example_graph.NodeGraphWindow()
+        self.graph_view = CatenaGraphView(self)
 
     def create_layouts(self) -> None:
-        self.content_layout.addWidget(self.graph)
+        self.content_layout.addWidget(self.graph_view)
