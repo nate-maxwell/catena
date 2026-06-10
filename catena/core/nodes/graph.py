@@ -11,6 +11,7 @@ from catena.core.nodes.transition import TransitionNode
 class CatenaGraphView(GraphView):
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
         super().__init__(parent)
+        self.comment_type = CatenaCommentBox
         self._register_nodes()
 
     def add_comment(
@@ -27,6 +28,7 @@ class CatenaGraphView(GraphView):
             CommentBox: The created comment box.
         """
         box = CatenaCommentBox(label)
+        self._node_refs.append(box)
         self.scene.addItem(box)
         box.setPos(x, y)
         return box

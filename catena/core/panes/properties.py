@@ -105,8 +105,12 @@ class PropertiesPane(DockablePane):
                 widget = QtWrappers.ColorButton()
                 if current_value is not None:
                     r, g, b, a = current_value
-                    color = f"#{a:02x}{r:02x}{g:02x}{b:02x}"
-                    widget.set_color(color)
+                    widget.set_color(f"#{a:02x}{r:02x}{g:02x}{b:02x}")
+                widget.colorChanged.connect(
+                    lambda c, n=definition.name: node.set_field_value(
+                        n, (c.red(), c.green(), c.blue(), c.alpha())
+                    )
+                )
 
             else:
                 widget = QtWidgets.QLabel(str(current_value), self.content_widget)
