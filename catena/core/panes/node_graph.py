@@ -1,8 +1,8 @@
 from PySide6TK import QtCore
 
+from catena.core import example_graph
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
-from catena.core.graph import example_graph
 
 
 class NodeGraphPane(DockablePane):

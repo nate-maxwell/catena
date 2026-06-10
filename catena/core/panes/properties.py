@@ -3,10 +3,10 @@ from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
+from PySide6TK.Nodes import BaseNode
+from PySide6TK.Nodes import FieldType
 
 from catena.core import pubsub
-from catena.core.graph.node import BaseNode
-from catena.core.graph.node import FieldType
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
 
