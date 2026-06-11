@@ -77,12 +77,14 @@ class DockablePane(QtWidgets.QDockWidget):
         self.setAllowedAreas(self._config.allowed_areas)
         self.setFeatures(self._config.features)
 
-        self.content_widget = QtWidgets.QWidget()
-        self.content_layout = QtWidgets.QVBoxLayout(self.content_widget)
+        self.content_layout = QtWidgets.QVBoxLayout()
         self.content_layout.setContentsMargins(4, 4, 4, 4)
         self.content_layout.setSpacing(4)
+
+        self.content_widget = QtWidgets.QWidget()
         self.setWidget(self.content_widget)
         self.content_widget.setMinimumSize(0, 0)
+        self.content_widget.setLayout(self.content_layout)
 
         self.create_widgets()
         self.create_layouts()
