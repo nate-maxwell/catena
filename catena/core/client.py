@@ -25,6 +25,7 @@ class CatenaEditor(QtWrappers.MainWindow):
             min_size=(800, 600),
             icon_path=Resources.BUTTON_BLACK_40X40,
         )
+        shortcuts.ShortcutManager(self)
 
         options = QtWidgets.QMainWindow.DockOption
         self.setDockOptions(
