@@ -7,24 +7,17 @@ from PySide6TK import QtWrappers
 from PySide6TK import Resources
 from PySide6TK import Nodes
 
-import catena.core.toolbar
+from catena.core.toolbars.actions_toolbar import EditorActionToolbar
+from catena.core.toolbars.client_toolbar import ClientWindowToolbar
 from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
 from catena.core.panes.resize import split_vertical
 from catena.core.panes.timeline import TimelinePane
 from catena.core.panes.viewport import Viewport
+from catena.core import appdata
 from catena.core import resources
 from catena.core import shortcuts
-
-_APPDATA_PATH = Path.home() / "Appdata"
-_APPDATA_ROAMING_PATH = _APPDATA_PATH / "Roaming"
-
-CATENA_APPDATA_PATH = _APPDATA_ROAMING_PATH / "Catena"
-CATENA_APPDATA_PATH.mkdir(parents=True, exist_ok=True)
-
-# temp
-CATENA_GRAPH_FILE = CATENA_APPDATA_PATH / "last_graph.graph"
 
 
 class CatenaEditor(QtWrappers.MainWindow):
@@ -48,10 +41,10 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._load_graph()
 
     def _create_widgets(self) -> None:
-        self.shortcut_toolbar = catena.core.toolbar.ClientWindowToolbar(self)
-        self.editor_toolbar = catena.core.toolbar.EditorActionToolbar()
-        self.pane_properties = PropertiesPane(self)
         self.node_graph = NodeGraphPane(self)
+        self.shortcut_toolbar = ClientWindowToolbar(self)
+        self.editor_toolbar = EditorActionToolbar(self, self.node_graph.graph_view)
+        self.pane_properties = PropertiesPane(self)
         self.timeline = TimelinePane(self)
         self.viewport = Viewport(self)
         self.viewport.set_image(resources.PIC_EXAMPLE_BOARD)
@@ -84,10 +77,10 @@ class CatenaEditor(QtWrappers.MainWindow):
         return
 
     def _load_graph(self) -> None:
-        if not CATENA_GRAPH_FILE.exists():
+        if not appdata.CATENA_GRAPH_FILE.exists():
             return
 
-        Nodes.load(self.node_graph.graph_view, CATENA_GRAPH_FILE)
+        Nodes.load(self.node_graph.graph_view, appdata.CATENA_GRAPH_FILE)
 
     def _create_core_shortcuts(self) -> None:
         # TODO: Find better place for this
@@ -96,7 +89,9 @@ class CatenaEditor(QtWrappers.MainWindow):
         shortcut_manager.add_shortcut(
             action_name="Save",
             key_sequence="Ctrl+S",
-            callback=lambda: Nodes.save(self.node_graph.graph_view, CATENA_GRAPH_FILE),
+            callback=lambda: Nodes.save(
+                self.node_graph.graph_view, appdata.CATENA_GRAPH_FILE
+            ),
             description="Save current project.",
             category="File",
         )

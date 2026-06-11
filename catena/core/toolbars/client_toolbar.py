@@ -1,6 +1,5 @@
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
-from PySide6TK import Resources
 
 from catena.core import about
 from catena.core import shortcuts
@@ -51,38 +50,3 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
     def _help_section(self) -> None:
         menu = self.add_menu("Help")
         self.add_menu_command(menu, "About", lambda: about.show_about_widget(self))
-
-
-class EditorActionToolbar(QtWrappers.Toolbar):
-
-    def __init__(self) -> None:
-        super().__init__("Example Toolbar", default_button_resolution=[40, 40])
-
-    def build(self) -> None:
-        self._action_queue_section()
-        self.add_toolbar_separator()
-        self._sequence_section()
-        self.add_toolbar_separator()
-        self._image_edit_section()
-
-    def _action_queue_section(self) -> None:
-        self.add_toolbar_command("Save", image_path=Resources.BUTTON_BLACK_40X40)
-        self.add_toolbar_command("Undo", image_path=Resources.BUTTON_BLACK_40X40)
-        self.add_toolbar_command("Redo", image_path=Resources.BUTTON_BLACK_40X40)
-
-    def _sequence_section(self) -> None:
-        self.add_toolbar_command("Panel", image_path=Resources.BUTTON_GREEN_40X40)
-        self.add_toolbar_command("Start", image_path=Resources.BUTTON_RED_40X40)
-        self.add_toolbar_command("Trans", image_path=Resources.BUTTON_PURPLE_40X40)
-        self.add_toolbar_command("Outro", image_path=Resources.BUTTON_CYAN_40X40)
-
-    def _image_edit_section(self) -> None:
-        self.add_toolbar_command("Overlay", image_path=Resources.BUTTON_YELLOW_40X40)
-        self.add_toolbar_command(
-            "Color\nGrade", image_path=Resources.BUTTON_YELLOW_40X40
-        )
-        self.add_toolbar_command("Crop", image_path=Resources.BUTTON_YELLOW_40X40)
-        self.add_toolbar_command("Zoom", image_path=Resources.BUTTON_YELLOW_40X40)
-        self.add_toolbar_command(
-            "Water\nMark", image_path=Resources.BUTTON_YELLOW_40X40
-        )

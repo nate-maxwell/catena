@@ -1,3 +1,5 @@
+from typing import Optional
+
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView
 
