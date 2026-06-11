@@ -34,7 +34,7 @@ class TransitionNode(CatenaNode):
                 label="Type",
                 field_type=FieldType.CHOICE,
                 default="fade",
-                options=["fade", "wipe", "dissolve", "cut"],
+                options=["Fade", "Wipe", "Dissolve", "Cut"],
             )
         )
         self.add_field(
@@ -43,7 +43,7 @@ class TransitionNode(CatenaNode):
                 label="Easing",
                 field_type=FieldType.CHOICE,
                 default="ease_in_out",
-                options=["linear", "ease_in", "ease_out", "ease_in_out"],
+                options=["Linear", "Ease In", "Ease Out", "Ease In Out"],
             )
         )
         self.add_field(
