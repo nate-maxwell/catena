@@ -34,7 +34,6 @@ class CatenaEditor(QtWrappers.MainWindow):
         self.split_horizontal = functools.partial(split_horizontal, self)
         self._create_widgets()
         self._create_layouts()
-        self._create_connections()
         self._create_core_shortcuts()
         self._load_graph()
 
@@ -49,23 +48,19 @@ class CatenaEditor(QtWrappers.MainWindow):
     def _create_layouts(self) -> None:
         self.splitDockWidget(
             self.viewport,
-            self.pane_properties,
+            self.node_graph,
             QtCore.Qt.Orientation.Horizontal,
         )
         self.splitDockWidget(
-            self.viewport,
+            self.pane_properties,
             self.node_graph,
             QtCore.Qt.Orientation.Vertical,
         )
 
-        self.split_horizontal(self.viewport, self.pane_properties, 0.75)
-        self.split_vertical(self.viewport, self.node_graph, 0.5)
+        self.split_vertical(self.pane_properties, self.node_graph, 0.25)
         self.addToolBar(self.shortcut_toolbar)
         self.addToolBarBreak()
         self.addToolBar(self.editor_toolbar)
-
-    def _create_connections(self) -> None:
-        return
 
     def _load_graph(self) -> None:
         if not appdata.CATENA_GRAPH_FILE.exists():
