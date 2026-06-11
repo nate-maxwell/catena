@@ -5,3 +5,5 @@ The viewport pane consists of several parts:
 the components that make up the viewport.
 - Image View - The canvas that displays the current image.
 - Timeline - The frame track timeline showing the current frame being displayed.
+
+The viewport pane and component widgets primarily update via the event broker.
