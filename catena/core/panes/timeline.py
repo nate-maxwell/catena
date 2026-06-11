@@ -219,19 +219,17 @@ class _TrackWidget(QtWidgets.QWidget):
         self.setCursor(QtCore.Qt.CursorShape.SizeHorCursor)
 
     def _frame_to_x(self, frame: int) -> float:
-        tl = self._timeline
-        span = tl.last_frame - tl.first_frame
+        span = self._timeline.last_frame - self._timeline.first_frame
         if span == 0:
             return 0.0
-        return (frame - tl.first_frame) / span * self.width()
+        return (frame - self._timeline.first_frame) / span * self.width()
 
     def _x_to_frame(self, x: int) -> int:
-        tl = self._timeline
-        span = tl.last_frame - tl.first_frame
+        span = self._timeline.last_frame - self._timeline.first_frame
         if span == 0:
-            return tl.first_frame
+            return self._timeline.first_frame
         ratio = max(0.0, min(1.0, x / self.width()))
-        return round(ratio * span + tl.first_frame)
+        return round(ratio * span + self._timeline.first_frame)
 
     def mousePressEvent(self, event: QtGui.QMouseEvent) -> None:
         if event.button() == QtCore.Qt.MouseButton.LeftButton:
@@ -291,48 +289,3 @@ class _TrackWidget(QtWidgets.QWidget):
         painter.drawPolygon(triangle)
 
         painter.end()
-
-
-class TimelinePane(DockablePane):
-    """
-    A dockable pane containing a Nuke-style timeline with transport controls.
-
-    Args:
-        main_window (QtWidgets.QMainWindow): The main window to dock into.
-        first_frame (int): The first frame of the range.
-        last_frame (int): The last frame of the range.
-        fps (float): Frames per second for playback.
-    """
-
-    pane_config = PaneConfig(
-        title="Timeline",
-        default_area=QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,
-    )
-
-    def __init__(
-        self,
-        main_window: QtWidgets.QMainWindow,
-        first_frame: int = 1,
-        last_frame: int = 100,
-        fps: float = 24.0,
-    ) -> None:
-        self._first_frame = first_frame
-        self._last_frame = last_frame
-        self._fps = fps
-        super().__init__(main_window)
-        self.setTitleBarWidget(QtWidgets.QWidget())
-
-    def create_widgets(self) -> None:
-        self.timeline = Timeline(
-            first_frame=self._first_frame,
-            last_frame=self._last_frame,
-            fps=self._fps,
-            parent=self.content_widget,
-        )
-
-    def create_layouts(self) -> None:
-        self.content_layout.addWidget(self.timeline)
-        self.content_widget.setFixedHeight(80)
-
-    def create_connections(self) -> None:
-        pass

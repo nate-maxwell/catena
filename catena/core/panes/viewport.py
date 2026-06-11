@@ -6,6 +6,7 @@ from PySide6TK import QtWidgets
 
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
+from catena.core.panes import timeline
 
 
 class _ImageView(QtWidgets.QWidget):
@@ -60,7 +61,47 @@ class _ImageView(QtWidgets.QWidget):
         painter.end()
 
 
-class Viewport(DockablePane):
+class _ViewportWidget(QtWidgets.QWidget):
+
+    def __init__(
+        self,
+        first_frame: int = 1001,
+        last_frame: int = 1100,
+        fps: float = 24.0,
+        parent: QtWidgets.QWidget | None = None,
+    ) -> None:
+        super().__init__(parent)
+        self.first_frame = first_frame
+        self.last_frame = last_frame
+        self.fps = fps
+
+        self._create_widgets()
+        self._create_layouts()
+
+    def _create_widgets(self) -> None:
+        self.layout_main = QtWidgets.QVBoxLayout()
+
+        self.image_view = _ImageView(self)
+
+        self.timeline = timeline.Timeline(
+            first_frame=self.first_frame,
+            last_frame=self.last_frame,
+            fps=self.fps,
+            parent=self.parent(),
+        )
+
+    def _create_layouts(self) -> None:
+        self.setLayout(self.layout_main)
+        self.layout_main.addWidget(self.image_view)
+        self.layout_main.addWidget(self.timeline)
+
+    def refresh_timeline(self) -> None:
+        self.timeline.set_range(self.first_frame, self.last_frame)
+        self.timeline.fps = self.fps
+        self.timeline.set_frame(self.first_frame)  # Not sure if I want this...
+
+
+class ViewportPane(DockablePane):
     """A dockable pane that displays an image centered on a black background."""
 
     pane_config = PaneConfig(
@@ -69,11 +110,11 @@ class Viewport(DockablePane):
     )
 
     def create_widgets(self) -> None:
-        self.image_view = _ImageView(self.content_widget)
+        self.viewport_widget = _ViewportWidget(parent=self)
 
     def create_layouts(self) -> None:
         self.content_layout.setContentsMargins(0, 0, 0, 0)
-        self.content_layout.addWidget(self.image_view)
+        self.content_layout.addWidget(self.viewport_widget)
 
     def set_image(self, path: Path) -> None:
         """
@@ -82,4 +123,4 @@ class Viewport(DockablePane):
         Args:
             path (Path): Path to the image file.
         """
-        self.image_view.set_image(QtGui.QImage(path.as_posix()))
+        self.viewport_widget.image_view.set_image(QtGui.QImage(path.as_posix()))
