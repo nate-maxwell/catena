@@ -13,7 +13,7 @@ from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
 from catena.core.panes.resize import split_vertical
-from catena.core.panes.viewport import ViewportPane
+from catena.core.panes.viewport.viewport_pane import ViewportPane
 from catena.core.toolbars.actions_toolbar import EditorActionToolbar
 from catena.core.toolbars.client_toolbar import ClientWindowToolbar
 
