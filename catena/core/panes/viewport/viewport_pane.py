@@ -5,7 +5,6 @@ from PySide6TK import QtCore
 
 from catena.core import namespace
 from catena.core.nodes.base import CatenaNode
-from catena.core.nodes.panel import PanelNode
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
 from catena.core.panes.viewport import viewport_widget

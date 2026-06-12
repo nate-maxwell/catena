@@ -7,7 +7,6 @@ from PySide6TK import QtWrappers
 from PySide6TK import Resources
 
 from catena.core import appdata
-from catena.core import resources
 from catena.core import shortcuts
 from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane

@@ -4,9 +4,6 @@ from PySide6 import QtCore
 from PySide6 import QtGui
 from PySide6 import QtWidgets
 
-from catena.core.panes.pane import DockablePane
-from catena.core.panes.pane import PaneConfig
-
 
 class Timeline(QtWidgets.QWidget):
     """

@@ -1,11 +1,10 @@
 from PySide6TK import QtCore
 from PySide6TK import QtGui
-from PySide6TK import QtWidgets
 
+from catena.core import shortcuts
+from catena.core.nodes.graph import CatenaGraphView
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
-from catena.core.nodes.graph import CatenaGraphView
-from catena.core import shortcuts
 
 
 class NodeGraphPane(DockablePane):

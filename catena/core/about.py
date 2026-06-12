@@ -2,7 +2,6 @@ import webbrowser
 from typing import Optional
 
 from PySide6 import QtWidgets
-from PySide6TK import QtWrappers
 
 repo_url = "https://github.com/nate-maxwell/catena"
 documentation_url = "https://github.com/nate-maxwell/catena"
