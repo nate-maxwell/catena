@@ -78,7 +78,7 @@ class DockablePane(QtWidgets.QDockWidget):
         self.setFeatures(self._config.features)
 
         self.content_layout = QtWidgets.QVBoxLayout()
-        self.content_layout.setContentsMargins(4, 4, 4, 4)
+        self.content_layout.setContentsMargins(0, 0, 0, 0)
         self.content_layout.setSpacing(4)
 
         self.content_widget = QtWidgets.QWidget()

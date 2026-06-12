@@ -29,6 +29,7 @@ class ViewportWidget(QtWidgets.QWidget):
         self.first_frame = first_frame
         self.last_frame = last_frame
         self.fps = fps
+        self.setContentsMargins(0, 0, 0, 0)
 
         self._create_widgets()
         self._create_layouts()

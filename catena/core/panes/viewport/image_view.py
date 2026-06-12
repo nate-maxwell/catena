@@ -23,6 +23,7 @@ class ImageView(QtWidgets.QWidget):
             QtWidgets.QSizePolicy.Policy.Expanding,
         )
         self.setMinimumSize(0, 0)
+        self.setContentsMargins(0, 0, 0, 0)
 
     def set_image(self, image: QtGui.QImage) -> None:
         """

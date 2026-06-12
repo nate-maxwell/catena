@@ -58,6 +58,7 @@ class Timeline(QtWidgets.QWidget):
         self._create_layouts()
         self._create_connections()
         self.setMinimumSize(0, 0)
+        self.setContentsMargins(0, 0, 0, 0)
 
     def _create_widgets(self) -> None:
         self._track = _TrackWidget(self)
