@@ -23,11 +23,16 @@ class NodeGraphPane(DockablePane):
         self.content_layout.addWidget(self.graph_view)
 
     def create_shortcuts(self) -> None:
+        # Shortcut Manager
         scm = shortcuts.ShortcutManager()
 
+        # Defaults
         redo_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Redo).toString()
         undo_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Undo).toString()
+        copy_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Copy).toString()
+        paste_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Paste).toString()
 
+        # Add shortcuts
         scm.add_shortcut(
             action_name="Redo",
             key_sequence=redo_seq,
@@ -40,6 +45,7 @@ class NodeGraphPane(DockablePane):
             description="Undo the last action.",
             callback=self.graph_view.commands.undo,
         )
+
         scm.add_shortcut(
             action_name="Delete Node",
             key_sequence="Del",
@@ -51,4 +57,19 @@ class NodeGraphPane(DockablePane):
             key_sequence="Backspace",
             description="Delete the current selected node(s).",
             callback=self.graph_view.delete_selected,
+        )
+
+        scm.add_shortcut(
+            action_name="Copy Node",
+            key_sequence=copy_seq,
+            description="Copy selected nodes.",
+            callback=self.graph_view.copy_selected,
+        )
+        scm.add_shortcut(
+            action_name="Paste Node",
+            key_sequence=paste_seq,
+            description="Paste nodes from clipboard.",
+            callback=lambda: self.graph_view.paste_clipboard(
+                *self.graph_view.cursor_scene_pos()
+            ),
         )
