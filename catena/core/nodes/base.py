@@ -2,7 +2,7 @@ import broker
 from PySide6 import QtWidgets
 from PySide6TK.Nodes import BaseNode
 
-from catena.core import pubsub
+from catena.core import namespace
 
 
 class CatenaNode(BaseNode):
@@ -16,5 +16,5 @@ class CatenaNode(BaseNode):
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
-        broker.emit(pubsub.NODE_DOUBLE_CLICK, node=self)
+        broker.emit(namespace.NODE_DOUBLE_CLICK, node=self)
         super().mouseDoubleClickEvent(event)

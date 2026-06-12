@@ -95,6 +95,11 @@ class DockablePane(QtWidgets.QDockWidget):
         if self._config.starts_floating:
             self.setFloating(True)
 
+        self.__post_init__()
+
+    def __post_init__(self) -> None:
+        """Override in derived classes to run after __init__()."""
+
     def minimumSizeHint(self) -> QtCore.QSize:
         return QtCore.QSize(0, 0)
 

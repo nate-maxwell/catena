@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
@@ -32,6 +34,15 @@ class ImageView(QtWidgets.QWidget):
         self.image = image
         self.update()
 
+    def set_image_from_path(self, path: Path) -> None:
+        """
+        Load and display an image from disk.
+
+        Args:
+            path (Path): Path to the image file.
+        """
+        self.set_image(QtGui.QImage(path.as_posix()))
+
     def sizeHint(self) -> QtCore.QSize:
         return QtCore.QSize(0, 0)
 
@@ -53,3 +64,8 @@ class ImageView(QtWidgets.QWidget):
             painter.drawImage(x, y, scaled)
 
         painter.end()
+
+    def clear(self) -> None:
+        """Clear the displayed image and trigger a repaint."""
+        self.image = None
+        self.update()

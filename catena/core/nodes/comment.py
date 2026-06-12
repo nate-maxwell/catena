@@ -4,7 +4,7 @@ import broker
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import CommentBox
 
-from catena.core import pubsub
+from catena.core import namespace
 
 
 class CatenaCommentBox(CommentBox):
@@ -25,7 +25,7 @@ class CatenaCommentBox(CommentBox):
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
-        broker.emit(pubsub.NODE_DOUBLE_CLICK, node=self)
+        broker.emit(namespace.NODE_DOUBLE_CLICK, node=self)
         super().mouseDoubleClickEvent(event)
 
     def set_field_value(self, name: str, value: Any) -> None:

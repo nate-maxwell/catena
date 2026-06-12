@@ -14,8 +14,7 @@ class NodeGraphPane(DockablePane):
         default_area=QtCore.Qt.DockWidgetArea.BottomDockWidgetArea,
     )
 
-    def __init__(self, main_window: QtWidgets.QMainWindow) -> None:
-        super().__init__(main_window)
+    def __post_init__(self) -> None:
         self.create_shortcuts()
 
     def create_widgets(self) -> None:

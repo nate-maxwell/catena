@@ -44,7 +44,6 @@ class CatenaEditor(QtWrappers.MainWindow):
         self.editor_toolbar = EditorActionToolbar(self, self.node_graph.graph_view)
         self.pane_properties = PropertiesPane(self)
         self.viewport = ViewportPane(self)
-        self.viewport.set_image(resources.PIC_EXAMPLE_BOARD)
 
     def _create_layouts(self) -> None:
         self.splitDockWidget(

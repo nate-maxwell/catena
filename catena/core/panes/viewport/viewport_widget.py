@@ -1,3 +1,10 @@
+"""
+# Viewport Widget
+
+The primary housing widget for all components that make up the primary content
+widget of the viewport pane.
+"""
+
 from PySide6TK import QtWidgets
 
 from catena.core.panes.viewport import timeline
@@ -28,9 +35,7 @@ class ViewportWidget(QtWidgets.QWidget):
 
     def _create_widgets(self) -> None:
         self.layout_main = QtWidgets.QVBoxLayout()
-
         self.image_view = image_view.ImageView(self)
-
         self.timeline = timeline.Timeline(
             first_frame=self.first_frame,
             last_frame=self.last_frame,
