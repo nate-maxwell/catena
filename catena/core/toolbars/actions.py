@@ -3,6 +3,9 @@ Action functions for the action toolbar buttons.
 
 These are primarily ways to create various nodes or manage the currently
 opened file.
+
+Actions are kept here instead of with corresponding shelves in case they ever
+need to be invoked independent of the shelves.
 """
 
 import broker
