@@ -23,7 +23,6 @@ dependencies = [
     "opencv-python",
     "numpy",
 
-    "core-utils @ git+https://github.com/nate-maxwell/core_utils.git",
     "broker @ git+https://github.com/nate-maxwell/broker.git",
     "pyside6tk @ git+https://github.com/nate-maxwell/PySide6TK.git",
 ]

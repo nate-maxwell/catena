@@ -12,6 +12,7 @@ from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
 from catena.core.nodes.create.transition import TransitionNode
+from catena.core.nodes.create.write import WriteNode
 from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
@@ -53,6 +54,10 @@ class ClientActions(object):
     def action_redo(cls) -> None:
         broker.emit(namespace.CLIENT_REDO)
 
+    @classmethod
+    def action_write_files(cls) -> None:
+        broker.emit(namespace.NODE_WRITE_FILE)
+
 
 class CreateActions(object):
 
@@ -75,6 +80,11 @@ class CreateActions(object):
     def action_outro_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=OutroNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_write_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=WriteNode(), x=coords.x(), y=coords.y())
 
 
 class ImageActions(object):

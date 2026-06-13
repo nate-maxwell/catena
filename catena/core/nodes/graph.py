@@ -9,6 +9,7 @@ from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
 from catena.core.nodes.create.transition import TransitionNode
+from catena.core.nodes.create.write import WriteNode
 from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
@@ -89,6 +90,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Create", ReadNode)
         self.register_node("Create", StartNode)
         self.register_node("Create", TransitionNode)
+        self.register_node("Create", WriteNode)
 
     def _register_color_nodes(self) -> None:
         self.register_node("Image", BlurNode)
