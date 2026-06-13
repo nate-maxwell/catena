@@ -24,6 +24,8 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self._transform_section()
         self.add_toolbar_separator()
         self._math_section()
+        self.add_toolbar_separator()
+        self._generator_sections()
 
     def _action_queue_section(self) -> None:
         self.add_toolbar_command(
@@ -46,7 +48,7 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self.add_toolbar_command(
             "Panel",
             command=lambda: actions.CreateActions.action_panel_node(self.graph_view),
-            image_path=Resources.BUTTON_GREEN_40X40,
+            image_path=Resources.BUTTON_RED_40X40,
         )
         self.add_toolbar_command(
             "Start",
@@ -56,12 +58,12 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self.add_toolbar_command(
             "Trans",
             command=lambda: actions.CreateActions.action_trans_node(self.graph_view),
-            image_path=Resources.BUTTON_PURPLE_40X40,
+            image_path=Resources.BUTTON_RED_40X40,
         )
         self.add_toolbar_command(
             "Outro",
             command=lambda: actions.CreateActions.action_outro_node(self.graph_view),
-            image_path=Resources.BUTTON_CYAN_40X40,
+            image_path=Resources.BUTTON_RED_40X40,
         )
 
     def _image_section(self) -> None:
@@ -83,6 +85,11 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self.add_toolbar_command(
             "HSV",
             command=lambda: actions.ImageActions.action_hsv_node(self.graph_view),
+            image_path=Resources.BUTTON_YELLOW_40X40,
+        )
+        self.add_toolbar_command(
+            "Invert",
+            command=lambda: actions.ImageActions.action_invert_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
@@ -155,7 +162,42 @@ class EditorActionToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_CYAN_40X40,
         )
         self.add_toolbar_command(
-            "Max",
+            "Screen",
             command=lambda: actions.MathActions.action_screen_node(self.graph_view),
             image_path=Resources.BUTTON_CYAN_40X40,
+        )
+
+    def _generator_sections(self) -> None:
+        self.add_toolbar_command(
+            "Perlin\nNoise",
+            command=lambda: actions.GeneratorActions.action_perlin_noise_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
+            "Blue\nNoise",
+            command=lambda: actions.GeneratorActions.action_blue_noise_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
+            "BnW\nSpots",
+            command=lambda: actions.GeneratorActions.action_bnw_spots_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
+            "Cells",
+            command=lambda: actions.GeneratorActions.action_cells_node(self.graph_view),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
+            "Clouds",
+            command=lambda: actions.GeneratorActions.action_clouds_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
         )

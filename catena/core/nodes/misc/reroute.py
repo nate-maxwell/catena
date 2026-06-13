@@ -23,4 +23,4 @@ class RerouteNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        return inputs.get("Input")
+        return inputs.get("")

@@ -3,15 +3,22 @@ from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView, Port, Wire
 
 from catena.core import namespace
+from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.comment import CatenaCommentBox
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
 from catena.core.nodes.create.transition import TransitionNode
+from catena.core.nodes.generator.blue_noise import BlueNoiseNode
+from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
+from catena.core.nodes.generator.cells import CellsNode
+from catena.core.nodes.generator.clouds import CloudsNode
+from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.image.blur import BlurNode
 from catena.core.nodes.image.color import ColorNode
 from catena.core.nodes.image.contrast import ContrastNode
 from catena.core.nodes.image.hsv import HSVNode
+from catena.core.nodes.image.invert import InvertNode
 from catena.core.nodes.image.levels import LevelsNode
 from catena.core.nodes.image.overlay import OverlayNode
 from catena.core.nodes.image.sharpen import SharpenNode
@@ -27,7 +34,6 @@ from catena.core.nodes.misc.reroute import RerouteNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
 from catena.core.nodes.transform.rotate import RotateNode
-from catena.core.nodes.base import CatenaNode
 
 
 class CatenaGraphView(GraphView):
@@ -76,6 +82,7 @@ class CatenaGraphView(GraphView):
         self._register_transform_nodes()
         self._register_math_nodes()
         self._register_misc_nodes()
+        self._register_generator_nodes()
 
     def _register_create_nodes(self) -> None:
         self.register_node("Create", OutroNode)
@@ -88,6 +95,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Image", ContrastNode)
         self.register_node("Image", ColorNode)
         self.register_node("Image", HSVNode)
+        self.register_node("Image", InvertNode)
         self.register_node("Image", LevelsNode)
         self.register_node("Image", OverlayNode)
         self.register_node("Image", SharpenNode)
@@ -109,3 +117,10 @@ class CatenaGraphView(GraphView):
 
     def _register_misc_nodes(self) -> None:
         self.register_node("Misc", RerouteNode)
+
+    def _register_generator_nodes(self) -> None:
+        self.register_node("Generator", PerlinNoiseNode)
+        self.register_node("Generator", BlueNoiseNode)
+        self.register_node("Generator", BNWSpotsNode)
+        self.register_node("Generator", CellsNode)
+        self.register_node("Generator", CloudsNode)

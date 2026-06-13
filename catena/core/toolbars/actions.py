@@ -12,11 +12,17 @@ from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
 from catena.core.nodes.create.transition import TransitionNode
+from catena.core.nodes.generator.blue_noise import BlueNoiseNode
+from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
+from catena.core.nodes.generator.cells import CellsNode
+from catena.core.nodes.generator.clouds import CloudsNode
+from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.nodes.image.blur import BlurNode
 from catena.core.nodes.image.color import ColorNode
 from catena.core.nodes.image.contrast import ContrastNode
 from catena.core.nodes.image.hsv import HSVNode
+from catena.core.nodes.image.invert import InvertNode
 from catena.core.nodes.image.levels import LevelsNode
 from catena.core.nodes.image.overlay import OverlayNode
 from catena.core.nodes.image.sharpen import SharpenNode
@@ -113,6 +119,11 @@ class ImageActions(object):
         coords = graph_view.view_center()
         graph_view.add_node(node=ColorNode(), x=coords.x(), y=coords.y())
 
+    @classmethod
+    def action_invert_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=InvertNode(), x=coords.x(), y=coords.y())
+
 
 class XformActions(object):
 
@@ -168,3 +179,31 @@ class MathActions(object):
     def action_screen_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ScreenNode(), x=coords.x(), y=coords.y())
+
+
+class GeneratorActions(object):
+
+    @classmethod
+    def action_perlin_noise_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=PerlinNoiseNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_blue_noise_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=BlueNoiseNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_bnw_spots_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=BNWSpotsNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_cells_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=CellsNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_clouds_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=CloudsNode(), x=coords.x(), y=coords.y())

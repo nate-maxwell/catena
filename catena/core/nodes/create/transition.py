@@ -1,14 +1,14 @@
-from PySide6 import QtGui
 from PySide6TK.Nodes import FieldDefinition
 from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.core.nodes.base import CatenaNode
+from catena.core.nodes.create import IMAGE_NODE_COLOR
 
 
 class TransitionNode(CatenaNode):
 
-    _COLOR_HEADER = QtGui.QColor(100, 60, 160)
+    _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
         super().__init__(title="Transition", width=240, body_height=60)

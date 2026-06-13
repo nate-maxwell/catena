@@ -1,12 +1,12 @@
-from PySide6 import QtGui
 from PySide6TK.Nodes import PortType
 
 from catena.core.nodes.base import CatenaNode
+from catena.core.nodes.create import IMAGE_NODE_COLOR
 
 
 class StartNode(CatenaNode):
 
-    _COLOR_HEADER = QtGui.QColor(40, 120, 60)
+    _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
         super().__init__(title="Start", width=160, body_height=40)
