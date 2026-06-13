@@ -18,7 +18,7 @@ class ColorNode(CatenaNode):
         super().__init__(title="Color", width=120, body_height=20)
 
     def _build(self) -> None:
-        self.port_out = self.add_port(PortType.OUTPUT, "Image")
+        self.port_out = self.add_port(PortType.OUTPUT, "Color")
 
         self.add_field(
             FieldDefinition(

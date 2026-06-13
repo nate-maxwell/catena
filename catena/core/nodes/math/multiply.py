@@ -14,12 +14,12 @@ class MultiplyNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Multiply", width=180, body_height=40)
+        super().__init__(title="Multiply", width=180, body_height=60)
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")
         self.port_in_b = self.add_port(PortType.INPUT, "B")
-        self.port_out = self.add_port(PortType.OUTPUT, "Image")
+        self.port_out = self.add_port(PortType.OUTPUT, "Output")
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]

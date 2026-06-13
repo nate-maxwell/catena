@@ -19,7 +19,7 @@ class ReadNode(CatenaNode):
         super().__init__(title="Read", width=180, body_height=40)
 
     def _build(self) -> None:
-        self.port_out = self.add_port(PortType.OUTPUT, "Output")
+        self.port_out = self.add_port(PortType.OUTPUT, "File")
 
         self.add_field(
             FieldDefinition(

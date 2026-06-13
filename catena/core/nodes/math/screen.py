@@ -8,13 +8,13 @@ from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.math import IMAGE_NODE_COLOR
 
 
-class DivideNode(CatenaNode):
-    """A node that divides one input image by another."""
+class ScreenNode(CatenaNode):
+    """A node that combines two input images using the screen blend mode."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Divide", width=180, body_height=40)
+        super().__init__(title="Screen", width=180, body_height=60)
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")
@@ -27,17 +27,20 @@ class DivideNode(CatenaNode):
         image_a = inputs.get("A")
         image_b = inputs.get("B")
 
-        if image_a is None or image_b is None:
+        if image_a is None and image_b is None:
             return None
+        if image_a is None:
+            return image_b
+        if image_b is None:
+            return image_a
 
         if image_a.shape != image_b.shape:
             height, width = image_a.shape[:2]
             image_b = cv2.resize(image_b, (width, height))
 
-        a = image_a.astype(numpy.float32)
-        b = image_b.astype(numpy.float32)
-        b = numpy.where(b == 0, 1.0, b)
+        a = image_a.astype(numpy.float32) / 255.0
+        b = image_b.astype(numpy.float32) / 255.0
 
-        result = (a / b) * 255.0
-        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
+        result = 1.0 - (1.0 - a) * (1.0 - b)
+        result = numpy.clip(result * 255.0, 0, 255).astype(numpy.uint8)
         return result

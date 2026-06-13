@@ -16,7 +16,10 @@ from catena.core.nodes.image.sharpen import SharpenNode
 from catena.core.nodes.image.threshold import ThresholdNode
 from catena.core.nodes.math.add import AddNode
 from catena.core.nodes.math.divide import DivideNode
+from catena.core.nodes.math.max import MaxNode
+from catena.core.nodes.math.min import MinNode
 from catena.core.nodes.math.multiply import MultiplyNode
+from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
@@ -77,6 +80,9 @@ class CatenaGraphView(GraphView):
 
     def _register_math_nodes(self) -> None:
         self.register_node("Math", AddNode)
-        self.register_node("Math", SubtractNode)
-        self.register_node("Math", MultiplyNode)
         self.register_node("Math", DivideNode)
+        self.register_node("Math", MaxNode)
+        self.register_node("Math", MinNode)
+        self.register_node("Math", MultiplyNode)
+        self.register_node("Math", ScreenNode)
+        self.register_node("Math", SubtractNode)

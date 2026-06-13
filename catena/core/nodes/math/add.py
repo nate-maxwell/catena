@@ -19,7 +19,7 @@ class AddNode(CatenaNode):
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")
         self.port_in_b = self.add_port(PortType.INPUT, "B")
-        self.port_out = self.add_port(PortType.OUTPUT, "Image")
+        self.port_out = self.add_port(PortType.OUTPUT, "Output")
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]

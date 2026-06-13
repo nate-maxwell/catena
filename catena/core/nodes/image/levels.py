@@ -18,8 +18,8 @@ class LevelsNode(CatenaNode):
         super().__init__(title="Levels", width=180, body_height=40)
 
     def _build(self) -> None:
-        self.port_in = self.add_port(PortType.INPUT, "Image")
-        self.port_out = self.add_port(PortType.OUTPUT, "Image")
+        self.port_in = self.add_port(PortType.INPUT, "Input")
+        self.port_out = self.add_port(PortType.OUTPUT, "Output")
 
         self.add_field(
             FieldDefinition(
@@ -75,7 +75,7 @@ class LevelsNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Image")
+        image = inputs.get("Input")
         if image is None:
             return None
 

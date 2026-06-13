@@ -23,7 +23,10 @@ from catena.core.nodes.image.sharpen import SharpenNode
 from catena.core.nodes.image.threshold import ThresholdNode
 from catena.core.nodes.math.add import AddNode
 from catena.core.nodes.math.divide import DivideNode
+from catena.core.nodes.math.max import MaxNode
+from catena.core.nodes.math.min import MinNode
 from catena.core.nodes.math.multiply import MultiplyNode
+from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
@@ -150,3 +153,18 @@ class MathActions(object):
     def action_divide_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=DivideNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_min_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=MinNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_max_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=MaxNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_screen_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=ScreenNode(), x=coords.x(), y=coords.y())
