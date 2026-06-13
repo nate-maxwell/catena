@@ -9,7 +9,7 @@ from catena.core import resources
 repo_url = "https://github.com/nate-maxwell/catena"
 documentation_url = "https://github.com/nate-maxwell/catena"
 
-about_1 = "A hobby project catena for pygame games."
+about_1 = "A hobby project node-graph image editor."
 about_2 = "Developed by Nate Maxwell."
 abouts = [about_1, "\n", about_2]
 
