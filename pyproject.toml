@@ -20,6 +20,9 @@ classifiers = [
 dependencies = [
     'importlib-metadata; python_version<"3.10"',
     "PySide6",
+    "opencv-python",
+    "numpy",
+
     "core-utils @ git+https://github.com/nate-maxwell/core_utils.git",
     "broker @ git+https://github.com/nate-maxwell/broker.git",
     "pyside6tk @ git+https://github.com/nate-maxwell/PySide6TK.git",

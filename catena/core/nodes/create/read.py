@@ -1,3 +1,8 @@
+from pathlib import Path
+from typing import Optional
+
+import cv2
+import numpy
 from PySide6 import QtGui
 from PySide6TK.Nodes import FieldDefinition
 from PySide6TK.Nodes import FieldType
@@ -6,12 +11,12 @@ from PySide6TK.Nodes import PortType
 from catena.core.nodes.base import CatenaNode
 
 
-class PanelNode(CatenaNode):
+class ReadNode(CatenaNode):
 
     _COLOR_HEADER = QtGui.QColor(160, 60, 60)
 
     def __init__(self) -> None:
-        super().__init__(title="Panel", width=180, body_height=40)
+        super().__init__(title="Read", width=180, body_height=40)
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Previous")
@@ -70,3 +75,19 @@ class PanelNode(CatenaNode):
                 default=True,
             )
         )
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        return self._load_image()
+
+    def _load_image(self) -> Optional[numpy.ndarray]:
+        filepath = self.get_field_value("filepath")
+        if not filepath:
+            return None
+
+        img_path = Path(filepath)
+        if img_path.exists():
+            return cv2.imread(str(img_path))
+
+        return None

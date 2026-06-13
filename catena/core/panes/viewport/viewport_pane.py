@@ -1,10 +1,12 @@
-from pathlib import Path
+from typing import Optional
 
 import broker
+import numpy
+from PySide6 import QtGui
 from PySide6TK import QtCore
 
 from catena.core import namespace
-from catena.core.nodes.base import CatenaNode
+from catena.core import color
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
 from catena.core.panes.viewport import viewport_widget
@@ -29,35 +31,23 @@ class ViewportPane(DockablePane):
         self.content_layout.addWidget(self.viewport_widget)
 
     def _create_subscriptions(self) -> None:
-        broker.register_subscriber(namespace.NODE_DOUBLE_CLICK, self._refresh)
+        broker.register_subscriber(namespace.NODE_PREVIEW, self._refresh)
 
-    def _refresh(self, node: CatenaNode) -> None:
-        if not node.contains_field("filepath"):
-            # Likely not a node that contains an image to display
-            return
+    def _refresh(self, image: Optional[numpy.ndarray]) -> None:
+        self.set_image(image)
 
-        image_str = node.get_field_value("filepath")
-        if not image_str:
-            self.set_image()
-            return
-
-        image_path = Path(image_str)
-        if not image_path.exists():
-            self.set_image()
-            return
-
-        self.set_image(image_path)
-
-    def set_image(self, path: Path | None = None) -> None:
+    def set_image(self, image: Optional[numpy.ndarray] = None) -> None:
         """
-        Load and display an image from disk.
+        Display an image array, or clear the viewport.
 
         Args:
-            path (Path | None): Path to the image file. If path does not exist
-                or is set to None the image is cleared. Defaults to None.
+            image (numpy.ndarray | None): Image in BGR order, as returned by
+                a node's evaluate(). If None the viewport is cleared.
         """
-        if path is None or not path.exists():
+        if image is None:
             self.viewport_widget.image_view.clear()
             return
 
-        self.viewport_widget.image_view.set_image_from_path(path)
+        rgb = color.bgr_to_rgb(image)
+        qimage = color.ndarray_to_qimage(rgb)
+        self.viewport_widget.image_view.set_image(qimage)

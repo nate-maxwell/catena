@@ -81,6 +81,7 @@ class PropertiesPane(DockablePane):
         current_value = node.get_field_value(definition.name)
         widget = QtWidgets.QDoubleSpinBox(self.content_widget)
         widget.setDecimals(3)
+        widget.setSingleStep(0.1)
 
         if definition.min_value is not None:
             widget.setMinimum(definition.min_value)

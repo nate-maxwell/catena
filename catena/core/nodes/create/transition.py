@@ -48,7 +48,7 @@ class TransitionNode(CatenaNode):
         )
         self.add_field(
             FieldDefinition(
-                name="color",
+                name="image",
                 label="Color",
                 field_type=FieldType.COLOR,
                 default=(0, 0, 0, 255),

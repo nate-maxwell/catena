@@ -1,10 +1,12 @@
 from PySide6TK import QtCore
 from PySide6TK import QtGui
+from PySide6TK import Nodes
 
 from catena.core import shortcuts
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
+from catena.core import appdata
 
 
 class NodeGraphPane(DockablePane):
@@ -22,6 +24,15 @@ class NodeGraphPane(DockablePane):
     def create_layouts(self) -> None:
         self.content_layout.addWidget(self.graph_view)
 
+    def save_graph(self) -> None:
+        Nodes.save(self.graph_view, appdata.CATENA_GRAPH_FILE)
+
+    def load_graph(self) -> None:
+        if not appdata.CATENA_GRAPH_FILE.exists():
+            return
+
+        Nodes.load(self.graph_view, appdata.CATENA_GRAPH_FILE)
+
     def create_shortcuts(self) -> None:
         # Shortcut Manager
         scm = shortcuts.ShortcutManager()
@@ -33,6 +44,14 @@ class NodeGraphPane(DockablePane):
         paste_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Paste).toString()
 
         # Add shortcuts
+        scm.add_shortcut(
+            action_name="Save",
+            key_sequence="Ctrl+S",
+            callback=self.save_graph,
+            description="Save current project.",
+            category="File",
+        )
+
         scm.add_shortcut(
             action_name="Redo",
             key_sequence=redo_seq,

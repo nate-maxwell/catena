@@ -28,6 +28,8 @@ class ShortcutManager(QtWrappers.KeyShortcutManager):
             cls._instance = super().__new__(cls)
         return cls._instance
 
+    # TODO: Check for appdata shortcut file and initialize from that if exists.
+
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
         if not hasattr(self, "_initialized"):
             super().__init__(parent)
