@@ -65,12 +65,14 @@ class NodeGraphPane(DockablePane):
             key_sequence=redo_seq,
             description="Redo the last action.",
             callback=self.graph_view.commands.redo,
+            category="Graph",
         )
         scm.add_shortcut(
             action_name="Undo",
             key_sequence=undo_seq,
             description="Undo the last action.",
             callback=self.graph_view.commands.undo,
+            category="Graph",
         )
 
         scm.add_shortcut(
@@ -78,12 +80,14 @@ class NodeGraphPane(DockablePane):
             key_sequence="Del",
             description="Delete the current selected node(s).",
             callback=self.graph_view.delete_selected,
+            category="Graph",
         )
         scm.add_shortcut(
             action_name="Delete Node (Backspace)",
             key_sequence="Backspace",
             description="Delete the current selected node(s).",
             callback=self.graph_view.delete_selected,
+            category="Graph",
         )
 
         scm.add_shortcut(
@@ -91,6 +95,7 @@ class NodeGraphPane(DockablePane):
             key_sequence=copy_seq,
             description="Copy selected nodes.",
             callback=self.graph_view.copy_selected,
+            category="Graph",
         )
         scm.add_shortcut(
             action_name="Paste Node",
@@ -99,4 +104,5 @@ class NodeGraphPane(DockablePane):
             callback=lambda: self.graph_view.paste_clipboard(
                 *self.graph_view.cursor_scene_pos()
             ),
+            category="Graph",
         )

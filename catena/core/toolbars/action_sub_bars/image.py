@@ -51,7 +51,7 @@ class ImageToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
-            "Sharp",
+            "Sharpen",
             command=lambda: actions.ImageActions.action_sharpen_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
