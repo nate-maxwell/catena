@@ -1,3 +1,8 @@
+"""
+Various helpers for converting between normal file RGB channel layout to OpenCV
+BGR channel layout.
+"""
+
 import cv2
 import numpy as np
 from PySide6TK import QtGui
