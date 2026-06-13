@@ -1,0 +1,37 @@
+from PySide6TK import QtWidgets
+from PySide6TK import QtWrappers
+from PySide6TK import Resources
+
+from catena.core.nodes.graph import CatenaGraphView
+from catena.core.toolbars import actions
+
+
+class CreateToolbar(QtWrappers.Toolbar):
+
+    def __init__(self, parent: QtWidgets.QWidget, graph_view: CatenaGraphView) -> None:
+        super().__init__(
+            "Create Toolbar", default_button_resolution=[40, 40], parent=parent
+        )
+        self.graph_view = graph_view
+
+    def build(self) -> None:
+        self.add_toolbar_command(
+            "Read",
+            command=lambda: actions.CreateActions.action_read_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Start",
+            command=lambda: actions.CreateActions.action_start_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Trans",
+            command=lambda: actions.CreateActions.action_trans_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Outro",
+            command=lambda: actions.CreateActions.action_outro_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )

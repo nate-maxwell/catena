@@ -47,7 +47,7 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
         self.add_menu_command(menu, "Undo", lambda: broker.emit(namespace.CLIENT_UNDO))
         self.add_menu_command(menu, "Redo", lambda: broker.emit(namespace.CLIENT_REDO))
         self.add_menu_command(menu, "Shortcuts", manager.show_editor)
-        self.add_menu_command(menu, "Editor Settings")
+        self.add_menu_command(menu, "Settings")
 
     def _view_section(self) -> None:
         menu = self.add_menu("View")

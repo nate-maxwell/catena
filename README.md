@@ -4,6 +4,6 @@ scenes using images.
 
 Extremely work-in-progress
 
-<img src="https://i.imgur.com/kUmf5iU.png">
+<img src="https://i.imgur.com/txnkS6C.png">
 
-[Image](https://i.imgur.com/kUmf5iU.png)
+[Image](https://i.imgur.com/txnkS6C.png)
