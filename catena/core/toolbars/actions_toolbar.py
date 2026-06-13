@@ -22,6 +22,8 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         self._image_section()
         self.add_toolbar_separator()
         self._transform_section()
+        self.add_toolbar_separator()
+        self._math_section()
 
     def _action_queue_section(self) -> None:
         self.add_toolbar_command(
@@ -64,13 +66,18 @@ class EditorActionToolbar(QtWrappers.Toolbar):
 
     def _image_section(self) -> None:
         self.add_toolbar_command(
-            "Blend",
-            command=lambda: actions.ImageActions.action_blend_node(self.graph_view),
+            "Blur",
+            command=lambda: actions.ImageActions.action_blur_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
-            "Blur",
-            command=lambda: actions.ImageActions.action_blur_node(self.graph_view),
+            "Contrst",
+            command=lambda: actions.ImageActions.action_contrast_node(self.graph_view),
+            image_path=Resources.BUTTON_YELLOW_40X40,
+        )
+        self.add_toolbar_command(
+            "Color",
+            command=lambda: actions.ImageActions.action_threshold_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
@@ -84,18 +91,13 @@ class EditorActionToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
-            "Mult",
-            command=lambda: actions.ImageActions.action_multiply_node(self.graph_view),
+            "Overlay",
+            command=lambda: actions.ImageActions.action_overlay_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
             "Sharp",
             command=lambda: actions.ImageActions.action_sharpen_node(self.graph_view),
-            image_path=Resources.BUTTON_YELLOW_40X40,
-        )
-        self.add_toolbar_command(
-            "Contrst",
-            command=lambda: actions.ImageActions.action_contrast_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
@@ -111,12 +113,34 @@ class EditorActionToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_GREEN_40X40,
         )
         self.add_toolbar_command(
-            "Rotate",
-            command=lambda: actions.XformActions.action_rotate_node(self.graph_view),
+            "Offset",
+            command=lambda: actions.XformActions.action_offset_node(self.graph_view),
             image_path=Resources.BUTTON_GREEN_40X40,
         )
         self.add_toolbar_command(
             "Rotate",
-            command=lambda: actions.XformActions.action_offset_node(self.graph_view),
+            command=lambda: actions.XformActions.action_rotate_node(self.graph_view),
             image_path=Resources.BUTTON_GREEN_40X40,
+        )
+
+    def _math_section(self) -> None:
+        self.add_toolbar_command(
+            "Add",
+            command=lambda: actions.MathActions.action_add_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
+        )
+        self.add_toolbar_command(
+            "Sub",
+            command=lambda: actions.MathActions.action_subtract_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
+        )
+        self.add_toolbar_command(
+            "Mul",
+            command=lambda: actions.MathActions.action_multiply_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
+        )
+        self.add_toolbar_command(
+            "Div",
+            command=lambda: actions.MathActions.action_divide_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
         )

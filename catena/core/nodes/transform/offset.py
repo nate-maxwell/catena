@@ -8,8 +8,6 @@ from PySide6TK.Nodes.node import PortType
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.transform import IMAGE_NODE_COLOR
 
-NODE_TYPE = "Offset"
-
 
 class OffsetNode(CatenaNode):
     """A node that offsets an input image, optionally wrapping content around."""
@@ -17,7 +15,7 @@ class OffsetNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Offset", width=180, body_height=100)
+        super().__init__(title="Offset", width=180, body_height=40)
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Image")
