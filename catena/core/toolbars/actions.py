@@ -62,7 +62,7 @@ class ClientActions(object):
 class CreateActions(object):
 
     @classmethod
-    def action_panel_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_read_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ReadNode(), x=coords.x(), y=coords.y())
 

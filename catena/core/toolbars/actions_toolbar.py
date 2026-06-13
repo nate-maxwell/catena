@@ -51,8 +51,8 @@ class EditorActionToolbar(QtWrappers.Toolbar):
 
     def _create_section(self) -> None:
         self.add_toolbar_command(
-            "Panel",
-            command=lambda: actions.CreateActions.action_panel_node(self.graph_view),
+            "Read",
+            command=lambda: actions.CreateActions.action_read_node(self.graph_view),
             image_path=Resources.BUTTON_RED_40X40,
         )
         self.add_toolbar_command(
