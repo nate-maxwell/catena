@@ -6,9 +6,10 @@ import broker
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
 
-from catena.components import about
+from catena.components.about import about
 from catena.core import shortcuts
 from catena.core import namespace
+from catena.components.preferences import menu as preferences_menu
 
 if TYPE_CHECKING:
     from catena.core.client import CatenaEditor
@@ -47,7 +48,11 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
         self.add_menu_command(menu, "Undo", lambda: broker.emit(namespace.CLIENT_UNDO))
         self.add_menu_command(menu, "Redo", lambda: broker.emit(namespace.CLIENT_REDO))
         self.add_menu_command(menu, "Shortcuts", manager.show_editor)
-        self.add_menu_command(menu, "Settings")
+        self.add_menu_command(
+            menu,
+            "Settings",
+            lambda: preferences_menu.show_preferences_widget(self.parent()),
+        )
 
     def _view_section(self) -> None:
         menu = self.add_menu("View")
