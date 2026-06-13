@@ -23,7 +23,9 @@ from catena.core.nodes.generator.clouds import CloudsNode
 from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.noise import WhiteNoiseNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
+from catena.core.nodes.generator.shape import ShapeNode
 from catena.core.nodes.graph import CatenaGraphView
+from catena.core.nodes.image.bevel import BevelNode
 from catena.core.nodes.image.blur import BlurNode
 from catena.core.nodes.image.color import ColorNode
 from catena.core.nodes.image.contrast import ContrastNode
@@ -146,6 +148,11 @@ class ImageActions(object):
         coords = graph_view.view_center()
         graph_view.add_node(node=WarpNode(), x=coords.x(), y=coords.y())
 
+    @classmethod
+    def action_bevel_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=BevelNode(), x=coords.x(), y=coords.y())
+
 
 class XformActions(object):
 
@@ -244,3 +251,8 @@ class GeneratorActions(object):
     def action_white_noise_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=WhiteNoiseNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_shape_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=ShapeNode(), x=coords.x(), y=coords.y())

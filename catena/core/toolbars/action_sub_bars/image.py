@@ -16,6 +16,11 @@ class ImageToolbar(QtWrappers.Toolbar):
 
     def build(self) -> None:
         self.add_toolbar_command(
+            "Bevel",
+            command=lambda: actions.ImageActions.action_bevel_node(self.graph_view),
+            image_path=Resources.BUTTON_YELLOW_40X40,
+        )
+        self.add_toolbar_command(
             "Blur",
             command=lambda: actions.ImageActions.action_blur_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,

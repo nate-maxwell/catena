@@ -56,6 +56,11 @@ class GeneratorToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_PURPLE_40X40,
         )
         self.add_toolbar_command(
+            "Shape",
+            command=lambda: actions.GeneratorActions.action_shape_node(self.graph_view),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
             "White\nNoise",
             command=lambda: actions.GeneratorActions.action_white_noise_node(
                 self.graph_view
