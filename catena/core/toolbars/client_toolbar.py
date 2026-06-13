@@ -1,8 +1,10 @@
+import broker
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
 
 from catena.core import about
 from catena.core import shortcuts
+from catena.core import namespace
 
 
 class ClientWindowToolbar(QtWrappers.Toolbar):
@@ -27,16 +29,15 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
         menu = self.add_menu("File")
         self.add_menu_command(menu, "New Project")
         self.add_menu_command(menu, "Open Project")
-        self.add_menu_command(menu, "Save")
-        self.add_menu_command(menu, "Save All")
-        self.add_menu_command(menu, "Quit")
+        self.add_menu_command(menu, "Save", lambda: broker.emit(namespace.CLIENT_SAVE))
+        self.add_menu_command(menu, "Quit", QtWidgets.QApplication.quit)
 
     def _edit_section(self) -> None:
         manager = shortcuts.init_shortcut_manager(self.parent())
 
         menu = self.add_menu("Edit")
-        self.add_menu_command(menu, "Undo")
-        self.add_menu_command(menu, "Redo")
+        self.add_menu_command(menu, "Undo", lambda: broker.emit(namespace.CLIENT_UNDO))
+        self.add_menu_command(menu, "Redo", lambda: broker.emit(namespace.CLIENT_REDO))
         self.add_menu_command(menu, "Shortcuts", manager.show_editor)
         self.add_menu_command(menu, "Editor Settings")
 

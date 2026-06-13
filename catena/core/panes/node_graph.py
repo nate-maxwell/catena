@@ -1,3 +1,4 @@
+import broker
 from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import Nodes
@@ -7,6 +8,7 @@ from catena.core.nodes.graph import CatenaGraphView
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
 from catena.core import appdata
+from catena.core import namespace
 
 
 class NodeGraphPane(DockablePane):
@@ -16,7 +18,8 @@ class NodeGraphPane(DockablePane):
     )
 
     def __post_init__(self) -> None:
-        self.create_shortcuts()
+        self._create_shortcuts()
+        self._create_subscriptions()
 
     def create_widgets(self) -> None:
         self.graph_view = CatenaGraphView(self)
@@ -33,7 +36,12 @@ class NodeGraphPane(DockablePane):
 
         Nodes.load(self.graph_view, appdata.CATENA_GRAPH_FILE)
 
-    def create_shortcuts(self) -> None:
+    def _create_subscriptions(self) -> None:
+        broker.register_subscriber(namespace.CLIENT_SAVE, self.save_graph)
+        broker.register_subscriber(namespace.CLIENT_UNDO, self.graph_view.commands.undo)
+        broker.register_subscriber(namespace.CLIENT_REDO, self.graph_view.commands.redo)
+
+    def _create_shortcuts(self) -> None:
         # Shortcut Manager
         scm = shortcuts.ShortcutManager()
 

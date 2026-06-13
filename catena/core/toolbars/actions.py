@@ -5,6 +5,9 @@ These are primarily ways to create various nodes or manage the currently
 opened file.
 """
 
+import broker
+
+from catena.core import namespace
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
@@ -30,13 +33,16 @@ from catena.core.nodes.transform.rotate import RotateNode
 class ClientActions(object):
 
     @classmethod
-    def action_save(cls) -> None: ...
+    def action_save(cls) -> None:
+        broker.emit(namespace.CLIENT_SAVE)
 
     @classmethod
-    def action_undo(cls) -> None: ...
+    def action_undo(cls) -> None:
+        broker.emit(namespace.CLIENT_UNDO)
 
     @classmethod
-    def action_redo(cls) -> None: ...
+    def action_redo(cls) -> None:
+        broker.emit(namespace.CLIENT_REDO)
 
 
 class CreateActions(object):
