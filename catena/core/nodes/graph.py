@@ -1,6 +1,8 @@
+import broker
 from PySide6TK import QtWidgets
-from PySide6TK.Nodes import GraphView
+from PySide6TK.Nodes import GraphView, Port, Wire
 
+from catena.core import namespace
 from catena.core.nodes.comment import CatenaCommentBox
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
@@ -21,9 +23,11 @@ from catena.core.nodes.math.min import MinNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
+from catena.core.nodes.misc.reroute import RerouteNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
 from catena.core.nodes.transform.rotate import RotateNode
+from catena.core.nodes.base import CatenaNode
 
 
 class CatenaGraphView(GraphView):
@@ -51,11 +55,27 @@ class CatenaGraphView(GraphView):
         box.setPos(x, y)
         return box
 
+    def connect_ports_internal(self, source: Port, target: Port) -> Wire:
+        wire = super().connect_ports_internal(source, target)
+        self._refresh_active_preview()
+        return wire
+
+    def destroy_wire(self, wire: Wire) -> None:
+        super().destroy_wire(wire)
+        self._refresh_active_preview()
+
+    @staticmethod
+    def _refresh_active_preview() -> None:
+        node = CatenaNode.active_preview_node
+        if node is not None:
+            broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())
+
     def _register_nodes(self) -> None:
         self._register_create_nodes()
         self._register_color_nodes()
         self._register_transform_nodes()
         self._register_math_nodes()
+        self._register_misc_nodes()
 
     def _register_create_nodes(self) -> None:
         self.register_node("Create", OutroNode)
@@ -86,3 +106,6 @@ class CatenaGraphView(GraphView):
         self.register_node("Math", MultiplyNode)
         self.register_node("Math", ScreenNode)
         self.register_node("Math", SubtractNode)
+
+    def _register_misc_nodes(self) -> None:
+        self.register_node("Misc", RerouteNode)

@@ -10,7 +10,7 @@ from catena.core import namespace
 
 class CatenaNode(BaseNode):
 
-    _active_preview_node: Optional["CatenaNode"] = None
+    active_preview_node: Optional["CatenaNode"] = None
 
     def __init__(self, title: str, width: int, body_height: int) -> None:
         super().__init__(title, width, body_height)
@@ -30,12 +30,12 @@ class CatenaNode(BaseNode):
         super().mouseDoubleClickEvent(event)
 
     def _set_active_preview(self) -> None:
-        CatenaNode._active_preview_node = self
+        CatenaNode.active_preview_node = self
         broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
 
     def _on_field_changed(self, node: "CatenaNode", name: str, value: object) -> None:
         # dead args are required to meet subscription signature
-        if node is self and CatenaNode._active_preview_node is self:
+        if node is self and CatenaNode.active_preview_node is self:
             broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
 
     def set_field_value(self, name: str, value: object) -> None:
