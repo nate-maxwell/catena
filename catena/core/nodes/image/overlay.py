@@ -16,7 +16,7 @@ class OverlayNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Overlay", body_height=60)
+        super().__init__(title="Overlay")
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")
