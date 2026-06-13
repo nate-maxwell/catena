@@ -1,6 +1,7 @@
 import functools
 
 from PySide6TK import QtCore
+from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
@@ -13,6 +14,12 @@ from catena.core.panes.resize import split_vertical
 from catena.core.panes.viewport.viewport_pane import ViewportPane
 from catena.core.toolbars.actions_toolbar import EditorActionToolbar
 from catena.core.toolbars.client_toolbar import ClientWindowToolbar
+
+WINDOW_STATE_VERSION = 1
+win_state = "window_state"
+win_geo = "window_geometry"
+org = "NateMaxwell"
+app = "Catena"
 
 
 class CatenaEditor(QtWrappers.MainWindow):
@@ -33,6 +40,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._create_widgets()
         self._create_layouts()
         self._initialize_shortcut_manager()
+        self._restore_window_state()
         self.node_graph.load_graph()
 
     def _create_widgets(self) -> None:
@@ -61,3 +69,22 @@ class CatenaEditor(QtWrappers.MainWindow):
 
     def _initialize_shortcut_manager(self) -> None:
         shortcuts.ShortcutManager(self)
+
+    def _restore_window_state(self) -> None:
+        settings = QtCore.QSettings(org, app)
+        state = settings.value(win_state)
+
+        if state is not None:
+            self.restoreState(state, WINDOW_STATE_VERSION)
+
+        geometry = settings.value(win_geo)
+        if geometry is not None:
+            self.restoreGeometry(geometry)
+
+    def closeEvent(self, event: QtGui.QCloseEvent) -> None:
+        settings = QtCore.QSettings(org, app)
+        state = self.saveState(WINDOW_STATE_VERSION)
+        geo = self.saveGeometry()
+        settings.setValue(win_state, state)
+        settings.setValue(win_geo, geo)
+        settings.sync()

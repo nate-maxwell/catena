@@ -73,6 +73,7 @@ class DockablePane(QtWidgets.QDockWidget):
     ) -> None:
         self._config = config or self.__class__.pane_config
         super().__init__(self._config.title, main_window)
+        self.setObjectName(self.__class__.__name__)
 
         self.setAllowedAreas(self._config.allowed_areas)
         self.setFeatures(self._config.features)

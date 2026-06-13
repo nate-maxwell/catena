@@ -29,51 +29,6 @@ class ReadNode(CatenaNode):
                 default="",
             )
         )
-        self.add_field(
-            FieldDefinition(
-                name="duration",
-                label="Duration",
-                field_type=FieldType.FLOAT,
-                default=3.0,
-                min_value=0.0,
-                max_value=60.0,
-            )
-        )
-        self.add_field(
-            FieldDefinition(
-                name="scale",
-                label="Scale",
-                field_type=FieldType.FLOAT,
-                default=1.0,
-                min_value=0.1,
-                max_value=10.0,
-            )
-        )
-        self.add_field(
-            FieldDefinition(
-                name="offset",
-                label="Offset",
-                field_type=FieldType.VEC2,
-                default=(0.0, 0.0),
-            )
-        )
-        self.add_field(
-            FieldDefinition(
-                name="fit_mode",
-                label="Fit Mode",
-                field_type=FieldType.CHOICE,
-                default="Fit",
-                options=["Fit", "Fill", "Stretch", "None"],
-            )
-        )
-        self.add_field(
-            FieldDefinition(
-                name="visible",
-                label="Visible",
-                field_type=FieldType.BOOL,
-                default=True,
-            )
-        )
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
