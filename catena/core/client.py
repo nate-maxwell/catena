@@ -3,9 +3,9 @@ import functools
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
-from PySide6TK import Resources
 
 from catena.core import shortcuts
+from catena.core import resources
 from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
@@ -20,7 +20,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         super().__init__(
             window_name="Catena",
             min_size=(800, 600),
-            icon_path=Resources.BUTTON_BLACK_40X40,
+            icon_path=resources.ICON_CATENA,
         )
         shortcuts.ShortcutManager(self)
 

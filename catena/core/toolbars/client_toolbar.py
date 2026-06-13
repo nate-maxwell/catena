@@ -2,7 +2,7 @@ import broker
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
 
-from catena.core import about
+from catena.components import about
 from catena.core import shortcuts
 from catena.core import namespace
 

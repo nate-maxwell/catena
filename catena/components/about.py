@@ -2,18 +2,20 @@ import webbrowser
 from typing import Optional
 
 from PySide6 import QtWidgets
+from PySide6TK import QtWrappers
+
+from catena.core import resources
 
 repo_url = "https://github.com/nate-maxwell/catena"
 documentation_url = "https://github.com/nate-maxwell/catena"
 
 about_1 = "A hobby project catena for pygame games."
 about_2 = "Developed by Nate Maxwell."
-abouts = [about_1, about_2]
+abouts = [about_1, "\n", about_2]
 
 
 class AboutWidget(QtWidgets.QMainWindow):
-    """
-    Simple widget showing the about-info of the catena.
+    """Simple widget showing the about-info of the editor.
     Includes a link to the code repo and documentation.
     """
 
@@ -29,6 +31,9 @@ class AboutWidget(QtWidgets.QMainWindow):
         self.widget_main = QtWidgets.QWidget()
         self.layout_main = QtWidgets.QHBoxLayout()
 
+        self.logo = QtWrappers.PreviewImage("")
+        self.logo.set_source(resources.ICON_CATENA)
+
         self.vlayout_about = QtWidgets.QVBoxLayout()
 
         self.hlayout_buttons = QtWidgets.QHBoxLayout()
@@ -42,10 +47,12 @@ class AboutWidget(QtWidgets.QMainWindow):
         for i in abouts:
             label = QtWidgets.QLabel(i)
             self.vlayout_about.addWidget(label)
+        self.vlayout_about.addStretch()
         self.vlayout_about.addLayout(self.hlayout_buttons)
 
         self.setCentralWidget(self.widget_main)
         self.widget_main.setLayout(self.layout_main)
+        self.layout_main.addWidget(self.logo)
         self.layout_main.addLayout(self.vlayout_about)
 
     def _create_connections(self) -> None:
