@@ -11,7 +11,7 @@ from catena.core.nodes.image import IMAGE_NODE_COLOR
 
 
 class OverlayNode(CatenaNode):
-    """A node that blends two input images together by a mix factor."""
+    """A node that overlays a top image onto a bottom image using an alpha mask."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
@@ -19,8 +19,9 @@ class OverlayNode(CatenaNode):
         super().__init__(title="Overlay")
 
     def _build(self) -> None:
-        self.port_in_a = self.add_port(PortType.INPUT, "A")
-        self.port_in_b = self.add_port(PortType.INPUT, "B")
+        self.port_in_bottom = self.add_port(PortType.INPUT, "Bottom")
+        self.port_in_top = self.add_port(PortType.INPUT, "Top")
+        self.port_in_alpha = self.add_port(PortType.INPUT, "Alpha")
         self.port_out = self.add_port(PortType.OUTPUT, "Output")
 
         self.add_field(
@@ -28,7 +29,7 @@ class OverlayNode(CatenaNode):
                 name="mix",
                 label="Mix",
                 field_type=FieldType.FLOAT,
-                default=0.5,
+                default=1.0,
                 min_value=0.0,
                 max_value=1.0,
             )
@@ -37,20 +38,38 @@ class OverlayNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image_a = inputs.get("A")
-        image_b = inputs.get("B")
+        bottom = inputs.get("Bottom")
+        top = inputs.get("Top")
+        alpha = inputs.get("Alpha")
 
-        if image_a is None and image_b is None:
+        if bottom is None and top is None:
             return None
-        if image_a is None:
-            return image_b
-        if image_b is None:
-            return image_a
+        if bottom is None:
+            return top
+        if top is None:
+            return bottom
 
-        if image_a.shape != image_b.shape:
-            height, width = image_a.shape[:2]
-            image_b = cv2.resize(image_b, (width, height))
+        if top.shape != bottom.shape:
+            height, width = bottom.shape[:2]
+            top = cv2.resize(top, (width, height))
 
         mix = self.get_field_value("mix")
-        result = cv2.addWeighted(image_a, 1.0 - mix, image_b, mix, 0.0)
+
+        if alpha is None:
+            mask = numpy.full(bottom.shape[:2], mix, dtype=numpy.float32)
+        else:
+            if alpha.shape[:2] != bottom.shape[:2]:
+                height, width = bottom.shape[:2]
+                alpha = cv2.resize(alpha, (width, height))
+            if alpha.ndim == 3:
+                alpha = cv2.cvtColor(alpha, cv2.COLOR_BGR2GRAY)
+            mask = (alpha.astype(numpy.float32) / 255.0) * mix
+
+        mask = mask[:, :, None]
+
+        result = (
+            bottom.astype(numpy.float32) * (1.0 - mask)
+            + top.astype(numpy.float32) * mask
+        )
+        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
         return result
