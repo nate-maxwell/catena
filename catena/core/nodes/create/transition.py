@@ -11,7 +11,7 @@ class TransitionNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Transition", width=240, body_height=60)
+        super().__init__(title="Transition")
 
     def _build(self) -> None:
         self.port_in_from = self.add_port(PortType.INPUT, "From")

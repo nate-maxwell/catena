@@ -4,6 +4,8 @@ import broker
 import numpy
 from PySide6 import QtWidgets
 from PySide6TK.Nodes import BaseNode
+from PySide6TK.Nodes import Port
+from PySide6TK.Nodes import PortType
 
 from catena.core import namespace
 
@@ -12,10 +14,58 @@ class CatenaNode(BaseNode):
 
     active_preview_node: Optional["CatenaNode"] = None
 
-    def __init__(self, title: str, width: int, body_height: int) -> None:
+    def __init__(self, title: str, width: int = 160, body_height: int = 40) -> None:
         super().__init__(title, width, body_height)
         self._is_active_preview: bool = False
         broker.register_subscriber(namespace.NODE_FIELD_CHANGED, self._on_field_changed)
+
+    def add_port(self, port_type: str, name: str) -> Port:
+        """
+        Create and position a port on this node.
+
+        Input ports are placed on the left edge, output ports on the right.
+        Ports are stacked top-to-bottom in the order they are added.
+
+        Args:
+            port_type (str): Either ``PortType.INPUT`` or ``PortType.OUTPUT``.
+            name (str): Display name for the port.
+        Returns:
+            Port: The created port.
+        """
+        input_count = sum(1 for p in self._ports if p.port_type == PortType.INPUT)
+        output_count = sum(1 for p in self._ports if p.port_type == PortType.OUTPUT)
+
+        port = Port(port_type, name, self)
+        y = (
+            self._HEADER_HEIGHT
+            + self._PORT_MARGIN
+            + (input_count if port_type == PortType.INPUT else output_count)
+            * self._PORT_SPACING
+        )
+
+        x = 0 if port_type == PortType.INPUT else self.width
+        port.setPos(x, y)
+        self._ports.append(port)
+
+        self._resize_to_fit_ports()
+
+        return port
+
+    def _resize_to_fit_ports(self) -> None:
+        """Recompute body_height to fit all ports if not explicitly fixed."""
+        input_count = sum(1 for p in self._ports if p.port_type == PortType.INPUT)
+        output_count = sum(1 for p in self._ports if p.port_type == PortType.OUTPUT)
+        max_count = max(input_count, output_count)
+
+        required_height = (
+            self._PORT_MARGIN * 2 + max(0, max_count - 1) * self._PORT_SPACING
+        )
+
+        if required_height > self.body_height:
+            self.prepareGeometryChange()
+            self.body_height = required_height
+            self._update_wires()
+            self.update()
 
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         """

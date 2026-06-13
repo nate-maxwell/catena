@@ -2,7 +2,6 @@ from typing import Optional
 
 import cv2
 import numpy
-from PySide6 import QtGui
 from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
 from PySide6TK.Nodes.node import PortType
@@ -54,7 +53,7 @@ class PerlinNoiseNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Perlin Noise", width=180, body_height=80)
+        super().__init__(title="Perlin Noise", body_height=80)
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")

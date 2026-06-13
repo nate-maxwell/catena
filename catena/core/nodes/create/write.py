@@ -29,7 +29,7 @@ class WriteNode(CatenaNode):
     _COLOR_HEADER = QtGui.QColor(0, 0, 0)
 
     def __init__(self) -> None:
-        super().__init__(title="Write", width=200, body_height=40)
+        super().__init__(title="Write")
         broker.register_subscriber(namespace.NODE_WRITE_FILE, self.write_image)
 
     def _build(self) -> None:

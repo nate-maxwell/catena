@@ -14,7 +14,7 @@ class MinNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Min", width=180, body_height=60)
+        super().__init__(title="Min")
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")

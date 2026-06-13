@@ -9,7 +9,7 @@ class OutroNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Outro", width=160, body_height=40)
+        super().__init__(title="Outro")
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Pane")

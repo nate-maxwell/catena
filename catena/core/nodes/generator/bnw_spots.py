@@ -16,7 +16,7 @@ class BNWSpotsNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="BnW Spots", width=180, body_height=80)
+        super().__init__(title="BnW Spots", body_height=80)
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")

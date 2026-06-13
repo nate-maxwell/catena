@@ -9,8 +9,6 @@ from PySide6TK.Nodes.node import PortType
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.image import IMAGE_NODE_COLOR
 
-NODE_TYPE = "Contrast"
-
 
 class ContrastNode(CatenaNode):
     """A node that adjusts brightness and contrast of an input image."""
@@ -18,7 +16,7 @@ class ContrastNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Contrast", width=180, body_height=40)
+        super().__init__(title="Contrast")
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Input")

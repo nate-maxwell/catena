@@ -7,8 +7,6 @@ from PySide6TK.Nodes.node import PortType
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.math import IMAGE_NODE_COLOR
 
-NODE_TYPE = "Max"
-
 
 class MaxNode(CatenaNode):
     """A node that outputs the per-pixel maximum of two input images."""
@@ -16,7 +14,7 @@ class MaxNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Max", width=180, body_height=60)
+        super().__init__(title="Max")
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")

@@ -14,7 +14,7 @@ class AddNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Add", width=180, body_height=40)
+        super().__init__(title="Add")
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(PortType.INPUT, "A")
