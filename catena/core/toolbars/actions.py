@@ -17,6 +17,7 @@ from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
+from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.nodes.image.blur import BlurNode
@@ -217,3 +218,8 @@ class GeneratorActions(object):
     def action_clouds_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CloudsNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_gradient_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=GradientNode(), x=coords.x(), y=coords.y())

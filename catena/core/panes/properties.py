@@ -21,9 +21,7 @@ class PropertiesPane(DockablePane):
         self._create_subscriptions()
 
     def _create_subscriptions(self) -> None:
-        broker.register_subscriber(
-            namespace.NODE_DOUBLE_CLICK, self._refresh_properties
-        )
+        broker.register_subscriber(namespace.NODE_SELECTED, self._refresh_properties)
 
     def create_widgets(self) -> None:
         self.label = QtWidgets.QLabel("", self.content_widget)

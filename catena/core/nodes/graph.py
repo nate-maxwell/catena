@@ -14,6 +14,7 @@ from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
+from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.image.blur import BlurNode
 from catena.core.nodes.image.color import ColorNode
@@ -121,8 +122,9 @@ class CatenaGraphView(GraphView):
         self.register_node("Misc", RerouteNode)
 
     def _register_generator_nodes(self) -> None:
-        self.register_node("Generator", PerlinNoiseNode)
         self.register_node("Generator", BlueNoiseNode)
         self.register_node("Generator", BNWSpotsNode)
         self.register_node("Generator", CellsNode)
         self.register_node("Generator", CloudsNode)
+        self.register_node("Generator", GradientNode)
+        self.register_node("Generator", PerlinNoiseNode)

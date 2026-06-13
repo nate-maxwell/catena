@@ -206,3 +206,10 @@ class EditorActionToolbar(QtWrappers.Toolbar):
             ),
             image_path=Resources.BUTTON_PURPLE_40X40,
         )
+        self.add_toolbar_command(
+            "Grad",
+            command=lambda: actions.GeneratorActions.action_gradient_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )

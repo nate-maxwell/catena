@@ -23,8 +23,8 @@ class LevelsNode(CatenaNode):
 
         self.add_field(
             FieldDefinition(
-                name="input_black",
-                label="Input Black",
+                name="input_low",
+                label="Input Low",
                 field_type=FieldType.INT,
                 default=0,
                 min_value=0,
@@ -33,8 +33,8 @@ class LevelsNode(CatenaNode):
         )
         self.add_field(
             FieldDefinition(
-                name="input_white",
-                label="Input White",
+                name="input_high",
+                label="Input High",
                 field_type=FieldType.INT,
                 default=255,
                 min_value=0,
@@ -43,8 +43,8 @@ class LevelsNode(CatenaNode):
         )
         self.add_field(
             FieldDefinition(
-                name="output_black",
-                label="Output Black",
+                name="output_low",
+                label="Output Low",
                 field_type=FieldType.INT,
                 default=0,
                 min_value=0,
@@ -53,8 +53,8 @@ class LevelsNode(CatenaNode):
         )
         self.add_field(
             FieldDefinition(
-                name="output_white",
-                label="Output White",
+                name="output_high",
+                label="Output High",
                 field_type=FieldType.INT,
                 default=255,
                 min_value=0,
@@ -79,11 +79,11 @@ class LevelsNode(CatenaNode):
         if image is None:
             return None
 
-        in_black = self.get_field_value("input_black")
-        in_white = self.get_field_value("input_white")
+        in_black = self.get_field_value("input_low")
+        in_white = self.get_field_value("input_high")
         gamma = self.get_field_value("gamma")
-        out_black = self.get_field_value("output_black")
-        out_white = self.get_field_value("output_white")
+        out_black = self.get_field_value("output_low")
+        out_white = self.get_field_value("output_high")
 
         in_range = max(in_white - in_black, 1)
         out_range = out_white - out_black

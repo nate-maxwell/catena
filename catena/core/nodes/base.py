@@ -75,9 +75,13 @@ class CatenaNode(BaseNode):
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
-        broker.emit(namespace.NODE_DOUBLE_CLICK, node=self)
+        broker.emit(namespace.NODE_SELECTED, node=self)
         self._set_active_preview()
         super().mouseDoubleClickEvent(event)
+
+    def mousePressEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        broker.emit(namespace.NODE_SELECTED, node=self)
+        super().mousePressEvent(event)
 
     def _set_active_preview(self) -> None:
         CatenaNode.active_preview_node = self

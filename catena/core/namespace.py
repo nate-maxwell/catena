@@ -1,7 +1,7 @@
 """A list of broker values that are shared across application components."""
 
 # -----Node Events-------------------------------------------------------------
-NODE_DOUBLE_CLICK = "node.select.double"
+NODE_SELECTED = "node.select.selected"
 NODE_PREVIEW = "node.select.preview"
 NODE_FIELD_CHANGED = "node.field.changed"
 NODE_WRITE_FILE = "node.write.write"

@@ -59,7 +59,7 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
         )
         self.add_menu_command(
             menu,
-            "Properties Panel",
+            "Properties",
             self._editor.pane_properties.toggle_visibility,
         )
 
