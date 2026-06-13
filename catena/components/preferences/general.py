@@ -11,6 +11,7 @@ class GeneralPreferencesMenu(PreferenceTopicMenu):
         self.topic_prefs = self.prefs.general_preferences
 
         self.auto_save_interval = QtWrappers.LabeledSpinBox("Auto Save Interval")
+        self.auto_save_interval.set_value(self.topic_prefs.auto_save_interval)
         self.add_widget(self.auto_save_interval)
 
         self.add_stretch()

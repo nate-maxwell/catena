@@ -1,5 +1,6 @@
 from typing import Any
 from typing import Optional
+from typing import Union
 from dataclasses import asdict
 
 import broker
@@ -10,6 +11,12 @@ from catena.core import namespace
 from catena.core.prefs.category_data import GeneralPreferences
 from catena.core.prefs.category_data import NodeGraphPreferences
 from catena.core.prefs.category_data import LayoutPreferences
+
+JSON_TYPE = Union[dict, list, int, float, bool, str, None]
+
+GENERAL_PREFERENCES = "general_preferences"
+GRAPH_PREFERENCES = "node_graph_preferences"
+LAYOUT_PREFERENCES = "layout_preferences"
 
 
 class AppdataError(Exception):
@@ -49,24 +56,24 @@ class Preferences(object):
         else:
             self.save()
 
-    def to_dict(self) -> dict[str, appdata.JSON_TYPE]:
+    def to_dict(self) -> dict[str, JSON_TYPE]:
         """Serialize to a plain dict."""
         return {
-            "general_preferences": asdict(self.general_preferences),
-            "node_graph_preferences": asdict(self.node_graph_preferences),
-            "layout_preferences": asdict(self.layout_preferences),
+            GENERAL_PREFERENCES: asdict(self.general_preferences),
+            GRAPH_PREFERENCES: asdict(self.node_graph_preferences),
+            LAYOUT_PREFERENCES: asdict(self.layout_preferences),
         }
 
-    def from_dict(self, data: dict[str, appdata.JSON_TYPE]) -> None:
+    def from_dict(self, data: dict[str, JSON_TYPE]) -> None:
         """Apply a serialized dict into dataclass fields safely."""
-        if "general_preferences" in data:
-            self.general_preferences = GeneralPreferences(**data["general_preferences"])
-        if "node_graph_preferences" in data:
+        if GENERAL_PREFERENCES in data:
+            self.general_preferences = GeneralPreferences(**data[GENERAL_PREFERENCES])
+        if GRAPH_PREFERENCES in data:
             self.node_graph_preferences = NodeGraphPreferences(
-                **data["node_graph_preferences"]
+                **data[GRAPH_PREFERENCES]
             )
-        if "layout_preferences" in data:
-            self.layout_preferences = LayoutPreferences(**data["layout_preferences"])
+        if LAYOUT_PREFERENCES in data:
+            self.layout_preferences = LayoutPreferences(**data[LAYOUT_PREFERENCES])
 
     def load(self) -> None:
         """
