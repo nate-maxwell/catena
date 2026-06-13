@@ -69,8 +69,23 @@ class BNWSpotsNode(CatenaNode):
         ys = rng.integers(0, height, num_spots)
         colors = rng.choice([0, 255], num_spots)
 
+        offsets = [
+            (-width, -height),
+            (0, -height),
+            (width, -height),
+            (-width, 0),
+            (0, 0),
+            (width, 0),
+            (-width, height),
+            (0, height),
+            (width, height),
+        ]
+
         for x, y, color in zip(xs, ys, colors):
-            cv2.circle(canvas, (int(x), int(y)), size, int(color), -1)
+            for ox, oy in offsets:
+                px, py = int(x) + ox, int(y) + oy
+                if -size <= px <= width + size and -size <= py <= height + size:
+                    cv2.circle(canvas, (px, py), size, int(color), -1)
 
         result = cv2.cvtColor(canvas, cv2.COLOR_GRAY2BGR)
         return result

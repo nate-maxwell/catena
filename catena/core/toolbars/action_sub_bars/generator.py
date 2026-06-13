@@ -16,13 +16,6 @@ class GeneratorToolbar(QtWrappers.Toolbar):
 
     def build(self) -> None:
         self.add_toolbar_command(
-            "Perlin\nNoise",
-            command=lambda: actions.GeneratorActions.action_perlin_noise_node(
-                self.graph_view
-            ),
-            image_path=Resources.BUTTON_PURPLE_40X40,
-        )
-        self.add_toolbar_command(
             "Blue\nNoise",
             command=lambda: actions.GeneratorActions.action_blue_noise_node(
                 self.graph_view
@@ -51,6 +44,20 @@ class GeneratorToolbar(QtWrappers.Toolbar):
         self.add_toolbar_command(
             "Grad",
             command=lambda: actions.GeneratorActions.action_gradient_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
+            "Perlin\nNoise",
+            command=lambda: actions.GeneratorActions.action_perlin_noise_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
+            "White\nNoise",
+            command=lambda: actions.GeneratorActions.action_white_noise_node(
                 self.graph_view
             ),
             image_path=Resources.BUTTON_PURPLE_40X40,

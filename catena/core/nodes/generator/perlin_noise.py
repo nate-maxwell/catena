@@ -14,20 +14,20 @@ def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarr
     height, width = shape
     rng = numpy.random.default_rng(seed)
 
-    grid_h = max(2, int(height / scale) + 2)
-    grid_w = max(2, int(width / scale) + 2)
+    grid_h = max(2, int(round(height / scale)))
+    grid_w = max(2, int(round(width / scale)))
     lattice = rng.random((grid_h, grid_w))
 
-    ys = numpy.linspace(0, grid_h - 1.0001, height)
-    xs = numpy.linspace(0, grid_w - 1.0001, width)
+    ys = numpy.linspace(0, grid_h, height, endpoint=False)
+    xs = numpy.linspace(0, grid_w, width, endpoint=False)
 
-    y0 = numpy.floor(ys).astype(int)
-    x0 = numpy.floor(xs).astype(int)
-    y1 = y0 + 1
-    x1 = x0 + 1
+    y0 = numpy.floor(ys).astype(int) % grid_h
+    x0 = numpy.floor(xs).astype(int) % grid_w
+    y1 = (y0 + 1) % grid_h
+    x1 = (x0 + 1) % grid_w
 
-    fy = (ys - y0)[:, None]
-    fx = (xs - x0)[None, :]
+    fy = (ys - numpy.floor(ys))[:, None]
+    fx = (xs - numpy.floor(xs))[None, :]
 
     def smooth(t: numpy.ndarray) -> numpy.ndarray:
         return t * t * (3 - 2 * t)

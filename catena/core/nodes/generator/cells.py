@@ -68,11 +68,24 @@ class CellsNode(CatenaNode):
 
         min_dist = numpy.full((height, width), numpy.inf, dtype=numpy.float32)
 
+        offsets = [
+            (-width, -height),
+            (0, -height),
+            (width, -height),
+            (-width, 0),
+            (0, 0),
+            (width, 0),
+            (-width, height),
+            (0, height),
+            (width, height),
+        ]
+
         for px, py in points:
-            dx = x_idx - px
-            dy = y_idx - py
-            dist = numpy.sqrt(dx * dx + dy * dy)
-            min_dist = numpy.minimum(min_dist, dist)
+            for ox, oy in offsets:
+                dx = x_idx - (px + ox)
+                dy = y_idx - (py + oy)
+                dist = numpy.sqrt(dx * dx + dy * dy)
+                min_dist = numpy.minimum(min_dist, dist)
 
         min_dist /= min_dist.max()
 

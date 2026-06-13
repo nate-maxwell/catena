@@ -21,6 +21,7 @@ from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
 from catena.core.nodes.generator.gradient import GradientNode
+from catena.core.nodes.generator.noise import WhiteNoiseNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.nodes.image.blur import BlurNode
@@ -32,6 +33,7 @@ from catena.core.nodes.image.levels import LevelsNode
 from catena.core.nodes.image.overlay import OverlayNode
 from catena.core.nodes.image.sharpen import SharpenNode
 from catena.core.nodes.image.threshold import ThresholdNode
+from catena.core.nodes.image.warp import WarpNode
 from catena.core.nodes.math.add import AddNode
 from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
@@ -42,6 +44,7 @@ from catena.core.nodes.math.subtract import SubtractNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
 from catena.core.nodes.transform.rotate import RotateNode
+from catena.core.nodes.transform.tile import TileNode
 
 
 class ClientActions(object):
@@ -138,6 +141,11 @@ class ImageActions(object):
         coords = graph_view.view_center()
         graph_view.add_node(node=InvertNode(), x=coords.x(), y=coords.y())
 
+    @classmethod
+    def action_warp_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=WarpNode(), x=coords.x(), y=coords.y())
+
 
 class XformActions(object):
 
@@ -155,6 +163,11 @@ class XformActions(object):
     def action_offset_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=OffsetNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_tile_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=TileNode(), x=coords.x(), y=coords.y())
 
 
 class MathActions(object):
@@ -226,3 +239,8 @@ class GeneratorActions(object):
     def action_gradient_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=GradientNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_white_noise_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=WhiteNoiseNode(), x=coords.x(), y=coords.y())
