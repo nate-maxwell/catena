@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 import broker
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
@@ -6,9 +10,13 @@ from catena.components import about
 from catena.core import shortcuts
 from catena.core import namespace
 
+if TYPE_CHECKING:
+    from catena.core.client import CatenaEditor
+
 
 class ClientWindowToolbar(QtWrappers.Toolbar):
-    def __init__(self, parent: QtWidgets.QWidget) -> None:
+    def __init__(self, parent: CatenaEditor) -> None:
+        self._editor = parent
         super().__init__("EditorClientToolbar", parent)
         self.setMinimumHeight(22)
         self.setMaximumHeight(26)
@@ -43,10 +51,17 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
 
     def _view_section(self) -> None:
         menu = self.add_menu("View")
-        self.add_menu_command(menu, "Open Viewport")
-        self.add_menu_command(menu, "Open Content Browser")
-        self.add_menu_command(menu, "Open Outliner")
-        self.add_menu_command(menu, "Open Properties Panel")
+        self.add_menu_command(
+            menu, "Viewport", self._editor.pane_viewport.toggle_visibility
+        )
+        self.add_menu_command(
+            menu, "Node Graph", self._editor.pane_graph.toggle_visibility
+        )
+        self.add_menu_command(
+            menu,
+            "Properties Panel",
+            self._editor.pane_properties.toggle_visibility,
+        )
 
     def _help_section(self) -> None:
         menu = self.add_menu("Help")
