@@ -62,4 +62,4 @@ class TileNode(CatenaNode):
         tiled = numpy.tile(small, (tiles_y, tiles_x, 1))
 
         result = cv2.resize(tiled, (width, height))
-        return result
+        return result.astype(numpy.float32)

@@ -62,15 +62,14 @@ class BevelNode(CatenaNode):
 
         distance = self.get_field_value("distance")
         angle = self.get_field_value("angle")
+        depth = self.get_field_value("depth")
 
         if image.ndim == 3:
-            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            gray = image.mean(axis=2)
         else:
             gray = image
 
-        mask = (gray > 127).astype(numpy.uint8) * 255
-
-        depth = self.get_field_value("depth")
+        mask = (gray > 0.5).astype(numpy.uint8) * 255
 
         dist_inside = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
         dist_outside = cv2.distanceTransform(255 - mask, cv2.DIST_L2, 5)
@@ -94,6 +93,6 @@ class BevelNode(CatenaNode):
         lighting = nx * light_x + ny * light_y + nz * 0.5
         lighting = numpy.clip(lighting, 0.0, 1.0)
 
-        shaded = (lighting * 255.0).astype(numpy.uint8)
-        result = cv2.cvtColor(shaded, cv2.COLOR_GRAY2BGR)
+        shaded = lighting.astype(numpy.float32)
+        result = numpy.repeat(shaded[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

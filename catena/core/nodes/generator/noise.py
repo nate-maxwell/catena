@@ -1,6 +1,5 @@
 from typing import Optional
 
-import cv2
 import numpy
 from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
@@ -40,6 +39,6 @@ class WhiteNoiseNode(CatenaNode):
         width, height = 512, 512
         rng = numpy.random.default_rng(seed)
 
-        gray = rng.integers(0, 256, (height, width), dtype=numpy.uint8)
-        result = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        gray = rng.random((height, width), dtype=numpy.float32)
+        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

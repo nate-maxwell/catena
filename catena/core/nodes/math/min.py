@@ -39,4 +39,4 @@ class MinNode(CatenaNode):
             image_b = cv2.resize(image_b, (width, height))
 
         result = numpy.minimum(image_a, image_b)
-        return result
+        return result.astype(numpy.float32)

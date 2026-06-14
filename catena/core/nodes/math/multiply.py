@@ -34,7 +34,5 @@ class MultiplyNode(CatenaNode):
             height, width = image_a.shape[:2]
             image_b = cv2.resize(image_b, (width, height))
 
-        factor = image_b.astype(numpy.float32) / 255.0
-        result = image_a.astype(numpy.float32) * factor
-        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
-        return result
+        result = image_a * image_b
+        return result.astype(numpy.float32)

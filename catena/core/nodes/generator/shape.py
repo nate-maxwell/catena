@@ -16,7 +16,7 @@ class ShapeNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Shape")
+        super().__init__(title="Shape", body_height=80)
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")
@@ -77,5 +77,6 @@ class ShapeNode(CatenaNode):
             ).astype(numpy.int32)
             cv2.fillPoly(canvas, [points], 255)
 
-        result = cv2.cvtColor(canvas, cv2.COLOR_GRAY2BGR)
+        gray = canvas.astype(numpy.float32) / 255.0
+        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

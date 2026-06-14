@@ -1,6 +1,5 @@
 from typing import Optional
 
-import cv2
 import numpy
 from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
@@ -92,6 +91,5 @@ class CellsNode(CatenaNode):
         if invert:
             min_dist = 1.0 - min_dist
 
-        gray = (min_dist * 255.0).astype(numpy.uint8)
-        result = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        result = numpy.repeat(min_dist[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

@@ -27,5 +27,5 @@ class InvertNode(CatenaNode):
         if image is None:
             return None
 
-        result = cv2.bitwise_not(image)
-        return result
+        result = 1.0 - image
+        return result.astype(numpy.float32)

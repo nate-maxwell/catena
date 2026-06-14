@@ -64,11 +64,12 @@ class HSVNode(CatenaNode):
         saturation = self.get_field_value("saturation")
         value = self.get_field_value("value")
 
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV).astype(numpy.int16)
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-        hsv[..., 0] = (hsv[..., 0] + hue_shift) % 180
-        hsv[..., 1] = numpy.clip(hsv[..., 1] * saturation, 0, 255)
-        hsv[..., 2] = numpy.clip(hsv[..., 2] * value, 0, 255)
+        hue_shift_degrees = hue_shift * 2.0
+        hsv[..., 0] = (hsv[..., 0] + hue_shift_degrees) % 360.0
+        hsv[..., 1] = numpy.clip(hsv[..., 1] * saturation, 0.0, 1.0)
+        hsv[..., 2] = numpy.clip(hsv[..., 2] * value, 0.0, 1.0)
 
-        result = cv2.cvtColor(hsv.astype(numpy.uint8), cv2.COLOR_HSV2BGR)
-        return result
+        result = cv2.cvtColor(hsv.astype(numpy.float32), cv2.COLOR_HSV2BGR)
+        return result.astype(numpy.float32)

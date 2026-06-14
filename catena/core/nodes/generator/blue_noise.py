@@ -1,6 +1,5 @@
 from typing import Optional
 
-import cv2
 import numpy
 from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
@@ -72,6 +71,6 @@ class BlueNoiseNode(CatenaNode):
         if result.max() > 0:
             result /= result.max()
 
-        gray = (result * 255.0).astype(numpy.uint8)
-        output = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        gray = result.astype(numpy.float32)
+        output = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
         return output

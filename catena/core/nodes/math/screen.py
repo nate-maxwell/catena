@@ -38,9 +38,5 @@ class ScreenNode(CatenaNode):
             height, width = image_a.shape[:2]
             image_b = cv2.resize(image_b, (width, height))
 
-        a = image_a.astype(numpy.float32) / 255.0
-        b = image_b.astype(numpy.float32) / 255.0
-
-        result = 1.0 - (1.0 - a) * (1.0 - b)
-        result = numpy.clip(result * 255.0, 0, 255).astype(numpy.uint8)
-        return result
+        result = 1.0 - (1.0 - image_a) * (1.0 - image_b)
+        return result.astype(numpy.float32)

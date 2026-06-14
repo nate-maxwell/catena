@@ -35,7 +35,7 @@ class ColorNode(CatenaNode):
         r, g, b, _ = self.get_field_value("color")
 
         width, height = 512, 512
-        result = numpy.zeros((height, width, 3), dtype=numpy.uint8)
-        result[:, :] = (b, g, r)
+        result = numpy.zeros((height, width, 3), dtype=numpy.float32)
+        result[:, :] = (b / 255.0, g / 255.0, r / 255.0)
 
         return result

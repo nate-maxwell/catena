@@ -2,11 +2,10 @@ from typing import Optional
 
 import broker
 import numpy
-from PySide6 import QtGui
 from PySide6TK import QtCore
 
-from catena.core import namespace
 from catena.core import color
+from catena.core import namespace
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
 from catena.core.panes.viewport import viewport_widget
@@ -48,6 +47,7 @@ class ViewportPane(DockablePane):
             self.viewport_widget.image_view.clear()
             return
 
-        rgb = color.bgr_to_rgb(image)
+        display = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
+        rgb = color.bgr_to_rgb(display)
         qimage = color.ndarray_to_qimage(rgb)
         self.viewport_widget.image_view.set_image(qimage)

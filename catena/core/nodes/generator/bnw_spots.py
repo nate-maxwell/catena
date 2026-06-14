@@ -87,5 +87,6 @@ class BNWSpotsNode(CatenaNode):
                 if -size <= px <= width + size and -size <= py <= height + size:
                     cv2.circle(canvas, (px, py), size, int(color), -1)
 
-        result = cv2.cvtColor(canvas, cv2.COLOR_GRAY2BGR)
+        gray = canvas.astype(numpy.float32) / 255.0
+        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

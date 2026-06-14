@@ -78,4 +78,7 @@ class WriteNode(CatenaNode):
         path = path.with_suffix(extension)
 
         path.parent.mkdir(parents=True, exist_ok=True)
-        return cv2.imwrite(str(path), image)
+
+        # This might need to be adjusted to output uint32 in the future...
+        output = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
+        return cv2.imwrite(str(path), output)

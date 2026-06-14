@@ -38,5 +38,5 @@ class AddNode(CatenaNode):
             height, width = image_a.shape[:2]
             image_b = cv2.resize(image_b, (width, height))
 
-        result = cv2.add(image_a, image_b)
-        return result
+        result = image_a + image_b
+        return result.astype(numpy.float32)

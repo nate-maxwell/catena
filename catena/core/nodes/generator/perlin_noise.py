@@ -1,6 +1,5 @@
 from typing import Optional
 
-import cv2
 import numpy
 from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
@@ -110,6 +109,5 @@ class PerlinNoiseNode(CatenaNode):
             current_scale = max(current_scale, 2.0)
 
         total /= max_amplitude
-        gray = numpy.clip(total * 255.0, 0, 255).astype(numpy.uint8)
-        result = cv2.cvtColor(gray, cv2.COLOR_GRAY2BGR)
+        result = numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

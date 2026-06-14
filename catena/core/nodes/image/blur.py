@@ -45,4 +45,4 @@ class BlurNode(CatenaNode):
             return image
 
         result = cv2.GaussianBlur(image, (0, 0), sigmaX=radius, sigmaY=radius)
-        return result
+        return result.astype(numpy.float32)

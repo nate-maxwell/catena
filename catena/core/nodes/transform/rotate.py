@@ -58,4 +58,4 @@ class RotateNode(CatenaNode):
 
         matrix = cv2.getRotationMatrix2D(center, angle, scale)
         result = cv2.warpAffine(image, matrix, (width, height))
-        return result
+        return result.astype(numpy.float32)

@@ -62,8 +62,8 @@ class OverlayNode(CatenaNode):
                 height, width = bottom.shape[:2]
                 alpha = cv2.resize(alpha, (width, height))
             if alpha.ndim == 3:
-                alpha = cv2.cvtColor(alpha, cv2.COLOR_BGR2GRAY)
-            mask = (alpha.astype(numpy.float32) / 255.0) * mix
+                alpha = alpha.mean(axis=2)
+            mask = alpha.astype(numpy.float32) * mix
 
         mask = mask[:, :, None]
 
@@ -71,5 +71,4 @@ class OverlayNode(CatenaNode):
             bottom.astype(numpy.float32) * (1.0 - mask)
             + top.astype(numpy.float32) * mask
         )
-        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
-        return result
+        return result.astype(numpy.float32)

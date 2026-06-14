@@ -36,8 +36,7 @@ class DivideNode(CatenaNode):
 
         a = image_a.astype(numpy.float32)
         b = image_b.astype(numpy.float32)
-        b = numpy.where(b == 0, 1.0, b)
+        b = numpy.where(b == 0, 1e-6, b)
 
-        result = (a / b) * 255.0
-        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
-        return result
+        result = a / b
+        return result.astype(numpy.float32)

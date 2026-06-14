@@ -78,4 +78,4 @@ class OffsetNode(CatenaNode):
                     src_y0:src_y1, src_x0:src_x1
                 ]
 
-        return result
+        return result.astype(numpy.float32)

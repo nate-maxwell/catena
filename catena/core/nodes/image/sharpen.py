@@ -58,4 +58,4 @@ class SharpenNode(CatenaNode):
 
         blurred = cv2.GaussianBlur(image, (0, 0), sigmaX=radius, sigmaY=radius)
         result = cv2.addWeighted(image, 1.0 + amount, blurred, -amount, 0)
-        return result
+        return result.astype(numpy.float32)

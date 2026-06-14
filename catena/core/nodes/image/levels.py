@@ -79,13 +79,13 @@ class LevelsNode(CatenaNode):
         if image is None:
             return None
 
-        in_black = self.get_field_value("input_low")
-        in_white = self.get_field_value("input_high")
+        in_black = self.get_field_value("input_low") / 255.0
+        in_white = self.get_field_value("input_high") / 255.0
         gamma = self.get_field_value("gamma")
-        out_black = self.get_field_value("output_low")
-        out_white = self.get_field_value("output_high")
+        out_black = self.get_field_value("output_low") / 255.0
+        out_white = self.get_field_value("output_high") / 255.0
 
-        in_range = max(in_white - in_black, 1)
+        in_range = max(in_white - in_black, 1e-6)
         out_range = out_white - out_black
 
         result = image.astype(numpy.float32)
@@ -93,6 +93,6 @@ class LevelsNode(CatenaNode):
         result = numpy.clip(result, 0.0, 1.0)
         result = numpy.power(result, 1.0 / gamma)
         result = result * out_range + out_black
-        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
+        result = numpy.clip(result, 0.0, 1.0)
 
-        return result
+        return result.astype(numpy.float32)

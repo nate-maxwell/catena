@@ -44,4 +44,4 @@ class FlipNode(CatenaNode):
         flip_code = flip_codes[direction]
 
         result = cv2.flip(image, flip_code)
-        return result
+        return result.astype(numpy.float32)

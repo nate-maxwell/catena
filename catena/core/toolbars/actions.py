@@ -40,6 +40,7 @@ from catena.core.nodes.math.add import AddNode
 from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
 from catena.core.nodes.math.min import MinNode
+from catena.core.nodes.math.sin import SinNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
@@ -213,6 +214,11 @@ class MathActions(object):
     def action_screen_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ScreenNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_sin_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=SinNode(), x=coords.x(), y=coords.y())
 
 
 class GeneratorActions(object):

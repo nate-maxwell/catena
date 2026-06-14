@@ -33,7 +33,10 @@ class ReadNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        return self._load_image()
+        image = self._load_image()
+        if image is None:
+            return None
+        return image.astype(numpy.float32) / 255.0
 
     def _load_image(self) -> Optional[numpy.ndarray]:
         filepath = self.get_field_value("filepath")

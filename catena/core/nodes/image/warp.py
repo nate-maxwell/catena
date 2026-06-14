@@ -68,11 +68,9 @@ class WarpNode(CatenaNode):
                 displacement = cv2.resize(displacement, (width, height))
 
             if displacement.ndim == 3:
-                disp_gray = cv2.cvtColor(displacement, cv2.COLOR_BGR2GRAY)
+                disp = displacement.mean(axis=2)
             else:
-                disp_gray = displacement
-
-            disp = disp_gray.astype(numpy.float32) / 255.0
+                disp = displacement.astype(numpy.float32)
 
         radians = numpy.deg2rad(direction)
         direction_x = numpy.cos(radians)
@@ -92,4 +90,4 @@ class WarpNode(CatenaNode):
             interpolation=cv2.INTER_LINEAR,
             borderMode=cv2.BORDER_REFLECT,
         )
-        return result
+        return result.astype(numpy.float32)

@@ -33,6 +33,7 @@ from catena.core.nodes.math.add import AddNode
 from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
 from catena.core.nodes.math.min import MinNode
+from catena.core.nodes.math.sin import SinNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
@@ -124,6 +125,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Math", MinNode)
         self.register_node("Math", MultiplyNode)
         self.register_node("Math", ScreenNode)
+        self.register_node("Math", SinNode)
         self.register_node("Math", SubtractNode)
 
     def _register_misc_nodes(self) -> None:

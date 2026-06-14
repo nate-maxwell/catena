@@ -69,13 +69,12 @@ class GradientNode(CatenaNode):
         t = (projection / max_extent + 1.0) / 2.0
         t = numpy.clip(t, 0.0, 1.0)
 
-        color_a = numpy.array([b_a, g_a, r_a], dtype=numpy.float32)
-        color_b = numpy.array([b_b, g_b, r_b], dtype=numpy.float32)
+        color_a = numpy.array([b_a, g_a, r_a], dtype=numpy.float32) / 255.0
+        color_b = numpy.array([b_b, g_b, r_b], dtype=numpy.float32) / 255.0
 
         result = (
             color_a[None, None, :] * (1 - t[:, :, None])
             + color_b[None, None, :] * t[:, :, None]
         )
-        result = numpy.clip(result, 0, 255).astype(numpy.uint8)
 
-        return result
+        return result.astype(numpy.float32)

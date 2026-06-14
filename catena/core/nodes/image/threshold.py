@@ -48,12 +48,12 @@ class ThresholdNode(CatenaNode):
         if image is None:
             return None
 
-        threshold = self.get_field_value("threshold")
+        threshold = self.get_field_value("threshold") / 255.0
         invert = self.get_field_value("invert")
 
-        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray = image.mean(axis=2)
         mode = cv2.THRESH_BINARY_INV if invert else cv2.THRESH_BINARY
-        _, mask = cv2.threshold(gray, threshold, 255, mode)
+        _, mask = cv2.threshold(gray, threshold, 1.0, mode)
 
-        result = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+        result = numpy.repeat(mask[:, :, None], 3, axis=2).astype(numpy.float32)
         return result

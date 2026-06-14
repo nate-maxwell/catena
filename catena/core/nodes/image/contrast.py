@@ -53,5 +53,5 @@ class ContrastNode(CatenaNode):
         contrast = self.get_field_value("contrast")
         brightness = self.get_field_value("brightness")
 
-        result = cv2.convertScaleAbs(image, alpha=contrast, beta=brightness)
-        return result
+        result = image.astype(numpy.float32) * contrast + (brightness / 255.0)
+        return result.astype(numpy.float32)
