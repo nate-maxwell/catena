@@ -2,7 +2,6 @@ from typing import Optional
 
 import cv2
 import numpy
-from PySide6 import QtGui
 from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
 from PySide6TK.Nodes.node import PortType
