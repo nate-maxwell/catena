@@ -1,3 +1,8 @@
+"""
+A pseudo-constants file where variables for preferences, trans-session data,
+and file attributes are stored.
+"""
+
 from pathlib import Path
 from typing import Union
 
