@@ -5,18 +5,29 @@ This status bar is not meant to allow users to change settings, but rather
 simply display application data and preference values.
 """
 
+from pathlib import Path
+
+import broker
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 from catena import __version__
+from catena.core import namespace
 
 
 class StatusBar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget) -> None:
         super().__init__("StatusBar", parent)
+        broker.register_subscriber(
+            namespace.CLIENT_FILE_CHANGED, self._update_file_name
+        )
 
     def build(self) -> None:
+        unsaved_path = Path(Path.home(), "Unsaved.cg")
+        self.lbl_current_path = QtWidgets.QLabel(f"File  |  {unsaved_path.as_posix()}")
+        self.addWidget(self.lbl_current_path)
+
         self.addWidget(QtWrappers.HorizontalSpacer())
         self.addWidget(QtWrappers.VerticalSpacer(16))
 
@@ -36,3 +47,6 @@ class StatusBar(QtWrappers.Toolbar):
         self.add_toolbar_separator(width)
         self.addWidget(QtWrappers.VerticalLine())
         self.add_toolbar_separator(width)
+
+    def _update_file_name(self, file_path: Path) -> None:
+        self.lbl_current_path.setText(f"File  |  {file_path.as_posix()}")
