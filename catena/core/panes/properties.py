@@ -33,6 +33,15 @@ class PropertiesPane(DockablePane):
     def _refresh_properties(self, node: CatenaNode) -> None:
         QtWrappers.clear_layout(self.content_layout)
 
+        # Node name
+        row = QtWidgets.QHBoxLayout()
+        row.setSpacing(6)
+        label = QtWidgets.QLabel(node.title, self.content_widget)
+        label.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
+        row.addWidget(label)
+        self.content_layout.addLayout(row)
+
+        # Node fields
         for definition in node.get_fields():
             row = QtWidgets.QHBoxLayout()
             row.setSpacing(6)
