@@ -11,6 +11,7 @@ need to be invoked independent of the shelves.
 import broker
 
 from catena.core import namespace
+from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
@@ -21,10 +22,10 @@ from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
 from catena.core.nodes.generator.gradient import GradientNode
-from catena.core.nodes.generator.noise import WhiteNoiseNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
-from catena.core.nodes.generator.shape import ShapeNode
 from catena.core.nodes.generator.polygon import PolygonNode
+from catena.core.nodes.generator.shape import ShapeNode
+from catena.core.nodes.generator.white_noise import WhiteNoiseNode
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.nodes.image.bevel import BevelNode
 from catena.core.nodes.image.blur import BlurNode
@@ -38,19 +39,20 @@ from catena.core.nodes.image.sharpen import SharpenNode
 from catena.core.nodes.image.threshold import ThresholdNode
 from catena.core.nodes.image.warp import WarpNode
 from catena.core.nodes.math.add import AddNode
+from catena.core.nodes.math.arctan import ArctangentNode
+from catena.core.nodes.math.cosin import CosineNode
 from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
 from catena.core.nodes.math.min import MinNode
-from catena.core.nodes.math.sin import SinNode
-from catena.core.nodes.math.cosin import CosineNode
-from catena.core.nodes.math.tan import TangentNode
-from catena.core.nodes.math.arctan import ArctangentNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
+from catena.core.nodes.math.sin import SinNode
 from catena.core.nodes.math.subtract import SubtractNode
+from catena.core.nodes.math.tan import TangentNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
 from catena.core.nodes.transform.rotate import RotateNode
+from catena.core.nodes.transform.scatter import ScatterNode
 from catena.core.nodes.transform.tile import TileNode
 
 
@@ -181,6 +183,11 @@ class XformActions(object):
         coords = graph_view.view_center()
         graph_view.add_node(node=TileNode(), x=coords.x(), y=coords.y())
 
+    @classmethod
+    def action_scatter_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=ScatterNode(), x=coords.x(), y=coords.y())
+
 
 class MathActions(object):
 
@@ -286,3 +293,11 @@ class GeneratorActions(object):
     def action_polygon_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=PolygonNode(), x=coords.x(), y=coords.y())
+
+
+class ConvertActions(object):
+
+    @classmethod
+    def action_h2m_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=HeightToNormalNode(), x=coords.x(), y=coords.y())

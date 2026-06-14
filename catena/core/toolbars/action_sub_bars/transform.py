@@ -31,6 +31,11 @@ class TransformToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_GREEN_40X40,
         )
         self.add_toolbar_command(
+            "Scatter",
+            command=lambda: actions.XformActions.action_scatter_node(self.graph_view),
+            image_path=Resources.BUTTON_GREEN_40X40,
+        )
+        self.add_toolbar_command(
             "Tile",
             command=lambda: actions.XformActions.action_tile_node(self.graph_view),
             image_path=Resources.BUTTON_GREEN_40X40,

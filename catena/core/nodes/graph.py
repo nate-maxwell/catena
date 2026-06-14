@@ -5,6 +5,7 @@ from PySide6TK.Nodes import GraphView, Port, Wire
 from catena.core import namespace
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.comment import CatenaCommentBox
+from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
 from catena.core.nodes.create.start import StartNode
@@ -15,10 +16,10 @@ from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
 from catena.core.nodes.generator.gradient import GradientNode
-from catena.core.nodes.generator.noise import WhiteNoiseNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generator.polygon import PolygonNode
 from catena.core.nodes.generator.shape import ShapeNode
+from catena.core.nodes.generator.white_noise import WhiteNoiseNode
 from catena.core.nodes.image.bevel import BevelNode
 from catena.core.nodes.image.blur import BlurNode
 from catena.core.nodes.image.color import ColorNode
@@ -45,6 +46,7 @@ from catena.core.nodes.misc.reroute import RerouteNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
 from catena.core.nodes.transform.rotate import RotateNode
+from catena.core.nodes.transform.scatter import ScatterNode
 from catena.core.nodes.transform.tile import TileNode
 
 
@@ -89,6 +91,7 @@ class CatenaGraphView(GraphView):
             broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())
 
     def _register_nodes(self) -> None:
+        self._register_convert_nodes()
         self._register_create_nodes()
         self._register_image_nodes()
         self._register_transform_nodes()
@@ -120,6 +123,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Transform", FlipNode)
         self.register_node("Transform", OffsetNode)
         self.register_node("Transform", RotateNode)
+        self.register_node("Transform", ScatterNode)
         self.register_node("Transform", TileNode)
 
     def _register_math_nodes(self) -> None:
@@ -148,3 +152,6 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", PolygonNode)
         self.register_node("Generator", ShapeNode)
         self.register_node("Generator", WhiteNoiseNode)
+
+    def _register_convert_nodes(self) -> None:
+        self.register_node("Convert", HeightToNormalNode)

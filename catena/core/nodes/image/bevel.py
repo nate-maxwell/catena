@@ -52,6 +52,14 @@ class BevelNode(CatenaNode):
                 max_value=5.0,
             )
         )
+        self.add_field(
+            FieldDefinition(
+                name="soft",
+                label="Soft",
+                field_type=FieldType.BOOL,
+                default=True,
+            )
+        )
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
@@ -63,6 +71,7 @@ class BevelNode(CatenaNode):
         distance = self.get_field_value("distance")
         angle = self.get_field_value("angle")
         depth = self.get_field_value("depth")
+        soft = self.get_field_value("soft")
 
         if image.ndim == 3:
             gray = image.mean(axis=2)
@@ -76,7 +85,11 @@ class BevelNode(CatenaNode):
 
         signed_dist = (dist_inside - dist_outside) * depth
 
-        height_field = numpy.tanh(signed_dist / distance)
+        if soft:
+            height_field = numpy.tanh(signed_dist / distance)
+        else:
+            height_field = numpy.clip(signed_dist / distance, -1.0, 1.0)
+
         height_field = (height_field + 1.0) * 0.5
 
         gy, gx = numpy.gradient(height_field)
