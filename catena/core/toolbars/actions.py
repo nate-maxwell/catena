@@ -21,6 +21,7 @@ from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
+from catena.core.nodes.generator.crystal_noise import CrystalNoiseNode
 from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generator.polygon import PolygonNode
@@ -305,6 +306,11 @@ class GeneratorActions(object):
     def action_polygon_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=PolygonNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_crystal_noise_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=CrystalNoiseNode(), x=coords.x(), y=coords.y())
 
 
 class ConvertActions(object):

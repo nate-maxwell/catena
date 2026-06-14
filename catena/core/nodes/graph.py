@@ -15,6 +15,7 @@ from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
+from catena.core.nodes.generator.crystal_noise import CrystalNoiseNode
 from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generator.polygon import PolygonNode
@@ -151,6 +152,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", BNWSpotsNode)
         self.register_node("Generator", CellsNode)
         self.register_node("Generator", CloudsNode)
+        self.register_node("Generator", CrystalNoiseNode)
         self.register_node("Generator", GradientNode)
         self.register_node("Generator", PerlinNoiseNode)
         self.register_node("Generator", PolygonNode)

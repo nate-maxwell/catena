@@ -1,6 +1,7 @@
 PySide6
 opencv-python
 numpy
+scipy
 
 broker @ git+https://github.com/nate-maxwell/broker.git
 pyside6tk @ git+https://github.com/nate-maxwell/PySide6TK.git

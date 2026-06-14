@@ -42,6 +42,13 @@ class GeneratorToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_PURPLE_40X40,
         )
         self.add_toolbar_command(
+            "Crystal",
+            command=lambda: actions.GeneratorActions.action_crystal_noise_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_PURPLE_40X40,
+        )
+        self.add_toolbar_command(
             "Perlin\nNoise",
             command=lambda: actions.GeneratorActions.action_perlin_noise_node(
                 self.graph_view
