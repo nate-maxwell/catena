@@ -25,6 +25,9 @@ class FileToolbar(QtWrappers.Toolbar):
             command=lambda: actions.ClientActions.action_write_files(),
             image_path=Resources.BUTTON_BLACK_40X40,
         )
+
+        self.add_toolbar_separator(12)
+
         self.add_toolbar_command(
             "Undo",
             command=lambda: actions.ClientActions.action_undo(),

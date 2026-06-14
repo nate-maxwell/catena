@@ -24,9 +24,9 @@ class EditorActionToolbar(QtWrappers.Toolbar):
 
         switcher.add_toolbar("File", FileToolbar(self, self.graph_view))
         switcher.add_toolbar("Create", CreateToolbar(self, self.graph_view))
-        switcher.add_toolbar("Image", ImageToolbar(self, self.graph_view))
-        switcher.add_toolbar("Transform", TransformToolbar(self, self.graph_view))
-        switcher.add_toolbar("Math", MathToolbar(self, self.graph_view))
         switcher.add_toolbar("Generators", GeneratorToolbar(self, self.graph_view))
+        switcher.add_toolbar("Image", ImageToolbar(self, self.graph_view))
+        switcher.add_toolbar("Math", MathToolbar(self, self.graph_view))
+        switcher.add_toolbar("Transform", TransformToolbar(self, self.graph_view))
 
         self.addWidget(switcher)

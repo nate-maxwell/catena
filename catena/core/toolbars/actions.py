@@ -24,6 +24,7 @@ from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.noise import WhiteNoiseNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generator.shape import ShapeNode
+from catena.core.nodes.generator.polygon import PolygonNode
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.nodes.image.bevel import BevelNode
 from catena.core.nodes.image.blur import BlurNode
@@ -280,3 +281,8 @@ class GeneratorActions(object):
     def action_shape_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ShapeNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_polygon_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=PolygonNode(), x=coords.x(), y=coords.y())

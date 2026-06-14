@@ -25,6 +25,9 @@ class CreateToolbar(QtWrappers.Toolbar):
             command=lambda: actions.CreateActions.action_write_node(self.graph_view),
             image_path=Resources.BUTTON_RED_40X40,
         )
+
+        self.add_toolbar_separator(12)
+
         self.add_toolbar_command(
             "Start",
             command=lambda: actions.CreateActions.action_start_node(self.graph_view),

@@ -17,6 +17,7 @@ from catena.core.nodes.generator.clouds import CloudsNode
 from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.noise import WhiteNoiseNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
+from catena.core.nodes.generator.polygon import PolygonNode
 from catena.core.nodes.generator.shape import ShapeNode
 from catena.core.nodes.image.bevel import BevelNode
 from catena.core.nodes.image.blur import BlurNode
@@ -30,16 +31,16 @@ from catena.core.nodes.image.sharpen import SharpenNode
 from catena.core.nodes.image.threshold import ThresholdNode
 from catena.core.nodes.image.warp import WarpNode
 from catena.core.nodes.math.add import AddNode
+from catena.core.nodes.math.arctan import ArctangentNode
+from catena.core.nodes.math.cosin import CosineNode
 from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
 from catena.core.nodes.math.min import MinNode
-from catena.core.nodes.math.sin import SinNode
-from catena.core.nodes.math.cosin import CosineNode
-from catena.core.nodes.math.tan import TangentNode
-from catena.core.nodes.math.arctan import ArctangentNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
+from catena.core.nodes.math.sin import SinNode
 from catena.core.nodes.math.subtract import SubtractNode
+from catena.core.nodes.math.tan import TangentNode
 from catena.core.nodes.misc.reroute import RerouteNode
 from catena.core.nodes.transform.flip import FlipNode
 from catena.core.nodes.transform.offset import OffsetNode
@@ -144,5 +145,6 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", CloudsNode)
         self.register_node("Generator", GradientNode)
         self.register_node("Generator", PerlinNoiseNode)
+        self.register_node("Generator", PolygonNode)
         self.register_node("Generator", ShapeNode)
         self.register_node("Generator", WhiteNoiseNode)

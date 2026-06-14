@@ -35,6 +35,9 @@ class MathToolbar(QtWrappers.Toolbar):
             command=lambda: actions.MathActions.action_divide_node(self.graph_view),
             image_path=Resources.BUTTON_CYAN_40X40,
         )
+
+        self.add_toolbar_separator(12)
+
         self.add_toolbar_command(
             "Min",
             command=lambda: actions.MathActions.action_min_node(self.graph_view),
@@ -45,11 +48,17 @@ class MathToolbar(QtWrappers.Toolbar):
             command=lambda: actions.MathActions.action_max_node(self.graph_view),
             image_path=Resources.BUTTON_CYAN_40X40,
         )
+
+        self.add_toolbar_separator(12)
+
         self.add_toolbar_command(
             "Screen",
             command=lambda: actions.MathActions.action_screen_node(self.graph_view),
             image_path=Resources.BUTTON_CYAN_40X40,
         )
+
+        self.add_toolbar_separator(12)
+
         self.add_toolbar_command(
             "Sin",
             command=lambda: actions.MathActions.action_sin_node(self.graph_view),
