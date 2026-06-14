@@ -25,7 +25,7 @@ class StatusBar(QtWrappers.Toolbar):
 
     def build(self) -> None:
         unsaved_path = Path(Path.home(), "Unsaved.cg")
-        self.lbl_current_path = QtWidgets.QLabel(f"File  |  {unsaved_path.as_posix()}")
+        self.lbl_current_path = QtWidgets.QLabel(unsaved_path.as_posix())
         self.addWidget(self.lbl_current_path)
 
         self.addWidget(QtWrappers.HorizontalSpacer())
@@ -49,4 +49,4 @@ class StatusBar(QtWrappers.Toolbar):
         self.add_toolbar_separator(width)
 
     def _update_file_name(self, file_path: Path) -> None:
-        self.lbl_current_path.setText(f"File  |  {file_path.as_posix()}")
+        self.lbl_current_path.setText(file_path.as_posix())
