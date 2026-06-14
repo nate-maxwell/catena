@@ -1,6 +1,5 @@
 from typing import Any
 from typing import Optional
-from typing import Union
 from dataclasses import asdict
 
 import broker
@@ -11,8 +10,6 @@ from catena.core import namespace
 from catena.core.prefs.category_data import GeneralPreferences
 from catena.core.prefs.category_data import NodeGraphPreferences
 from catena.core.prefs.category_data import LayoutPreferences
-
-JSON_TYPE = Union[dict, list, int, float, bool, str, None]
 
 GENERAL_PREFERENCES = "general_preferences"
 GRAPH_PREFERENCES = "node_graph_preferences"
@@ -56,7 +53,7 @@ class Preferences(object):
         else:
             self.save()
 
-    def to_dict(self) -> dict[str, JSON_TYPE]:
+    def to_dict(self) -> dict[str, appdata.JSON_TYPE]:
         """Serialize to a plain dict."""
         return {
             GENERAL_PREFERENCES: asdict(self.general_preferences),
@@ -64,7 +61,7 @@ class Preferences(object):
             LAYOUT_PREFERENCES: asdict(self.layout_preferences),
         }
 
-    def from_dict(self, data: dict[str, JSON_TYPE]) -> None:
+    def from_dict(self, data: dict[str, appdata.JSON_TYPE]) -> None:
         """Apply a serialized dict into dataclass fields safely."""
         if GENERAL_PREFERENCES in data:
             self.general_preferences = GeneralPreferences(**data[GENERAL_PREFERENCES])

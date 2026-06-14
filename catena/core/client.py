@@ -8,6 +8,7 @@ from PySide6TK import QtWrappers
 from catena.core import resources
 from catena.core import shortcuts
 from catena.core.prefs import preferences
+from catena.core import session
 from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
@@ -37,6 +38,7 @@ class CatenaEditor(QtWrappers.MainWindow):
             icon_path=resources.ICON_CATENA,
         )
         preferences.initialize()
+        session.initialize()
         shortcuts.ShortcutManager(self)
 
         options = QtWidgets.QMainWindow.DockOption
@@ -49,7 +51,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._create_layouts()
         self._initialize_shortcut_manager()
         self._restore_window_state()
-        self.pane_graph.load_graph()
+        self.pane_graph.load_previous_graph()
 
     def _create_widgets(self) -> None:
         self.pane_graph = NodeGraphPane(self)

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import broker
 from PySide6TK import QtCore
 from PySide6TK import QtGui
@@ -7,8 +9,9 @@ from catena.core import shortcuts
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
-from catena.core import appdata
+from catena.core import file
 from catena.core import namespace
+from catena.core import session
 
 
 class NodeGraphPane(DockablePane):
@@ -28,16 +31,45 @@ class NodeGraphPane(DockablePane):
         self.content_layout.addWidget(self.graph_view)
 
     def save_graph(self) -> None:
-        Nodes.save(self.graph_view, appdata.CATENA_GRAPH_FILE)
+        sd = session.SessionData()
+        Nodes.save(self.graph_view, sd.project_file)
 
-    def load_graph(self) -> None:
-        if not appdata.CATENA_GRAPH_FILE.exists():
+    def save_graph_as(self) -> None:
+        file_path = file.save_file_dialog(self)
+        if file_path is None or not file_path.exists():
             return
 
-        Nodes.load(self.graph_view, appdata.CATENA_GRAPH_FILE)
+        sd = session.SessionData()
+        sd.project_file = Path(file_path)
+        sd.save()
+
+        Nodes.save(self.graph_view, sd.project_file)
+
+    def load_previous_graph(self) -> None:
+        """Load the last saved graph."""
+        sd = session.SessionData()
+        if not sd.project_file.exists():
+            return
+
+        Nodes.load(self.graph_view, sd.project_file)
+
+    def load_graph(self) -> None:
+        """Prompt the user for a .cat file and load the selected graph."""
+        sd = session.SessionData()
+
+        to_load = file.open_file_dialog(self)
+        if to_load is None or not to_load.exists():
+            return  # TODO: Inform user of bad file!
+
+        sd.project_file = to_load
+        sd.save()
+
+        Nodes.load(self.graph_view, sd.project_file)
 
     def _create_subscriptions(self) -> None:
         broker.register_subscriber(namespace.CLIENT_SAVE, self.save_graph)
+        broker.register_subscriber(namespace.CLIENT_SAVE_AS, self.save_graph_as)
+        broker.register_subscriber(namespace.CLIENT_LOAD, self.load_graph)
         broker.register_subscriber(namespace.CLIENT_UNDO, self.graph_view.commands.undo)
         broker.register_subscriber(namespace.CLIENT_REDO, self.graph_view.commands.redo)
 

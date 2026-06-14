@@ -36,9 +36,16 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
 
     def _file_section(self) -> None:
         menu = self.add_menu("File")
-        self.add_menu_command(menu, "New Project")
-        self.add_menu_command(menu, "Open Project")
-        self.add_menu_command(menu, "Save", lambda: broker.emit(namespace.CLIENT_SAVE))
+        self.add_menu_command(menu, "New File")
+        self.add_menu_command(
+            menu, "Open File", lambda: broker.emit(namespace.CLIENT_LOAD)
+        )
+        self.add_menu_command(
+            menu, "Save File", lambda: broker.emit(namespace.CLIENT_SAVE)
+        )
+        self.add_menu_command(
+            menu, "Save As", lambda: broker.emit(namespace.CLIENT_SAVE_AS)
+        )
         self.add_menu_command(menu, "Quit", QtWidgets.QApplication.quit)
 
     def _edit_section(self) -> None:
