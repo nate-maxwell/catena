@@ -16,7 +16,7 @@ class ConvertToolbar(QtWrappers.Toolbar):
 
     def build(self) -> None:
         self.add_toolbar_command(
-            "Height\nTo\nNormal",
+            "H2N",
             command=lambda: actions.ConvertActions.action_h2m_node(self.graph_view),
             image_path=Resources.BUTTON_BLUE_40X40,
         )

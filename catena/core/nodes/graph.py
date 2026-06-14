@@ -27,8 +27,10 @@ from catena.core.nodes.image.contrast import ContrastNode
 from catena.core.nodes.image.hsv import HSVNode
 from catena.core.nodes.image.invert import InvertNode
 from catena.core.nodes.image.levels import LevelsNode
+from catena.core.nodes.image.normalize import NormalizeNode
 from catena.core.nodes.image.overlay import OverlayNode
 from catena.core.nodes.image.sharpen import SharpenNode
+from catena.core.nodes.image.slope_blur import SlopeBlurNode
 from catena.core.nodes.image.threshold import ThresholdNode
 from catena.core.nodes.image.warp import WarpNode
 from catena.core.nodes.math.add import AddNode
@@ -114,8 +116,10 @@ class CatenaGraphView(GraphView):
         self.register_node("Image", HSVNode)
         self.register_node("Image", InvertNode)
         self.register_node("Image", LevelsNode)
+        self.register_node("Image", NormalizeNode)
         self.register_node("Image", OverlayNode)
         self.register_node("Image", SharpenNode)
+        self.register_node("Image", SlopeBlurNode)
         self.register_node("Image", ThresholdNode)
         self.register_node("Image", WarpNode)
 

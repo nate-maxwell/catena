@@ -51,6 +51,11 @@ class ImageToolbar(QtWrappers.Toolbar):
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(
+            "Normalize",
+            command=lambda: actions.ImageActions.action_normalize_node(self.graph_view),
+            image_path=Resources.BUTTON_YELLOW_40X40,
+        )
+        self.add_toolbar_command(
             "Overlay",
             command=lambda: actions.ImageActions.action_overlay_node(self.graph_view),
             image_path=Resources.BUTTON_YELLOW_40X40,
@@ -58,6 +63,13 @@ class ImageToolbar(QtWrappers.Toolbar):
         self.add_toolbar_command(
             "Sharpen",
             command=lambda: actions.ImageActions.action_sharpen_node(self.graph_view),
+            image_path=Resources.BUTTON_YELLOW_40X40,
+        )
+        self.add_toolbar_command(
+            "Slope\nBlur",
+            command=lambda: actions.ImageActions.action_slope_blur_node(
+                self.graph_view
+            ),
             image_path=Resources.BUTTON_YELLOW_40X40,
         )
         self.add_toolbar_command(

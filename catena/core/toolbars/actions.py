@@ -34,8 +34,10 @@ from catena.core.nodes.image.contrast import ContrastNode
 from catena.core.nodes.image.hsv import HSVNode
 from catena.core.nodes.image.invert import InvertNode
 from catena.core.nodes.image.levels import LevelsNode
+from catena.core.nodes.image.normalize import NormalizeNode
 from catena.core.nodes.image.overlay import OverlayNode
 from catena.core.nodes.image.sharpen import SharpenNode
+from catena.core.nodes.image.slope_blur import SlopeBlurNode
 from catena.core.nodes.image.threshold import ThresholdNode
 from catena.core.nodes.image.warp import WarpNode
 from catena.core.nodes.math.add import AddNode
@@ -159,6 +161,16 @@ class ImageActions(object):
     def action_bevel_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=BevelNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_slope_blur_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=SlopeBlurNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_normalize_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=NormalizeNode(), x=coords.x(), y=coords.y())
 
 
 class XformActions(object):
