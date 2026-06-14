@@ -1,3 +1,16 @@
+"""
+# Session Data
+
+* Description:
+
+    Singleton container for runtime session state in Catena, such as the
+    currently opened project file, backed by a JSON file in roaming appdata.
+    Loaded on first access and persisted via ``save``. Emits
+    ``namespace.SESSION_DATA_UPDATED`` whenever session data is saved, so
+    other parts of the application can react to changes without needing a
+    direct reference to this singleton.
+"""
+
 from pathlib import Path
 from typing import Any
 from typing import Optional

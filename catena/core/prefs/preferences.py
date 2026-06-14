@@ -1,3 +1,16 @@
+"""
+# Preferences
+
+* Description:
+
+    Singleton preferences container for Catena, backed by a JSON file in
+    roaming appdata. Holds general, node graph, and layout preference
+    dataclasses, loading them from disk on first access and persisting
+    changes via ``save``. Emits ``namespace.PREFERENCES_UPDATED`` whenever
+    preferences are saved, so other parts of the application can react to
+    changes without needing a direct reference to this singleton.
+"""
+
 from typing import Any
 from typing import Optional
 from dataclasses import asdict
