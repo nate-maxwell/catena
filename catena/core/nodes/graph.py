@@ -123,16 +123,16 @@ class CatenaGraphView(GraphView):
 
     def _register_math_nodes(self) -> None:
         self.register_node("Math", AddNode)
+        self.register_node("Math", ArctangentNode)
+        self.register_node("Math", CosineNode)
         self.register_node("Math", DivideNode)
         self.register_node("Math", MaxNode)
         self.register_node("Math", MinNode)
         self.register_node("Math", MultiplyNode)
         self.register_node("Math", ScreenNode)
         self.register_node("Math", SinNode)
-        self.register_node("Math", CosineNode)
-        self.register_node("Math", TangentNode)
-        self.register_node("Math", ArctangentNode)
         self.register_node("Math", SubtractNode)
+        self.register_node("Math", TangentNode)
 
     def _register_misc_nodes(self) -> None:
         self.register_node("Misc", RerouteNode)
