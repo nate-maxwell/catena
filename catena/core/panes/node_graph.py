@@ -34,7 +34,7 @@ class NodeGraphPane(DockablePane):
         self.graph_view.clear()
         sd = session.SessionData()
         sd.project_file = Path.home() / "Unsaved.cg"
-        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
+        broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def save_graph(self) -> None:
         sd = session.SessionData()
@@ -52,7 +52,7 @@ class NodeGraphPane(DockablePane):
         sd.save()
 
         Nodes.save(self.graph_view, sd.project_file)
-        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
+        broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def load_previous_graph(self) -> None:
         """Load the last saved graph."""
@@ -61,7 +61,7 @@ class NodeGraphPane(DockablePane):
             return
 
         Nodes.load(self.graph_view, sd.project_file)
-        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
+        broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def load_graph(self) -> None:
         """Prompt the user for a .cat file and load the selected graph."""
@@ -75,14 +75,15 @@ class NodeGraphPane(DockablePane):
         sd.save()
 
         Nodes.load(self.graph_view, sd.project_file)
-        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
+        broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def _create_subscriptions(self) -> None:
-        broker.register_subscriber(namespace.CLIENT_SAVE, self.save_graph)
-        broker.register_subscriber(namespace.CLIENT_SAVE_AS, self.save_graph_as)
-        broker.register_subscriber(namespace.CLIENT_LOAD, self.load_graph)
-        broker.register_subscriber(namespace.CLIENT_UNDO, self.graph_view.commands.undo)
-        broker.register_subscriber(namespace.CLIENT_REDO, self.graph_view.commands.redo)
+        broker.register_subscriber(namespace.FILE_NEW, self.new_graph)
+        broker.register_subscriber(namespace.FILE_SAVE, self.save_graph)
+        broker.register_subscriber(namespace.FILE_SAVE_AS, self.save_graph_as)
+        broker.register_subscriber(namespace.FILE_LOAD, self.load_graph)
+        broker.register_subscriber(namespace.FILE_UNDO, self.graph_view.commands.undo)
+        broker.register_subscriber(namespace.FILE_REDO, self.graph_view.commands.redo)
 
     def _create_shortcuts(self) -> None:
         # Shortcut Manager

@@ -64,15 +64,15 @@ class ClientActions(object):
 
     @classmethod
     def action_save(cls) -> None:
-        broker.emit(namespace.CLIENT_SAVE)
+        broker.emit(namespace.FILE_SAVE)
 
     @classmethod
     def action_undo(cls) -> None:
-        broker.emit(namespace.CLIENT_UNDO)
+        broker.emit(namespace.FILE_UNDO)
 
     @classmethod
     def action_redo(cls) -> None:
-        broker.emit(namespace.CLIENT_REDO)
+        broker.emit(namespace.FILE_REDO)
 
     @classmethod
     def action_write_files(cls) -> None:

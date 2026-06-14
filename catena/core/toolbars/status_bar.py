@@ -19,9 +19,7 @@ class StatusBar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget) -> None:
         super().__init__("StatusBar", parent)
-        broker.register_subscriber(
-            namespace.CLIENT_FILE_CHANGED, self._update_file_name
-        )
+        broker.register_subscriber(namespace.FILE_CHANGED, self._update_file_name)
 
     def build(self) -> None:
         unsaved_path = Path(Path.home(), "Unsaved.cg")

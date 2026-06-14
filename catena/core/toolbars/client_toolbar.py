@@ -36,15 +36,15 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
 
     def _file_section(self) -> None:
         menu = self.add_menu("File")
-        self.add_menu_command(menu, "New File")
+        self.add_menu_command(menu, "New File", lambda: broker.emit(namespace.FILE_NEW))
         self.add_menu_command(
-            menu, "Open File", lambda: broker.emit(namespace.CLIENT_LOAD)
+            menu, "Open File", lambda: broker.emit(namespace.FILE_LOAD)
         )
         self.add_menu_command(
-            menu, "Save File", lambda: broker.emit(namespace.CLIENT_SAVE)
+            menu, "Save File", lambda: broker.emit(namespace.FILE_SAVE)
         )
         self.add_menu_command(
-            menu, "Save As", lambda: broker.emit(namespace.CLIENT_SAVE_AS)
+            menu, "Save As", lambda: broker.emit(namespace.FILE_SAVE_AS)
         )
         self.add_menu_command(menu, "Quit", QtWidgets.QApplication.quit)
 
@@ -52,8 +52,8 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
         manager = shortcuts.init_shortcut_manager(self.parent())
 
         menu = self.add_menu("Edit")
-        self.add_menu_command(menu, "Undo", lambda: broker.emit(namespace.CLIENT_UNDO))
-        self.add_menu_command(menu, "Redo", lambda: broker.emit(namespace.CLIENT_REDO))
+        self.add_menu_command(menu, "Undo", lambda: broker.emit(namespace.FILE_UNDO))
+        self.add_menu_command(menu, "Redo", lambda: broker.emit(namespace.FILE_REDO))
         self.add_menu_command(menu, "Shortcuts", manager.show_editor)
         self.add_menu_command(
             menu,
