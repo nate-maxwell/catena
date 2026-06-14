@@ -1,3 +1,4 @@
+from typing import Any
 from typing import Optional
 
 import broker
@@ -17,7 +18,9 @@ class CatenaNode(BaseNode):
     def __init__(self, title: str, width: int = 160, body_height: int = 40) -> None:
         super().__init__(title, width, body_height)
         self._is_active_preview: bool = False
-        broker.register_subscriber(namespace.NODE_FIELD_CHANGED, self._on_field_changed)
+
+        self._cached_value: Any = None
+        """The last evaluated value. Updates when field values change."""
 
     def add_port(self, port_type: str, name: str) -> Port:
         """
@@ -87,10 +90,17 @@ class CatenaNode(BaseNode):
         CatenaNode.active_preview_node = self
         broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
 
-    def _on_field_changed(self, node: "CatenaNode", name: str, value: object) -> None:
+    def _on_field_changed(self, node: "CatenaNode") -> None:
         # dead args are required to meet subscription signature
+        inputs = self.get_inputs()
+        self._cached_value = self.process(inputs)
+
         if node is self and CatenaNode.active_preview_node is self:
             broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+        elif CatenaNode.active_preview_node is not None:
+            broker.emit(
+                namespace.NODE_PREVIEW, image=CatenaNode.active_preview_node.evaluate()
+            )
 
     def set_field_value(self, name: str, value: object) -> None:
         """
@@ -101,7 +111,18 @@ class CatenaNode(BaseNode):
             value (object): The new value.
         """
         super().set_field_value(name, value)
-        broker.emit(namespace.NODE_FIELD_CHANGED, node=self, name=name, value=value)
+        self._invalidate_downstream()
+        self._on_field_changed(self)
+
+    def _invalidate_downstream(self) -> None:
+        """Clear the cached value of this node and everything downstream of it."""
+        self._cached_value = None
+
+        for port in self.output_ports():
+            for wire in port.wires:
+                target_node = wire.target.parentItem()
+                if isinstance(target_node, CatenaNode):
+                    target_node._invalidate_downstream()
 
     def get_inputs(self) -> dict[str, Optional[numpy.ndarray]]:
         """
@@ -133,8 +154,11 @@ class CatenaNode(BaseNode):
         Returns:
             numpy.ndarray | None: The processed output of this node.
         """
-        inputs = self.get_inputs()
-        return self.process(inputs)
+        if self._cached_value is None:
+            inputs = self.get_inputs()
+            self._cached_value = self.process(inputs)
+
+        return self._cached_value
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]

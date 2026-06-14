@@ -4,8 +4,6 @@
 NODE_SELECTED = "node.select.selected"
 NODE_PREVIEW = "node.select.preview"
 
-NODE_FIELD_CHANGED = "node.field.changed"
-
 NODE_WRITE_FILE = "node.write.write"
 
 # -----Client Events-----------------------------------------------------------
