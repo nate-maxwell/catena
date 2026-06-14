@@ -28,7 +28,7 @@ class CellsNode(CatenaNode):
                 field_type=FieldType.INT,
                 default=16,
                 min_value=2,
-                max_value=128,
+                max_value=1024,
             )
         )
         self.add_field(

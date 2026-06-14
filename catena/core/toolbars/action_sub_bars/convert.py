@@ -16,6 +16,11 @@ class ConvertToolbar(QtWrappers.Toolbar):
 
     def build(self) -> None:
         self.add_toolbar_command(
+            "H2AO",
+            command=lambda: actions.ConvertActions.action_h2ao_node(self.graph_view),
+            image_path=Resources.BUTTON_BLUE_40X40,
+        )
+        self.add_toolbar_command(
             "H2N",
             command=lambda: actions.ConvertActions.action_h2m_node(self.graph_view),
             image_path=Resources.BUTTON_BLUE_40X40,

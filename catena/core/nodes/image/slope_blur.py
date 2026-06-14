@@ -71,6 +71,10 @@ class SlopeBlurNode(CatenaNode):
 
         gy, gx = numpy.gradient(slope_gray)
 
+        grad_max = max(numpy.abs(gx).max(), numpy.abs(gy).max(), 1e-6)
+        gx = gx / grad_max
+        gy = gy / grad_max
+
         y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
 
         accum = numpy.zeros_like(image, dtype=numpy.float32)

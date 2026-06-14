@@ -5,6 +5,7 @@ from PySide6TK.Nodes import GraphView, Port, Wire
 from catena.core import namespace
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.comment import CatenaCommentBox
+from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
@@ -112,8 +113,8 @@ class CatenaGraphView(GraphView):
     def _register_image_nodes(self) -> None:
         self.register_node("Image", BevelNode)
         self.register_node("Image", BlurNode)
-        self.register_node("Image", ContrastNode)
         self.register_node("Image", ColorNode)
+        self.register_node("Image", ContrastNode)
         self.register_node("Image", HSVNode)
         self.register_node("Image", InvertNode)
         self.register_node("Image", LevelsNode)
@@ -160,4 +161,5 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", WhiteNoiseNode)
 
     def _register_convert_nodes(self) -> None:
+        self.register_node("Convert", HeightToAONode)
         self.register_node("Convert", HeightToNormalNode)

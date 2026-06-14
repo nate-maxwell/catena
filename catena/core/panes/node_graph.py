@@ -42,8 +42,10 @@ class NodeGraphPane(DockablePane):
 
     def save_graph_as(self) -> None:
         file_path = file.save_file_dialog(self)
-        if file_path is None or not file_path.exists():
+        if file_path is None:
             return
+
+        file_path.parent.mkdir(exist_ok=True, parents=True)
 
         sd = session.SessionData()
         sd.project_file = Path(file_path)

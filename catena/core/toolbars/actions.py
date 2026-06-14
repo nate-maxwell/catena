@@ -11,6 +11,7 @@ need to be invoked independent of the shelves.
 import broker
 
 from catena.core import namespace
+from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.core.nodes.create.outro import OutroNode
 from catena.core.nodes.create.read import ReadNode
@@ -76,6 +77,19 @@ class ClientActions(object):
     @classmethod
     def action_write_files(cls) -> None:
         broker.emit(namespace.NODE_WRITE_FILE)
+
+
+class ConvertActions(object):
+
+    @classmethod
+    def action_h2m_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=HeightToNormalNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_h2ao_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=HeightToAONode(), x=coords.x(), y=coords.y())
 
 
 class CreateActions(object):
@@ -311,11 +325,3 @@ class GeneratorActions(object):
     def action_crystal_noise_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CrystalNoiseNode(), x=coords.x(), y=coords.y())
-
-
-class ConvertActions(object):
-
-    @classmethod
-    def action_h2m_node(cls, graph_view: CatenaGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=HeightToNormalNode(), x=coords.x(), y=coords.y())
