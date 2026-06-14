@@ -6,14 +6,14 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 from catena.core import resources
-from catena.core import shortcuts
-from catena.core.prefs import preferences
 from catena.core import session
+from catena.core import shortcuts
 from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
 from catena.core.panes.resize import split_vertical
 from catena.core.panes.viewport.viewport_pane import ViewportPane
+from catena.core.prefs import preferences
 from catena.core.toolbars.actions_toolbar import EditorActionToolbar
 from catena.core.toolbars.client_toolbar import ClientWindowToolbar
 from catena.core.toolbars.status_bar import StatusBar

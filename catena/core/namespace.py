@@ -14,6 +14,7 @@ CLIENT_SAVE_AS = "client.file.save_as"
 CLIENT_LOAD = "client.file.load"
 CLIENT_UNDO = "client.file.undo"
 CLIENT_REDO = "client.file.redo"
+CLIENT_FILE_CHANGED = "client.file.changed"
 
 PREFERENCES_UPDATED = "prefs.updated"
 SESSION_DATA_UPDATED = "session.updated"

@@ -30,6 +30,12 @@ class NodeGraphPane(DockablePane):
     def create_layouts(self) -> None:
         self.content_layout.addWidget(self.graph_view)
 
+    def new_graph(self) -> None:
+        self.graph_view.clear()
+        sd = session.SessionData()
+        sd.project_file = Path.home() / "Unsaved.cg"
+        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
+
     def save_graph(self) -> None:
         sd = session.SessionData()
         Nodes.save(self.graph_view, sd.project_file)
@@ -44,6 +50,7 @@ class NodeGraphPane(DockablePane):
         sd.save()
 
         Nodes.save(self.graph_view, sd.project_file)
+        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
 
     def load_previous_graph(self) -> None:
         """Load the last saved graph."""
@@ -52,6 +59,7 @@ class NodeGraphPane(DockablePane):
             return
 
         Nodes.load(self.graph_view, sd.project_file)
+        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
 
     def load_graph(self) -> None:
         """Prompt the user for a .cat file and load the selected graph."""
@@ -65,6 +73,7 @@ class NodeGraphPane(DockablePane):
         sd.save()
 
         Nodes.load(self.graph_view, sd.project_file)
+        broker.emit(namespace.CLIENT_FILE_CHANGED, file_path=sd.project_file)
 
     def _create_subscriptions(self) -> None:
         broker.register_subscriber(namespace.CLIENT_SAVE, self.save_graph)
@@ -82,13 +91,40 @@ class NodeGraphPane(DockablePane):
         undo_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Undo).toString()
         copy_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Copy).toString()
         paste_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Paste).toString()
+        new_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.New).toString()
+        save_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Save).toString()
+        save_as_seq = QtGui.QKeySequence(
+            QtGui.QKeySequence.StandardKey.SaveAs
+        ).toString()
+        open_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Open).toString()
 
         # Add shortcuts
         scm.add_shortcut(
+            action_name="New",
+            key_sequence=new_seq,
+            callback=self.new_graph,
+            description="Start a new graph.",
+            category="File",
+        )
+        scm.add_shortcut(
             action_name="Save",
-            key_sequence="Ctrl+S",
+            key_sequence=save_seq,
             callback=self.save_graph,
-            description="Save current project.",
+            description="Save current file.",
+            category="File",
+        )
+        scm.add_shortcut(
+            action_name="Save As",
+            key_sequence=save_as_seq,
+            callback=self.save_graph_as,
+            description="Save current file as.",
+            category="File",
+        )
+        scm.add_shortcut(
+            action_name="Open",
+            key_sequence=open_seq,
+            callback=self.load_graph,
+            description="Open a file.",
             category="File",
         )
 
