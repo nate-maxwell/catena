@@ -77,7 +77,7 @@ class BevelNode(CatenaNode):
 
         signed_dist = (dist_inside - dist_outside) * depth
 
-        height_field = numpy.clip(signed_dist / distance, -1.0, 1.0)
+        height_field = numpy.tanh(signed_dist / distance)
         height_field = (height_field + 1.0) * 0.5
 
         gy, gx = numpy.gradient(height_field)
