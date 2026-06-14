@@ -55,3 +55,18 @@ class MathToolbar(QtWrappers.Toolbar):
             command=lambda: actions.MathActions.action_sin_node(self.graph_view),
             image_path=Resources.BUTTON_CYAN_40X40,
         )
+        self.add_toolbar_command(
+            "Cosin",
+            command=lambda: actions.MathActions.action_cosin_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
+        )
+        self.add_toolbar_command(
+            "Tan",
+            command=lambda: actions.MathActions.action_tan_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
+        )
+        self.add_toolbar_command(
+            "Arctan",
+            command=lambda: actions.MathActions.action_arctan_node(self.graph_view),
+            image_path=Resources.BUTTON_CYAN_40X40,
+        )

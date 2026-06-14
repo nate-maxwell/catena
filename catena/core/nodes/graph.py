@@ -34,6 +34,9 @@ from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
 from catena.core.nodes.math.min import MinNode
 from catena.core.nodes.math.sin import SinNode
+from catena.core.nodes.math.cosin import CosineNode
+from catena.core.nodes.math.tan import TangentNode
+from catena.core.nodes.math.arctan import ArctangentNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
@@ -126,6 +129,9 @@ class CatenaGraphView(GraphView):
         self.register_node("Math", MultiplyNode)
         self.register_node("Math", ScreenNode)
         self.register_node("Math", SinNode)
+        self.register_node("Math", CosineNode)
+        self.register_node("Math", TangentNode)
+        self.register_node("Math", ArctangentNode)
         self.register_node("Math", SubtractNode)
 
     def _register_misc_nodes(self) -> None:

@@ -41,6 +41,9 @@ from catena.core.nodes.math.divide import DivideNode
 from catena.core.nodes.math.max import MaxNode
 from catena.core.nodes.math.min import MinNode
 from catena.core.nodes.math.sin import SinNode
+from catena.core.nodes.math.cosin import CosineNode
+from catena.core.nodes.math.tan import TangentNode
+from catena.core.nodes.math.arctan import ArctangentNode
 from catena.core.nodes.math.multiply import MultiplyNode
 from catena.core.nodes.math.screen import ScreenNode
 from catena.core.nodes.math.subtract import SubtractNode
@@ -219,6 +222,21 @@ class MathActions(object):
     def action_sin_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=SinNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_cosin_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=CosineNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_tan_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=TangentNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_arctan_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=ArctangentNode(), x=coords.x(), y=coords.y())
 
 
 class GeneratorActions(object):
