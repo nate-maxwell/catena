@@ -2,12 +2,11 @@ from pathlib import Path
 
 _resources_dir = Path(__file__).parent
 
-# Client
+# -----Client------------------------------------------------------------------
 
 ICON_CATENA = _resources_dir / "ICON_Catena.png"
 
-
-# Texture
+# -----Texture-----------------------------------------------------------------
 
 TEXTURE_DIR = _resources_dir / "texture"
 
@@ -22,7 +21,7 @@ TEX_UV_GRID = TEXTURE_DIR / "T_UV_Grid.png"
 
 HDR_DEFAULT = TEXTURE_DIR / "HDR_Sunny_Rose_Garden_2k.hdr"
 
-# Geometry
+# -----Geometry----------------------------------------------------------------
 
 GEO_DIR = _resources_dir / "geo"
 
