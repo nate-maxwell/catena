@@ -1,22 +1,27 @@
 import broker
 from PySide6TK import QtWidgets
-from PySide6TK.Nodes import GraphView, Port, Wire
+from PySide6TK.Nodes import GraphView
+from PySide6TK.Nodes import Port
+from PySide6TK.Nodes import Wire
 
 from catena.core import namespace
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.comment import CatenaCommentBox
 from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
-from catena.core.nodes.create.outro import OutroNode
-from catena.core.nodes.create.read import ReadNode
-from catena.core.nodes.create.start import StartNode
-from catena.core.nodes.create.transition import TransitionNode
-from catena.core.nodes.create.write import WriteNode
+from catena.core.nodes.file.read import ReadNode
+from catena.core.nodes.file.write import WriteNode
+from catena.core.nodes.file.write_albedo import AlbedoNode
+from catena.core.nodes.file.write_ambient_occlusion import AONode
+from catena.core.nodes.file.write_height import HeightNode
+from catena.core.nodes.file.write_metallic import MetallicNode
+from catena.core.nodes.file.write_normal import NormalNode
+from catena.core.nodes.file.write_roughness import RoughnessNode
 from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
-from catena.core.nodes.generator.crystal_noise import CrystalNoiseNode
+from catena.core.nodes.generator.voronoi_noise import VoronoiNoiseNode
 from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generator.polygon import PolygonNode
@@ -81,12 +86,51 @@ class CatenaGraphView(GraphView):
 
     def connect_ports_internal(self, source: Port, target: Port) -> Wire:
         wire = super().connect_ports_internal(source, target)
+
+        self._invalidate_and_refresh_from_port(target)
         self._refresh_active_preview()
+
         return wire
 
     def destroy_wire(self, wire: Wire) -> None:
+        target = wire.target
+
         super().destroy_wire(wire)
+
+        if target is not None:
+            self._invalidate_and_refresh_from_port(target)
+
         self._refresh_active_preview()
+
+    @staticmethod
+    def _invalidate_and_refresh_from_port(port: Port) -> None:
+        node = port.parentItem()
+        if not isinstance(node, CatenaNode):
+            return
+
+        node._invalidate_downstream()
+        node._refresh_downstream_write_nodes()
+
+    @staticmethod
+    def _refresh_downstream_write_nodes(node: CatenaNode) -> None:
+        visited: set[CatenaNode] = set()
+        stack: list[CatenaNode] = [node]
+
+        while stack:
+            current = stack.pop()
+            if current in visited:
+                continue
+
+            visited.add(current)
+
+            if isinstance(current, WriteNode):
+                current._emit_preview_update()
+
+            for output_port in current.output_ports():
+                for wire in output_port.wires:
+                    target_node = wire.target.parentItem()
+                    if isinstance(target_node, CatenaNode):
+                        stack.append(target_node)
 
     @staticmethod
     def _refresh_active_preview() -> None:
@@ -104,11 +148,13 @@ class CatenaGraphView(GraphView):
         self._register_generator_nodes()
 
     def _register_create_nodes(self) -> None:
-        self.register_node("Create", OutroNode)
         self.register_node("Create", ReadNode)
-        self.register_node("Create", StartNode)
-        self.register_node("Create", TransitionNode)
-        self.register_node("Create", WriteNode)
+        self.register_node("Create", AlbedoNode)
+        self.register_node("Create", AONode)
+        self.register_node("Create", HeightNode)
+        self.register_node("Create", MetallicNode)
+        self.register_node("Create", NormalNode)
+        self.register_node("Create", RoughnessNode)
 
     def _register_image_nodes(self) -> None:
         self.register_node("Image", BevelNode)
@@ -153,7 +199,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", BNWSpotsNode)
         self.register_node("Generator", CellsNode)
         self.register_node("Generator", CloudsNode)
-        self.register_node("Generator", CrystalNoiseNode)
+        self.register_node("Generator", VoronoiNoiseNode)
         self.register_node("Generator", GradientNode)
         self.register_node("Generator", PerlinNoiseNode)
         self.register_node("Generator", PolygonNode)

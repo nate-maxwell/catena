@@ -64,10 +64,17 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
     def _view_section(self) -> None:
         menu = self.add_menu("View")
         self.add_menu_command(
-            menu, "Viewport", self._editor.pane_viewport.toggle_visibility
+            menu,
+            "Texture Viewport",
+            self._editor.pane_texture_viewport.toggle_visibility,
         )
         self.add_menu_command(
-            menu, "Node Graph", self._editor.pane_graph.toggle_visibility
+            menu,
+            "Object Viewport",
+            self._editor.pane_object_viewport.toggle_visibility,
+        )
+        self.add_menu_command(
+            menu, "Node Graph", self._editor.pane_node_graph.toggle_visibility
         )
         self.add_menu_command(
             menu,

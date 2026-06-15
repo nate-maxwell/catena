@@ -80,8 +80,17 @@ class BevelNode(CatenaNode):
 
         mask = (gray > 0.5).astype(numpy.uint8) * 255
 
-        dist_inside = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
-        dist_outside = cv2.distanceTransform(255 - mask, cv2.DIST_L2, 5)
+        corner_radius = max(1, int(distance * 0.6))
+        kernel_size = corner_radius * 2 + 1
+        kernel = cv2.getStructuringElement(
+            cv2.MORPH_ELLIPSE, (kernel_size, kernel_size)
+        )
+
+        mask_rounded = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
+        mask_rounded = cv2.morphologyEx(mask_rounded, cv2.MORPH_CLOSE, kernel)
+
+        dist_inside = cv2.distanceTransform(mask_rounded, cv2.DIST_L2, 5)
+        dist_outside = cv2.distanceTransform(255 - mask_rounded, cv2.DIST_L2, 5)
 
         signed_dist = (dist_inside - dist_outside) * depth
 
@@ -108,4 +117,5 @@ class BevelNode(CatenaNode):
 
         shaded = lighting.astype(numpy.float32)
         result = numpy.repeat(shaded[:, :, None], 3, axis=2).astype(numpy.float32)
+
         return result

@@ -6,6 +6,9 @@ NODE_PREVIEW = "node.select.preview"
 
 NODE_WRITE_FILE = "node.write.write"
 
+# -----Model Viewport Events---------------------------------------------------
+MODEL_UPDATED_TEXTURE = "model.update.texture"
+
 # -----Client Events-----------------------------------------------------------
 FILE_NEW = "client.file.new"
 FILE_SAVE = "client.file.save"

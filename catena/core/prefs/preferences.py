@@ -60,7 +60,7 @@ class Preferences(object):
         self.node_graph_preferences = NodeGraphPreferences()
         self.layout_preferences = LayoutPreferences()
 
-        # First-time load from disk (if present), else create defaults
+        # First-time load from disk (if present), else file defaults
         if appdata.CATENA_PREFERENCES_PATH.exists():
             self.load()
         else:

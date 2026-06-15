@@ -54,6 +54,16 @@ class CatenaNode(BaseNode):
 
         return port
 
+    def on_input_connection_changed(self, port: Port) -> None:
+        """
+        Called when a wire connecting to one of this node's input ports
+        is created or destroyed.
+
+        Args:
+            port (Port): The input port whose connection changed.
+        """
+        pass
+
     def _resize_to_fit_ports(self) -> None:
         """Recompute body_height to fit all ports if not explicitly fixed."""
         input_count = sum(1 for p in self._ports if p.port_type == PortType.INPUT)
@@ -73,7 +83,7 @@ class CatenaNode(BaseNode):
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         """
         Called when the node is double-clicked. Opens the properties panel
-        and sends this node's evaluated image to the viewport.
+        and sends this node's evaluated image to the tex_viewer.
 
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
@@ -113,6 +123,7 @@ class CatenaNode(BaseNode):
         super().set_field_value(name, value)
         self._invalidate_downstream()
         self._on_field_changed(self)
+        self._refresh_downstream_write_nodes()
 
     def _invalidate_downstream(self) -> None:
         """Clear the cached value of this node and everything downstream of it."""
@@ -123,6 +134,32 @@ class CatenaNode(BaseNode):
                 target_node = wire.target.parentItem()
                 if isinstance(target_node, CatenaNode):
                     target_node._invalidate_downstream()
+
+    def _refresh_downstream_write_nodes(self) -> None:
+        """
+        Refresh write nodes downstream of this node.
+
+        This intentionally does not import WriteNode to avoid a circular import.
+        Write nodes expose _emit_preview_update(), so use that as the refresh hook.
+        """
+        visited: set[CatenaNode] = set()
+        stack: list[CatenaNode] = [self]
+
+        while stack:
+            current = stack.pop()
+            if current in visited:
+                continue
+
+            visited.add(current)
+
+            if hasattr(current, "_emit_preview_update"):
+                current._emit_preview_update()
+
+            for output_port in current.output_ports():
+                for wire in output_port.wires:
+                    target_node = wire.target.parentItem()
+                    if isinstance(target_node, CatenaNode):
+                        stack.append(target_node)
 
     def get_inputs(self) -> dict[str, Optional[numpy.ndarray]]:
         """

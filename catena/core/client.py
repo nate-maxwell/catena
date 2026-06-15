@@ -12,13 +12,14 @@ from catena.core.panes.node_graph import NodeGraphPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
 from catena.core.panes.resize import split_vertical
-from catena.core.panes.viewport.viewport_pane import ViewportPane
+from catena.core.panes.tex_viewer.tex_viewport_pane import TexViewportPane
+from catena.core.panes.obj_viewer.obj_viewport_pane import ObjViewportPane
 from catena.core.prefs import preferences
 from catena.core.toolbars.actions_toolbar import EditorActionToolbar
 from catena.core.toolbars.client_toolbar import ClientWindowToolbar
 from catena.core.toolbars.status_bar import StatusBar
 
-WINDOW_STATE_VERSION = 1
+WINDOW_STATE_VERSION = 8
 """
 A version number representing the initial pane structure.
 This should be incremented whenever a new pane is added to the default layout.
@@ -51,30 +52,39 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._create_layouts()
         self._initialize_shortcut_manager()
         self._restore_window_state()
-        self.pane_graph.load_previous_graph()
+        self.pane_node_graph.load_previous_graph()
 
     def _create_widgets(self) -> None:
-        self.pane_graph = NodeGraphPane(self)
+        self.pane_object_viewport = ObjViewportPane(self)
+        self.pane_texture_viewport = TexViewportPane(self)
+        self.pane_node_graph = NodeGraphPane(self)
         self.pane_properties = PropertiesPane(self)
-        self.pane_viewport = ViewportPane(self)
 
         self.shortcut_toolbar = ClientWindowToolbar(self)
-        self.editor_toolbar = EditorActionToolbar(self, self.pane_graph.graph_view)
+        self.editor_toolbar = EditorActionToolbar(self, self.pane_node_graph.graph_view)
         self.status_bar = StatusBar(self)
 
     def _create_layouts(self) -> None:
         self.splitDockWidget(
-            self.pane_viewport,
-            self.pane_graph,
+            self.pane_object_viewport,
+            self.pane_node_graph,
             QtCore.Qt.Orientation.Horizontal,
         )
         self.splitDockWidget(
-            self.pane_properties,
-            self.pane_graph,
+            self.pane_object_viewport,
+            self.pane_texture_viewport,
             QtCore.Qt.Orientation.Vertical,
         )
+        self.splitDockWidget(
+            self.pane_node_graph,
+            self.pane_properties,
+            QtCore.Qt.Orientation.Horizontal,
+        )
 
-        self.split_vertical(self.pane_properties, self.pane_graph, 0.25)
+        self.split_horizontal(self.pane_node_graph, self.pane_properties, 0.75)
+        self.split_vertical(self.pane_object_viewport, self.pane_node_graph, 0.5)
+        self.split_vertical(self.pane_object_viewport, self.pane_texture_viewport, 0.5)
+
         self.addToolBar(self.shortcut_toolbar)
         self.addToolBarBreak()
         self.addToolBar(self.editor_toolbar)
@@ -85,8 +95,8 @@ class CatenaEditor(QtWrappers.MainWindow):
 
     def _restore_window_state(self) -> None:
         settings = QtCore.QSettings(org, app)
-        state = settings.value(win_state)
 
+        state = settings.value(win_state)
         if state is not None:
             self.restoreState(state, WINDOW_STATE_VERSION)
 

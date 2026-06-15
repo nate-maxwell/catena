@@ -12,6 +12,7 @@ from catena.core.panes.pane import PaneConfig
 from catena.core import file
 from catena.core import namespace
 from catena.core import session
+from catena.core.nodes.file.write import WriteNode
 
 
 class NodeGraphPane(DockablePane):
@@ -61,6 +62,7 @@ class NodeGraphPane(DockablePane):
             return
 
         Nodes.load(self.graph_view, sd.project_file)
+        QtCore.QTimer.singleShot(0, self._update_preview_from_load)
         broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def load_graph(self) -> None:
@@ -75,7 +77,13 @@ class NodeGraphPane(DockablePane):
         sd.save()
 
         Nodes.load(self.graph_view, sd.project_file)
+        QtCore.QTimer.singleShot(0, self._update_preview_from_load)
         broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
+
+    def _update_preview_from_load(self) -> None:
+        for node in self.graph_view._node_refs:
+            if isinstance(node, WriteNode):
+                node._emit_preview_update()
 
     def _create_subscriptions(self) -> None:
         broker.register_subscriber(namespace.FILE_NEW, self.new_graph)

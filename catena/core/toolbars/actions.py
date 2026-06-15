@@ -1,7 +1,7 @@
 """
 Action functions for the action toolbar buttons.
 
-These are primarily ways to create various nodes or manage the currently
+These are primarily ways to file various nodes or manage the currently
 opened file.
 
 Actions are kept here instead of with corresponding shelves in case they ever
@@ -13,16 +13,18 @@ import broker
 from catena.core import namespace
 from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
-from catena.core.nodes.create.outro import OutroNode
-from catena.core.nodes.create.read import ReadNode
-from catena.core.nodes.create.start import StartNode
-from catena.core.nodes.create.transition import TransitionNode
-from catena.core.nodes.create.write import WriteNode
+from catena.core.nodes.file.read import ReadNode
+from catena.core.nodes.file.write_albedo import AlbedoNode
+from catena.core.nodes.file.write_ambient_occlusion import AONode
+from catena.core.nodes.file.write_height import HeightNode
+from catena.core.nodes.file.write_metallic import MetallicNode
+from catena.core.nodes.file.write_normal import NormalNode
+from catena.core.nodes.file.write_roughness import RoughnessNode
 from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
 from catena.core.nodes.generator.clouds import CloudsNode
-from catena.core.nodes.generator.crystal_noise import CrystalNoiseNode
+from catena.core.nodes.generator.voronoi_noise import VoronoiNoiseNode
 from catena.core.nodes.generator.gradient import GradientNode
 from catena.core.nodes.generator.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generator.polygon import PolygonNode
@@ -100,24 +102,34 @@ class CreateActions(object):
         graph_view.add_node(node=ReadNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_start_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_albedo_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=StartNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=AlbedoNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_trans_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_ao_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=TransitionNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=AONode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_outro_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_height_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=OutroNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=HeightNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_write_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_metallic_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=WriteNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=MetallicNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_normal_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=NormalNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_roughness_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=RoughnessNode(), x=coords.x(), y=coords.y())
 
 
 class ImageActions(object):
@@ -324,4 +336,4 @@ class GeneratorActions(object):
     @classmethod
     def action_crystal_noise_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=CrystalNoiseNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=VoronoiNoiseNode(), x=coords.x(), y=coords.y())
