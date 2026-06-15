@@ -24,7 +24,7 @@ class CreateToolbar(QtWrappers.Toolbar):
         self.add_toolbar_separator(12)
 
         self.add_toolbar_command(
-            "Albedo",
+            "Write\nAlbedo",
             command=lambda: actions.CreateActions.action_albedo_node(self.graph_view),
             image_path=Resources.BUTTON_RED_40X40,
         )
