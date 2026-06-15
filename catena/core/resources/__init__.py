@@ -2,23 +2,27 @@ from pathlib import Path
 
 _resources_dir = Path(__file__).parent
 
+# Client
+
 ICON_CATENA = _resources_dir / "ICON_Catena.png"
 
-PIC_EXAMPLE_BOARD = _resources_dir / "PIC_Example_Board.jpg"
 
-OBJ_SHADER_BALL = _resources_dir / "shaderBall.obj"
+# Texture
 
-# Default Shader
-SHD_DEFAULT_AO = _resources_dir / "T_Default_AO.png"
-SHD_DEFAULT_BC = _resources_dir / "T_Default_BC.png"
-SHD_DEFAULT_H = _resources_dir / "T_Default_H.png"
-SHD_DEFAULT_M = _resources_dir / "T_Default_M.png"
-SHD_DEFAULT_N = _resources_dir / "T_Default_N.png"
-SHD_DEFAULT_R = _resources_dir / "T_Default_R.png"
+TEXTURE_DIR = _resources_dir / "texture"
 
-# SHD_DEFAULT_AO = _resources_dir / "T_Wood_AO.jpg"
-# SHD_DEFAULT_BC = _resources_dir / "T_Wood_BC.jpg"
-# SHD_DEFAULT_H = _resources_dir / "T_Wood_H.jpg"
-# SHD_DEFAULT_M = _resources_dir / "T_Wood_M.jpg"
-# SHD_DEFAULT_N = _resources_dir / "T_Wood_N.jpg"
-# SHD_DEFAULT_R = _resources_dir / "T_Wood_R.jpg"
+SHD_DEFAULT_AO = TEXTURE_DIR / "T_Default_AO.png"
+SHD_DEFAULT_BC = TEXTURE_DIR / "T_Default_BC.png"
+SHD_DEFAULT_H = TEXTURE_DIR / "T_Default_H.png"
+SHD_DEFAULT_M = TEXTURE_DIR / "T_Default_M.png"
+SHD_DEFAULT_N = TEXTURE_DIR / "T_Default_N.png"
+SHD_DEFAULT_R = TEXTURE_DIR / "T_Default_R.png"
+
+# Geometry
+
+GEO_DIR = _resources_dir / "geo"
+
+GEO_SHADER_BALL = _resources_dir / "shaderBall.obj"
+GEO_CUBE = _resources_dir / "SM_Cube.obj"
+GEO_CYLINDER = _resources_dir / "SM_Cylinder.obj"
+GEO_PLANE = _resources_dir / "SM_Plane.obj"
