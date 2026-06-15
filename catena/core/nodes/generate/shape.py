@@ -6,20 +6,17 @@ from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
 from PySide6TK.Nodes.node import PortType
 
-from catena.core.nodes.base import CatenaNode
-from catena.core.nodes.generator import IMAGE_NODE_COLOR
+from catena.core.nodes.generate.generator import GeneratorNode
 
 _SHAPES = ["Square", "Circle", "Paraboloid", "Bell", "Gaussian", "Thorn", "Pyramid"]
 _GENERATOR = Callable[[numpy.ndarray, numpy.ndarray, float], numpy.ndarray]
 
 
-class ShapeNode(CatenaNode):
+class ShapeNode(GeneratorNode):
     """A node that generates a parametric shape mask."""
 
-    _COLOR_HEADER = IMAGE_NODE_COLOR
-
     def __init__(self) -> None:
-        super().__init__(title="Shape", body_height=80)
+        super().__init__(title="Shape")
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")

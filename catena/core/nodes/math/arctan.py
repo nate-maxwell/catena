@@ -10,7 +10,7 @@ from catena.core.nodes.math import IMAGE_NODE_COLOR
 
 
 class ArctangentNode(CatenaNode):
-    """A node that applies an arctangent remap, either as a generator or as a remap of an input."""
+    """A node that applies an arctangent remap, either as a generate or as a remap of an input."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

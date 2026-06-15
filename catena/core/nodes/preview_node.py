@@ -1,5 +1,5 @@
 from catena.core.nodes.base import CatenaNode
-from catena.core.nodes.generator import IMAGE_NODE_COLOR
+from catena.core.nodes.generate import IMAGE_NODE_COLOR
 
 
 class PreviewNode(CatenaNode):

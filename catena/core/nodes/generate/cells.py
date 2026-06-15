@@ -6,17 +6,14 @@ from PySide6TK.Nodes.node import FieldType
 from PySide6TK.Nodes.node import PortType
 from scipy.spatial import cKDTree
 
-from catena.core.nodes.base import CatenaNode
-from catena.core.nodes.generator import IMAGE_NODE_COLOR
+from catena.core.nodes.generate.generator import GeneratorNode
 
 
-class CellsNode(CatenaNode):
+class CellsNode(GeneratorNode):
     """A node that generates cellular (Worley) noise."""
 
-    _COLOR_HEADER = IMAGE_NODE_COLOR
-
     def __init__(self) -> None:
-        super().__init__(title="Cells", body_height=80)
+        super().__init__(title="Cells")
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")

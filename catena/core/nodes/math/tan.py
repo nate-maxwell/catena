@@ -10,7 +10,7 @@ from catena.core.nodes.math import IMAGE_NODE_COLOR
 
 
 class TangentNode(CatenaNode):
-    """A node that applies a tangent wave, either as a generator or as a remap of an input."""
+    """A node that applies a tangent wave, either as a generate or as a remap of an input."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

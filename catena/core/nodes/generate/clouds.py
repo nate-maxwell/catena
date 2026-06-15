@@ -5,8 +5,7 @@ from PySide6TK.Nodes.node import FieldDefinition
 from PySide6TK.Nodes.node import FieldType
 from PySide6TK.Nodes.node import PortType
 
-from catena.core.nodes.base import CatenaNode
-from catena.core.nodes.generator import IMAGE_NODE_COLOR
+from catena.core.nodes.generate.generator import GeneratorNode
 
 
 def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarray:
@@ -46,13 +45,11 @@ def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarr
     return result
 
 
-class CloudsNode(CatenaNode):
+class CloudsNode(GeneratorNode):
     """A node that generates soft cloud-like noise."""
 
-    _COLOR_HEADER = IMAGE_NODE_COLOR
-
     def __init__(self) -> None:
-        super().__init__(title="Clouds", body_height=80)
+        super().__init__(title="Clouds")
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")
