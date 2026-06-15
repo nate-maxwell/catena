@@ -47,9 +47,6 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._normal_texture: int = 0
         self._ao_texture: int = 0
         self._height_texture: int = 0
-        self._environment_blur_texture = texture.load_hdr_texture_blurred(
-            self._environment_path
-        )
         self._environment_strength: float = 1.0
 
         # viewport math values
