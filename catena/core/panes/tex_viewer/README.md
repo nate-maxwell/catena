@@ -1,4 +1,4 @@
-The viewport pane consists of several parts:
+The texture viewport pane consists of several parts:
 
 - Viewport Pane - The pane itself
 - Image View - The canvas that displays the current image.
