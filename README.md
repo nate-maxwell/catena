@@ -1,6 +1,5 @@
 # Catena
-A hobby application for managing storyboards or the progression state between
-scenes using images.
+A hobby node-based texture generation application.
 
 Extremely work-in-progress
 
