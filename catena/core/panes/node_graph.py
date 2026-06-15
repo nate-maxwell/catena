@@ -66,7 +66,7 @@ class NodeGraphPane(DockablePane):
         broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def load_graph(self) -> None:
-        """Prompt the user for a .cat file and load the selected graph."""
+        """Prompt the user for a catena graph file and load the selected graph."""
         sd = session.SessionData()
 
         to_load = file.open_file_dialog(self)
