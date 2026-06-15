@@ -22,7 +22,7 @@ SHD_DEFAULT_R = TEXTURE_DIR / "T_Default_R.png"
 
 GEO_DIR = _resources_dir / "geo"
 
-GEO_SHADER_BALL = _resources_dir / "shaderBall.obj"
-GEO_CUBE = _resources_dir / "SM_Cube.obj"
-GEO_CYLINDER = _resources_dir / "SM_Cylinder.obj"
-GEO_PLANE = _resources_dir / "SM_Plane.obj"
+GEO_SHADER_BALL = GEO_DIR / "shaderBall.obj"
+GEO_CUBE = GEO_DIR / "SM_Cube.obj"
+GEO_CYLINDER = GEO_DIR / "SM_Cylinder.obj"
+GEO_PLANE = GEO_DIR / "SM_Plane.obj"
