@@ -10,6 +10,7 @@ from catena.core.nodes.comment import CatenaCommentBox
 from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.core.nodes.file.read import ReadNode
+from catena.core.nodes.file.write import WriteNode
 from catena.core.nodes.file.write_albedo import AlbedoNode
 from catena.core.nodes.file.write_ambient_occlusion import AONode
 from catena.core.nodes.file.write_height import HeightNode
@@ -85,20 +86,51 @@ class CatenaGraphView(GraphView):
 
     def connect_ports_internal(self, source: Port, target: Port) -> Wire:
         wire = super().connect_ports_internal(source, target)
+
+        self._invalidate_and_refresh_from_port(target)
         self._refresh_active_preview()
-        self._refresh_write_previews()
 
         return wire
 
     def destroy_wire(self, wire: Wire) -> None:
-        super().destroy_wire(wire)
-        self._refresh_active_preview()
-        self._refresh_write_previews()
+        target = wire.target
 
-    def _refresh_write_previews(self) -> None:
-        for node in self._node_refs:
-            if hasattr(node, "_emit_preview_update"):
-                node._emit_preview_update()
+        super().destroy_wire(wire)
+
+        if target is not None:
+            self._invalidate_and_refresh_from_port(target)
+
+        self._refresh_active_preview()
+
+    @staticmethod
+    def _invalidate_and_refresh_from_port(port: Port) -> None:
+        node = port.parentItem()
+        if not isinstance(node, CatenaNode):
+            return
+
+        node._invalidate_downstream()
+        node._refresh_downstream_write_nodes()
+
+    @staticmethod
+    def _refresh_downstream_write_nodes(node: CatenaNode) -> None:
+        visited: set[CatenaNode] = set()
+        stack: list[CatenaNode] = [node]
+
+        while stack:
+            current = stack.pop()
+            if current in visited:
+                continue
+
+            visited.add(current)
+
+            if isinstance(current, WriteNode):
+                current._emit_preview_update()
+
+            for output_port in current.output_ports():
+                for wire in output_port.wires:
+                    target_node = wire.target.parentItem()
+                    if isinstance(target_node, CatenaNode):
+                        stack.append(target_node)
 
     @staticmethod
     def _refresh_active_preview() -> None:

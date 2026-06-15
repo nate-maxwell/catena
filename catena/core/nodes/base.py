@@ -123,6 +123,7 @@ class CatenaNode(BaseNode):
         super().set_field_value(name, value)
         self._invalidate_downstream()
         self._on_field_changed(self)
+        self._refresh_downstream_write_nodes()
 
     def _invalidate_downstream(self) -> None:
         """Clear the cached value of this node and everything downstream of it."""
@@ -133,6 +134,32 @@ class CatenaNode(BaseNode):
                 target_node = wire.target.parentItem()
                 if isinstance(target_node, CatenaNode):
                     target_node._invalidate_downstream()
+
+    def _refresh_downstream_write_nodes(self) -> None:
+        """
+        Refresh write nodes downstream of this node.
+
+        This intentionally does not import WriteNode to avoid a circular import.
+        Write nodes expose _emit_preview_update(), so use that as the refresh hook.
+        """
+        visited: set[CatenaNode] = set()
+        stack: list[CatenaNode] = [self]
+
+        while stack:
+            current = stack.pop()
+            if current in visited:
+                continue
+
+            visited.add(current)
+
+            if hasattr(current, "_emit_preview_update"):
+                current._emit_preview_update()
+
+            for output_port in current.output_ports():
+                for wire in output_port.wires:
+                    target_node = wire.target.parentItem()
+                    if isinstance(target_node, CatenaNode):
+                        stack.append(target_node)
 
     def get_inputs(self) -> dict[str, Optional[numpy.ndarray]]:
         """

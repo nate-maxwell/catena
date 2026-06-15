@@ -1,5 +1,3 @@
-from enum import Enum
-from enum import auto
 from pathlib import Path
 from typing import Optional
 
@@ -12,9 +10,9 @@ from PySide6TK.Nodes.node import Port
 from PySide6TK.Nodes.node import PortType
 
 from catena.core import namespace
+from catena.core import texture
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.file import IMAGE_NODE_COLOR
-from catena.core import texture
 
 _EXTENSIONS = {
     "PNG": ".png",
@@ -43,8 +41,6 @@ class WriteNode(CatenaNode):
         super().__init__(title, width, body_height)
         self._texture_type = texture_type
         broker.register_subscriber(namespace.NODE_WRITE_FILE, self.write_image)
-
-        self._emit_preview_update()
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Input")
@@ -98,6 +94,7 @@ class WriteNode(CatenaNode):
         return cv2.imwrite(str(path), output)
 
     def on_input_connection_changed(self, port: Port) -> None:
+        self._cached_value = None
         self._emit_preview_update()
 
     def _emit_preview_update(self) -> None:
