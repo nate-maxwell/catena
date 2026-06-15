@@ -18,6 +18,10 @@ SHD_DEFAULT_M = TEXTURE_DIR / "T_Default_M.png"
 SHD_DEFAULT_N = TEXTURE_DIR / "T_Default_N.png"
 SHD_DEFAULT_R = TEXTURE_DIR / "T_Default_R.png"
 
+TEX_UV_GRID = TEXTURE_DIR / "T_UV_Grid.png"
+
+HDR_DEFAULT = TEXTURE_DIR / "HDR_Sunny_Rose_Garden_2k.hdr"
+
 # Geometry
 
 GEO_DIR = _resources_dir / "geo"

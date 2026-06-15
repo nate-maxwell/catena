@@ -9,6 +9,7 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.core.nodes.base import CatenaNode
+from catena.core import texture
 
 
 class ReadNode(CatenaNode):
@@ -45,6 +46,13 @@ class ReadNode(CatenaNode):
 
         img_path = Path(filepath)
         if img_path.exists():
-            return cv2.imread(str(img_path))
+            image = cv2.imread(str(img_path), cv2.IMREAD_UNCHANGED)
+            if image is None:
+                return None
+
+            if image.ndim == 3 and image.shape[2] == 3:
+                image = texture.bgr_to_rgb(image)
+
+            return image
 
         return None

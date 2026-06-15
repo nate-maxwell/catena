@@ -91,6 +91,10 @@ class WriteNode(CatenaNode):
 
         # This might need to be adjusted to output uint32 in the future...
         output = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
+
+        if output.ndim == 3 and output.shape[2] == 3:
+            output = texture.rgb_to_bgr(output)
+
         return cv2.imwrite(str(path), output)
 
     def on_input_connection_changed(self, port: Port) -> None:

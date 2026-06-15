@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Optional
 
 import OpenGL.GL as gl
-import imageio.v3 as imageio
 import numpy
 from PySide6TK import QtCore
 from PySide6TK import QtGui
@@ -12,6 +11,7 @@ from PySide6TK import QtOpenGLWidgets
 from PySide6TK import QtWidgets
 
 from catena.core import resources
+from catena.core import texture
 from catena.core.panes.obj_viewer import matrix
 
 SHADER_DIR = Path(__file__).parent
@@ -223,126 +223,14 @@ def compile_shader_program(vertex_path: Path, fragment_path: Path) -> int:
     return program
 
 
-def load_texture(path: Path, srgb: bool) -> int:
-    """Load an image file into an OpenGL 2D texture.
-
-    Args:
-        path (Path): Path to the image file.
-        srgb (bool): If True, the texture is stored in an sRGB internal format
-            (for albedo/color data). If False, a linear format is used (for
-            metallic-roughness, normal, etc. data maps).
-
-    Returns:
-        int: The OpenGL texture handle.
-    """
-    image = imageio.imread(path)
-    return create_texture_from_array(image, srgb)
-
-
-def to_uint8(image: numpy.ndarray) -> numpy.ndarray:
-    """
-    Convert an image array to uint8, scaling floating-point data from 0.0-1.0 to 0-255.
-
-    Args:
-        image (numpy.ndarray): Image data, either uint8 or floating-point in range 0.0-1.0.
-    Returns:
-        numpy.ndarray: Image data as uint8.
-    """
-    if numpy.issubdtype(image.dtype, numpy.floating):
-        image = numpy.clip(image, 0.0, 1.0) * 255.0
-        return image.astype(numpy.uint8)
-    return image.astype(numpy.uint8)
-
-
-def create_texture_from_array(image: numpy.ndarray, srgb: bool) -> int:
-    """
-    Upload an image array into an OpenGL 2D texture.
-
-    Args:
-        image (numpy.ndarray): Image data as a 2D (grayscale) or 3D (RGB/RGBA)
-            array, either uint8 in range 0-255 or floating-point in range 0.0-1.0.
-        srgb (bool): If True, the texture is stored in an sRGB internal format
-            (for albedo/color data). If False, a linear format is used (for
-            metallic-roughness, normal, etc. data maps).
-    Returns:
-        int: The OpenGL texture handle.
-    """
-    image = to_uint8(image)
-
-    if image.ndim == 2:
-        image = numpy.stack([image] * 3, axis=-1)
-    if image.shape[2] == 3:
-        alpha = numpy.full((image.shape[0], image.shape[1], 1), 255, dtype=numpy.uint8)
-        image = numpy.concatenate([image, alpha], axis=-1)
-
-    image = numpy.flipud(image)
-    image = numpy.ascontiguousarray(image)
-
-    internal_format = gl.GL_SRGB8_ALPHA8 if srgb else gl.GL_RGBA8
-
-    texture_id = gl.glGenTextures(1)
-    gl.glBindTexture(gl.GL_TEXTURE_2D, texture_id)
-    gl.glTexImage2D(
-        gl.GL_TEXTURE_2D,
-        0,
-        internal_format,
-        image.shape[1],
-        image.shape[0],
-        0,
-        gl.GL_RGBA,
-        gl.GL_UNSIGNED_BYTE,
-        image,
-    )
-    gl.glGenerateMipmap(gl.GL_TEXTURE_2D)
-    gl.glTexParameteri(
-        gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_LINEAR_MIPMAP_LINEAR
-    )
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_LINEAR)
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_REPEAT)
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_REPEAT)
-
-    return texture_id
-
-
-def create_solid_texture(rgba: tuple[int, int, int, int]) -> int:
-    """
-    Create a 1x1 OpenGL 2D texture filled with a constant color.
-
-    Args:
-        rgba (tuple[int, int, int, int]): Red, green, blue, and alpha values
-            in the range 0-255.
-    Returns:
-        int: The OpenGL texture handle.
-    """
-    image = numpy.array([[rgba]], dtype=numpy.uint8)
-
-    texture_id = gl.glGenTextures(1)
-    gl.glBindTexture(gl.GL_TEXTURE_2D, texture_id)
-    gl.glTexImage2D(
-        gl.GL_TEXTURE_2D,
-        0,
-        gl.GL_RGBA8,
-        1,
-        1,
-        0,
-        gl.GL_RGBA,
-        gl.GL_UNSIGNED_BYTE,
-        image,
-    )
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MIN_FILTER, gl.GL_NEAREST)
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_S, gl.GL_REPEAT)
-    gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_WRAP_T, gl.GL_REPEAT)
-    return texture_id
-
-
 class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
     """An OpenGL widget that displays a PBR-shaded OBJ mesh with mouse-based orbit controls."""
 
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
         super().__init__(parent)
         # object
-        self._obj_path: Path = resources.OBJ_SHADER_BALL
+        self._obj_path: Path = resources.GEO_CUBE
+
         # textures
         self._albedo_path: Path = resources.SHD_DEFAULT_BC
         self._metallic_path: Path = resources.SHD_DEFAULT_M
@@ -350,7 +238,9 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._normal_path: Path = resources.SHD_DEFAULT_N
         self._ao_path: Path = resources.SHD_DEFAULT_AO
         self._height_path: Path = resources.SHD_DEFAULT_H
-        # math values
+        self._environment_path: Path = resources.HDR_DEFAULT
+
+        # texture math values
         self._index_count: int = 0
         self._vao: int = 0
         self._vertex_buffer: int = 0
@@ -362,6 +252,12 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._normal_texture: int = 0
         self._ao_texture: int = 0
         self._height_texture: int = 0
+        self._environment_blur_texture = texture.load_hdr_texture_blurred(
+            self._environment_path
+        )
+        self._environment_strength: float = 1.0
+
+        # viewport math values
         self._height_scale: float = 0.05
         self._rotation_x: float = -20.0
         self._rotation_y: float = 30.0
@@ -374,29 +270,51 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
     def initializeGL(self) -> None:
         gl.glClearColor(0.05, 0.05, 0.07, 1.0)
         gl.glEnable(gl.GL_DEPTH_TEST)
+        gl.glDisable(gl.GL_CULL_FACE)
         gl.glEnable(gl.GL_FRAMEBUFFER_SRGB)
 
         self._shader_program = compile_shader_program(
             SHADER_DIR / "pbr.vert", SHADER_DIR / "pbr.frag"
         )
-        self._albedo_texture = load_texture(self._albedo_path, srgb=True)
-        self._metallic_texture = load_texture(self._metallic_path, srgb=False)
-        self._roughness_texture = load_texture(self._roughness_path, srgb=False)
+        self._albedo_texture = texture.load_texture(self._albedo_path, srgb=True)
+        self._metallic_texture = texture.load_texture(self._metallic_path, srgb=False)
+        self._roughness_texture = texture.load_texture(self._roughness_path, srgb=False)
         self._normal_texture = (
-            load_texture(self._normal_path, srgb=False)
+            texture.load_normal_texture(self._normal_path)
             if self._normal_path
-            else create_solid_texture((128, 128, 255, 255))
+            else texture.create_solid_texture((128, 128, 255, 255))
         )
         self._ao_texture = (
-            load_texture(self._ao_path, srgb=False)
+            texture.load_texture(self._ao_path, srgb=False)
             if self._ao_path
-            else create_solid_texture((255, 255, 255, 255))
+            else texture.create_solid_texture((255, 255, 255, 255))
         )
         self._height_texture = (
-            load_texture(self._height_path, srgb=False)
+            texture.load_texture(self._height_path, srgb=False)
             if self._height_path
-            else create_solid_texture((0, 0, 0, 255))
+            else texture.create_solid_texture((0, 0, 0, 255))
         )
+
+        try:
+            self._environment_texture = (
+                texture.load_hdr_texture(self._environment_path)
+                if self._environment_path
+                else texture.create_solid_texture((64, 64, 64, 255))
+            )
+            self._environment_blur_texture = (
+                texture.load_hdr_texture_blurred(self._environment_path)
+                if self._environment_path
+                else texture.create_solid_texture((64, 64, 64, 255))
+            )
+        except Exception as error:
+            print(
+                f"Failed to load HDRI environment: {self._environment_path} ({error})"
+            )
+            self._environment_texture = texture.create_solid_texture((64, 64, 64, 255))
+            self._environment_blur_texture = texture.create_solid_texture(
+                (64, 64, 64, 255)
+            )
+
         self._load_mesh()
 
     def _load_mesh(self) -> None:
@@ -471,9 +389,9 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.makeCurrent()
         gl.glDeleteTextures(1, [self._albedo_texture])
         if image is None:
-            self._albedo_texture = load_texture(self._albedo_path, srgb=True)
+            self._albedo_texture = texture.load_texture(self._albedo_path, srgb=True)
         else:
-            self._albedo_texture = create_texture_from_array(image, srgb=True)
+            self._albedo_texture = texture.create_texture_from_array(image, srgb=True)
         self.doneCurrent()
         self.update()
 
@@ -488,9 +406,13 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.makeCurrent()
         gl.glDeleteTextures(1, [self._metallic_texture])
         if image is None:
-            self._metallic_texture = load_texture(self._metallic_path, srgb=False)
+            self._metallic_texture = texture.load_texture(
+                self._metallic_path, srgb=False
+            )
         else:
-            self._metallic_texture = create_texture_from_array(image, srgb=False)
+            self._metallic_texture = texture.create_texture_from_array(
+                image, srgb=False
+            )
         self.doneCurrent()
         self.update()
 
@@ -505,9 +427,13 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.makeCurrent()
         gl.glDeleteTextures(1, [self._roughness_texture])
         if image is None:
-            self._roughness_texture = load_texture(self._roughness_path, srgb=False)
+            self._roughness_texture = texture.load_texture(
+                self._roughness_path, srgb=False
+            )
         else:
-            self._roughness_texture = create_texture_from_array(image, srgb=False)
+            self._roughness_texture = texture.create_texture_from_array(
+                image, srgb=False
+            )
         self.doneCurrent()
         self.update()
 
@@ -522,9 +448,13 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.makeCurrent()
         gl.glDeleteTextures(1, [self._normal_texture])
         if image is None:
-            self._normal_texture = load_texture(self._normal_path, srgb=False)
+            self._normal_texture = texture.load_normal_texture(self._normal_path)
         else:
-            self._normal_texture = create_texture_from_array(image, srgb=False)
+            self._normal_texture = texture.create_texture_from_array(
+                image,
+                srgb=False,
+                invert_green_after_flip=True,
+            )
         self.doneCurrent()
         self.update()
 
@@ -539,9 +469,9 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.makeCurrent()
         gl.glDeleteTextures(1, [self._ao_texture])
         if image is None:
-            self._ao_texture = load_texture(self._ao_path, srgb=False)
+            self._ao_texture = texture.load_texture(self._ao_path, srgb=False)
         else:
-            self._ao_texture = create_texture_from_array(image, srgb=False)
+            self._ao_texture = texture.create_texture_from_array(image, srgb=False)
         self.doneCurrent()
         self.update()
 
@@ -556,9 +486,9 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.makeCurrent()
         gl.glDeleteTextures(1, [self._height_texture])
         if image is None:
-            self._height_texture = load_texture(self._height_path, srgb=False)
+            self._height_texture = texture.load_texture(self._height_path, srgb=False)
         else:
-            self._height_texture = create_texture_from_array(image, srgb=False)
+            self._height_texture = texture.create_texture_from_array(image, srgb=False)
         self.doneCurrent()
         self.update()
 
@@ -665,6 +595,17 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         gl.glActiveTexture(gl.GL_TEXTURE5)
         gl.glBindTexture(gl.GL_TEXTURE_2D, self._height_texture)
         gl.glUniform1i(gl.glGetUniformLocation(self._shader_program, "u_height_map"), 5)
+
+        gl.glActiveTexture(gl.GL_TEXTURE6)
+        gl.glBindTexture(gl.GL_TEXTURE_2D, self._environment_texture)
+        gl.glUniform1i(
+            gl.glGetUniformLocation(self._shader_program, "u_environment_map"),
+            6,
+        )
+        gl.glUniform1f(
+            gl.glGetUniformLocation(self._shader_program, "u_environment_strength"),
+            self._environment_strength,
+        )
 
         gl.glBindVertexArray(self._vao)
         gl.glDrawElements(gl.GL_TRIANGLES, self._index_count, gl.GL_UNSIGNED_INT, None)

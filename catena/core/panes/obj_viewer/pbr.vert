@@ -21,8 +21,23 @@ void main() {
 
     vec3 normal = normalize(u_normal_matrix * in_normal);
     vec3 tangent = normalize(u_normal_matrix * in_tangent);
-    tangent = normalize(tangent - dot(tangent, normal) * normal);
+
+    tangent = tangent - dot(tangent, normal) * normal;
+
+    if (dot(tangent, tangent) < 0.000001) {
+        tangent = vec3(1.0, 0.0, 0.0);
+    }
+
+    tangent = normalize(tangent);
+
     vec3 bitangent = cross(normal, tangent);
+
+    if (dot(bitangent, bitangent) < 0.000001) {
+        bitangent = vec3(0.0, 1.0, 0.0);
+    }
+
+    bitangent = normalize(bitangent);
+
     v_tbn = mat3(tangent, bitangent, normal);
 
     gl_Position = u_projection * u_view * world_position;
