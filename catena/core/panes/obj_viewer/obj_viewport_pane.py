@@ -7,6 +7,7 @@ from PySide6TK import QtCore
 from catena.core import namespace
 from catena.core import texture
 from catena.core.panes.obj_viewer import obj_viewer
+from catena.core.panes.obj_viewer import obj_widget
 from catena.core.panes.pane import DockablePane
 from catena.core.panes.pane import PaneConfig
 
@@ -23,11 +24,11 @@ class ObjViewportPane(DockablePane):
         self._create_subscriptions()
 
     def create_widgets(self) -> None:
-        self.obj_view = obj_viewer.ObjViewer(parent=self)
+        self.obj_wid = obj_widget.ObjectViewerWidget(self)
 
     def create_layouts(self) -> None:
         self.content_layout.setContentsMargins(0, 0, 0, 0)
-        self.content_layout.addWidget(self.obj_view)
+        self.content_layout.addWidget(self.obj_wid)
 
     def _create_subscriptions(self) -> None:
         broker.register_subscriber(namespace.MODEL_UPDATED_TEXTURE, self._refresh)
@@ -38,14 +39,14 @@ class ObjViewportPane(DockablePane):
 
         match texture_type:
             case texture.TextureType.ALBEDO:
-                self.obj_view.set_albedo_texture(image)
+                self.obj_wid.obj_view.set_albedo_texture(image)
             case texture.TextureType.ROUGHNESS:
-                self.obj_view.set_roughness_texture(image)
+                self.obj_wid.obj_view.set_roughness_texture(image)
             case texture.TextureType.METALLIC:
-                self.obj_view.set_metallic_texture(image)
+                self.obj_wid.obj_view.set_metallic_texture(image)
             case texture.TextureType.AO:
-                self.obj_view.set_ao_texture(image)
+                self.obj_wid.obj_view.set_ao_texture(image)
             case texture.TextureType.HEIGHT:
-                self.obj_view.set_height_texture(image)
+                self.obj_wid.obj_view.set_height_texture(image)
             case texture.TextureType.NORMAL:
-                self.obj_view.set_normal_texture(image)
+                self.obj_wid.obj_view.set_normal_texture(image)
