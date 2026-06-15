@@ -69,7 +69,6 @@ class BevelNode(CatenaNode):
             return None
 
         distance = self.get_field_value("distance")
-        angle = self.get_field_value("angle")
         depth = self.get_field_value("depth")
         soft = self.get_field_value("soft")
 
@@ -101,21 +100,5 @@ class BevelNode(CatenaNode):
 
         height_field = (height_field + 1.0) * 0.5
 
-        gy, gx = numpy.gradient(height_field)
-
-        radians = numpy.deg2rad(angle)
-        light_x = numpy.cos(radians)
-        light_y = numpy.sin(radians)
-
-        normal_strength = numpy.sqrt(gx * gx + gy * gy + 1.0)
-        nx = -gx / normal_strength
-        ny = -gy / normal_strength
-        nz = 1.0 / normal_strength
-
-        lighting = nx * light_x + ny * light_y + nz * 0.5
-        lighting = numpy.clip(lighting, 0.0, 1.0)
-
-        shaded = lighting.astype(numpy.float32)
-        result = numpy.repeat(shaded[:, :, None], 3, axis=2).astype(numpy.float32)
-
+        result = numpy.repeat(height_field[:, :, None], 3, axis=2).astype(numpy.float32)
         return result
