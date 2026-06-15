@@ -54,6 +54,16 @@ class CatenaNode(BaseNode):
 
         return port
 
+    def on_input_connection_changed(self, port: Port) -> None:
+        """
+        Called when a wire connecting to one of this node's input ports
+        is created or destroyed.
+
+        Args:
+            port (Port): The input port whose connection changed.
+        """
+        pass
+
     def _resize_to_fit_ports(self) -> None:
         """Recompute body_height to fit all ports if not explicitly fixed."""
         input_count = sum(1 for p in self._ports if p.port_type == PortType.INPUT)
@@ -73,7 +83,7 @@ class CatenaNode(BaseNode):
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         """
         Called when the node is double-clicked. Opens the properties panel
-        and sends this node's evaluated image to the viewport.
+        and sends this node's evaluated image to the tex_viewer.
 
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.

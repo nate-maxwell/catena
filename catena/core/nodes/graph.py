@@ -1,17 +1,21 @@
 import broker
 from PySide6TK import QtWidgets
-from PySide6TK.Nodes import GraphView, Port, Wire
+from PySide6TK.Nodes import GraphView
+from PySide6TK.Nodes import Port
+from PySide6TK.Nodes import Wire
 
 from catena.core import namespace
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.comment import CatenaCommentBox
 from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
-from catena.core.nodes.create.outro import OutroNode
-from catena.core.nodes.create.read import ReadNode
-from catena.core.nodes.create.start import StartNode
-from catena.core.nodes.create.transition import TransitionNode
-from catena.core.nodes.create.write import WriteNode
+from catena.core.nodes.file.read import ReadNode
+from catena.core.nodes.file.write_albedo import AlbedoNode
+from catena.core.nodes.file.write_ambient_occlusion import AONode
+from catena.core.nodes.file.write_height import HeightNode
+from catena.core.nodes.file.write_metallic import MetallicNode
+from catena.core.nodes.file.write_normal import NormalNode
+from catena.core.nodes.file.write_roughness import RoughnessNode
 from catena.core.nodes.generator.blue_noise import BlueNoiseNode
 from catena.core.nodes.generator.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generator.cells import CellsNode
@@ -82,11 +86,19 @@ class CatenaGraphView(GraphView):
     def connect_ports_internal(self, source: Port, target: Port) -> Wire:
         wire = super().connect_ports_internal(source, target)
         self._refresh_active_preview()
+        self._refresh_write_previews()
+
         return wire
 
     def destroy_wire(self, wire: Wire) -> None:
         super().destroy_wire(wire)
         self._refresh_active_preview()
+        self._refresh_write_previews()
+
+    def _refresh_write_previews(self) -> None:
+        for node in self._node_refs:
+            if hasattr(node, "_emit_preview_update"):
+                node._emit_preview_update()
 
     @staticmethod
     def _refresh_active_preview() -> None:
@@ -104,11 +116,13 @@ class CatenaGraphView(GraphView):
         self._register_generator_nodes()
 
     def _register_create_nodes(self) -> None:
-        self.register_node("Create", OutroNode)
         self.register_node("Create", ReadNode)
-        self.register_node("Create", StartNode)
-        self.register_node("Create", TransitionNode)
-        self.register_node("Create", WriteNode)
+        self.register_node("Create", AlbedoNode)
+        self.register_node("Create", AONode)
+        self.register_node("Create", HeightNode)
+        self.register_node("Create", MetallicNode)
+        self.register_node("Create", NormalNode)
+        self.register_node("Create", RoughnessNode)
 
     def _register_image_nodes(self) -> None:
         self.register_node("Image", BevelNode)

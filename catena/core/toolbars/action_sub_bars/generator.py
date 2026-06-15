@@ -10,7 +10,7 @@ class GeneratorToolbar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget, graph_view: CatenaGraphView) -> None:
         super().__init__(
-            "Generator Toolbar", default_button_resolution=[40, 40], parent=parent
+            "GeneratorToolbar", default_button_resolution=[40, 40], parent=parent
         )
         self.graph_view = graph_view
 

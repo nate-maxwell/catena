@@ -48,7 +48,7 @@ class SessionData(object):
         # -----Data-----
         self.project_file = appdata.INITIAL_CATENA_FILE
 
-        # First-time load from disk (if present), else create defaults
+        # First-time load from disk (if present), else file defaults
         if appdata.CATENA_SESSION_DATA_PATH.exists():
             self.load()
         else:

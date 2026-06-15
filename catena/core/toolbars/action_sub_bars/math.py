@@ -10,7 +10,7 @@ class MathToolbar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget, graph_view: CatenaGraphView) -> None:
         super().__init__(
-            "Math Toolbar", default_button_resolution=[40, 40], parent=parent
+            "MathToolbar", default_button_resolution=[40, 40], parent=parent
         )
         self.graph_view = graph_view
 

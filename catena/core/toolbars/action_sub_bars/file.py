@@ -6,35 +6,52 @@ from catena.core.nodes.graph import CatenaGraphView
 from catena.core.toolbars import actions
 
 
-class FileToolbar(QtWrappers.Toolbar):
+class CreateToolbar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget, graph_view: CatenaGraphView) -> None:
         super().__init__(
-            "File Toolbar", default_button_resolution=[40, 40], parent=parent
+            "FileToolbar", default_button_resolution=[40, 40], parent=parent
         )
         self.graph_view = graph_view
 
     def build(self) -> None:
         self.add_toolbar_command(
-            "Save",
-            command=lambda: actions.ClientActions.action_save(),
-            image_path=Resources.BUTTON_BLACK_40X40,
-        )
-        self.add_toolbar_command(
-            "Pub\nFiles",
-            command=lambda: actions.ClientActions.action_write_files(),
-            image_path=Resources.BUTTON_BLACK_40X40,
+            "Read",
+            command=lambda: actions.CreateActions.action_read_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
         )
 
         self.add_toolbar_separator(12)
 
         self.add_toolbar_command(
-            "Undo",
-            command=lambda: actions.ClientActions.action_undo(),
-            image_path=Resources.BUTTON_BLACK_40X40,
+            "Albedo",
+            command=lambda: actions.CreateActions.action_albedo_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
         )
         self.add_toolbar_command(
-            "Redo",
-            command=lambda: actions.ClientActions.action_redo(),
-            image_path=Resources.BUTTON_BLACK_40X40,
+            "Write\nAO",
+            command=lambda: actions.CreateActions.action_ao_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Write\nHeight",
+            command=lambda: actions.CreateActions.action_height_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Write\nMetallic",
+            command=lambda: actions.CreateActions.action_metallic_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Write\nNormal",
+            command=lambda: actions.CreateActions.action_normal_node(self.graph_view),
+            image_path=Resources.BUTTON_RED_40X40,
+        )
+        self.add_toolbar_command(
+            "Write\nRough",
+            command=lambda: actions.CreateActions.action_roughness_node(
+                self.graph_view
+            ),
+            image_path=Resources.BUTTON_RED_40X40,
         )
