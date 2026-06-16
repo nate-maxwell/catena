@@ -9,11 +9,11 @@ from catena.core import resources
 from catena.core import session
 from catena.core import shortcuts
 from catena.core.panes.node_graph import NodeGraphPane
+from catena.core.panes.obj_viewer.obj_viewport_pane import ObjViewportPane
 from catena.core.panes.properties import PropertiesPane
 from catena.core.panes.resize import split_horizontal
 from catena.core.panes.resize import split_vertical
 from catena.core.panes.tex_viewer.tex_viewport_pane import TexViewportPane
-from catena.core.panes.obj_viewer.obj_viewport_pane import ObjViewportPane
 from catena.core.prefs import preferences
 from catena.core.toolbars.actions_toolbar import EditorActionToolbar
 from catena.core.toolbars.client_toolbar import ClientWindowToolbar
@@ -29,6 +29,10 @@ win_state = "window_state"
 win_geo = "window_geometry"
 org = "NateMaxwell"
 app = "Catena"
+
+
+# settings = QtCore.QSettings(org, app)
+# settings.clear()
 
 
 class CatenaEditor(QtWrappers.MainWindow):
@@ -81,7 +85,8 @@ class CatenaEditor(QtWrappers.MainWindow):
             QtCore.Qt.Orientation.Horizontal,
         )
 
-        self.split_horizontal(self.pane_node_graph, self.pane_properties, 0.75)
+        self.split_horizontal(self.pane_node_graph, self.pane_properties, 0.7)
+        self.split_horizontal(self.pane_object_viewport, self.pane_node_graph, 0.3)
         self.split_vertical(self.pane_object_viewport, self.pane_texture_viewport, 0.5)
 
         self.addToolBar(self.shortcut_toolbar)

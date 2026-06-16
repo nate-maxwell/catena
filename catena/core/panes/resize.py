@@ -19,14 +19,14 @@ def split_vertical(
     Returns:
         None: No return value.
     """
-    QtCore.QTimer.singleShot(
-        0,
-        lambda: parent.resizeDocks(
-            [first, second],
-            [int(parent.height() * ratio), int(parent.height() * (1.0 - ratio))],
-            QtCore.Qt.Orientation.Vertical,
-        ),
-    )
+
+    def _resize() -> None:
+        h1, h2 = first.height(), second.height()
+        total = h1 + h2
+        sizes = [int(total * ratio), int(total * (1.0 - ratio))]
+        parent.resizeDocks([first, second], sizes, QtCore.Qt.Orientation.Vertical)
+
+    QtCore.QTimer.singleShot(50, _resize)
 
 
 def split_horizontal(
@@ -46,11 +46,11 @@ def split_horizontal(
     Returns:
         None: No return value.
     """
-    QtCore.QTimer.singleShot(
-        0,
-        lambda: parent.resizeDocks(
-            [first, second],
-            [int(parent.width() * ratio), int(parent.width() * (1.0 - ratio))],
-            QtCore.Qt.Orientation.Horizontal,
-        ),
-    )
+
+    def _resize() -> None:
+        h1, h2 = first.height(), second.height()
+        total = h1 + h2
+        sizes = [int(total * ratio), int(total * (1.0 - ratio))]
+        parent.resizeDocks([first, second], sizes, QtCore.Qt.Orientation.Horizontal)
+
+    QtCore.QTimer.singleShot(50, _resize)

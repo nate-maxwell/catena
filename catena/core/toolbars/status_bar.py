@@ -29,7 +29,7 @@ class StatusBar(QtWrappers.Toolbar):
         self.addWidget(QtWrappers.HorizontalSpacer())
         self.addWidget(QtWrappers.VerticalSpacer(16))
 
-        self.lbl_nonsense = QtWidgets.QLabel("Catena Engine Initialized")
+        self.lbl_nonsense = QtWidgets.QLabel("Catena Engine Running...")
         self.addWidget(self.lbl_nonsense)
 
         self.add_line()

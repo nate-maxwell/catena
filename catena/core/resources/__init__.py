@@ -5,6 +5,7 @@ _resources_dir = Path(__file__).parent
 # -----Client------------------------------------------------------------------
 
 ICON_CATENA = _resources_dir / "ICON_Catena.png"
+SPLASH_IMAGE = _resources_dir / "T_Splash.png"
 
 # -----Texture-----------------------------------------------------------------
 
