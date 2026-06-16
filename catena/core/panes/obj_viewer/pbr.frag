@@ -69,7 +69,7 @@ void main() {
     vec2 texcoord = v_texcoord;
 
     vec3 albedo = texture(u_albedo_map, texcoord).rgb;
-    float roughness = clamp(texture(u_roughness_map, texcoord).r, 0.04, 1.0);
+    float roughness = clamp(1.0 - texture(u_roughness_map, texcoord).r, 0.04, 1.0);
     float metallic = clamp(texture(u_metallic_map, texcoord).r, 0.0, 1.0);
     float ambient_occlusion = clamp(texture(u_ao_map, texcoord).r, 0.0, 1.0);
 
