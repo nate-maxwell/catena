@@ -149,6 +149,12 @@ class CatenaGraphView(GraphView):
         self._register_misc_nodes()
         self._register_generator_nodes()
 
+    def _register_convert_nodes(self) -> None:
+        self.register_node("Convert", AppendNode)
+        self.register_node("Convert", HeightToAONode)
+        self.register_node("Convert", HeightToNormalNode)
+        self.register_node("Convert", SplitNode)
+
     def _register_create_nodes(self) -> None:
         self.register_node("Create", ReadNode)
         self.register_node("Create", AlbedoNode)
@@ -207,9 +213,3 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", PolygonNode)
         self.register_node("Generator", ShapeNode)
         self.register_node("Generator", WhiteNoiseNode)
-
-    def _register_convert_nodes(self) -> None:
-        self.register_node("Convert", AppendNode)
-        self.register_node("Convert", HeightToAONode)
-        self.register_node("Convert", HeightToNormalNode)
-        self.register_node("Convert", SplitNode)
