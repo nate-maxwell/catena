@@ -6,6 +6,8 @@ from PySide6TK.Nodes.node import FieldType
 from PySide6TK.Nodes.node import PortType
 
 from catena.core.nodes.base import CatenaNode
+from catena.core.nodes.data import DATA_TYPE_COLORS
+from catena.core.nodes.data import PortDataType
 from catena.core.nodes.convert import IMAGE_NODE_COLOR
 
 _SPACES = ["OpenGL", "DirectX"]
@@ -21,7 +23,8 @@ class HeightToNormalNode(CatenaNode):
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Input")
-        self.port_out = self.add_port(PortType.OUTPUT, "Output")
+        self.port_out = self.add_port(PortType.OUTPUT, "Output", PortDataType.NORMAL)
+        self.port_out.set_color(DATA_TYPE_COLORS[PortDataType.NORMAL])
 
         self.add_field(
             FieldDefinition(

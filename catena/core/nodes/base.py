@@ -9,6 +9,8 @@ from PySide6TK.Nodes import Port
 from PySide6TK.Nodes import PortType
 
 from catena.core import namespace
+from catena.core.nodes.data import PortDataType
+from catena.core.nodes.data import DATA_TYPE_COLORS
 
 
 class CatenaNode(BaseNode):
@@ -22,7 +24,9 @@ class CatenaNode(BaseNode):
         self._cached_value: Any = None
         """The last evaluated value. Updates when field values change."""
 
-    def add_port(self, port_type: str, name: str) -> Port:
+    def add_port(
+        self, port_type: str, name: str, data_type: str = PortDataType.VECTOR3
+    ) -> Port:
         """
         Create and position a port on this node.
 
@@ -32,13 +36,15 @@ class CatenaNode(BaseNode):
         Args:
             port_type (str): Either ``PortType.INPUT`` or ``PortType.OUTPUT``.
             name (str): Display name for the port.
+            data_type (str): The data type of the port.
         Returns:
             Port: The created port.
         """
         input_count = sum(1 for p in self._ports if p.port_type == PortType.INPUT)
         output_count = sum(1 for p in self._ports if p.port_type == PortType.OUTPUT)
 
-        port = Port(port_type, name, self)
+        port = Port(port_type, name, data_type, self)
+        port.set_color(DATA_TYPE_COLORS[data_type])
         y = (
             self._HEADER_HEIGHT
             + self._PORT_MARGIN

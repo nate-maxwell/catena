@@ -12,6 +12,8 @@ from PySide6TK.Nodes.node import PortType
 from catena.core import namespace
 from catena.core import texture
 from catena.core.nodes.base import CatenaNode
+from catena.core.nodes.data import DATA_TYPE_COLORS
+from catena.core.nodes.data import PortDataType
 from catena.core.nodes.file import IMAGE_NODE_COLOR
 
 _EXTENSIONS = {
@@ -35,15 +37,18 @@ class WriteNode(CatenaNode):
         self,
         title: str,
         texture_type: texture.TextureType,
+        data_type: str = PortDataType.VECTOR3,
         width: int = 160,
         body_height: int = 40,
     ) -> None:
-        super().__init__(title, width, body_height)
+        self._data_type = data_type
         self._texture_type = texture_type
+        super().__init__(title, width, body_height)
         broker.register_subscriber(namespace.NODE_WRITE_FILE, self.write_image)
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Input")
+        self.port_in.set_color(DATA_TYPE_COLORS[self._data_type])
 
         self.add_field(
             FieldDefinition(
