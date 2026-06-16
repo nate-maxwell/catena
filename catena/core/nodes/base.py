@@ -25,7 +25,7 @@ class CatenaNode(BaseNode):
         """The last evaluated value. Updates when field values change."""
 
     def add_port(
-        self, port_type: str, name: str, data_type: str = PortDataType.VECTOR3
+        self, port_type: str, name: str, data_type: str = PortDataType.VECTOR4
     ) -> Port:
         """
         Create and position a port on this node.
@@ -183,7 +183,11 @@ class CatenaNode(BaseNode):
             for wire in port.wires:
                 source_node = wire.source.parentItem()
                 if isinstance(source_node, CatenaNode):
-                    value = source_node.evaluate()
+                    evaluated = source_node.evaluate()
+                    if isinstance(evaluated, dict):
+                        value = evaluated.get(wire.source.name)
+                    else:
+                        value = evaluated
                     break
 
             results[port.name] = value

@@ -7,8 +7,10 @@ from PySide6TK.Nodes import Wire
 from catena.core import namespace
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.comment import CatenaCommentBox
+from catena.core.nodes.convert.append import AppendNode
 from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
+from catena.core.nodes.convert.split import SplitNode
 from catena.core.nodes.file.read import ReadNode
 from catena.core.nodes.file.write import WriteNode
 from catena.core.nodes.file.write_albedo import AlbedoNode
@@ -207,5 +209,7 @@ class CatenaGraphView(GraphView):
         self.register_node("Generator", WhiteNoiseNode)
 
     def _register_convert_nodes(self) -> None:
+        self.register_node("Convert", AppendNode)
         self.register_node("Convert", HeightToAONode)
         self.register_node("Convert", HeightToNormalNode)
+        self.register_node("Convert", SplitNode)

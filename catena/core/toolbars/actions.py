@@ -11,8 +11,10 @@ need to be invoked independent of the shelves.
 import broker
 
 from catena.core import namespace
+from catena.core.nodes.convert.append import AppendNode
 from catena.core.nodes.convert.height_to_ao import HeightToAONode
 from catena.core.nodes.convert.height_to_normal import HeightToNormalNode
+from catena.core.nodes.convert.split import SplitNode
 from catena.core.nodes.file.read import ReadNode
 from catena.core.nodes.file.write_albedo import AlbedoNode
 from catena.core.nodes.file.write_ambient_occlusion import AONode
@@ -24,11 +26,11 @@ from catena.core.nodes.generate.blue_noise import BlueNoiseNode
 from catena.core.nodes.generate.bnw_spots import BNWSpotsNode
 from catena.core.nodes.generate.cells import CellsNode
 from catena.core.nodes.generate.clouds import CloudsNode
-from catena.core.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.core.nodes.generate.gradient import GradientNode
 from catena.core.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.core.nodes.generate.polygon import PolygonNode
 from catena.core.nodes.generate.shape import ShapeNode
+from catena.core.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.core.nodes.generate.white_noise import WhiteNoiseNode
 from catena.core.nodes.graph import CatenaGraphView
 from catena.core.nodes.image.bevel import BevelNode
@@ -92,6 +94,16 @@ class ConvertActions(object):
     def action_h2ao_node(cls, graph_view: CatenaGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=HeightToAONode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_split_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=SplitNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_append_node(cls, graph_view: CatenaGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=AppendNode(), x=coords.x(), y=coords.y())
 
 
 class CreateActions(object):
