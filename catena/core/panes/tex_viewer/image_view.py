@@ -47,7 +47,7 @@ class ImageView(QtWidgets.QWidget):
         scm.add_shortcut(
             action_name="CenterViewport",
             key_sequence=QtGui.QKeySequence("F").toString(),
-            callback=self.recenter,
+            callback=self.reset_view,
             description="Recenter the texture viewport.",
             category="Viewport",
         )
@@ -144,11 +144,3 @@ class ImageView(QtWidgets.QWidget):
             self.setCursor(QtCore.Qt.CursorShape.ArrowCursor)
             return
         super().mouseReleaseEvent(event)
-
-    def recenter(self) -> None:
-        """
-        Reset pan offset to center the image without changing zoom, and trigger
-        a repaint.
-        """
-        self._pan_offset = QtCore.QPointF(0.0, 0.0)
-        self.update()

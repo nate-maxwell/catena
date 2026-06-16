@@ -39,6 +39,7 @@ class ObjectViewerWidget(QtWidgets.QWidget):
         self.setLayout(self.layout_main)
         self.layout_main.addWidget(self.cmb_model)
         self.layout_main.addWidget(self.obj_view)
+        self.layout_main.addStretch()
 
     def _create_connections(self) -> None:
         self.cmb_model.cmb_box.currentIndexChanged.connect(self._refresh)

@@ -43,7 +43,7 @@ class TexViewportPane(DockablePane):
             image (numpy.ndarray | None): Image in BGR order, as returned by
                 a node's evaluate(). If None the tex_viewer is cleared.
         """
-        if image is None:
+        if image is None or isinstance(image, dict):
             self.image_view.clear()
             return
 

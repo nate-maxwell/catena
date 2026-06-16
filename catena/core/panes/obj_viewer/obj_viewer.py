@@ -179,7 +179,8 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
                 3D uint8 array.
         """
         self.makeCurrent()
-        gl.glDeleteTextures(1, [self._albedo_texture])
+        if self._albedo_texture != 0:
+            gl.glDeleteTextures(1, [self._albedo_texture])
         if image is None:
             self._albedo_texture = texture.load_texture(self._albedo_path, srgb=True)
         else:
@@ -196,7 +197,8 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
                 3D uint8 array.
         """
         self.makeCurrent()
-        gl.glDeleteTextures(1, [self._metallic_texture])
+        if self._metallic_texture != 0:
+            gl.glDeleteTextures(1, [self._metallic_texture])
         if image is None:
             self._metallic_texture = texture.load_texture(
                 self._metallic_path, srgb=False
@@ -217,7 +219,8 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
                 or 3D uint8 array.
         """
         self.makeCurrent()
-        gl.glDeleteTextures(1, [self._roughness_texture])
+        if self._roughness_texture != 0:
+            gl.glDeleteTextures(1, [self._roughness_texture])
         if image is None:
             self._roughness_texture = texture.load_texture(
                 self._roughness_path, srgb=False
@@ -238,7 +241,8 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
                 or 3D uint8 array.
         """
         self.makeCurrent()
-        gl.glDeleteTextures(1, [self._normal_texture])
+        if self._normal_texture != 0:
+            gl.glDeleteTextures(1, [self._normal_texture])
         if image is None:
             self._normal_texture = texture.load_normal_texture(self._normal_path)
         else:
@@ -259,7 +263,8 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
             as a 2D or 3D uint8 array.
         """
         self.makeCurrent()
-        gl.glDeleteTextures(1, [self._ao_texture])
+        if self._ao_texture != 0:
+            gl.glDeleteTextures(1, [self._ao_texture])
         if image is None:
             self._ao_texture = texture.load_texture(self._ao_path, srgb=False)
         else:
@@ -276,7 +281,8 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
                 or 3D uint8 array.
         """
         self.makeCurrent()
-        gl.glDeleteTextures(1, [self._height_texture])
+        if self._height_texture != 0:
+            gl.glDeleteTextures(1, [self._height_texture])
         if image is None:
             self._height_texture = texture.load_texture(self._height_path, srgb=False)
         else:
