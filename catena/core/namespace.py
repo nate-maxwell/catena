@@ -6,6 +6,8 @@ NODE_PREVIEW = "node.select.preview"
 
 NODE_WRITE_FILE = "node.write.write"
 
+NODE_DISPLACEMENT_UPDATED = "node.displacement.updated"
+
 # -----Model Viewport Events---------------------------------------------------
 MODEL_UPDATED_TEXTURE = "model.update.texture"
 

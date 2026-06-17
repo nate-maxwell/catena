@@ -1,9 +1,9 @@
 from typing import Optional
 
 import numpy
-from PySide6TK.Nodes.node import FieldDefinition
-from PySide6TK.Nodes.node import FieldType
-from PySide6TK.Nodes.node import PortType
+from PySide6TK.Nodes import FieldDefinition
+from PySide6TK.Nodes import FieldType
+from PySide6TK.Nodes import PortType
 from scipy.spatial import cKDTree
 
 from catena.core.nodes.generate.generator import GeneratorNode

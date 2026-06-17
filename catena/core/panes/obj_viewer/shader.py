@@ -175,38 +175,52 @@ def compute_tangents(interleaved: list[float], indices: list[int]) -> list[float
     return extended
 
 
-def compile_shader_program(vertex_path: Path, fragment_path: Path) -> int:
+def compile_shader_program(
+    vertex_path: Path,
+    fragment_path: Path,
+    tess_control_path: Path,
+    tess_evaluation_path: Path,
+) -> int:
     """
-    Compile and link a GLSL shader program from vertex and fragment source files.
+    Compile and link a GLSL shader program from vertex, tessellation control,
+    tessellation evaluation, and fragment source files.
 
     Args:
         vertex_path (Path): Path to the vertex shader source file.
         fragment_path (Path): Path to the fragment shader source file.
+        tess_control_path (Path): Path to the tessellation control shader source file.
+        tess_evaluation_path (Path): Path to the tessellation evaluation shader source file.
     Returns:
         int: The linked shader program's OpenGL handle.
     """
-    vertex_source = vertex_path.read_text(encoding="utf-8")
-    fragment_source = fragment_path.read_text(encoding="utf-8")
 
-    vertex_shader = gl.glCreateShader(gl.GL_VERTEX_SHADER)
-    gl.glShaderSource(vertex_shader, vertex_source)
-    gl.glCompileShader(vertex_shader)
-    if not gl.glGetShaderiv(vertex_shader, gl.GL_COMPILE_STATUS):
-        raise RuntimeError(gl.glGetShaderInfoLog(vertex_shader).decode("utf-8"))
+    def compile_stage(path: Path, stage: int) -> int:
+        source = path.read_text(encoding="utf-8")
+        shader_handle = gl.glCreateShader(stage)
+        gl.glShaderSource(shader_handle, source)
+        gl.glCompileShader(shader_handle)
+        if not gl.glGetShaderiv(shader_handle, gl.GL_COMPILE_STATUS):
+            raise RuntimeError(gl.glGetShaderInfoLog(shader_handle).decode("utf-8"))
+        return shader_handle
 
-    fragment_shader = gl.glCreateShader(gl.GL_FRAGMENT_SHADER)
-    gl.glShaderSource(fragment_shader, fragment_source)
-    gl.glCompileShader(fragment_shader)
-    if not gl.glGetShaderiv(fragment_shader, gl.GL_COMPILE_STATUS):
-        raise RuntimeError(gl.glGetShaderInfoLog(fragment_shader).decode("utf-8"))
+    vertex_shader = compile_stage(vertex_path, gl.GL_VERTEX_SHADER)
+    tess_control_shader = compile_stage(tess_control_path, gl.GL_TESS_CONTROL_SHADER)
+    tess_evaluation_shader = compile_stage(
+        tess_evaluation_path, gl.GL_TESS_EVALUATION_SHADER
+    )
+    fragment_shader = compile_stage(fragment_path, gl.GL_FRAGMENT_SHADER)
 
     program = gl.glCreateProgram()
     gl.glAttachShader(program, vertex_shader)
+    gl.glAttachShader(program, tess_control_shader)
+    gl.glAttachShader(program, tess_evaluation_shader)
     gl.glAttachShader(program, fragment_shader)
     gl.glLinkProgram(program)
     if not gl.glGetProgramiv(program, gl.GL_LINK_STATUS):
         raise RuntimeError(gl.glGetProgramInfoLog(program).decode("utf-8"))
 
     gl.glDeleteShader(vertex_shader)
+    gl.glDeleteShader(tess_control_shader)
+    gl.glDeleteShader(tess_evaluation_shader)
     gl.glDeleteShader(fragment_shader)
     return program

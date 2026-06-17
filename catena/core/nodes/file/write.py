@@ -4,10 +4,10 @@ from typing import Optional
 import broker
 import cv2
 import numpy
-from PySide6TK.Nodes.node import FieldDefinition
-from PySide6TK.Nodes.node import FieldType
-from PySide6TK.Nodes.node import Port
-from PySide6TK.Nodes.node import PortType
+from PySide6TK.Nodes import FieldDefinition
+from PySide6TK.Nodes import FieldType
+from PySide6TK.Nodes import Port
+from PySide6TK.Nodes import PortType
 
 from catena.core import namespace
 from catena.core import texture

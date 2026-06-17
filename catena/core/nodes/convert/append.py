@@ -1,7 +1,7 @@
 from typing import Optional
 
 import numpy
-from PySide6TK.Nodes.node import PortType
+from PySide6TK.Nodes import PortType
 
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.data import PortDataType

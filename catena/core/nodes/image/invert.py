@@ -1,8 +1,7 @@
 from typing import Optional
 
-import cv2
 import numpy
-from PySide6TK.Nodes.node import PortType
+from PySide6TK.Nodes import PortType
 
 from catena.core.nodes.base import CatenaNode
 from catena.core.nodes.image import IMAGE_NODE_COLOR

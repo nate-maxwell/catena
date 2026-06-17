@@ -4,7 +4,7 @@ import numpy
 from PySide6 import QtCore
 from PySide6 import QtGui
 from PySide6 import QtWidgets
-from PySide6TK.Nodes.node import PortType
+from PySide6TK.Nodes import PortType
 
 from catena.core import texture
 from catena.core.nodes.base import CatenaNode

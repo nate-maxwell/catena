@@ -3,6 +3,7 @@ import math
 from pathlib import Path
 from typing import Optional
 
+import broker
 import OpenGL.GL as gl
 import numpy
 from PySide6TK import QtCore
@@ -10,6 +11,7 @@ from PySide6TK import QtGui
 from PySide6TK import QtOpenGLWidgets
 from PySide6TK import QtWidgets
 
+from catena.core import namespace
 from catena.core import resources
 from catena.core import texture
 from catena.core.panes.obj_viewer import matrix
@@ -50,7 +52,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._environment_strength: float = 1.0
 
         # viewport math values
-        self._height_scale: float = 0.05
+        self._displacement_scale: float = 0.0
         self._rotation_x: float = -20.0
         self._rotation_y: float = 30.0
         self._distance: float = 4.0
@@ -59,6 +61,13 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
 
         self.setMinimumSize(400, 400)
 
+        self._create_subscriptions()
+
+    def _create_subscriptions(self) -> None:
+        broker.register_subscriber(
+            namespace.NODE_DISPLACEMENT_UPDATED, self.set_displacement_scale
+        )
+
     def initializeGL(self) -> None:
         gl.glClearColor(0.05, 0.05, 0.07, 1.0)
         gl.glEnable(gl.GL_DEPTH_TEST)
@@ -66,7 +75,10 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         gl.glEnable(gl.GL_FRAMEBUFFER_SRGB)
 
         self._shader_program = shader.compile_shader_program(
-            SHADER_DIR / "pbr.vert", SHADER_DIR / "pbr.frag"
+            SHADER_DIR / "pbr.vert",
+            SHADER_DIR / "pbr.frag",
+            SHADER_DIR / "pbr.tesc",
+            SHADER_DIR / "pbr.tese",
         )
         self._albedo_texture = texture.load_texture(self._albedo_path, srgb=True)
         self._metallic_texture = texture.load_texture(self._metallic_path, srgb=False)
@@ -290,6 +302,17 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self.doneCurrent()
         self.update()
 
+    def set_displacement_scale(self, scale: float) -> None:
+        """
+        Set the height displacement scale and trigger a repaint.
+
+        Args:
+            scale (float): Multiplier applied to sampled height values when
+                displacing vertices along their normals.
+        """
+        self._displacement_scale = scale
+        self.update()
+
     def set_model(self, obj_path: Path) -> None:
         """
         Replace the displayed mesh and trigger a repaint.
@@ -378,8 +401,12 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
             ambient_color,
         )
         gl.glUniform1f(
-            gl.glGetUniformLocation(self._shader_program, "u_height_scale"),
-            self._height_scale,
+            gl.glGetUniformLocation(self._shader_program, "u_displacement_scale"),
+            self._displacement_scale,
+        )
+        gl.glUniform1f(
+            gl.glGetUniformLocation(self._shader_program, "u_environment_strength"),
+            self._environment_strength,
         )
 
         gl.glActiveTexture(gl.GL_TEXTURE0)
@@ -416,13 +443,10 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
             gl.glGetUniformLocation(self._shader_program, "u_environment_map"),
             6,
         )
-        gl.glUniform1f(
-            gl.glGetUniformLocation(self._shader_program, "u_environment_strength"),
-            self._environment_strength,
-        )
 
+        gl.glPatchParameteri(gl.GL_PATCH_VERTICES, 3)
         gl.glBindVertexArray(self._vao)
-        gl.glDrawElements(gl.GL_TRIANGLES, self._index_count, gl.GL_UNSIGNED_INT, None)
+        gl.glDrawElements(gl.GL_PATCHES, self._index_count, gl.GL_UNSIGNED_INT, None)
         gl.glBindVertexArray(0)
         gl.glUseProgram(0)
 
