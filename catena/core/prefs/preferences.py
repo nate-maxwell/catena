@@ -11,18 +11,18 @@
     changes without needing a direct reference to this singleton.
 """
 
+from dataclasses import asdict
 from typing import Any
 from typing import Optional
-from dataclasses import asdict
 
 import broker
+import core_utils.structured
 
 from catena.core import appdata
-from catena.core import io_utils
 from catena.core import namespace
 from catena.core.prefs.category_data import GeneralPreferences
-from catena.core.prefs.category_data import NodeGraphPreferences
 from catena.core.prefs.category_data import LayoutPreferences
+from catena.core.prefs.category_data import NodeGraphPreferences
 
 GENERAL_PREFERENCES = "general_preferences"
 GRAPH_PREFERENCES = "node_graph_preferences"
@@ -90,7 +90,9 @@ class Preferences(object):
         Load in data from user appdata file if it can be found, otherwise, save
         default data to user appdata folder.
         """
-        data = io_utils.import_data_from_json(appdata.CATENA_PREFERENCES_PATH)
+        data = core_utils.structured.import_data_from_json(
+            appdata.CATENA_PREFERENCES_PATH
+        )
         if data is not None:
             self.from_dict(data)
 
@@ -101,7 +103,7 @@ class Preferences(object):
         Emitted data is None as the preference singleton can be accessed from
         anywhere.
         """
-        io_utils.export_data_to_json(
+        core_utils.structured.export_data_to_json(
             appdata.CATENA_PREFERENCES_PATH, self.to_dict(), True
         )
         broker.emit(namespace.PREFERENCES_UPDATED)

@@ -16,9 +16,9 @@ from typing import Any
 from typing import Optional
 
 import broker
+import core_utils.structured
 
 from catena.core import appdata
-from catena.core import io_utils
 from catena.core import namespace
 
 _PROJECT_FILE = "project_file"
@@ -67,7 +67,9 @@ class SessionData(object):
         Load in data from user appdata file if it can be found, otherwise, save
         default data to user appdata folder.
         """
-        data = io_utils.import_data_from_json(appdata.CATENA_SESSION_DATA_PATH)
+        data = core_utils.structured.import_data_from_json(
+            appdata.CATENA_SESSION_DATA_PATH
+        )
         if data is not None:
             self.from_dict(data)
 
@@ -78,7 +80,7 @@ class SessionData(object):
         Emitted data is None as the preference singleton can be accessed from
         anywhere.
         """
-        io_utils.export_data_to_json(
+        core_utils.structured.export_data_to_json(
             appdata.CATENA_SESSION_DATA_PATH, self.to_dict(), True
         )
         broker.emit(namespace.SESSION_DATA_UPDATED)

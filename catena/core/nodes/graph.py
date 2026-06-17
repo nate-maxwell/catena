@@ -1,4 +1,6 @@
 import broker
+from core_utils import regex
+from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView
 from PySide6TK.Nodes import Port
@@ -139,6 +141,39 @@ class CatenaGraphView(GraphView):
         node = CatenaNode.active_preview_node
         if node is not None:
             broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())
+
+    def _on_context_menu(self, viewport_pos: QtCore.QPoint) -> None:
+        """Overridden from parent to convert names from 'BevelNode' to 'Bevel'."""
+        item = self.itemAt(viewport_pos)
+        if item is not None:
+            return
+
+        scene_pos = self.mapToScene(viewport_pos)
+        menu = QtWidgets.QMenu(self)
+
+        comment_action = menu.addAction("Add Comment")
+        comment_action.setData(("comment", scene_pos))
+        menu.addSeparator()
+
+        for category, node_types in sorted(self.node_registry.items()):
+            submenu = menu.addMenu(category)
+            for node_type in node_types:
+                snake_case = regex.pascal_to_snake(node_type.__name__)
+                name = snake_case.replace("_", " ").replace("node", "")
+                entry = name.title()
+                action = submenu.addAction(entry)
+                action.setData(("node", node_type, scene_pos))
+
+        chosen = menu.exec(self.viewport().mapToGlobal(viewport_pos))
+        if chosen is None:
+            return
+
+        data = chosen.data()
+        if data[0] == "comment":
+            self.add_comment(data[1].x(), data[1].y())
+        elif data[0] == "node":
+            node = data[1]()
+            self.add_node(node, data[2].x(), data[2].y())
 
     def _register_nodes(self) -> None:
         self._register_convert_nodes()
