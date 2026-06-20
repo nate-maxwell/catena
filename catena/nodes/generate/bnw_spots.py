@@ -7,7 +7,7 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 
 class BNWSpotsProcessor(ProcessorNode):
@@ -62,7 +62,10 @@ class BNWSpotsProcessor(ProcessorNode):
         for x, y, color in zip(xs, ys, colors):
             for ox, oy in offsets:
                 px, py = int(x) + ox, int(y) + oy
-                if -self.size <= px <= width + self.size and -self.size <= py <= height + self.size:
+                if (
+                    -self.size <= px <= width + self.size
+                    and -self.size <= py <= height + self.size
+                ):
                     cv2.circle(canvas, (px, py), self.size, int(color), -1)
 
         gray = canvas.astype(numpy.float32) / 255.0

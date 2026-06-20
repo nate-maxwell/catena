@@ -5,7 +5,7 @@ from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import Nodes
 
-from catena.nodes.graph import CatenaGraphView
+from catena.nodes.graph_gui import GuiGraphView
 from catena import shortcuts
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
@@ -26,7 +26,7 @@ class NodeGraphPane(DockablePane):
         self._create_subscriptions()
 
     def create_widgets(self) -> None:
-        self.graph_view = CatenaGraphView(self)
+        self.graph_view = GuiGraphView(self)
 
     def create_layouts(self) -> None:
         self.content_layout.addWidget(self.graph_view)

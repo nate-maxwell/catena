@@ -1,7 +1,7 @@
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
-from catena.nodes.graph import CatenaGraphView
+from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars.action_sub_bars.convert import ConvertToolbar
 from catena.toolbars.action_sub_bars.file import CreateToolbar
 from catena.toolbars.action_sub_bars.graph import GraphToolbar
@@ -14,7 +14,7 @@ from catena.toolbars.action_sub_bars.transform import TransformToolbar
 
 class EditorActionToolbar(QtWrappers.Toolbar):
 
-    def __init__(self, parent: QtWidgets.QWidget, graph_view: CatenaGraphView) -> None:
+    def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
         self.graph_view = graph_view
         super().__init__(
             "ActionsToolbar", default_button_resolution=[40, 40], parent=parent

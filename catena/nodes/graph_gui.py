@@ -7,7 +7,7 @@ from PySide6TK.Nodes import Port
 from PySide6TK.Nodes import Wire
 
 from catena import namespace
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.comment import CatenaCommentBox
 from catena.nodes.convert.append import AppendNode
 from catena.nodes.convert.height_to_ao import HeightToAONode
@@ -63,7 +63,7 @@ from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 
 
-class CatenaGraphView(GraphView):
+class GuiGraphView(GraphView):
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
         super().__init__(parent)
         self.comment_type = CatenaCommentBox

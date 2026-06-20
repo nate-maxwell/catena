@@ -8,7 +8,7 @@ from PySide6TK.Nodes import FieldType
 from catena import namespace
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 
 
 class PropertiesPane(DockablePane):

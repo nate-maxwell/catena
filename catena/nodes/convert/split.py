@@ -3,10 +3,10 @@ from typing import Optional
 import numpy
 from PySide6TK.Nodes import PortType
 
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.convert import IMAGE_NODE_COLOR
 from catena.nodes.data import PortDataType
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 
 class SplitProcessor(ProcessorNode):

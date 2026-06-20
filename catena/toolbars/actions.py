@@ -32,7 +32,7 @@ from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
-from catena.nodes.graph import CatenaGraphView
+from catena.nodes.graph_gui import GuiGraphView
 from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
 from catena.nodes.image.color import ColorNode
@@ -86,22 +86,22 @@ class ClientActions(object):
 class ConvertActions(object):
 
     @classmethod
-    def action_h2m_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_h2m_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=HeightToNormalNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_h2ao_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_h2ao_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=HeightToAONode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_split_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_split_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=SplitNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_append_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_append_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=AppendNode(), x=coords.x(), y=coords.y())
 
@@ -109,37 +109,37 @@ class ConvertActions(object):
 class CreateActions(object):
 
     @classmethod
-    def action_read_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_read_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ReadNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_albedo_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_albedo_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=AlbedoNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_ao_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_ao_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=AONode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_height_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_height_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=HeightNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_metallic_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_metallic_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=MetallicNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_normal_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_normal_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=NormalNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_roughness_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_roughness_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=RoughnessNode(), x=coords.x(), y=coords.y())
 
@@ -147,67 +147,67 @@ class CreateActions(object):
 class ImageActions(object):
 
     @classmethod
-    def action_overlay_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_overlay_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=OverlayNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_blur_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_blur_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=BlurNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_hsv_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_hsv_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=HSVNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_levels_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_levels_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=LevelsNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_sharpen_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_sharpen_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=SharpenNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_contrast_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_contrast_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ContrastNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_threshold_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_threshold_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ThresholdNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_color_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_color_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ColorNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_invert_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_invert_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=InvertNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_warp_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_warp_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=WarpNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_bevel_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_bevel_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=BevelNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_slope_blur_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_slope_blur_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=SlopeBlurNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_normalize_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_normalize_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=NormalizeNode(), x=coords.x(), y=coords.y())
 
@@ -215,27 +215,27 @@ class ImageActions(object):
 class XformActions(object):
 
     @classmethod
-    def action_flip_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_flip_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=FlipNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_rotate_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_rotate_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=RotateNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_offset_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_offset_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=OffsetNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_tile_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_tile_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=TileNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_scatter_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_scatter_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ScatterNode(), x=coords.x(), y=coords.y())
 
@@ -243,57 +243,57 @@ class XformActions(object):
 class MathActions(object):
 
     @classmethod
-    def action_add_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_add_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=AddNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_multiply_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_multiply_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=MultiplyNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_subtract_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_subtract_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=SubtractNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_divide_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_divide_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=DivideNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_min_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_min_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=MinNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_max_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_max_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=MaxNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_screen_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_screen_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ScreenNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_sin_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_sin_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=SinNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_cosin_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_cosin_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CosineNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_tan_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_tan_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=TangentNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_arctan_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_arctan_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ArctangentNode(), x=coords.x(), y=coords.y())
 
@@ -301,51 +301,51 @@ class MathActions(object):
 class GeneratorActions(object):
 
     @classmethod
-    def action_perlin_noise_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_perlin_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=PerlinNoiseNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_blue_noise_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_blue_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=BlueNoiseNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_bnw_spots_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_bnw_spots_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=BNWSpotsNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_cells_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_cells_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CellsNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_clouds_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_clouds_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CloudsNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_gradient_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_gradient_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=GradientNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_white_noise_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_white_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=WhiteNoiseNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_shape_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_shape_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ShapeNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_polygon_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_polygon_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=PolygonNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_crystal_noise_node(cls, graph_view: CatenaGraphView) -> None:
+    def action_crystal_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=VoronoiNoiseNode(), x=coords.x(), y=coords.y())

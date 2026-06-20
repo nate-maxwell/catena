@@ -7,7 +7,7 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 _SHAPES = ["Square", "Circle", "Paraboloid", "Bell", "Gaussian", "Thorn", "Pyramid"]
 _GENERATOR = Callable[[numpy.ndarray, numpy.ndarray, float], numpy.ndarray]

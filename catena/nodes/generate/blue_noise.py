@@ -6,7 +6,7 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 
 class BlueNoiseProcessor(ProcessorNode):

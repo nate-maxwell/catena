@@ -11,11 +11,11 @@ from PySide6TK.Nodes import PortType
 
 from catena import namespace
 from catena import texture
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.data import DATA_TYPE_COLORS
 from catena.nodes.data import PortDataType
 from catena.nodes.file import IMAGE_NODE_COLOR
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 _EXTENSIONS = {
     "PNG": ".png",

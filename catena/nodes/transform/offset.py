@@ -5,8 +5,8 @@ from PySide6TK.Nodes import FieldDefinition
 from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
-from catena.nodes.base import CatenaNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_gui import CatenaNode
+from catena.nodes.node_processor import ProcessorNode
 from catena.nodes.transform import IMAGE_NODE_COLOR
 
 

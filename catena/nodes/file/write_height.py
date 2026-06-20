@@ -4,7 +4,7 @@ from PySide6TK.Nodes import FieldType
 
 from catena import namespace
 from catena import texture
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.file import IMAGE_NODE_COLOR
 from catena.nodes.file.write import WriteNode
 

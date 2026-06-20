@@ -7,7 +7,7 @@ from PySide6 import QtWidgets
 from PySide6TK.Nodes import PortType
 
 from catena import texture
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.generate import IMAGE_NODE_COLOR
 
 

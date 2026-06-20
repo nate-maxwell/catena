@@ -7,7 +7,7 @@ from PySide6TK.Nodes.node import PortType
 
 from catena.nodes.generate import IMAGE_NODE_COLOR
 from catena.nodes.generate.generator import GeneratorNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 
 def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarray:

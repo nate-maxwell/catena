@@ -7,7 +7,7 @@ from PySide6TK.Nodes import PortType
 from scipy.spatial import cKDTree
 
 from catena.nodes.generate.generator import GeneratorNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_processor import ProcessorNode
 
 
 class VoronoiNoiseProcessor(ProcessorNode):

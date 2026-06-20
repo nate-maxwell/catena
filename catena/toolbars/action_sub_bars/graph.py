@@ -2,13 +2,13 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 from PySide6TK import Resources
 
-from catena.nodes.graph import CatenaGraphView
+from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars import actions
 
 
 class GraphToolbar(QtWrappers.Toolbar):
 
-    def __init__(self, parent: QtWidgets.QWidget, graph_view: CatenaGraphView) -> None:
+    def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
         super().__init__(
             "GraphToolbar", default_button_resolution=[40, 40], parent=parent
         )

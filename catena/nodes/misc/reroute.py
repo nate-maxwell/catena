@@ -3,7 +3,7 @@ from typing import Optional
 import numpy
 from PySide6TK.Nodes import PortType
 
-from catena.nodes.base import CatenaNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.misc import IMAGE_NODE_COLOR
 
 

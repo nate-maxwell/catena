@@ -9,8 +9,8 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena import texture
-from catena.nodes.base import CatenaNode
-from catena.nodes.processor import ProcessorNode
+from catena.nodes.node_gui import CatenaNode
+from catena.nodes.node_processor import ProcessorNode
 
 
 class ReadProcessor(ProcessorNode):
