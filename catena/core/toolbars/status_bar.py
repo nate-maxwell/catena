@@ -34,7 +34,7 @@ class StatusBar(QtWrappers.Toolbar):
 
         self.add_line()
 
-        version_string = f"Version: {__version__.version_str}"
+        version_string = f"Version: {__version__}"
         self.lbl_version = QtWidgets.QLabel(version_string)
         self.addWidget(self.lbl_version)
 
