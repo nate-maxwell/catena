@@ -142,12 +142,7 @@ class CatenaNode(BaseNode):
                     target_node._invalidate_downstream()
 
     def _refresh_downstream_write_nodes(self) -> None:
-        """
-        Refresh write nodes downstream of this node.
-
-        This intentionally does not import WriteNode to avoid a circular import.
-        Write nodes expose _emit_preview_update(), so use that as the refresh hook.
-        """
+        """Refresh write nodes downstream of this node."""
         visited: set[CatenaNode] = set()
         stack: list[CatenaNode] = [self]
 
