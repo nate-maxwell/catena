@@ -1,0 +1,89 @@
+from typing import Optional
+
+import cv2
+import numpy
+from PySide6TK.Nodes import FieldDefinition
+from PySide6TK.Nodes import FieldType
+from PySide6TK.Nodes import PortType
+
+from catena.application.nodes.generate.generator import GeneratorNode
+
+
+class BNWSpotsNode(GeneratorNode):
+    """A node that generates random black and white spots."""
+
+    def __init__(self) -> None:
+        super().__init__(title="BnW Spots")
+
+    def _build(self) -> None:
+        self.port_out = self.add_port(PortType.OUTPUT, "Output")
+
+        self.add_field(
+            FieldDefinition(
+                name="density",
+                label="Density",
+                field_type=FieldType.FLOAT,
+                default=0.01,
+                min_value=0.0001,
+                max_value=100,
+            )
+        )
+        self.add_field(
+            FieldDefinition(
+                name="size",
+                label="Size",
+                field_type=FieldType.INT,
+                default=4,
+                min_value=1,
+                max_value=64,
+            )
+        )
+        self.add_field(
+            FieldDefinition(
+                name="seed",
+                label="Seed",
+                field_type=FieldType.INT,
+                default=0,
+                min_value=0,
+                max_value=99999,
+            )
+        )
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        density = self.get_field_value("density")
+        size = self.get_field_value("size")
+        seed = self.get_field_value("seed")
+
+        width, height = 512, 512
+        rng = numpy.random.default_rng(seed)
+
+        canvas = numpy.full((height, width), 128, dtype=numpy.uint8)
+
+        num_spots = int(width * height * density)
+        xs = rng.integers(0, width, num_spots)
+        ys = rng.integers(0, height, num_spots)
+        colors = rng.choice([0, 255], num_spots)
+
+        offsets = [
+            (-width, -height),
+            (0, -height),
+            (width, -height),
+            (-width, 0),
+            (0, 0),
+            (width, 0),
+            (-width, height),
+            (0, height),
+            (width, height),
+        ]
+
+        for x, y, color in zip(xs, ys, colors):
+            for ox, oy in offsets:
+                px, py = int(x) + ox, int(y) + oy
+                if -size <= px <= width + size and -size <= py <= height + size:
+                    cv2.circle(canvas, (px, py), size, int(color), -1)
+
+        gray = canvas.astype(numpy.float32) / 255.0
+        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
+        return result
