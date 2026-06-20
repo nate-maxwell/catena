@@ -4,9 +4,9 @@ from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 
-from catena.core import resources
-from catena.core.client import CatenaEditor
-from catena.core.splash import CatenaSplashScreen
+from catena import resources
+from catena.client import CatenaEditor
+from catena.splash import CatenaSplashScreen
 
 
 def main() -> int:
