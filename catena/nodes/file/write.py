@@ -104,7 +104,8 @@ class WriteNode(CatenaNode):
         broker.register_subscriber(namespace.NODE_WRITE_FILE, self.write_image)
 
     def _build(self) -> None:
-        self.port_in = self.add_port(PortType.INPUT, "Input")
+        # self.port_in = self.add_port(PortType.INPUT, "Input")
+        self.port_in = self.add_port(PortType.INPUT, "Input", self._data_type)
         self.port_in.set_color(DATA_TYPE_COLORS[self._data_type])
 
         self.add_field(
