@@ -48,6 +48,10 @@ class TexViewportPane(DockablePane):
             return
 
         display = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
+
+        if display.ndim == 3 and display.shape[2] == 4:
+            display = display[:, :, :3]
+
         rgb = texture.bgr_to_rgb(display)
         qimage = texture.ndarray_to_qimage(rgb)
         self.image_view.set_image(qimage)

@@ -78,9 +78,6 @@ class WriteProcessor(ProcessorNode):
         if output.ndim == 3 and output.shape[2] == 4:
             output = output[:, :, :3]
 
-        if output.ndim == 3 and output.shape[2] == 3:
-            output = texture.rgb_to_bgr(output)
-
         return cv2.imwrite(str(path), output)
 
 
