@@ -62,7 +62,7 @@ class HeightToNormalProcessor(ProcessorNode):
         ny = (ny + 1.0) * 0.5
         nz = (nz + 1.0) * 0.5
 
-        return numpy.stack([nz, ny, nx], axis=-1).astype(numpy.float32)
+        return numpy.stack([nx, ny, nz], axis=-1).astype(numpy.float32)
 
 
 class HeightToNormalNode(CatenaNode):

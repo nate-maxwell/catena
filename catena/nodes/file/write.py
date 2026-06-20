@@ -75,6 +75,9 @@ class WriteProcessor(ProcessorNode):
 
         output = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
 
+        if output.ndim == 3 and output.shape[2] == 4:
+            output = output[:, :, :3]
+
         if output.ndim == 3 and output.shape[2] == 3:
             output = texture.rgb_to_bgr(output)
 
@@ -129,7 +132,7 @@ class WriteNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        return self._processor.process(inputs)
+        return inputs.get("Input")
 
     def write_image(self) -> bool:
         """

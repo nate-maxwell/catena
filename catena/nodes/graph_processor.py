@@ -4,14 +4,65 @@ from typing import Any
 from typing import Optional
 from typing import Type
 from typing import TypeVar
+import importlib
+import inspect
+import pkgutil
 
 import numpy
 
+import catena.nodes as nodes_package
 from catena.nodes.node_processor import ProcessorNode
+from catena.nodes.file.write import WriteProcessor
 
 T = TypeVar("T", bound=ProcessorNode)
 
 _NODE_TYPE_REGISTRY: dict[str, Type[ProcessorNode]] = {}
+
+_registry_initialized: bool = False
+
+
+def auto_register_processors() -> None:
+    """
+    Scan all modules in catena.nodes and automatically register every
+    ProcessorNode subclass under the corresponding node type name.
+
+    Assumes the convention that XxxProcessor corresponds to XxxNode —
+    e.g. BlurProcessor is registered under "BlurNode".
+    """
+    global _registry_initialized
+    if _registry_initialized:
+        return
+    _registry_initialized = True
+
+    for finder, module_name, _ in pkgutil.walk_packages(
+        path=nodes_package.__path__,
+        prefix=nodes_package.__name__ + ".",
+        onerror=lambda x: None,
+    ):
+        try:
+            module = importlib.import_module(module_name)
+        except Exception:
+            continue
+
+        for _, obj in inspect.getmembers(module, inspect.isclass):
+            if (
+                issubclass(obj, ProcessorNode)
+                and obj is not ProcessorNode
+                and obj.__module__ == module_name
+            ):
+                node_type_name = obj.__name__.replace("Processor", "Node")
+                _NODE_TYPE_REGISTRY[node_type_name] = obj
+
+    _NODE_TYPE_REGISTRY["AlbedoNode"] = WriteProcessor
+    _NODE_TYPE_REGISTRY["NormalNode"] = WriteProcessor
+    _NODE_TYPE_REGISTRY["RoughnessNode"] = WriteProcessor
+    _NODE_TYPE_REGISTRY["MetallicNode"] = WriteProcessor
+    _NODE_TYPE_REGISTRY["AONode"] = WriteProcessor
+    _NODE_TYPE_REGISTRY["HeightNode"] = WriteProcessor
+
+
+# Ensure the registry is populated with the standard node library.
+auto_register_processors()
 
 
 def register_processor(node_type_name: str, processor_cls: Type[ProcessorNode]) -> None:
@@ -37,6 +88,7 @@ class ProcessorGraph(object):
     """
 
     def __init__(self) -> None:
+        auto_register_processors()
         self._nodes: dict[str, ProcessorNode] = {}
         self._node_types: dict[str, str] = {}
 
