@@ -37,6 +37,7 @@ from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
 from catena.nodes.image.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
+from catena.nodes.image.histogram_scan import HistogramScanNode
 from catena.nodes.image.hsv import HSVNode
 from catena.nodes.image.invert import InvertNode
 from catena.nodes.image.levels import LevelsNode
@@ -185,6 +186,11 @@ class ImageActions(object):
     def action_color_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ColorNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_historgram_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=HistogramScanNode(), x=coords.x(), y=coords.y())
 
     @classmethod
     def action_invert_node(cls, graph_view: GuiGraphView) -> None:

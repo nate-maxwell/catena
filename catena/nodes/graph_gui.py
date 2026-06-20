@@ -35,6 +35,7 @@ from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
 from catena.nodes.image.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
+from catena.nodes.image.histogram_scan import HistogramScanNode
 from catena.nodes.image.hsv import HSVNode
 from catena.nodes.image.invert import InvertNode
 from catena.nodes.image.levels import LevelsNode
@@ -204,6 +205,7 @@ class GuiGraphView(GraphView):
         self.register_node("Image", BlurNode)
         self.register_node("Image", ColorNode)
         self.register_node("Image", ContrastNode)
+        self.register_node("Image", HistogramScanNode)
         self.register_node("Image", HSVNode)
         self.register_node("Image", InvertNode)
         self.register_node("Image", LevelsNode)
