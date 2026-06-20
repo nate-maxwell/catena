@@ -81,20 +81,15 @@ class ProcessorGraph(object):
         for wire in data["wires"]:
             source_id = wire["source_node"]
             target_id = wire["target_node"]
-            source_port_idx = wire["source_port"]
-            target_port_idx = wire["target_port"]
 
             if source_id not in graph._nodes or target_id not in graph._nodes:
                 continue
 
             source = graph._nodes[source_id]
             target = graph._nodes[target_id]
-
-            source_name = _resolve_port_name(source, source_port_idx, output=True)
-            target_name = _resolve_port_name(target, target_port_idx, output=False)
-
-            if source_name is not None and target_name is not None:
-                target.connect(target_name, source, source_port=source_name)
+            source_name = wire["source_port"]
+            target_name = wire["target_port"]
+            target.connect(target_name, source, source_port=source_name)
 
         return graph
 
@@ -217,24 +212,3 @@ class ProcessorGraph(object):
 
     def __repr__(self) -> str:
         return f"ProcessorGraph({len(self._nodes)} nodes)"
-
-
-def _resolve_port_name(
-    processor: ProcessorNode,
-    index: int,
-    output: bool,
-) -> Optional[str]:
-    """
-    Resolve a port index to a port name using the processor's port registry.
-
-    Args:
-        processor (ProcessorNode): The processor node to query.
-        index (int): The port index from the serialized wire.
-        output (bool): True to resolve an output port, False for input.
-    Returns:
-        str | None: The port name, or None if the index is out of range.
-    """
-    ports = processor.output_port_names if output else processor.input_port_names
-    if index < len(ports):
-        return ports[index]
-    return None
