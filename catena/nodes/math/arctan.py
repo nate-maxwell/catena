@@ -7,14 +7,80 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.math import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class ArctangentProcessor(ProcessorNode):
+    """A headless processor that applies an arctangent remap or generates a directional wave."""
+
+    def __init__(
+        self,
+        frequency: float = 8.0,
+        phase: float = 0.0,
+        angle: float = 0.0,
+        scale: float = 1.0,
+    ) -> None:
+        super().__init__()
+        self.frequency = frequency
+        self.phase = phase
+        self.angle = angle
+        self.scale = scale
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Apply an arctangent remap to an input image, or generate a directional
+        arctangent wave if no input is connected.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Optionally expects key
+                "Input" containing a float32 image. If None, generates a
+                directional wave pattern.
+        Returns:
+            numpy.ndarray | None: A float32 image of shape (H, W, 3) with
+                values in [0, 1].
+        """
+        image = inputs.get("Input")
+
+        width, height = 512, 512
+        if image is not None:
+            height, width = image.shape[:2]
+
+        if image is None:
+            y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
+            radians = numpy.deg2rad(self.angle)
+            direction_x = numpy.cos(radians)
+            direction_y = numpy.sin(radians)
+
+            cx, cy = width / 2.0, height / 2.0
+            projection = (x_idx - cx) * direction_x + (y_idx - cy) * direction_y
+            max_extent = max(width, height)
+
+            phase_rad = numpy.deg2rad(self.phase)
+            wave = numpy.arctan(
+                (2 * self.frequency * projection / max_extent + phase_rad) * self.scale
+            )
+            wave = (wave / (numpy.pi / 2.0) + 1.0) * 0.5
+
+            return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
+
+        gray = image.mean(axis=2)
+        phase_rad = numpy.deg2rad(self.phase)
+        centered = (gray - 0.5) * 2.0
+        wave = numpy.arctan((self.frequency * centered + phase_rad) * self.scale)
+        wave = (wave / (numpy.pi / 2.0) + 1.0) * 0.5
+
+        return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
 class ArctangentNode(CatenaNode):
-    """A node that applies an arctangent remap, either as a generate or as a remap of an input."""
+    """A node that applies an arctangent remap, either as a generator or as a remap of an input."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = ArctangentProcessor()
         super().__init__(title="Arctangent")
 
     def _build(self) -> None:
@@ -65,39 +131,8 @@ class ArctangentNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-
-        frequency = self.get_field_value("frequency")
-        phase = self.get_field_value("phase")
-        angle = self.get_field_value("angle")
-        scale = self.get_field_value("scale")
-
-        width, height = 512, 512
-        if image is not None:
-            height, width = image.shape[:2]
-
-        if image is None:
-            y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
-            radians = numpy.deg2rad(angle)
-            direction_x = numpy.cos(radians)
-            direction_y = numpy.sin(radians)
-
-            cx, cy = width / 2.0, height / 2.0
-            projection = (x_idx - cx) * direction_x + (y_idx - cy) * direction_y
-            max_extent = max(width, height)
-
-            phase_rad = numpy.deg2rad(phase)
-            wave = numpy.arctan(
-                (2 * frequency * projection / max_extent + phase_rad) * scale
-            )
-            wave = (wave / (numpy.pi / 2.0) + 1.0) * 0.5
-
-            return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
-
-        gray = image.mean(axis=2)
-        phase_rad = numpy.deg2rad(phase)
-        centered = (gray - 0.5) * 2.0
-        wave = numpy.arctan((frequency * centered + phase_rad) * scale)
-        wave = (wave / (numpy.pi / 2.0) + 1.0) * 0.5
-
-        return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
+        self._processor.frequency = self.get_field_value("frequency")
+        self._processor.phase = self.get_field_value("phase")
+        self._processor.angle = self.get_field_value("angle")
+        self._processor.scale = self.get_field_value("scale")
+        return self._processor.process(inputs)

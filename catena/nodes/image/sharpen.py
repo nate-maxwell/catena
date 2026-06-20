@@ -8,6 +8,42 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class SharpenProcessor(ProcessorNode):
+    """A headless processor that sharpens an image using an unsharp mask."""
+
+    def __init__(self, amount: float = 1.0, radius: float = 2.0) -> None:
+        super().__init__()
+        self.amount = amount
+        self.radius = radius
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Sharpen an input image using an unsharp mask.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: The sharpened float32 image. Values may
+                exceed [0, 1] and should be clamped downstream if needed.
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        if self.amount <= 0:
+            return image
+
+        blurred = cv2.GaussianBlur(
+            image, (0, 0), sigmaX=self.radius, sigmaY=self.radius
+        )
+        result = cv2.addWeighted(image, 1.0 + self.amount, blurred, -self.amount, 0)
+        return result.astype(numpy.float32)
 
 
 class SharpenNode(CatenaNode):
@@ -16,6 +52,7 @@ class SharpenNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = SharpenProcessor()
         super().__init__(title="Sharpen")
 
     def _build(self) -> None:
@@ -46,16 +83,6 @@ class SharpenNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        amount = self.get_field_value("amount")
-        radius = self.get_field_value("radius")
-
-        if amount <= 0:
-            return image
-
-        blurred = cv2.GaussianBlur(image, (0, 0), sigmaX=radius, sigmaY=radius)
-        result = cv2.addWeighted(image, 1.0 + amount, blurred, -amount, 0)
-        return result.astype(numpy.float32)
+        self._processor.amount = self.get_field_value("amount")
+        self._processor.radius = self.get_field_value("radius")
+        return self._processor.process(inputs)

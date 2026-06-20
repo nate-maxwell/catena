@@ -8,6 +8,71 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class WarpProcessor(ProcessorNode):
+    """A headless processor that displaces pixels in a direction scaled by a displacement map."""
+
+    def __init__(self, strength: float = 10.0, direction: float = 0.0) -> None:
+        super().__init__()
+        self.strength = strength
+        self.direction = direction
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Displace pixels in a fixed direction, scaled by a displacement map.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects keys "Input"
+                and optionally "Displacement", each containing a float32 image.
+                If Displacement is None, a uniform full-image displacement is applied.
+        Returns:
+            numpy.ndarray | None: The warped float32 image, or the unmodified
+                input if strength is zero or no input is provided.
+        """
+        image = inputs.get("Input")
+        displacement = inputs.get("Displacement")
+
+        if image is None:
+            return None
+
+        if self.strength <= 0:
+            return image
+
+        height, width = image.shape[:2]
+
+        if displacement is None:
+            disp = numpy.ones((height, width), dtype=numpy.float32)
+        else:
+            if displacement.shape[:2] != (height, width):
+                displacement = cv2.resize(displacement, (width, height))
+            if displacement.ndim == 3:
+                disp = displacement.mean(axis=2)
+            else:
+                disp = displacement.astype(numpy.float32)
+
+        radians = numpy.deg2rad(self.direction)
+        direction_x = numpy.cos(radians)
+        direction_y = numpy.sin(radians)
+
+        offset_x = disp * direction_x * self.strength
+        offset_y = disp * direction_y * self.strength
+
+        y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
+        map_x = (x_idx + offset_x).astype(numpy.float32)
+        map_y = (y_idx + offset_y).astype(numpy.float32)
+
+        result = cv2.remap(
+            image,
+            map_x,
+            map_y,
+            interpolation=cv2.INTER_LINEAR,
+            borderMode=cv2.BORDER_REFLECT,
+        )
+        return result.astype(numpy.float32)
 
 
 class WarpNode(CatenaNode):
@@ -16,6 +81,7 @@ class WarpNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = WarpProcessor()
         super().__init__(title="Warp")
 
     def _build(self) -> None:
@@ -47,47 +113,6 @@ class WarpNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        displacement = inputs.get("Displacement")
-
-        if image is None:
-            return None
-
-        strength = self.get_field_value("strength")
-        direction = self.get_field_value("direction")
-
-        if strength <= 0:
-            return image
-
-        height, width = image.shape[:2]
-
-        if displacement is None:
-            disp = numpy.ones((height, width), dtype=numpy.float32)
-        else:
-            if displacement.shape[:2] != (height, width):
-                displacement = cv2.resize(displacement, (width, height))
-
-            if displacement.ndim == 3:
-                disp = displacement.mean(axis=2)
-            else:
-                disp = displacement.astype(numpy.float32)
-
-        radians = numpy.deg2rad(direction)
-        direction_x = numpy.cos(radians)
-        direction_y = numpy.sin(radians)
-
-        offset_x = disp * direction_x * strength
-        offset_y = disp * direction_y * strength
-
-        y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
-        map_x = (x_idx + offset_x).astype(numpy.float32)
-        map_y = (y_idx + offset_y).astype(numpy.float32)
-
-        result = cv2.remap(
-            image,
-            map_x,
-            map_y,
-            interpolation=cv2.INTER_LINEAR,
-            borderMode=cv2.BORDER_REFLECT,
-        )
-        return result.astype(numpy.float32)
+        self._processor.strength = self.get_field_value("strength")
+        self._processor.direction = self.get_field_value("direction")
+        return self._processor.process(inputs)

@@ -7,6 +7,57 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class LevelsProcessor(ProcessorNode):
+    """A headless processor that remaps input black/white points and applies gamma."""
+
+    def __init__(
+        self,
+        input_low: int = 0,
+        input_high: int = 255,
+        output_low: int = 0,
+        output_high: int = 255,
+        gamma: float = 1.0,
+    ) -> None:
+        super().__init__()
+        self.input_low = input_low
+        self.input_high = input_high
+        self.output_low = output_low
+        self.output_high = output_high
+        self.gamma = gamma
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Remap input black/white points and apply gamma correction.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image with values in [0, 1].
+        Returns:
+            numpy.ndarray | None: The adjusted float32 image clamped to [0, 1].
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        in_black = self.input_low / 255.0
+        in_white = self.input_high / 255.0
+        out_black = self.output_low / 255.0
+        out_white = self.output_high / 255.0
+
+        in_range = max(in_white - in_black, 1e-6)
+        out_range = out_white - out_black
+
+        result = image.astype(numpy.float32)
+        result = (result - in_black) / in_range
+        result = numpy.clip(result, 0.0, 1.0)
+        result = numpy.power(result, 1.0 / self.gamma)
+        result = result * out_range + out_black
+        return numpy.clip(result, 0.0, 1.0).astype(numpy.float32)
 
 
 class LevelsNode(CatenaNode):
@@ -15,6 +66,7 @@ class LevelsNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = LevelsProcessor()
         super().__init__(title="Levels")
 
     def _build(self) -> None:
@@ -75,24 +127,9 @@ class LevelsNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        in_black = self.get_field_value("input_low") / 255.0
-        in_white = self.get_field_value("input_high") / 255.0
-        gamma = self.get_field_value("gamma")
-        out_black = self.get_field_value("output_low") / 255.0
-        out_white = self.get_field_value("output_high") / 255.0
-
-        in_range = max(in_white - in_black, 1e-6)
-        out_range = out_white - out_black
-
-        result = image.astype(numpy.float32)
-        result = (result - in_black) / in_range
-        result = numpy.clip(result, 0.0, 1.0)
-        result = numpy.power(result, 1.0 / gamma)
-        result = result * out_range + out_black
-        result = numpy.clip(result, 0.0, 1.0)
-
-        return result.astype(numpy.float32)
+        self._processor.input_low = self.get_field_value("input_low")
+        self._processor.input_high = self.get_field_value("input_high")
+        self._processor.output_low = self.get_field_value("output_low")
+        self._processor.output_high = self.get_field_value("output_high")
+        self._processor.gamma = self.get_field_value("gamma")
+        return self._processor.process(inputs)

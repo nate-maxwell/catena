@@ -7,12 +7,73 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
+from catena.nodes.processor import ProcessorNode
+
+
+class BNWSpotsProcessor(ProcessorNode):
+    """A headless processor that generates random black and white spots."""
+
+    def __init__(
+        self,
+        density: float = 0.01,
+        size: int = 4,
+        seed: int = 0,
+    ) -> None:
+        super().__init__()
+        self.density = density
+        self.size = size
+        self.seed = seed
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Generate random black and white spots with seamless tiling.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Unused; generators
+                produce output from parameters only.
+        Returns:
+            numpy.ndarray | None: A float32 image of shape (512, 512, 3)
+                with values in [0, 1].
+        """
+        width, height = 512, 512
+        rng = numpy.random.default_rng(self.seed)
+
+        canvas = numpy.full((height, width), 128, dtype=numpy.uint8)
+
+        num_spots = int(width * height * self.density)
+        xs = rng.integers(0, width, num_spots)
+        ys = rng.integers(0, height, num_spots)
+        colors = rng.choice([0, 255], num_spots)
+
+        offsets = [
+            (-width, -height),
+            (0, -height),
+            (width, -height),
+            (-width, 0),
+            (0, 0),
+            (width, 0),
+            (-width, height),
+            (0, height),
+            (width, height),
+        ]
+
+        for x, y, color in zip(xs, ys, colors):
+            for ox, oy in offsets:
+                px, py = int(x) + ox, int(y) + oy
+                if -self.size <= px <= width + self.size and -self.size <= py <= height + self.size:
+                    cv2.circle(canvas, (px, py), self.size, int(color), -1)
+
+        gray = canvas.astype(numpy.float32) / 255.0
+        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
 class BNWSpotsNode(GeneratorNode):
     """A node that generates random black and white spots."""
 
     def __init__(self) -> None:
+        self._processor = BNWSpotsProcessor()
         super().__init__(title="BnW Spots")
 
     def _build(self) -> None:
@@ -52,38 +113,7 @@ class BNWSpotsNode(GeneratorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        density = self.get_field_value("density")
-        size = self.get_field_value("size")
-        seed = self.get_field_value("seed")
-
-        width, height = 512, 512
-        rng = numpy.random.default_rng(seed)
-
-        canvas = numpy.full((height, width), 128, dtype=numpy.uint8)
-
-        num_spots = int(width * height * density)
-        xs = rng.integers(0, width, num_spots)
-        ys = rng.integers(0, height, num_spots)
-        colors = rng.choice([0, 255], num_spots)
-
-        offsets = [
-            (-width, -height),
-            (0, -height),
-            (width, -height),
-            (-width, 0),
-            (0, 0),
-            (width, 0),
-            (-width, height),
-            (0, height),
-            (width, height),
-        ]
-
-        for x, y, color in zip(xs, ys, colors):
-            for ox, oy in offsets:
-                px, py = int(x) + ox, int(y) + oy
-                if -size <= px <= width + size and -size <= py <= height + size:
-                    cv2.circle(canvas, (px, py), size, int(color), -1)
-
-        gray = canvas.astype(numpy.float32) / 255.0
-        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
-        return result
+        self._processor.density = self.get_field_value("density")
+        self._processor.size = self.get_field_value("size")
+        self._processor.seed = self.get_field_value("seed")
+        return self._processor.process(inputs)

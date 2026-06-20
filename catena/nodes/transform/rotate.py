@@ -7,7 +7,39 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
+from catena.nodes.processor import ProcessorNode
 from catena.nodes.transform import IMAGE_NODE_COLOR
+
+
+class RotateProcessor(ProcessorNode):
+    """A headless processor that rotates an image by an arbitrary angle."""
+
+    def __init__(self, angle: float = 0.0, scale: float = 1.0) -> None:
+        super().__init__()
+        self.angle = angle
+        self.scale = scale
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Rotate an input image by an arbitrary angle.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: The rotated float32 image.
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        height, width = image.shape[:2]
+        center = (width / 2.0, height / 2.0)
+
+        matrix = cv2.getRotationMatrix2D(center, self.angle, self.scale)
+        return cv2.warpAffine(image, matrix, (width, height)).astype(numpy.float32)
 
 
 class RotateNode(CatenaNode):
@@ -16,6 +48,7 @@ class RotateNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = RotateProcessor()
         super().__init__(title="Rotate")
 
     def _build(self) -> None:
@@ -46,16 +79,6 @@ class RotateNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        angle = self.get_field_value("angle")
-        scale = self.get_field_value("scale")
-
-        height, width = image.shape[:2]
-        center = (width / 2.0, height / 2.0)
-
-        matrix = cv2.getRotationMatrix2D(center, angle, scale)
-        result = cv2.warpAffine(image, matrix, (width, height))
-        return result.astype(numpy.float32)
+        self._processor.angle = self.get_field_value("angle")
+        self._processor.scale = self.get_field_value("scale")
+        return self._processor.process(inputs)

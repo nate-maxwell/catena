@@ -8,6 +8,61 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class OverlayProcessor(ProcessorNode):
+    """A headless processor that overlays a top image onto a bottom image using an alpha mask."""
+
+    def __init__(self, mix: float = 1.0) -> None:
+        super().__init__()
+        self.mix = mix
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Overlay a top image onto a bottom image using an optional alpha mask.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects keys "Bottom",
+                "Top", and optionally "Alpha", each containing float32 images.
+        Returns:
+            numpy.ndarray | None: The composited float32 image, or None if
+                both Bottom and Top are None.
+        """
+        bottom = inputs.get("Bottom")
+        top = inputs.get("Top")
+        alpha = inputs.get("Alpha")
+
+        if bottom is None and top is None:
+            return None
+        if bottom is None:
+            return top
+        if top is None:
+            return bottom
+
+        if top.shape != bottom.shape:
+            height, width = bottom.shape[:2]
+            top = cv2.resize(top, (width, height))
+
+        if alpha is None:
+            mask = numpy.full(bottom.shape[:2], self.mix, dtype=numpy.float32)
+        else:
+            if alpha.shape[:2] != bottom.shape[:2]:
+                height, width = bottom.shape[:2]
+                alpha = cv2.resize(alpha, (width, height))
+            if alpha.ndim == 3:
+                alpha = alpha.mean(axis=2)
+            mask = alpha.astype(numpy.float32) * self.mix
+
+        mask = mask[:, :, None]
+
+        result = (
+            bottom.astype(numpy.float32) * (1.0 - mask)
+            + top.astype(numpy.float32) * mask
+        )
+        return result.astype(numpy.float32)
 
 
 class OverlayNode(CatenaNode):
@@ -16,6 +71,7 @@ class OverlayNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = OverlayProcessor()
         super().__init__(title="Overlay")
 
     def _build(self) -> None:
@@ -38,37 +94,5 @@ class OverlayNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        bottom = inputs.get("Bottom")
-        top = inputs.get("Top")
-        alpha = inputs.get("Alpha")
-
-        if bottom is None and top is None:
-            return None
-        if bottom is None:
-            return top
-        if top is None:
-            return bottom
-
-        if top.shape != bottom.shape:
-            height, width = bottom.shape[:2]
-            top = cv2.resize(top, (width, height))
-
-        mix = self.get_field_value("mix")
-
-        if alpha is None:
-            mask = numpy.full(bottom.shape[:2], mix, dtype=numpy.float32)
-        else:
-            if alpha.shape[:2] != bottom.shape[:2]:
-                height, width = bottom.shape[:2]
-                alpha = cv2.resize(alpha, (width, height))
-            if alpha.ndim == 3:
-                alpha = alpha.mean(axis=2)
-            mask = alpha.astype(numpy.float32) * mix
-
-        mask = mask[:, :, None]
-
-        result = (
-            bottom.astype(numpy.float32) * (1.0 - mask)
-            + top.astype(numpy.float32) * mask
-        )
-        return result.astype(numpy.float32)
+        self._processor.mix = self.get_field_value("mix")
+        return self._processor.process(inputs)

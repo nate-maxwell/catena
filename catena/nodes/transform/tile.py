@@ -7,7 +7,44 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
+from catena.nodes.processor import ProcessorNode
 from catena.nodes.transform import IMAGE_NODE_COLOR
+
+
+class TileProcessor(ProcessorNode):
+    """A headless processor that repeats an input image across a grid."""
+
+    def __init__(self, tiles_x: int = 2, tiles_y: int = 2) -> None:
+        super().__init__()
+        self.tiles_x = tiles_x
+        self.tiles_y = tiles_y
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Repeat an input image across a grid of tiles.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: A float32 image of the same size as the
+                input with the content tiled across a grid.
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        height, width = image.shape[:2]
+
+        tile_width = max(1, width // self.tiles_x)
+        tile_height = max(1, height // self.tiles_y)
+
+        small = cv2.resize(image, (tile_width, tile_height))
+        tiled = numpy.tile(small, (self.tiles_y, self.tiles_x, 1))
+
+        return cv2.resize(tiled, (width, height)).astype(numpy.float32)
 
 
 class TileNode(CatenaNode):
@@ -16,6 +53,7 @@ class TileNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = TileProcessor()
         super().__init__(title="Tile")
 
     def _build(self) -> None:
@@ -46,20 +84,6 @@ class TileNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        tiles_x = self.get_field_value("tiles_x")
-        tiles_y = self.get_field_value("tiles_y")
-
-        height, width = image.shape[:2]
-
-        tile_width = max(1, width // tiles_x)
-        tile_height = max(1, height // tiles_y)
-
-        small = cv2.resize(image, (tile_width, tile_height))
-        tiled = numpy.tile(small, (tiles_y, tiles_x, 1))
-
-        result = cv2.resize(tiled, (width, height))
-        return result.astype(numpy.float32)
+        self._processor.tiles_x = self.get_field_value("tiles_x")
+        self._processor.tiles_y = self.get_field_value("tiles_y")
+        return self._processor.process(inputs)

@@ -7,14 +7,77 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.math import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class CosineProcessor(ProcessorNode):
+    """A headless processor that applies a cosine wave or generates a directional wave."""
+
+    def __init__(
+        self,
+        frequency: float = 8.0,
+        phase: float = 0.0,
+        angle: float = 0.0,
+    ) -> None:
+        super().__init__()
+        self.frequency = frequency
+        self.phase = phase
+        self.angle = angle
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Apply a cosine wave remap to an input image, or generate a directional
+        cosine wave if no input is connected.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Optionally expects key
+                "Input" containing a float32 image. If None, generates a
+                directional wave pattern.
+        Returns:
+            numpy.ndarray | None: A float32 image of shape (H, W, 3) with
+                values in [0, 1].
+        """
+        image = inputs.get("Input")
+
+        width, height = 512, 512
+        if image is not None:
+            height, width = image.shape[:2]
+
+        if image is None:
+            y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
+            radians = numpy.deg2rad(self.angle)
+            direction_x = numpy.cos(radians)
+            direction_y = numpy.sin(radians)
+
+            cx, cy = width / 2.0, height / 2.0
+            projection = (x_idx - cx) * direction_x + (y_idx - cy) * direction_y
+            max_extent = max(width, height)
+
+            phase_rad = numpy.deg2rad(self.phase)
+            wave = numpy.cos(
+                2 * numpy.pi * self.frequency * projection / max_extent + phase_rad
+            )
+            wave = (wave + 1.0) * 0.5
+
+            return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
+
+        gray = image.mean(axis=2)
+        phase_rad = numpy.deg2rad(self.phase)
+        wave = numpy.cos(2 * numpy.pi * self.frequency * gray + phase_rad)
+        wave = (wave + 1.0) * 0.5
+
+        return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
 class CosineNode(CatenaNode):
-    """A node that applies a cosine wave, either as a generate or as a remap of an input."""
+    """A node that applies a cosine wave, either as a generator or as a remap of an input."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = CosineProcessor()
         super().__init__(title="Cosine")
 
     def _build(self) -> None:
@@ -55,37 +118,7 @@ class CosineNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-
-        frequency = self.get_field_value("frequency")
-        phase = self.get_field_value("phase")
-        angle = self.get_field_value("angle")
-
-        width, height = 512, 512
-        if image is not None:
-            height, width = image.shape[:2]
-
-        if image is None:
-            y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
-            radians = numpy.deg2rad(angle)
-            direction_x = numpy.cos(radians)
-            direction_y = numpy.sin(radians)
-
-            cx, cy = width / 2.0, height / 2.0
-            projection = (x_idx - cx) * direction_x + (y_idx - cy) * direction_y
-            max_extent = max(width, height)
-
-            phase_rad = numpy.deg2rad(phase)
-            wave = numpy.cos(
-                2 * numpy.pi * frequency * projection / max_extent + phase_rad
-            )
-            wave = (wave + 1.0) * 0.5
-
-            return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
-
-        gray = image.mean(axis=2)
-        phase_rad = numpy.deg2rad(phase)
-        wave = numpy.cos(2 * numpy.pi * frequency * gray + phase_rad)
-        wave = (wave + 1.0) * 0.5
-
-        return numpy.repeat(wave[:, :, None], 3, axis=2).astype(numpy.float32)
+        self._processor.frequency = self.get_field_value("frequency")
+        self._processor.phase = self.get_field_value("phase")
+        self._processor.angle = self.get_field_value("angle")
+        return self._processor.process(inputs)

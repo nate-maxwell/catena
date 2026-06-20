@@ -7,12 +7,74 @@ from PySide6TK.Nodes import PortType
 from scipy.spatial import cKDTree
 
 from catena.nodes.generate.generator import GeneratorNode
+from catena.nodes.processor import ProcessorNode
+
+
+class VoronoiNoiseProcessor(ProcessorNode):
+    """A headless processor that generates crystal/Voronoi facet noise."""
+
+    def __init__(self, cells: int = 16, seed: int = 0) -> None:
+        super().__init__()
+        self.cells = cells
+        self.seed = seed
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Generate crystal/Voronoi facet noise using KD-tree nearest-neighbour lookup.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Unused; generators
+                produce output from parameters only.
+        Returns:
+            numpy.ndarray | None: A float32 Voronoi noise image of shape
+                (512, 512, 3) with values in [0, 1].
+        """
+        width, height = 512, 512
+        rng = numpy.random.default_rng(self.seed)
+
+        points = rng.random((self.cells, 2))
+        points[:, 0] *= width
+        points[:, 1] *= height
+
+        values = rng.random(self.cells).astype(numpy.float32)
+
+        offsets = numpy.array(
+            [
+                (-width, -height),
+                (0, -height),
+                (width, -height),
+                (-width, 0),
+                (0, 0),
+                (width, 0),
+                (-width, height),
+                (0, height),
+                (width, height),
+            ],
+            dtype=numpy.float32,
+        )
+
+        all_points = (points[:, None, :] + offsets[None, :, :]).reshape(-1, 2)
+        all_values = numpy.tile(values, len(offsets))
+
+        tree = cKDTree(all_points)
+
+        y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
+        query_points = numpy.stack([x_idx.ravel(), y_idx.ravel()], axis=1)
+
+        _, indices = tree.query(query_points)
+
+        nearest = all_values[indices].reshape(height, width)
+
+        return numpy.repeat(nearest[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
 class VoronoiNoiseNode(GeneratorNode):
     """A node that generates crystal/Voronoi facet noise."""
 
     def __init__(self) -> None:
+        self._processor = VoronoiNoiseProcessor()
         super().__init__(title="Voronoi")
 
     def _build(self) -> None:
@@ -42,44 +104,6 @@ class VoronoiNoiseNode(GeneratorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        cells = self.get_field_value("cells")
-        seed = self.get_field_value("seed")
-
-        width, height = 512, 512
-        rng = numpy.random.default_rng(seed)
-
-        points = rng.random((cells, 2))
-        points[:, 0] *= width
-        points[:, 1] *= height
-
-        values = rng.random(cells).astype(numpy.float32)
-
-        offsets = numpy.array(
-            [
-                (-width, -height),
-                (0, -height),
-                (width, -height),
-                (-width, 0),
-                (0, 0),
-                (width, 0),
-                (-width, height),
-                (0, height),
-                (width, height),
-            ],
-            dtype=numpy.float32,
-        )
-
-        all_points = (points[:, None, :] + offsets[None, :, :]).reshape(-1, 2)
-        all_values = numpy.tile(values, len(offsets))
-
-        tree = cKDTree(all_points)
-
-        y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
-        query_points = numpy.stack([x_idx.ravel(), y_idx.ravel()], axis=1)
-
-        _, indices = tree.query(query_points)
-
-        nearest = all_values[indices].reshape(height, width)
-
-        result = numpy.repeat(nearest[:, :, None], 3, axis=2).astype(numpy.float32)
-        return result
+        self._processor.cells = self.get_field_value("cells")
+        self._processor.seed = self.get_field_value("seed")
+        return self._processor.process(inputs)

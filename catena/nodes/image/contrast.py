@@ -7,6 +7,36 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class ContrastProcessor(ProcessorNode):
+    """A headless processor that adjusts brightness and contrast of an image."""
+
+    def __init__(self, contrast: float = 1.0, brightness: float = 0.0) -> None:
+        super().__init__()
+        self.contrast = contrast
+        self.brightness = brightness
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Adjust brightness and contrast of an input image.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: The adjusted float32 image. Values may
+                exceed [0, 1] and should be clamped downstream if needed.
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        result = image.astype(numpy.float32) * self.contrast + (self.brightness / 255.0)
+        return result.astype(numpy.float32)
 
 
 class ContrastNode(CatenaNode):
@@ -15,6 +45,7 @@ class ContrastNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = ContrastProcessor()
         super().__init__(title="Contrast")
 
     def _build(self) -> None:
@@ -45,12 +76,6 @@ class ContrastNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        contrast = self.get_field_value("contrast")
-        brightness = self.get_field_value("brightness")
-
-        result = image.astype(numpy.float32) * contrast + (brightness / 255.0)
-        return result.astype(numpy.float32)
+        self._processor.contrast = self.get_field_value("contrast")
+        self._processor.brightness = self.get_field_value("brightness")
+        return self._processor.process(inputs)

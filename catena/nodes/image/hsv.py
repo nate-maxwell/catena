@@ -8,6 +8,49 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class HSVProcessor(ProcessorNode):
+    """A headless processor that shifts hue, saturation, and value of an image."""
+
+    def __init__(
+        self,
+        hue_shift: int = 0,
+        saturation: float = 1.0,
+        value: float = 1.0,
+    ) -> None:
+        super().__init__()
+        self.hue_shift = hue_shift
+        self.saturation = saturation
+        self.value = value
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Shift hue, saturation, and value of an input image.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 BGR image with values in [0, 1].
+        Returns:
+            numpy.ndarray | None: The adjusted float32 BGR image with
+                values in [0, 1].
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+        hsv[..., 0] = (hsv[..., 0] + self.hue_shift * 2.0) % 360.0
+        hsv[..., 1] = numpy.clip(hsv[..., 1] * self.saturation, 0.0, 1.0)
+        hsv[..., 2] = numpy.clip(hsv[..., 2] * self.value, 0.0, 1.0)
+
+        return cv2.cvtColor(hsv.astype(numpy.float32), cv2.COLOR_HSV2BGR).astype(
+            numpy.float32
+        )
 
 
 class HSVNode(CatenaNode):
@@ -16,6 +59,7 @@ class HSVNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = HSVProcessor()
         super().__init__(title="HSV")
 
     def _build(self) -> None:
@@ -56,20 +100,7 @@ class HSVNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        hue_shift = self.get_field_value("hue_shift")
-        saturation = self.get_field_value("saturation")
-        value = self.get_field_value("value")
-
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-        hue_shift_degrees = hue_shift * 2.0
-        hsv[..., 0] = (hsv[..., 0] + hue_shift_degrees) % 360.0
-        hsv[..., 1] = numpy.clip(hsv[..., 1] * saturation, 0.0, 1.0)
-        hsv[..., 2] = numpy.clip(hsv[..., 2] * value, 0.0, 1.0)
-
-        result = cv2.cvtColor(hsv.astype(numpy.float32), cv2.COLOR_HSV2BGR)
-        return result.astype(numpy.float32)
+        self._processor.hue_shift = self.get_field_value("hue_shift")
+        self._processor.saturation = self.get_field_value("saturation")
+        self._processor.value = self.get_field_value("value")
+        return self._processor.process(inputs)

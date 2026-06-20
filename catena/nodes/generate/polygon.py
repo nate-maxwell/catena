@@ -7,12 +7,60 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
+from catena.nodes.processor import ProcessorNode
+
+
+class PolygonProcessor(ProcessorNode):
+    """A headless processor that generates a regular polygon shape mask."""
+
+    def __init__(
+        self,
+        sides: int = 1,
+        size: float = 0.5,
+        rotation: float = 0.0,
+    ) -> None:
+        super().__init__()
+        self.sides = sides
+        self.size = size
+        self.rotation = rotation
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Generate a regular polygon shape mask.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Unused; generators
+                produce output from parameters only.
+        Returns:
+            numpy.ndarray | None: A float32 mask image of shape (512, 512, 3)
+                with values in [0, 1].
+        """
+        width, height = 512, 512
+        canvas = numpy.zeros((height, width), dtype=numpy.uint8)
+
+        cx, cy = width / 2.0, height / 2.0
+        radius = min(width, height) / 2.0 * self.size
+
+        angles = numpy.deg2rad(
+            numpy.arange(self.sides) * (360.0 / self.sides) + self.rotation - 90.0
+        )
+        points = numpy.stack(
+            [cx + radius * numpy.cos(angles), cy + radius * numpy.sin(angles)],
+            axis=1,
+        ).astype(numpy.int32)
+        cv2.fillPoly(canvas, [points], 255)
+
+        gray = canvas.astype(numpy.float32) / 255.0
+        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
 class PolygonNode(GeneratorNode):
     """A node that generates a regular polygon shape mask."""
 
     def __init__(self) -> None:
+        self._processor = PolygonProcessor()
         super().__init__(title="Polygon")
 
     def _build(self) -> None:
@@ -52,23 +100,7 @@ class PolygonNode(GeneratorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        sides = self.get_field_value("sides")
-        size = self.get_field_value("size")
-        rotation = self.get_field_value("rotation")
-
-        width, height = 512, 512
-        canvas = numpy.zeros((height, width), dtype=numpy.uint8)
-
-        cx, cy = width / 2.0, height / 2.0
-        radius = min(width, height) / 2.0 * size
-
-        angles = numpy.deg2rad(numpy.arange(sides) * (360.0 / sides) + rotation - 90.0)
-        points = numpy.stack(
-            [cx + radius * numpy.cos(angles), cy + radius * numpy.sin(angles)],
-            axis=1,
-        ).astype(numpy.int32)
-        cv2.fillPoly(canvas, [points], 255)
-
-        gray = canvas.astype(numpy.float32) / 255.0
-        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
-        return result
+        self._processor.sides = self.get_field_value("sides")
+        self._processor.size = self.get_field_value("size")
+        self._processor.rotation = self.get_field_value("rotation")
+        return self._processor.process(inputs)

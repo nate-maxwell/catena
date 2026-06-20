@@ -7,7 +7,36 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
+from catena.nodes.processor import ProcessorNode
 from catena.nodes.transform import IMAGE_NODE_COLOR
+
+_FLIP_CODES = {"Horizontal": 1, "Vertical": 0, "Both": -1}
+
+
+class FlipProcessor(ProcessorNode):
+    """A headless processor that flips an image horizontally, vertically, or both."""
+
+    def __init__(self, direction: str = "Horizontal") -> None:
+        super().__init__()
+        self.direction = direction
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Flip an input image horizontally, vertically, or both.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: The flipped float32 image.
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        return cv2.flip(image, _FLIP_CODES[self.direction]).astype(numpy.float32)
 
 
 class FlipNode(CatenaNode):
@@ -16,6 +45,7 @@ class FlipNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = FlipProcessor()
         super().__init__(title="Flip")
 
     def _build(self) -> None:
@@ -35,13 +65,5 @@ class FlipNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        direction = self.get_field_value("direction")
-        flip_codes = {"Horizontal": 1, "Vertical": 0, "Both": -1}
-        flip_code = flip_codes[direction]
-
-        result = cv2.flip(image, flip_code)
-        return result.astype(numpy.float32)
+        self._processor.direction = self.get_field_value("direction")
+        return self._processor.process(inputs)

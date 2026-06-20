@@ -8,6 +8,39 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.base import CatenaNode
 from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
+
+
+class BlurProcessor(ProcessorNode):
+    """A headless processor that applies a Gaussian blur to an image."""
+
+    def __init__(self, radius: float = 2.0) -> None:
+        super().__init__()
+        self.radius = radius
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Apply a Gaussian blur to an input image.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: The blurred float32 image, or None if
+                no input is provided.
+        """
+        image = inputs.get("Input")
+        if image is None:
+            return None
+
+        if self.radius <= 0:
+            return image
+
+        return cv2.GaussianBlur(
+            image, (0, 0), sigmaX=self.radius, sigmaY=self.radius
+        ).astype(numpy.float32)
 
 
 class BlurNode(CatenaNode):
@@ -16,6 +49,7 @@ class BlurNode(CatenaNode):
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
+        self._processor = BlurProcessor()
         super().__init__(title="Blur")
 
     def _build(self) -> None:
@@ -36,13 +70,5 @@ class BlurNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        image = inputs.get("Input")
-        if image is None:
-            return None
-
-        radius = self.get_field_value("radius")
-        if radius <= 0:
-            return image
-
-        result = cv2.GaussianBlur(image, (0, 0), sigmaX=radius, sigmaY=radius)
-        return result.astype(numpy.float32)
+        self._processor.radius = self.get_field_value("radius")
+        return self._processor.process(inputs)

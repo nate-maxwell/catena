@@ -15,6 +15,7 @@ from catena.nodes.base import CatenaNode
 from catena.nodes.data import DATA_TYPE_COLORS
 from catena.nodes.data import PortDataType
 from catena.nodes.file import IMAGE_NODE_COLOR
+from catena.nodes.processor import ProcessorNode
 
 _EXTENSIONS = {
     "PNG": ".png",
@@ -23,6 +24,61 @@ _EXTENSIONS = {
     "TIFF": ".tiff",
     "WEBP": ".webp",
 }
+
+
+class WriteProcessor(ProcessorNode):
+    """A headless processor that writes an image to disk."""
+
+    def __init__(
+        self,
+        filepath: str = "",
+        file_type: str = "PNG",
+    ) -> None:
+        super().__init__()
+        self.filepath = filepath
+        self.file_type = file_type
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Pass the input image through unchanged.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
+                containing a float32 image.
+        Returns:
+            numpy.ndarray | None: The input image unchanged.
+        """
+        return inputs.get("Input")
+
+    def write_image(self, image: Optional[numpy.ndarray]) -> bool:
+        """
+        Write an image array to disk.
+
+        Args:
+            image (numpy.ndarray | None): The float32 image to write.
+        Returns:
+            bool: True if the image was written successfully, False otherwise.
+        """
+        if image is None:
+            return False
+
+        if not self.filepath:
+            return False
+
+        path = Path(self.filepath)
+        extension = _EXTENSIONS[self.file_type]
+        path = path.with_suffix(extension)
+
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+        output = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
+
+        if output.ndim == 3 and output.shape[2] == 3:
+            output = texture.rgb_to_bgr(output)
+
+        return cv2.imwrite(str(path), output)
 
 
 class WriteNode(CatenaNode):
@@ -41,6 +97,7 @@ class WriteNode(CatenaNode):
         width: int = 160,
         body_height: int = 40,
     ) -> None:
+        self._processor = WriteProcessor()
         self._data_type = data_type
         self._texture_type = texture_type
         super().__init__(title, width, body_height)
@@ -71,7 +128,7 @@ class WriteNode(CatenaNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        return inputs.get("Input")
+        return self._processor.process(inputs)
 
     def write_image(self) -> bool:
         """
@@ -80,27 +137,9 @@ class WriteNode(CatenaNode):
         Returns:
             bool: True if the image was written successfully, False otherwise.
         """
-        image = self.evaluate()
-        if image is None:
-            return False
-
-        filepath = self.get_field_value("filepath")
-        if not filepath:
-            return False
-
-        path = Path(filepath)
-        extension = _EXTENSIONS[self.get_field_value("file_type")]
-        path = path.with_suffix(extension)
-
-        path.parent.mkdir(parents=True, exist_ok=True)
-
-        # This might need to be adjusted to output uint32 in the future...
-        output = numpy.clip(image * 255.0, 0, 255).astype(numpy.uint8)
-
-        if output.ndim == 3 and output.shape[2] == 3:
-            output = texture.rgb_to_bgr(output)
-
-        return cv2.imwrite(str(path), output)
+        self._processor.filepath = self.get_field_value("filepath")
+        self._processor.file_type = self.get_field_value("file_type")
+        return self._processor.write_image(self.evaluate())
 
     def on_input_connection_changed(self, port: Port) -> None:
         self._cached_value = None
@@ -111,10 +150,8 @@ class WriteNode(CatenaNode):
         Evaluate this node's input and notify the model preview if a result is
         available.
         """
-        image = self.evaluate()
-
         broker.emit(
             namespace.MODEL_UPDATED_TEXTURE,
-            image=image,
+            image=self.evaluate(),
             texture_type=self._texture_type,
         )

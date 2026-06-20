@@ -6,6 +6,7 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
+from catena.nodes.processor import ProcessorNode
 
 
 def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarray:
@@ -45,10 +46,63 @@ def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarr
     return result
 
 
+class CloudsProcessor(ProcessorNode):
+    """A headless processor that generates soft cloud-like noise."""
+
+    def __init__(
+        self,
+        scale: float = 128.0,
+        octaves: int = 5,
+        persistence: float = 0.6,
+        contrast: float = 1.5,
+        seed: int = 0,
+    ) -> None:
+        super().__init__()
+        self.scale = scale
+        self.octaves = octaves
+        self.persistence = persistence
+        self.contrast = contrast
+        self.seed = seed
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Generate soft cloud-like multi-octave value noise.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Unused; generators
+                produce output from parameters only.
+        Returns:
+            numpy.ndarray | None: A float32 cloud noise image of shape
+                (512, 512, 3) with values in [0, 1].
+        """
+        width, height = 512, 512
+        total = numpy.zeros((height, width), dtype=numpy.float32)
+        amplitude = 1.0
+        max_amplitude = 0.0
+        current_scale = self.scale
+
+        for i in range(self.octaves):
+            total += (
+                _value_noise((height, width), current_scale, self.seed + i) * amplitude
+            )
+            max_amplitude += amplitude
+            amplitude *= self.persistence
+            current_scale *= 0.5
+            current_scale = max(current_scale, 2.0)
+
+        total /= max_amplitude
+        total = numpy.clip((total - 0.5) * self.contrast + 0.5, 0.0, 1.0)
+
+        return numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
+
+
 class CloudsNode(GeneratorNode):
     """A node that generates soft cloud-like noise."""
 
     def __init__(self) -> None:
+        self._processor = CloudsProcessor()
         super().__init__(title="Clouds")
 
     def _build(self) -> None:
@@ -108,28 +162,9 @@ class CloudsNode(GeneratorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        scale = self.get_field_value("scale")
-        octaves = self.get_field_value("octaves")
-        persistence = self.get_field_value("persistence")
-        contrast = self.get_field_value("contrast")
-        seed = self.get_field_value("seed")
-
-        width, height = 512, 512
-        total = numpy.zeros((height, width), dtype=numpy.float32)
-        amplitude = 1.0
-        max_amplitude = 0.0
-        current_scale = scale
-
-        for i in range(octaves):
-            total += _value_noise((height, width), current_scale, seed + i) * amplitude
-            max_amplitude += amplitude
-            amplitude *= persistence
-            current_scale *= 0.5
-            current_scale = max(current_scale, 2.0)
-
-        total /= max_amplitude
-
-        total = numpy.clip((total - 0.5) * contrast + 0.5, 0.0, 1.0)
-
-        result = numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
-        return result
+        self._processor.scale = self.get_field_value("scale")
+        self._processor.octaves = self.get_field_value("octaves")
+        self._processor.persistence = self.get_field_value("persistence")
+        self._processor.contrast = self.get_field_value("contrast")
+        self._processor.seed = self.get_field_value("seed")
+        return self._processor.process(inputs)

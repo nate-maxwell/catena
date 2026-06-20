@@ -6,12 +6,41 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
+from catena.nodes.processor import ProcessorNode
+
+
+class WhiteNoiseProcessor(ProcessorNode):
+    """A headless processor that generates uniform random white noise."""
+
+    def __init__(self, seed: int = 0) -> None:
+        super().__init__()
+        self.seed = seed
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Generate uniform random white noise.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Unused; generators
+                produce output from parameters only.
+        Returns:
+            numpy.ndarray | None: A float32 white noise image of shape
+                (512, 512, 3) with values in [0, 1).
+        """
+        width, height = 512, 512
+        rng = numpy.random.default_rng(self.seed)
+
+        gray = rng.random((height, width), dtype=numpy.float32)
+        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
 class WhiteNoiseNode(GeneratorNode):
     """A node that generates uniform random white noise."""
 
     def __init__(self) -> None:
+        self._processor = WhiteNoiseProcessor()
         super().__init__(title="White Noise")
 
     def _build(self) -> None:
@@ -31,11 +60,5 @@ class WhiteNoiseNode(GeneratorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        seed = self.get_field_value("seed")
-
-        width, height = 512, 512
-        rng = numpy.random.default_rng(seed)
-
-        gray = rng.random((height, width), dtype=numpy.float32)
-        result = numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
-        return result
+        self._processor.seed = self.get_field_value("seed")
+        return self._processor.process(inputs)

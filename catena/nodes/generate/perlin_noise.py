@@ -1,11 +1,13 @@
 from typing import Optional
 
 import numpy
-from PySide6TK.Nodes import FieldDefinition
-from PySide6TK.Nodes import FieldType
-from PySide6TK.Nodes import PortType
+from PySide6TK.Nodes.node import FieldDefinition
+from PySide6TK.Nodes.node import FieldType
+from PySide6TK.Nodes.node import PortType
 
+from catena.nodes.generate import IMAGE_NODE_COLOR
 from catena.nodes.generate.generator import GeneratorNode
+from catena.nodes.processor import ProcessorNode
 
 
 def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarray:
@@ -45,10 +47,59 @@ def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarr
     return result
 
 
+class PerlinNoiseProcessor(ProcessorNode):
+    """A headless processor that generates Perlin-style value noise."""
+
+    def __init__(
+        self,
+        scale: float = 64.0,
+        octaves: int = 4,
+        seed: int = 0,
+    ) -> None:
+        super().__init__()
+        self.scale = scale
+        self.octaves = octaves
+        self.seed = seed
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Generate Perlin-style value noise.
+
+        Args:
+            inputs (dict[str, numpy.ndarray | None]): Unused; generators
+                produce output from parameters only.
+        Returns:
+            numpy.ndarray | None: A float32 grayscale noise image of shape
+                (512, 512, 3) with values in [0, 1].
+        """
+        width, height = 512, 512
+        total = numpy.zeros((height, width), dtype=numpy.float32)
+        amplitude = 1.0
+        max_amplitude = 0.0
+        current_scale = self.scale
+
+        for i in range(self.octaves):
+            total += (
+                _value_noise((height, width), current_scale, self.seed + i) * amplitude
+            )
+            max_amplitude += amplitude
+            amplitude *= 0.5
+            current_scale *= 0.5
+            current_scale = max(current_scale, 2.0)
+
+        total /= max_amplitude
+        return numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
+
+
 class PerlinNoiseNode(GeneratorNode):
     """A node that generates Perlin-style value noise."""
 
+    _COLOR_HEADER = IMAGE_NODE_COLOR
+
     def __init__(self) -> None:
+        self._processor = PerlinNoiseProcessor()
         super().__init__(title="Perlin Noise")
 
     def _build(self) -> None:
@@ -88,23 +139,7 @@ class PerlinNoiseNode(GeneratorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        scale = self.get_field_value("scale")
-        octaves = self.get_field_value("octaves")
-        seed = self.get_field_value("seed")
-
-        width, height = 512, 512
-        total = numpy.zeros((height, width), dtype=numpy.float32)
-        amplitude = 1.0
-        max_amplitude = 0.0
-        current_scale = scale
-
-        for i in range(octaves):
-            total += _value_noise((height, width), current_scale, seed + i) * amplitude
-            max_amplitude += amplitude
-            amplitude *= 0.5
-            current_scale *= 0.5
-            current_scale = max(current_scale, 2.0)
-
-        total /= max_amplitude
-        result = numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
-        return result
+        self._processor.scale = self.get_field_value("scale")
+        self._processor.octaves = self.get_field_value("octaves")
+        self._processor.seed = self.get_field_value("seed")
+        return self._processor.process(inputs)
