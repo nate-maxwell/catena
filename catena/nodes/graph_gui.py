@@ -16,7 +16,7 @@ from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
 from catena.nodes.file.write_albedo import AlbedoNode
-from catena.nodes.file.write_ambient_occlusion import AONode
+from catena.nodes.file.write_ambient_occlusion import AmbientOcclusionNode
 from catena.nodes.file.write_height import HeightNode
 from catena.nodes.file.write_metallic import MetallicNode
 from catena.nodes.file.write_normal import NormalNode
@@ -192,13 +192,13 @@ class GuiGraphView(GraphView):
         self.register_node("Convert", SplitNode)
 
     def _register_create_nodes(self) -> None:
-        self.register_node("Create", ReadNode)
-        self.register_node("Create", AlbedoNode)
-        self.register_node("Create", AONode)
-        self.register_node("Create", HeightNode)
-        self.register_node("Create", MetallicNode)
-        self.register_node("Create", NormalNode)
-        self.register_node("Create", RoughnessNode)
+        self.register_node("File", ReadNode)
+        self.register_node("File", AlbedoNode)
+        self.register_node("File", AmbientOcclusionNode)
+        self.register_node("File", HeightNode)
+        self.register_node("File", MetallicNode)
+        self.register_node("File", NormalNode)
+        self.register_node("File", RoughnessNode)
 
     def _register_image_nodes(self) -> None:
         self.register_node("Image", BevelNode)

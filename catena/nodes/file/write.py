@@ -93,7 +93,7 @@ class WriteNode(CatenaNode):
         self,
         title: str,
         texture_type: texture.TextureType,
-        data_type: str = PortDataType.VECTOR3,
+        data_type: str = PortDataType.VECTOR4,
         width: int = 160,
         body_height: int = 40,
     ) -> None:

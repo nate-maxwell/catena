@@ -3,7 +3,7 @@ from catena.nodes.file import IMAGE_NODE_COLOR
 from catena.nodes.file.write import WriteNode
 
 
-class AONode(WriteNode):
+class AmbientOcclusionNode(WriteNode):
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

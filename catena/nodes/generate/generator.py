@@ -40,6 +40,14 @@ class GeneratorNode(CatenaNode):
         self._update_preview(image)
         return image
 
+    def itemChange(
+        self, change: QtWidgets.QGraphicsItem.GraphicsItemChange, value: object
+    ) -> object:
+        if change == QtWidgets.QGraphicsItem.GraphicsItemChange.ItemSceneHasChanged:
+            if self.scene() is not None:
+                self.evaluate()
+        return super().itemChange(change, value)
+
     def _update_preview(self, image: Optional[numpy.ndarray]) -> None:
         """
         Update the cached preview pixmap from the given image.

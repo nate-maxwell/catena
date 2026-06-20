@@ -17,7 +17,7 @@ from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write_albedo import AlbedoNode
-from catena.nodes.file.write_ambient_occlusion import AONode
+from catena.nodes.file.write_ambient_occlusion import AmbientOcclusionNode
 from catena.nodes.file.write_height import HeightNode
 from catena.nodes.file.write_metallic import MetallicNode
 from catena.nodes.file.write_normal import NormalNode
@@ -122,7 +122,7 @@ class CreateActions(object):
     @classmethod
     def action_ao_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=AONode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=AmbientOcclusionNode(), x=coords.x(), y=coords.y())
 
     @classmethod
     def action_height_node(cls, graph_view: GuiGraphView) -> None:
