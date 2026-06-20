@@ -101,6 +101,7 @@ class NodeGraphPane(DockablePane):
         redo_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Redo).toString()
         undo_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Undo).toString()
         copy_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Copy).toString()
+        cut_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Cut).toString()
         paste_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Paste).toString()
         new_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.New).toString()
         save_seq = QtGui.QKeySequence(QtGui.QKeySequence.StandardKey.Save).toString()
@@ -169,11 +170,22 @@ class NodeGraphPane(DockablePane):
             category="Graph",
         )
 
+        def _cut_selected() -> None:
+            self.graph_view.copy_selected()
+            self.graph_view.delete_selected()
+
         scm.add_shortcut(
             action_name="Copy Node",
             key_sequence=copy_seq,
             description="Copy selected nodes.",
             callback=self.graph_view.copy_selected,
+            category="Graph",
+        )
+        scm.add_shortcut(
+            action_name="Cut Node",
+            key_sequence=cut_seq,
+            description="Cut selected nodes.",
+            callback=_cut_selected,
             category="Graph",
         )
         scm.add_shortcut(
