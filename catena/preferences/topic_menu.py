@@ -8,7 +8,7 @@ not categorized as a "core" feature.
 
 from PySide6TK import QtWrappers
 
-from catena.prefs import preferences
+from catena.preferences import preferences
 
 ENABLED = "Enabled"
 DISABLED = "Disabled"

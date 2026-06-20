@@ -7,7 +7,7 @@ from PySide6TK import QtWrappers
 from catena.preferences.general import GeneralPreferencesMenu
 from catena.preferences.graph import GraphPreferencesMenu
 from catena.preferences.layout import LayoutPreferencesMenu
-from catena.prefs import preferences
+from catena.preferences import preferences
 
 
 class PreferencesMenu(QtWrappers.MainWindow):

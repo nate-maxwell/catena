@@ -1,18 +1,21 @@
 from pathlib import Path
 
 import broker
+from PySide6TK import Nodes
 from PySide6TK import QtCore
 from PySide6TK import QtGui
-from PySide6TK import Nodes
+from PySide6TK import QtWidgets
 
-from catena.nodes.graph_gui import GuiGraphView
-from catena import shortcuts
-from catena.panes.pane import DockablePane
-from catena.panes.pane import PaneConfig
 from catena import file
 from catena import namespace
 from catena import session
+from catena import shortcuts
 from catena.nodes.file.write import WriteNode
+from catena.nodes.graph_gui import GuiGraphView
+from catena.panes.pane import DockablePane
+from catena.panes.pane import PaneConfig
+from catena.preferences.preferences import Preferences
+from catena.preferences import category_data
 
 
 class NodeGraphPane(DockablePane):
@@ -24,6 +27,7 @@ class NodeGraphPane(DockablePane):
     def __post_init__(self) -> None:
         self._create_shortcuts()
         self._create_subscriptions()
+        self._on_preferences_updated()
 
     def create_widgets(self) -> None:
         self.graph_view = GuiGraphView(self)
@@ -92,6 +96,9 @@ class NodeGraphPane(DockablePane):
         broker.register_subscriber(namespace.FILE_LOAD, self.load_graph)
         broker.register_subscriber(namespace.FILE_UNDO, self.graph_view.commands.undo)
         broker.register_subscriber(namespace.FILE_REDO, self.graph_view.commands.redo)
+        broker.register_subscriber(
+            namespace.PREFERENCES_UPDATED, self._on_preferences_updated
+        )
 
     def _create_shortcuts(self) -> None:
         # Shortcut Manager
@@ -196,4 +203,35 @@ class NodeGraphPane(DockablePane):
                 *self.graph_view.cursor_scene_pos()
             ),
             category="Graph",
+        )
+
+    def _on_preferences_updated(self) -> None:
+        graph_settings = Preferences().node_graph_preferences
+
+        # -----Wire Style-----
+        wire_style = (
+            Nodes.WireStyle.BEZIER
+            if graph_settings.wire_style == category_data.WIRE_STYLE_BEZIER
+            else Nodes.WireStyle.RIGHT_ANGLE
+        )
+        self.graph_view.set_wire_style(wire_style)
+
+        # -----Grid Values-----
+        self.graph_view.grid_large = graph_settings.grid_size_large
+        self.graph_view.grid_small = graph_settings.grid_size_small
+        self.graph_view.color_grid_large = QtGui.QColor(graph_settings.color_grid_large)
+        self.graph_view.color_grid_small = QtGui.QColor(graph_settings.color_grid_small)
+        self.graph_view.color_bg = QtGui.QColor(graph_settings.color_grid_bg)
+
+        # -----Zoom Values-----
+        self.graph_view.zoom_step = graph_settings.zoom_step
+        self.graph_view.zoom_min = graph_settings.zoom_min
+        self.graph_view.zoom_max = graph_settings.zoom_max
+
+        self.graph_view.setBackgroundBrush(QtGui.QBrush(graph_settings.color_grid_bg))
+        self.graph_view.resetCachedContent()
+        self.graph_view.scene().update()
+        self.graph_view.graph_scene.invalidate(
+            self.graph_view.sceneRect(),
+            QtWidgets.QGraphicsScene.SceneLayer.BackgroundLayer,
         )

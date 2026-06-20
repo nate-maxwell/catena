@@ -13,7 +13,7 @@ from catena.panes.obj_viewer.obj_viewport_pane import ObjViewportPane
 from catena.panes.resize import split_horizontal
 from catena.panes.resize import split_vertical
 from catena.panes.tex_viewer.tex_viewport_pane import TexViewportPane
-from catena.prefs import preferences
+from catena.preferences import preferences
 from catena.toolbars.actions_toolbar import EditorActionToolbar
 from catena.toolbars.client_toolbar import ClientWindowToolbar
 from catena.toolbars.status_bar import StatusBar

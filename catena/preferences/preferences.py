@@ -20,9 +20,9 @@ import core_utils.structured
 
 from catena import appdata
 from catena import namespace
-from catena.prefs.category_data import GeneralPreferences
-from catena.prefs.category_data import LayoutPreferences
-from catena.prefs.category_data import NodeGraphPreferences
+from catena.preferences.category_data import GeneralPreferences
+from catena.preferences.category_data import LayoutPreferences
+from catena.preferences.category_data import NodeGraphPreferences
 
 GENERAL_PREFERENCES = "general_preferences"
 GRAPH_PREFERENCES = "node_graph_preferences"

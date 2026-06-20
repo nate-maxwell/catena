@@ -1,7 +1,7 @@
 from PySide6TK import QtWrappers
 
 from catena.preferences.topic_menu import PreferenceTopicMenu
-from catena.prefs import category_data
+from catena.preferences import category_data
 
 
 class LayoutPreferencesMenu(PreferenceTopicMenu):
