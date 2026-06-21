@@ -1,6 +1,5 @@
 from typing import Optional
 
-import cv2
 import numpy
 from PySide6TK.Nodes import FieldDefinition
 from PySide6TK.Nodes import FieldType
@@ -8,6 +7,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 class CheckerProcessor(ProcessorNode):
@@ -29,9 +29,10 @@ class CheckerProcessor(ProcessorNode):
                 produce output from parameters only.
         Returns:
             numpy.ndarray | None: A float32 checker image of shape
-                (512, 512, 3) with values of 0.0 or 1.0.
+                (width, height, 3) with values of 0.0 or 1.0.
         """
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
 
         y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
 

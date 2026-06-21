@@ -7,6 +7,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarray:
@@ -75,9 +76,10 @@ class CloudsProcessor(ProcessorNode):
                 produce output from parameters only.
         Returns:
             numpy.ndarray | None: A float32 cloud noise image of shape
-                (512, 512, 3) with values in [0, 1].
+                (width, height, 3) with values in [0, 1].
         """
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
         total = numpy.zeros((height, width), dtype=numpy.float32)
         amplitude = 1.0
         max_amplitude = 0.0

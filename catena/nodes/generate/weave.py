@@ -7,6 +7,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 class WeaveProcessor(ProcessorNode):
@@ -30,7 +31,8 @@ class WeaveProcessor(ProcessorNode):
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
 
         y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
 

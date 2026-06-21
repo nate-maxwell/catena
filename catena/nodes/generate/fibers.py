@@ -8,6 +8,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 class FibersProcessor(ProcessorNode):
@@ -39,9 +40,10 @@ class FibersProcessor(ProcessorNode):
                 produce output from parameters only.
         Returns:
             numpy.ndarray | None: A float32 fiber image of shape
-                (512, 512, 3) with values in [0, 1].
+                (width, height, 3) with values in [0, 1].
         """
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
         rng = numpy.random.default_rng(self.seed)
 
         length_min = min(self.length_min, self.length_max)

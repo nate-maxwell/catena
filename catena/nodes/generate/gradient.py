@@ -7,6 +7,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 class GradientProcessor(ProcessorNode):
@@ -34,12 +35,13 @@ class GradientProcessor(ProcessorNode):
                 produce output from parameters only.
         Returns:
             numpy.ndarray | None: A float32 gradient image of shape
-                (512, 512, 3) with values in [0, 1].
+                (width, height, 3) with values in [0, 1].
         """
         r_a, g_a, b_a, _ = self.color_a
         r_b, g_b, b_b, _ = self.color_b
 
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
 
         y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
 

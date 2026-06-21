@@ -8,6 +8,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 _SHAPES = ["Square", "Circle", "Paraboloid", "Bell", "Gaussian", "Thorn", "Pyramid"]
 _GENERATOR = Callable[[numpy.ndarray, numpy.ndarray, float], numpy.ndarray]
@@ -37,10 +38,11 @@ class ShapeProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 mask image of shape (512, 512, 3)
+            numpy.ndarray | None: A float32 mask image of shape (width, height, 3)
                 with values in [0, 1].
         """
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
 
         cx, cy = width / 2.0, height / 2.0
         y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)

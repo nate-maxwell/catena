@@ -8,6 +8,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 class PolygonProcessor(ProcessorNode):
@@ -34,10 +35,11 @@ class PolygonProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 mask image of shape (512, 512, 3)
+            numpy.ndarray | None: A float32 mask image of shape (width, height, 3)
                 with values in [0, 1].
         """
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
         canvas = numpy.zeros((height, width), dtype=numpy.uint8)
 
         cx, cy = width / 2.0, height / 2.0

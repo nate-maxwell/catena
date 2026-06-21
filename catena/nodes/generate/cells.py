@@ -8,6 +8,7 @@ from scipy.spatial import cKDTree
 
 from catena.nodes.generate.generator import GeneratorNode
 from catena.nodes.node_processor import ProcessorNode
+from catena.preferences import preferences
 
 
 class CellsProcessor(ProcessorNode):
@@ -28,16 +29,17 @@ class CellsProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Generate cellular (Worley) noise using KD-tree nearest-neighbour lookup.
+        Generate cellular (Worley) noise using KD-tree nearest-neighbor lookup.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
             numpy.ndarray | None: A float32 cellular noise image of shape
-                (512, 512, 3) with values in [0, 1].
+                (width, height, 3) with values in [0, 1].
         """
-        width, height = 512, 512
+        width = preferences.Preferences().general_preferences.texture_resolution
+        height = width
         rng = numpy.random.default_rng(self.seed)
 
         points = rng.random((self.cells, 2))
