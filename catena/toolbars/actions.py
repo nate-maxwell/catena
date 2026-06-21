@@ -26,6 +26,7 @@ from catena.nodes.generate.blue_noise import BlueNoiseNode
 from catena.nodes.generate.bnw_spots import BNWSpotsNode
 from catena.nodes.generate.cells import CellsNode
 from catena.nodes.generate.checker import CheckerNode
+from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.clouds import CloudsNode
 from catena.nodes.generate.fibers import FibersNode
 from catena.nodes.generate.gradient import GradientNode
@@ -40,6 +41,7 @@ from catena.nodes.image.blur import BlurNode
 from catena.nodes.image.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
 from catena.nodes.image.histogram_scan import HistogramScanNode
+from catena.nodes.image.edge_detect import EdgeDetectNode
 from catena.nodes.image.hsv import HSVNode
 from catena.nodes.image.invert import InvertNode
 from catena.nodes.image.levels import LevelsNode
@@ -51,10 +53,12 @@ from catena.nodes.image.threshold import ThresholdNode
 from catena.nodes.image.warp import WarpNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
-from catena.nodes.math.cosin import CosineNode
+from catena.nodes.math.cosine import CosineNode
 from catena.nodes.math.divide import DivideNode
 from catena.nodes.math.max import MaxNode
 from catena.nodes.math.min import MinNode
+from catena.nodes.math.ceil import CeilNode
+from catena.nodes.math.floor import FloorNode
 from catena.nodes.math.multiply import MultiplyNode
 from catena.nodes.math.screen import ScreenNode
 from catena.nodes.math.sin import SinNode
@@ -195,6 +199,11 @@ class ImageActions(object):
         graph_view.add_node(node=HistogramScanNode(), x=coords.x(), y=coords.y())
 
     @classmethod
+    def action_edge_detect_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=EdgeDetectNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
     def action_invert_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=InvertNode(), x=coords.x(), y=coords.y())
@@ -276,6 +285,16 @@ class MathActions(object):
         graph_view.add_node(node=MinNode(), x=coords.x(), y=coords.y())
 
     @classmethod
+    def action_ceil_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=CeilNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_floor_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=FloorNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
     def action_max_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=MaxNode(), x=coords.x(), y=coords.y())
@@ -291,7 +310,7 @@ class MathActions(object):
         graph_view.add_node(node=SinNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_cosin_node(cls, graph_view: GuiGraphView) -> None:
+    def action_cosine_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CosineNode(), x=coords.x(), y=coords.y())
 
@@ -327,6 +346,11 @@ class GeneratorActions(object):
     def action_checker_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=CheckerNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_weave_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=WeaveNode(), x=coords.x(), y=coords.y())
 
     @classmethod
     def action_fibers_node(cls, graph_view: GuiGraphView) -> None:

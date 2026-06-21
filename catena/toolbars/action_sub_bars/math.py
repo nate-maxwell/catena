@@ -21,6 +21,8 @@ class MathToolbar(ActionToolbar):
 
         self.add_action_button("Min", actions.MathActions.action_min_node)
         self.add_action_button("Max", actions.MathActions.action_max_node)
+        self.add_action_button("Ceil", actions.MathActions.action_ceil_node)
+        self.add_action_button("Floor", actions.MathActions.action_floor_node)
 
         self.add_toolbar_separator(12)
 
@@ -29,6 +31,6 @@ class MathToolbar(ActionToolbar):
         self.add_toolbar_separator(12)
 
         self.add_action_button("Sin", actions.MathActions.action_sin_node)
-        self.add_action_button("Cosin", actions.MathActions.action_cosin_node)
+        self.add_action_button("Cosine", actions.MathActions.action_cosine_node)
         self.add_action_button("Tan", actions.MathActions.action_tan_node)
         self.add_action_button("Arctan", actions.MathActions.action_arctan_node)

@@ -1,13 +1,12 @@
 import broker
-from core_utils import regex
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView
 from PySide6TK.Nodes import Port
 from PySide6TK.Nodes import Wire
+from core_utils import regex
 
 from catena import namespace
-from catena.nodes.node_gui import CatenaNode
 from catena.nodes.comment import CatenaCommentBox
 from catena.nodes.convert.append import AppendNode
 from catena.nodes.convert.height_to_ao import HeightToAONode
@@ -27,16 +26,18 @@ from catena.nodes.generate.cells import CellsNode
 from catena.nodes.generate.checker import CheckerNode
 from catena.nodes.generate.clouds import CloudsNode
 from catena.nodes.generate.fibers import FibersNode
-from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.shape import ShapeNode
+from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
+from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
 from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
 from catena.nodes.image.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
+from catena.nodes.image.edge_detect import EdgeDetectNode
 from catena.nodes.image.histogram_scan import HistogramScanNode
 from catena.nodes.image.hsv import HSVNode
 from catena.nodes.image.invert import InvertNode
@@ -49,8 +50,10 @@ from catena.nodes.image.threshold import ThresholdNode
 from catena.nodes.image.warp import WarpNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
-from catena.nodes.math.cosin import CosineNode
+from catena.nodes.math.ceil import CeilNode
+from catena.nodes.math.cosine import CosineNode
 from catena.nodes.math.divide import DivideNode
+from catena.nodes.math.floor import FloorNode
 from catena.nodes.math.max import MaxNode
 from catena.nodes.math.min import MinNode
 from catena.nodes.math.multiply import MultiplyNode
@@ -59,6 +62,7 @@ from catena.nodes.math.sin import SinNode
 from catena.nodes.math.subtract import SubtractNode
 from catena.nodes.math.tan import TangentNode
 from catena.nodes.misc.reroute import RerouteNode
+from catena.nodes.node_gui import CatenaNode
 from catena.nodes.transform.flip import FlipNode
 from catena.nodes.transform.offset import OffsetNode
 from catena.nodes.transform.rotate import RotateNode
@@ -207,6 +211,7 @@ class GuiGraphView(GraphView):
         self.register_node("Image", BlurNode)
         self.register_node("Image", ColorNode)
         self.register_node("Image", ContrastNode)
+        self.register_node("Image", EdgeDetectNode)
         self.register_node("Image", HistogramScanNode)
         self.register_node("Image", HSVNode)
         self.register_node("Image", InvertNode)
@@ -228,8 +233,10 @@ class GuiGraphView(GraphView):
     def _register_math_nodes(self) -> None:
         self.register_node("Math", AddNode)
         self.register_node("Math", ArctangentNode)
+        self.register_node("Math", CeilNode)
         self.register_node("Math", CosineNode)
         self.register_node("Math", DivideNode)
+        self.register_node("Math", FloorNode)
         self.register_node("Math", MaxNode)
         self.register_node("Math", MinNode)
         self.register_node("Math", MultiplyNode)
@@ -253,4 +260,5 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", PerlinNoiseNode)
         self.register_node("Generator", PolygonNode)
         self.register_node("Generator", ShapeNode)
+        self.register_node("Generator", WeaveNode)
         self.register_node("Generator", WhiteNoiseNode)

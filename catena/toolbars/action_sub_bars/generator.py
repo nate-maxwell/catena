@@ -42,3 +42,7 @@ class GeneratorToolbar(ActionToolbar):
 
         self.add_action_button("Poly", actions.GeneratorActions.action_polygon_node)
         self.add_action_button("Shape", actions.GeneratorActions.action_shape_node)
+
+        self.add_toolbar_separator(12)
+
+        self.add_action_button("Weave", actions.GeneratorActions.action_weave_node)

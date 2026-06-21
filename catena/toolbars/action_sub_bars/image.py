@@ -17,6 +17,9 @@ class ImageToolbar(ActionToolbar):
         self.add_action_button("Bevel", actions.ImageActions.action_bevel_node)
         self.add_action_button("Blur", actions.ImageActions.action_blur_node)
         self.add_action_button("Contrst", actions.ImageActions.action_contrast_node)
+        self.add_action_button(
+            "Edge\nDetect", actions.ImageActions.action_edge_detect_node
+        )
         self.add_action_button("Histo", actions.ImageActions.action_historgram_node)
         self.add_action_button("Color", actions.ImageActions.action_color_node)
         self.add_action_button("HSV", actions.ImageActions.action_hsv_node)
