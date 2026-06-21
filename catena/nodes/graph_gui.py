@@ -24,7 +24,9 @@ from catena.nodes.file.write_roughness import RoughnessNode
 from catena.nodes.generate.blue_noise import BlueNoiseNode
 from catena.nodes.generate.bnw_spots import BNWSpotsNode
 from catena.nodes.generate.cells import CellsNode
+from catena.nodes.generate.checker import CheckerNode
 from catena.nodes.generate.clouds import CloudsNode
+from catena.nodes.generate.fibers import FibersNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
@@ -243,7 +245,9 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", BlueNoiseNode)
         self.register_node("Generator", BNWSpotsNode)
         self.register_node("Generator", CellsNode)
+        self.register_node("Generator", CheckerNode)
         self.register_node("Generator", CloudsNode)
+        self.register_node("Generator", FibersNode)
         self.register_node("Generator", VoronoiNoiseNode)
         self.register_node("Generator", GradientNode)
         self.register_node("Generator", PerlinNoiseNode)

@@ -25,7 +25,9 @@ from catena.nodes.file.write_roughness import RoughnessNode
 from catena.nodes.generate.blue_noise import BlueNoiseNode
 from catena.nodes.generate.bnw_spots import BNWSpotsNode
 from catena.nodes.generate.cells import CellsNode
+from catena.nodes.generate.checker import CheckerNode
 from catena.nodes.generate.clouds import CloudsNode
+from catena.nodes.generate.fibers import FibersNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
@@ -320,6 +322,16 @@ class GeneratorActions(object):
     def action_bnw_spots_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=BNWSpotsNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_checker_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=CheckerNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_fibers_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=FibersNode(), x=coords.x(), y=coords.y())
 
     @classmethod
     def action_cells_node(cls, graph_view: GuiGraphView) -> None:

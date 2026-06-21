@@ -28,6 +28,11 @@ class GeneratorNode(CatenaNode):
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")
 
+    def _on_field_changed(self, node: "CatenaNode") -> None:
+        super()._on_field_changed(node)
+        image = self.evaluate()
+        self._update_preview(image)
+
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:

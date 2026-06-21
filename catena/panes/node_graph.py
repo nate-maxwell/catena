@@ -6,6 +6,7 @@ from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 
+from catena import appdata
 from catena import file
 from catena import namespace
 from catena import session
@@ -16,6 +17,8 @@ from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.preferences.preferences import Preferences
 from catena.preferences import category_data
+
+UNSAVED = f"Unsaved{appdata.CATENA_FILE_SUFFIX}"
 
 
 class NodeGraphPane(DockablePane):
@@ -38,11 +41,18 @@ class NodeGraphPane(DockablePane):
     def new_graph(self) -> None:
         self.graph_view.clear()
         sd = session.SessionData()
-        sd.project_file = Path.home() / "Unsaved.cg"
+        sd.project_file = Path.home() / UNSAVED
         broker.emit(namespace.FILE_CHANGED, file_path=sd.project_file)
 
     def save_graph(self) -> None:
         sd = session.SessionData()
+        if (
+            sd.project_file == appdata.INITIAL_CATENA_FILE
+            or sd.project_file.name == UNSAVED
+        ):
+            self.save_graph_as()
+            return
+
         Nodes.save(self.graph_view, sd.project_file)
 
     def save_graph_as(self) -> None:

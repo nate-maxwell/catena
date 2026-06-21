@@ -1,42 +1,21 @@
 from PySide6TK import QtWidgets
-from PySide6TK import QtWrappers
 from PySide6TK import Resources
 
 from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars import actions
+from catena.toolbars.action_sub_bars.base import ActionToolbar
 
 
-class TransformToolbar(QtWrappers.Toolbar):
+class TransformToolbar(ActionToolbar):
 
     def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
         super().__init__(
-            "TransformToolbar", default_button_resolution=[40, 40], parent=parent
+            "TransformToolbar", parent, graph_view, Resources.BUTTON_GREEN_40X40
         )
-        self.graph_view = graph_view
 
     def build(self) -> None:
-        self.add_toolbar_command(
-            "Flip",
-            command=lambda: actions.XformActions.action_flip_node(self.graph_view),
-            image_path=Resources.BUTTON_GREEN_40X40,
-        )
-        self.add_toolbar_command(
-            "Offset",
-            command=lambda: actions.XformActions.action_offset_node(self.graph_view),
-            image_path=Resources.BUTTON_GREEN_40X40,
-        )
-        self.add_toolbar_command(
-            "Rotate",
-            command=lambda: actions.XformActions.action_rotate_node(self.graph_view),
-            image_path=Resources.BUTTON_GREEN_40X40,
-        )
-        self.add_toolbar_command(
-            "Scatter",
-            command=lambda: actions.XformActions.action_scatter_node(self.graph_view),
-            image_path=Resources.BUTTON_GREEN_40X40,
-        )
-        self.add_toolbar_command(
-            "Tile",
-            command=lambda: actions.XformActions.action_tile_node(self.graph_view),
-            image_path=Resources.BUTTON_GREEN_40X40,
-        )
+        self.add_action_button("Flip", actions.XformActions.action_flip_node)
+        self.add_action_button("Offset", actions.XformActions.action_offset_node)
+        self.add_action_button("Rotate", actions.XformActions.action_rotate_node)
+        self.add_action_button("Scatter", actions.XformActions.action_scatter_node)
+        self.add_action_button("Tile", actions.XformActions.action_tile_node)

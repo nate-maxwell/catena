@@ -13,6 +13,7 @@ from catena.toolbars.action_sub_bars.transform import TransformToolbar
 
 
 class EditorActionToolbar(QtWrappers.Toolbar):
+    """The primary toolbar with sub-toolbars inside a maya shelf-like tab switcher."""
 
     def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
         self.graph_view = graph_view

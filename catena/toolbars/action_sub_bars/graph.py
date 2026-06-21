@@ -1,18 +1,17 @@
 from PySide6TK import QtWidgets
-from PySide6TK import QtWrappers
 from PySide6TK import Resources
 
 from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars import actions
+from catena.toolbars.action_sub_bars.base import ActionToolbar
 
 
-class GraphToolbar(QtWrappers.Toolbar):
+class GraphToolbar(ActionToolbar):
 
     def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
         super().__init__(
-            "GraphToolbar", default_button_resolution=[40, 40], parent=parent
+            "GraphToolbar", parent, graph_view, Resources.BUTTON_BLACK_40X40
         )
-        self.graph_view = graph_view
 
     def build(self) -> None:
         self.add_toolbar_command(
