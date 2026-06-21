@@ -94,7 +94,7 @@ class FibersNode(GeneratorNode):
                 field_type=FieldType.INT,
                 default=10,
                 min_value=1,
-                max_value=512,
+                max_value=99999,
             )
         )
         self.add_field(
@@ -104,7 +104,7 @@ class FibersNode(GeneratorNode):
                 field_type=FieldType.INT,
                 default=80,
                 min_value=1,
-                max_value=512,
+                max_value=99999,
             )
         )
         self.add_field(

@@ -12,6 +12,7 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 from catena import __version__
+from catena import appdata
 from catena import namespace
 
 
@@ -19,7 +20,7 @@ class StatusBar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget) -> None:
         super().__init__("StatusBar", parent)
-        broker.register_subscriber(namespace.FILE_CHANGED, self._update_file_name)
+        self._register_subscribers()
 
     def build(self) -> None:
         unsaved_path = Path(Path.home(), "Unsaved.cg")
@@ -29,8 +30,8 @@ class StatusBar(QtWrappers.Toolbar):
         self.addWidget(QtWrappers.HorizontalSpacer())
         self.addWidget(QtWrappers.VerticalSpacer(16))
 
-        self.lbl_nonsense = QtWidgets.QLabel("Catena Engine Running...")
-        self.addWidget(self.lbl_nonsense)
+        self.lbl_status = QtWidgets.QLabel(appdata.STATUS_IDLE)
+        self.addWidget(self.lbl_status)
 
         self.add_line()
 
@@ -46,5 +47,12 @@ class StatusBar(QtWrappers.Toolbar):
         self.addWidget(QtWrappers.VerticalLine())
         self.add_toolbar_separator(width)
 
-    def _update_file_name(self, file_path: Path) -> None:
+    def _register_subscribers(self) -> None:
+        broker.register_subscriber(namespace.FILE_CHANGED, self._update_file)
+        broker.register_subscriber(namespace.STATUS_CHANGED, self._update_status)
+
+    def _update_file(self, file_path: Path) -> None:
         self.lbl_current_path.setText(file_path.as_posix())
+
+    def _update_status(self, status: str) -> None:
+        self.lbl_status.setText(status)

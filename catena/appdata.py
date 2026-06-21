@@ -19,3 +19,8 @@ CATENA_SESSION_DATA_PATH = CATENA_APPDATA_PATH / "SessionData.json"
 
 CATENA_FILE_SUFFIX = ".cg"
 INITIAL_CATENA_FILE = CATENA_APPDATA_PATH / f"__catena_initial__{CATENA_FILE_SUFFIX}"
+
+# -----Statuses----------------------------------------------------------------
+
+STATUS_IDLE = "Catena Engine Running..."
+STATUS_PREFERENCES_UPDATING = "Updating Preferences..."

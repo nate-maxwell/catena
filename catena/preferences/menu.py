@@ -4,10 +4,12 @@ from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
+from catena import appdata
+from catena import decorators
+from catena.preferences import preferences
 from catena.preferences.general import GeneralPreferencesMenu
 from catena.preferences.graph import GraphPreferencesMenu
 from catena.preferences.layout import LayoutPreferencesMenu
-from catena.preferences import preferences
 
 
 class PreferencesMenu(QtWrappers.MainWindow):
@@ -99,13 +101,13 @@ class PreferencesMenu(QtWrappers.MainWindow):
         self.graph_preferences.sync_settings()
         self.layout_preferences.sync_settings()
 
+    @decorators.update_status(appdata.STATUS_PREFERENCES_UPDATING)
     def ok(self) -> None:
         self._sync_settings()
         preferences.Preferences().save()
 
     def apply(self) -> None:
-        self._sync_settings()
-        preferences.Preferences().save()
+        self.ok()
 
         global window
         window = None
