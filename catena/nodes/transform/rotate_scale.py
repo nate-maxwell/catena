@@ -11,7 +11,7 @@ from catena.nodes.node_processor import ProcessorNode
 from catena.nodes.transform import IMAGE_NODE_COLOR
 
 
-class RotateProcessor(ProcessorNode):
+class RotateScaleProcessor(ProcessorNode):
     """A headless processor that rotates an image by an arbitrary angle."""
 
     def __init__(self, angle: float = 0.0, scale: float = 1.0) -> None:
@@ -42,14 +42,14 @@ class RotateProcessor(ProcessorNode):
         return cv2.warpAffine(image, matrix, (width, height)).astype(numpy.float32)
 
 
-class RotateNode(CatenaNode):
+class RotateScaleNode(CatenaNode):
     """A node that rotates an input image by an arbitrary angle."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        self._processor = RotateProcessor()
-        super().__init__(title="Rotate")
+        self._processor = RotateScaleProcessor()
+        super().__init__(title="Rotate Scale")
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Input")

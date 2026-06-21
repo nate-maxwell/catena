@@ -20,6 +20,10 @@ from catena.nodes.file.write_height import HeightNode
 from catena.nodes.file.write_metallic import MetallicNode
 from catena.nodes.file.write_normal import NormalNode
 from catena.nodes.file.write_roughness import RoughnessNode
+from catena.nodes.flood_fill.ff_to_gradient import FloodFillToGradientNode
+from catena.nodes.flood_fill.ff_to_greyscale import FloodFillToGreyscaleNode
+from catena.nodes.flood_fill.ff_to_rand_color import FloodFillToRandomColorNode
+from catena.nodes.flood_fill.flood_fill import FloodFillNode
 from catena.nodes.generate.blue_noise import BlueNoiseNode
 from catena.nodes.generate.bnw_spots import BNWSpotsNode
 from catena.nodes.generate.cells import CellsNode
@@ -65,7 +69,7 @@ from catena.nodes.misc.reroute import RerouteNode
 from catena.nodes.node_gui import CatenaNode
 from catena.nodes.transform.flip import FlipNode
 from catena.nodes.transform.offset import OffsetNode
-from catena.nodes.transform.rotate import RotateNode
+from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 
@@ -185,11 +189,12 @@ class GuiGraphView(GraphView):
     def _register_nodes(self) -> None:
         self._register_convert_nodes()
         self._register_create_nodes()
+        self._register_flood_fill_nodes()
+        self._register_generator_nodes()
         self._register_image_nodes()
-        self._register_transform_nodes()
         self._register_math_nodes()
         self._register_misc_nodes()
-        self._register_generator_nodes()
+        self._register_transform_nodes()
 
     def _register_convert_nodes(self) -> None:
         self.register_node("Convert", AppendNode)
@@ -205,6 +210,27 @@ class GuiGraphView(GraphView):
         self.register_node("File", MetallicNode)
         self.register_node("File", NormalNode)
         self.register_node("File", RoughnessNode)
+
+    def _register_flood_fill_nodes(self) -> None:
+        self.register_node("Flood Fill", FloodFillNode)
+        self.register_node("Flood Fill", FloodFillToGradientNode)
+        self.register_node("Flood Fill", FloodFillToGreyscaleNode)
+        self.register_node("Flood Fill", FloodFillToRandomColorNode)
+
+    def _register_generator_nodes(self) -> None:
+        self.register_node("Generator", BlueNoiseNode)
+        self.register_node("Generator", BNWSpotsNode)
+        self.register_node("Generator", CellsNode)
+        self.register_node("Generator", CheckerNode)
+        self.register_node("Generator", CloudsNode)
+        self.register_node("Generator", FibersNode)
+        self.register_node("Generator", VoronoiNoiseNode)
+        self.register_node("Generator", GradientNode)
+        self.register_node("Generator", PerlinNoiseNode)
+        self.register_node("Generator", PolygonNode)
+        self.register_node("Generator", ShapeNode)
+        self.register_node("Generator", WeaveNode)
+        self.register_node("Generator", WhiteNoiseNode)
 
     def _register_image_nodes(self) -> None:
         self.register_node("Image", BevelNode)
@@ -222,13 +248,6 @@ class GuiGraphView(GraphView):
         self.register_node("Image", SlopeBlurNode)
         self.register_node("Image", ThresholdNode)
         self.register_node("Image", WarpNode)
-
-    def _register_transform_nodes(self) -> None:
-        self.register_node("Transform", FlipNode)
-        self.register_node("Transform", OffsetNode)
-        self.register_node("Transform", RotateNode)
-        self.register_node("Transform", ScatterNode)
-        self.register_node("Transform", TileNode)
 
     def _register_math_nodes(self) -> None:
         self.register_node("Math", AddNode)
@@ -248,17 +267,9 @@ class GuiGraphView(GraphView):
     def _register_misc_nodes(self) -> None:
         self.register_node("Misc", RerouteNode)
 
-    def _register_generator_nodes(self) -> None:
-        self.register_node("Generator", BlueNoiseNode)
-        self.register_node("Generator", BNWSpotsNode)
-        self.register_node("Generator", CellsNode)
-        self.register_node("Generator", CheckerNode)
-        self.register_node("Generator", CloudsNode)
-        self.register_node("Generator", FibersNode)
-        self.register_node("Generator", VoronoiNoiseNode)
-        self.register_node("Generator", GradientNode)
-        self.register_node("Generator", PerlinNoiseNode)
-        self.register_node("Generator", PolygonNode)
-        self.register_node("Generator", ShapeNode)
-        self.register_node("Generator", WeaveNode)
-        self.register_node("Generator", WhiteNoiseNode)
+    def _register_transform_nodes(self) -> None:
+        self.register_node("Transform", FlipNode)
+        self.register_node("Transform", OffsetNode)
+        self.register_node("Transform", RotateScaleNode)
+        self.register_node("Transform", ScatterNode)
+        self.register_node("Transform", TileNode)

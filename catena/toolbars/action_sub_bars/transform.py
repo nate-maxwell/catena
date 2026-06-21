@@ -16,6 +16,6 @@ class TransformToolbar(ActionToolbar):
     def build(self) -> None:
         self.add_action_button("Flip", actions.XformActions.action_flip_node)
         self.add_action_button("Offset", actions.XformActions.action_offset_node)
-        self.add_action_button("Rotate", actions.XformActions.action_rotate_node)
+        self.add_action_button("Rotate\nScale", actions.XformActions.action_rotate_node)
         self.add_action_button("Scatter", actions.XformActions.action_scatter_node)
         self.add_action_button("Tile", actions.XformActions.action_tile_node)

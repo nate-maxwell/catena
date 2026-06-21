@@ -22,11 +22,14 @@ from catena.nodes.file.write_height import HeightNode
 from catena.nodes.file.write_metallic import MetallicNode
 from catena.nodes.file.write_normal import NormalNode
 from catena.nodes.file.write_roughness import RoughnessNode
+from catena.nodes.flood_fill.ff_to_gradient import FloodFillToGradientNode
+from catena.nodes.flood_fill.ff_to_greyscale import FloodFillToGreyscaleNode
+from catena.nodes.flood_fill.flood_fill import FloodFillNode
+from catena.nodes.flood_fill.ff_to_rand_color import FloodFillToRandomColorNode
 from catena.nodes.generate.blue_noise import BlueNoiseNode
 from catena.nodes.generate.bnw_spots import BNWSpotsNode
 from catena.nodes.generate.cells import CellsNode
 from catena.nodes.generate.checker import CheckerNode
-from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.clouds import CloudsNode
 from catena.nodes.generate.fibers import FibersNode
 from catena.nodes.generate.gradient import GradientNode
@@ -34,14 +37,15 @@ from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
+from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
 from catena.nodes.graph_gui import GuiGraphView
 from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
 from catena.nodes.image.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
-from catena.nodes.image.histogram_scan import HistogramScanNode
 from catena.nodes.image.edge_detect import EdgeDetectNode
+from catena.nodes.image.histogram_scan import HistogramScanNode
 from catena.nodes.image.hsv import HSVNode
 from catena.nodes.image.invert import InvertNode
 from catena.nodes.image.levels import LevelsNode
@@ -53,12 +57,12 @@ from catena.nodes.image.threshold import ThresholdNode
 from catena.nodes.image.warp import WarpNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
+from catena.nodes.math.ceil import CeilNode
 from catena.nodes.math.cosine import CosineNode
 from catena.nodes.math.divide import DivideNode
+from catena.nodes.math.floor import FloorNode
 from catena.nodes.math.max import MaxNode
 from catena.nodes.math.min import MinNode
-from catena.nodes.math.ceil import CeilNode
-from catena.nodes.math.floor import FloorNode
 from catena.nodes.math.multiply import MultiplyNode
 from catena.nodes.math.screen import ScreenNode
 from catena.nodes.math.sin import SinNode
@@ -66,7 +70,7 @@ from catena.nodes.math.subtract import SubtractNode
 from catena.nodes.math.tan import TangentNode
 from catena.nodes.transform.flip import FlipNode
 from catena.nodes.transform.offset import OffsetNode
-from catena.nodes.transform.rotate import RotateNode
+from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 
@@ -239,7 +243,7 @@ class XformActions(object):
     @classmethod
     def action_rotate_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=RotateNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=RotateScaleNode(), x=coords.x(), y=coords.y())
 
     @classmethod
     def action_offset_node(cls, graph_view: GuiGraphView) -> None:
@@ -391,3 +395,28 @@ class GeneratorActions(object):
     def action_crystal_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=VoronoiNoiseNode(), x=coords.x(), y=coords.y())
+
+
+class FloodFillActions(object):
+
+    @classmethod
+    def action_flood_fill_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=FloodFillNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_ff_to_greyscale_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=FloodFillToGreyscaleNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_ff_to_gradient_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=FloodFillToGradientNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_ff_to_rand_color_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(
+            node=FloodFillToRandomColorNode(), x=coords.x(), y=coords.y()
+        )

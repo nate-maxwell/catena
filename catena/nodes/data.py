@@ -7,6 +7,7 @@ class PortDataType(object):
     VECTOR3 = "vector3"
     VECTOR4 = "vector4"
     NORMAL = "normal"
+    FLOOD_FILL = "flood_fill"
 
 
 DATA_TYPE_COLORS: dict[str, QtGui.QColor] = {
@@ -15,4 +16,5 @@ DATA_TYPE_COLORS: dict[str, QtGui.QColor] = {
     "vector3": QtGui.QColor(255, 255, 255),
     "vector4": QtGui.QColor(128, 128, 128),
     "normal": QtGui.QColor(0, 0, 255),
+    "flood_fill": QtGui.QColor(0, 255, 0),
 }
