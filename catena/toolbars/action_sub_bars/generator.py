@@ -24,17 +24,18 @@ class GeneratorToolbar(ActionToolbar):
         self.add_action_button("Clouds", actions.GeneratorActions.action_clouds_node)
         self.add_action_button("Fibers", actions.GeneratorActions.action_fibers_node)
         self.add_action_button(
-            "Crystal", actions.GeneratorActions.action_crystal_noise_node
-        )
-        self.add_action_button(
             "Perlin\nNoise", actions.GeneratorActions.action_perlin_noise_node
         )
         self.add_action_button(
             "White\nNoise", actions.GeneratorActions.action_white_noise_node
         )
+        self.add_action_button(
+            "Voronoi", actions.GeneratorActions.action_voronoi_noise_node
+        )
 
         self.add_toolbar_separator(12)
 
+        self.add_action_button("Color", actions.GeneratorActions.action_color_node)
         self.add_action_button("Grad", actions.GeneratorActions.action_gradient_node)
         self.add_action_button("Checker", actions.GeneratorActions.action_checker_node)
         self.add_action_button("Poly", actions.GeneratorActions.action_polygon_node)
@@ -44,9 +45,6 @@ class GeneratorToolbar(ActionToolbar):
 
         self.add_action_button(
             "Grunge\n1", actions.GeneratorActions.action_grunge_one_node
-        )
-        self.add_action_button(
-            "Grunge\n2", actions.GeneratorActions.action_grunge_two_node
         )
 
         self.add_toolbar_separator(12)

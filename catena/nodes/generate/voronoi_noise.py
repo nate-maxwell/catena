@@ -57,8 +57,14 @@ class VoronoiNoiseProcessor(ProcessorNode):
             dtype=numpy.float32,
         )
 
-        all_points = (points[:, None, :] + offsets[None, :, :]).reshape(-1, 2)
-        all_values = numpy.tile(values, len(offsets))
+        all_points = []
+        all_indices = []
+        for i, offset in enumerate(offsets):
+            all_points.append(points + offset)
+            all_indices.append(numpy.arange(self.cells))
+
+        all_points = numpy.concatenate(all_points, axis=0)
+        all_indices = numpy.concatenate(all_indices, axis=0)
 
         tree = cKDTree(all_points)
 
@@ -67,7 +73,7 @@ class VoronoiNoiseProcessor(ProcessorNode):
 
         _, indices = tree.query(query_points)
 
-        nearest = all_values[indices].reshape(height, width)
+        nearest = values[all_indices[indices]].reshape(height, width)
 
         return numpy.repeat(nearest[:, :, None], 3, axis=2).astype(numpy.float32)
 

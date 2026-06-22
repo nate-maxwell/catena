@@ -35,7 +35,6 @@ from catena.nodes.generate.directional_noise import DirectionalNoiseNode
 from catena.nodes.generate.fibers import FibersNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.grunge_one import GrungeOneNode
-from catena.nodes.generate.grunge_two import GrungeTwoNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.shape import ShapeNode
@@ -44,7 +43,7 @@ from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
 from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
-from catena.nodes.image.color import ColorNode
+from catena.nodes.generate.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
 from catena.nodes.image.edge_detect import EdgeDetectNode
 from catena.nodes.image.histogram_scan import HistogramScanNode
@@ -56,7 +55,7 @@ from catena.nodes.image.overlay import OverlayNode
 from catena.nodes.image.sharpen import SharpenNode
 from catena.nodes.image.slope_blur import SlopeBlurNode
 from catena.nodes.image.threshold import ThresholdNode
-from catena.nodes.image.warp import WarpNode
+from catena.nodes.transform.warp import WarpNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
 from catena.nodes.math.ceil import CeilNode
@@ -239,15 +238,15 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", CellsNode)
         self.register_node("Generator", CheckerNode)
         self.register_node("Generator", CloudsNode)
+        self.register_node("Generator", ColorNode)
         self.register_node("Generator", DirectionalNoiseNode)
         self.register_node("Generator", FibersNode)
-        self.register_node("Generator", VoronoiNoiseNode)
         self.register_node("Generator", GradientNode)
         self.register_node("Generator", GrungeOneNode)
-        self.register_node("Generator", GrungeTwoNode)
         self.register_node("Generator", PerlinNoiseNode)
         self.register_node("Generator", PolygonNode)
         self.register_node("Generator", ShapeNode)
+        self.register_node("Generator", VoronoiNoiseNode)
         self.register_node("Generator", WeaveNode)
         self.register_node("Generator", WhiteNoiseNode)
 
@@ -255,7 +254,6 @@ class GuiGraphView(GraphView):
         logger.info("Registering image nodes...")
         self.register_node("Image", BevelNode)
         self.register_node("Image", BlurNode)
-        self.register_node("Image", ColorNode)
         self.register_node("Image", ContrastNode)
         self.register_node("Image", EdgeDetectNode)
         self.register_node("Image", HistogramScanNode)
@@ -267,7 +265,6 @@ class GuiGraphView(GraphView):
         self.register_node("Image", SharpenNode)
         self.register_node("Image", SlopeBlurNode)
         self.register_node("Image", ThresholdNode)
-        self.register_node("Image", WarpNode)
 
     def _register_math_nodes(self) -> None:
         logger.info("Registering math nodes...")
@@ -296,3 +293,4 @@ class GuiGraphView(GraphView):
         self.register_node("Transform", RotateScaleNode)
         self.register_node("Transform", ScatterNode)
         self.register_node("Transform", TileNode)
+        self.register_node("Transform", WarpNode)

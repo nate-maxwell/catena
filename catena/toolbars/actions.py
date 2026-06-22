@@ -36,7 +36,6 @@ from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.grunge_one import GrungeOneNode
-from catena.nodes.generate.grunge_two import GrungeTwoNode
 from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.weave import WeaveNode
@@ -44,7 +43,7 @@ from catena.nodes.generate.white_noise import WhiteNoiseNode
 from catena.nodes.graph_gui import GuiGraphView
 from catena.nodes.image.bevel import BevelNode
 from catena.nodes.image.blur import BlurNode
-from catena.nodes.image.color import ColorNode
+from catena.nodes.generate.color import ColorNode
 from catena.nodes.image.contrast import ContrastNode
 from catena.nodes.image.edge_detect import EdgeDetectNode
 from catena.nodes.image.histogram_scan import HistogramScanNode
@@ -56,7 +55,7 @@ from catena.nodes.image.overlay import OverlayNode
 from catena.nodes.image.sharpen import SharpenNode
 from catena.nodes.image.slope_blur import SlopeBlurNode
 from catena.nodes.image.threshold import ThresholdNode
-from catena.nodes.image.warp import WarpNode
+from catena.nodes.transform.warp import WarpNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
 from catena.nodes.math.ceil import CeilNode
@@ -195,11 +194,6 @@ class ImageActions(object):
         graph_view.add_node(node=ThresholdNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_color_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ColorNode(), x=coords.x(), y=coords.y())
-
-    @classmethod
     def action_historgram_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=HistogramScanNode(), x=coords.x(), y=coords.y())
@@ -213,11 +207,6 @@ class ImageActions(object):
     def action_invert_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=InvertNode(), x=coords.x(), y=coords.y())
-
-    @classmethod
-    def action_warp_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=WarpNode(), x=coords.x(), y=coords.y())
 
     @classmethod
     def action_bevel_node(cls, graph_view: GuiGraphView) -> None:
@@ -261,6 +250,11 @@ class XformActions(object):
     def action_scatter_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=ScatterNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_warp_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=WarpNode(), x=coords.x(), y=coords.y())
 
 
 class MathActions(object):
@@ -394,7 +388,7 @@ class GeneratorActions(object):
         graph_view.add_node(node=PolygonNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_crystal_noise_node(cls, graph_view: GuiGraphView) -> None:
+    def action_voronoi_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=VoronoiNoiseNode(), x=coords.x(), y=coords.y())
 
@@ -404,9 +398,9 @@ class GeneratorActions(object):
         graph_view.add_node(node=GrungeOneNode(), x=coords.x(), y=coords.y())
 
     @classmethod
-    def action_grunge_two_node(cls, graph_view: GuiGraphView) -> None:
+    def action_color_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
-        graph_view.add_node(node=GrungeTwoNode(), x=coords.x(), y=coords.y())
+        graph_view.add_node(node=ColorNode(), x=coords.x(), y=coords.y())
 
 
 class FloodFillActions(object):

@@ -21,7 +21,6 @@ class ImageToolbar(ActionToolbar):
             "Edge\nDetect", actions.ImageActions.action_edge_detect_node
         )
         self.add_action_button("Histo", actions.ImageActions.action_historgram_node)
-        self.add_action_button("Color", actions.ImageActions.action_color_node)
         self.add_action_button("HSV", actions.ImageActions.action_hsv_node)
         self.add_action_button("Invert", actions.ImageActions.action_invert_node)
         self.add_action_button("Levels", actions.ImageActions.action_levels_node)
@@ -32,4 +31,3 @@ class ImageToolbar(ActionToolbar):
             "Slope\nBlur", actions.ImageActions.action_slope_blur_node
         )
         self.add_action_button("Thresh", actions.ImageActions.action_threshold_node)
-        self.add_action_button("Warp", actions.ImageActions.action_warp_node)

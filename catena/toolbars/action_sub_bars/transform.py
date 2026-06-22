@@ -19,3 +19,4 @@ class TransformToolbar(ActionToolbar):
         self.add_action_button("Rotate\nScale", actions.XformActions.action_rotate_node)
         self.add_action_button("Scatter", actions.XformActions.action_scatter_node)
         self.add_action_button("Tile", actions.XformActions.action_tile_node)
+        self.add_action_button("Warp", actions.XformActions.action_warp_node)
