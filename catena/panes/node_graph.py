@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import broker
@@ -18,6 +19,8 @@ from catena.panes.pane import PaneConfig
 from catena.preferences.preferences import Preferences
 from catena.preferences import category_data
 
+logger = logging.getLogger(__name__)
+
 UNSAVED = f"Unsaved{appdata.CATENA_FILE_SUFFIX}"
 
 
@@ -31,6 +34,7 @@ class NodeGraphPane(DockablePane):
         self._create_shortcuts()
         self._create_subscriptions()
         self._on_preferences_updated()
+        logger.info("Graph pane initialized")
 
     def create_widgets(self) -> None:
         self.graph_view = GuiGraphView(self)

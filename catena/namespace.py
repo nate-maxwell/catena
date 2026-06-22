@@ -19,7 +19,10 @@ FILE_LOAD = "client.file.load"
 FILE_UNDO = "client.file.undo"
 FILE_REDO = "client.file.redo"
 FILE_CHANGED = "client.file.changed"
+
 STATUS_CHANGED = "client.status.changed"
+
+LOG_ENTRY = "Client.log.message"
 
 PREFERENCES_UPDATED = "prefs.updated"
 SESSION_DATA_UPDATED = "session.updated"

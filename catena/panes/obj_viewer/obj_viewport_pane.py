@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 import broker
@@ -10,6 +11,8 @@ from catena.panes.obj_viewer import obj_widget
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 
+logger = logging.getLogger(__name__)
+
 
 class ObjViewportPane(DockablePane):
     """A dockable pane that displays an object with textures."""
@@ -21,6 +24,7 @@ class ObjViewportPane(DockablePane):
 
     def __post_init__(self) -> None:
         self._create_subscriptions()
+        logger.info("Object view pane initialized")
 
     def create_widgets(self) -> None:
         self.obj_wid = obj_widget.ObjectViewerWidget(self)

@@ -1,16 +1,23 @@
+import logging
 import sys
 
 from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 
+from catena import output_log
 from catena import resources
 from catena.client import CatenaEditor
 from catena.splash import CatenaSplashScreen
 
+logger = logging.getLogger(__name__)
+
 
 def main() -> int:
     app = QtWidgets.QApplication(sys.argv)
+    output_log.init_log_window()
+    logger.info("Application initialized")
+    logger.info("-" * 30)
 
     splash_pixmap = QtGui.QPixmap(resources.SPLASH_IMAGE)
     splash = CatenaSplashScreen(splash_pixmap)
@@ -25,6 +32,7 @@ def main() -> int:
 
     def _close_splash() -> None:
         splash.finish(window)
+        logger.info("Splash screen closed")
 
     QtCore.QTimer.singleShot(1000, _close_splash)
 

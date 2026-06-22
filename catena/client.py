@@ -1,4 +1,5 @@
 import functools
+import logging
 
 from PySide6TK import QtCore
 from PySide6TK import QtGui
@@ -10,6 +11,7 @@ from catena import session
 from catena import shortcuts
 from catena.panes.node_graph import NodeGraphPane
 from catena.panes.obj_viewer.obj_viewport_pane import ObjViewportPane
+from catena.panes.properties import PropertiesPane
 from catena.panes.resize import split_horizontal
 from catena.panes.resize import split_vertical
 from catena.panes.tex_viewer.tex_viewport_pane import TexViewportPane
@@ -18,7 +20,7 @@ from catena.toolbars.actions_toolbar import EditorActionToolbar
 from catena.toolbars.client_toolbar import ClientWindowToolbar
 from catena.toolbars.status_bar import StatusBar
 
-from catena.panes.properties import PropertiesPane
+logger = logging.getLogger(__name__)
 
 WINDOW_STATE_VERSION = 9
 """
@@ -58,8 +60,10 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._initialize_shortcut_manager()
         self._restore_window_state()
         QtCore.QTimer.singleShot(0, self.pane_node_graph.load_previous_graph)
+        logger.info("-" * 30)
 
     def _create_widgets(self) -> None:
+
         self.pane_object_viewport = ObjViewportPane(self)
         self.pane_texture_viewport = TexViewportPane(self)
         self.pane_node_graph = NodeGraphPane(self)

@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 import broker
@@ -10,6 +11,8 @@ from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.panes.tex_viewer import image_view
 
+logger = logging.getLogger(__name__)
+
 
 class TexViewportPane(DockablePane):
     """A dockable pane that displays an image centered on a black background."""
@@ -21,6 +24,7 @@ class TexViewportPane(DockablePane):
 
     def __post_init__(self) -> None:
         self._create_subscriptions()
+        logger.info("Texture viewer pane initialized")
 
     def create_widgets(self) -> None:
         self.image_view = image_view.ImageView(self)

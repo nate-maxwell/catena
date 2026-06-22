@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from PySide6TK import QtCore
@@ -11,6 +12,8 @@ from catena.preferences.general import GeneralPreferencesMenu
 from catena.preferences.graph import GraphPreferencesMenu
 from catena.preferences.layout import LayoutPreferencesMenu
 
+logger = logging.getLogger(__name__)
+
 
 class PreferencesMenu(QtWrappers.MainWindow):
     def __init__(self, parent: Optional[QtWidgets.QWidget] = None) -> None:
@@ -20,6 +23,7 @@ class PreferencesMenu(QtWrappers.MainWindow):
         self._create_widgets()
         self._create_layouts()
         self._create_connections()
+        logger.info("Preferences menu initialized")
 
     def _create_widgets(self) -> None:
         self.widget_main = QtWidgets.QWidget()

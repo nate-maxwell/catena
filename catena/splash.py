@@ -1,12 +1,17 @@
+import logging
+
 from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
+
+logger = logging.getLogger(__name__)
 
 
 class CatenaSplashScreen(QtWidgets.QSplashScreen):
 
     def __init__(self, pixmap: QtGui.QPixmap) -> None:
         super().__init__(pixmap, QtCore.Qt.WindowType.WindowStaysOnTopHint)
+        logger.info("Splash screen initialized")
         self._left_text = ""
         self._right_text = ""
 

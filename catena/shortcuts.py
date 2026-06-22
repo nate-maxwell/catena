@@ -10,10 +10,14 @@ This allows modules to be added and removed more freely, and they will register
 themselves with the shortcut manager.
 """
 
+import logging
+
 from typing import Optional
 
 from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
+
+logger = logging.getLogger(__name__)
 
 
 def _null(*args) -> None:
@@ -34,6 +38,7 @@ class ShortcutManager(QtWrappers.KeyShortcutManager):
         if not hasattr(self, "_initialized"):
             super().__init__(parent)
             self._initialized = True
+            logger.info("Shortcut manager initialized")
 
 
 def init_shortcut_manager(parent: QtWidgets.QWidget) -> ShortcutManager:

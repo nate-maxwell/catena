@@ -5,6 +5,7 @@ This status bar is not meant to allow users to change settings, but rather
 simply display application data and preference values.
 """
 
+import logging
 from pathlib import Path
 
 import broker
@@ -15,12 +16,15 @@ from catena import __version__
 from catena import appdata
 from catena import namespace
 
+logger = logging.getLogger(__name__)
+
 
 class StatusBar(QtWrappers.Toolbar):
 
     def __init__(self, parent: QtWidgets.QWidget) -> None:
         super().__init__("StatusBar", parent)
         self._register_subscribers()
+        logger.info("Status toolbar initialized")
 
     def build(self) -> None:
         unsaved_path = Path(Path.home(), "Unsaved.cg")

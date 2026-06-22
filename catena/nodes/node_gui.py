@@ -1,3 +1,4 @@
+import logging
 from typing import Any
 from typing import Optional
 
@@ -12,6 +13,8 @@ from catena import namespace
 from catena.nodes.data import PortDataType
 from catena.nodes.data import DATA_TYPE_COLORS
 
+logger = logging.getLogger(__name__)
+
 
 class CatenaNode(BaseNode):
 
@@ -23,6 +26,8 @@ class CatenaNode(BaseNode):
 
         self._cached_value: Any = None
         """The last evaluated value. Updates when field values change."""
+
+        logger.info(f"{title} node created")
 
     def add_port(
         self, port_type: str, name: str, data_type: str = PortDataType.VECTOR4

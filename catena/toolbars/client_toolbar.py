@@ -7,8 +7,9 @@ from PySide6 import QtWidgets
 from PySide6TK import QtWrappers
 
 from catena import about
-from catena import shortcuts
 from catena import namespace
+from catena import output_log
+from catena import shortcuts
 from catena.preferences import menu as preferences_menu
 
 if TYPE_CHECKING:
@@ -81,6 +82,7 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
             "Properties",
             self._editor.pane_properties.toggle_visibility,
         )
+        self.add_menu_command(menu, "Output Log", output_log.show_log_window)
 
     def _help_section(self) -> None:
         menu = self.add_menu("Help")

@@ -11,6 +11,7 @@
     direct reference to this singleton.
 """
 
+import logging
 from pathlib import Path
 from typing import Any
 from typing import Optional
@@ -20,6 +21,8 @@ import core_utils.structured
 
 from catena import appdata
 from catena import namespace
+
+logger = logging.getLogger(__name__)
 
 _PROJECT_FILE = "project_file"
 
@@ -72,6 +75,7 @@ class SessionData(object):
         )
         if data is not None:
             self.from_dict(data)
+            logger.info("Session data loaded")
 
     def save(self) -> None:
         """
@@ -84,8 +88,10 @@ class SessionData(object):
             appdata.CATENA_SESSION_DATA_PATH, self.to_dict(), True
         )
         broker.emit(namespace.SESSION_DATA_UPDATED)
+        logger.info("Session data saved")
 
 
 def initialize() -> None:
     """Call on startup to ensure the singletons are loaded."""
     _ = SessionData()
+    logger.info("Session system initialized")

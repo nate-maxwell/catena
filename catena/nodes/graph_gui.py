@@ -1,3 +1,5 @@
+import logging
+
 import broker
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
@@ -76,12 +78,15 @@ from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 
+logger = logging.getLogger(__name__)
+
 
 class GuiGraphView(GraphView):
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
         super().__init__(parent)
         self.comment_type = CatenaCommentBox
         self._register_nodes()
+        logger.info("Graph view initialized")
 
     def add_comment(
         self, x: float, y: float, label: str = "Comment"
@@ -190,6 +195,8 @@ class GuiGraphView(GraphView):
             self.add_node(node, data[2].x(), data[2].y())
 
     def _register_nodes(self) -> None:
+        logger.info("-" * 30)
+        logger.info("Graph view registering standard node library")
         self._register_convert_nodes()
         self._register_create_nodes()
         self._register_flood_fill_nodes()
@@ -198,14 +205,18 @@ class GuiGraphView(GraphView):
         self._register_math_nodes()
         self._register_misc_nodes()
         self._register_transform_nodes()
+        logger.info("Graph view node registry complete")
+        logger.info("-" * 30)
 
     def _register_convert_nodes(self) -> None:
+        logger.info("Registering convert nodes...")
         self.register_node("Convert", AppendNode)
         self.register_node("Convert", HeightToAONode)
         self.register_node("Convert", HeightToNormalNode)
         self.register_node("Convert", SplitNode)
 
     def _register_create_nodes(self) -> None:
+        logger.info("Registering create nodes...")
         self.register_node("File", ReadNode)
         self.register_node("File", AlbedoNode)
         self.register_node("File", AmbientOcclusionNode)
@@ -215,12 +226,14 @@ class GuiGraphView(GraphView):
         self.register_node("File", RoughnessNode)
 
     def _register_flood_fill_nodes(self) -> None:
+        logger.info("Registering flood fill nodes...")
         self.register_node("Flood Fill", FloodFillNode)
         self.register_node("Flood Fill", FloodFillToGradientNode)
         self.register_node("Flood Fill", FloodFillToGreyscaleNode)
         self.register_node("Flood Fill", FloodFillToRandomColorNode)
 
     def _register_generator_nodes(self) -> None:
+        logger.info("Registering generator nodes...")
         self.register_node("Generator", BlueNoiseNode)
         self.register_node("Generator", BNWSpotsNode)
         self.register_node("Generator", CellsNode)
@@ -239,6 +252,7 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", WhiteNoiseNode)
 
     def _register_image_nodes(self) -> None:
+        logger.info("Registering image nodes...")
         self.register_node("Image", BevelNode)
         self.register_node("Image", BlurNode)
         self.register_node("Image", ColorNode)
@@ -256,6 +270,7 @@ class GuiGraphView(GraphView):
         self.register_node("Image", WarpNode)
 
     def _register_math_nodes(self) -> None:
+        logger.info("Registering math nodes...")
         self.register_node("Math", AddNode)
         self.register_node("Math", ArctangentNode)
         self.register_node("Math", CeilNode)
@@ -271,9 +286,11 @@ class GuiGraphView(GraphView):
         self.register_node("Math", TangentNode)
 
     def _register_misc_nodes(self) -> None:
+        logger.info("Registering misc nodes...")
         self.register_node("Misc", RerouteNode)
 
     def _register_transform_nodes(self) -> None:
+        logger.info("Registering transform nodes...")
         self.register_node("Transform", FlipNode)
         self.register_node("Transform", OffsetNode)
         self.register_node("Transform", RotateScaleNode)

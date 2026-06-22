@@ -1,3 +1,5 @@
+import logging
+
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
@@ -12,6 +14,8 @@ from catena.toolbars.action_sub_bars.math import MathToolbar
 from catena.toolbars.action_sub_bars.switcher import ToolbarSwitcher
 from catena.toolbars.action_sub_bars.transform import TransformToolbar
 
+logger = logging.getLogger(__name__)
+
 
 class EditorActionToolbar(QtWrappers.Toolbar):
     """The primary toolbar with sub-toolbars inside a maya shelf-like tab switcher."""
@@ -21,6 +25,7 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         super().__init__(
             "ActionsToolbar", default_button_resolution=[40, 40], parent=parent
         )
+        logger.info("Actions toolbar initialized")
 
     def build(self) -> None:
         switcher = ToolbarSwitcher(self)

@@ -11,6 +11,7 @@
     changes without needing a direct reference to this singleton.
 """
 
+import logging
 from dataclasses import asdict
 from typing import Any
 from typing import Optional
@@ -23,6 +24,8 @@ from catena import namespace
 from catena.preferences.category_data import GeneralPreferences
 from catena.preferences.category_data import LayoutPreferences
 from catena.preferences.category_data import NodeGraphPreferences
+
+logger = logging.getLogger(__name__)
 
 GENERAL_PREFERENCES = "general_preferences"
 GRAPH_PREFERENCES = "node_graph_preferences"
@@ -95,6 +98,7 @@ class Preferences(object):
         )
         if data is not None:
             self.from_dict(data)
+            logger.info("Preferences loaded")
 
     def save(self) -> None:
         """
@@ -107,8 +111,10 @@ class Preferences(object):
             appdata.CATENA_PREFERENCES_PATH, self.to_dict(), True
         )
         broker.emit(namespace.PREFERENCES_UPDATED)
+        logger.info("Preferences saved")
 
 
 def initialize() -> None:
     """Call on startup to ensure the singletons are loaded."""
     _ = Preferences()
+    logger.info("Preferences system initialized")

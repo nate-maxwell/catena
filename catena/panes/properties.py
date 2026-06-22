@@ -1,3 +1,5 @@
+import logging
+
 import broker
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
@@ -10,6 +12,8 @@ from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.nodes.node_gui import CatenaNode
 
+logger = logging.getLogger(__name__)
+
 
 class PropertiesPane(DockablePane):
     pane_config = PaneConfig(
@@ -19,6 +23,7 @@ class PropertiesPane(DockablePane):
 
     def __post_init__(self) -> None:
         self._create_subscriptions()
+        logger.info("Properties pane initialized")
 
     def _create_subscriptions(self) -> None:
         broker.register_subscriber(namespace.NODE_SELECTED, self._refresh_properties)
