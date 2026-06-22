@@ -25,7 +25,7 @@ class GradientProcessor(ProcessorNode):
         self.angle = angle
 
     def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
+        self, inputs: dict[str, Optional[numpy.ndarray]] | None = None
     ) -> Optional[numpy.ndarray]:
         """
         Generate a linear gradient between two colors.

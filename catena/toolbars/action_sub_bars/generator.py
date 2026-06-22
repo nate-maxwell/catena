@@ -21,7 +21,6 @@ class GeneratorToolbar(ActionToolbar):
             "BnW\nSpots", actions.GeneratorActions.action_bnw_spots_node
         )
         self.add_action_button("Cells", actions.GeneratorActions.action_cells_node)
-        self.add_action_button("Checker", actions.GeneratorActions.action_checker_node)
         self.add_action_button("Clouds", actions.GeneratorActions.action_clouds_node)
         self.add_action_button("Fibers", actions.GeneratorActions.action_fibers_node)
         self.add_action_button(
@@ -37,11 +36,18 @@ class GeneratorToolbar(ActionToolbar):
         self.add_toolbar_separator(12)
 
         self.add_action_button("Grad", actions.GeneratorActions.action_gradient_node)
+        self.add_action_button("Checker", actions.GeneratorActions.action_checker_node)
+        self.add_action_button("Poly", actions.GeneratorActions.action_polygon_node)
+        self.add_action_button("Shape", actions.GeneratorActions.action_shape_node)
 
         self.add_toolbar_separator(12)
 
-        self.add_action_button("Poly", actions.GeneratorActions.action_polygon_node)
-        self.add_action_button("Shape", actions.GeneratorActions.action_shape_node)
+        self.add_action_button(
+            "Grunge\n1", actions.GeneratorActions.action_grunge_one_node
+        )
+        self.add_action_button(
+            "Grunge\n2", actions.GeneratorActions.action_grunge_two_node
+        )
 
         self.add_toolbar_separator(12)
 

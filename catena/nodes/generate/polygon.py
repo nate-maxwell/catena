@@ -26,7 +26,7 @@ class PolygonProcessor(ProcessorNode):
         self.rotation = rotation
 
     def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
+        self, inputs: dict[str, Optional[numpy.ndarray]] | None = None
     ) -> Optional[numpy.ndarray]:
         """
         Generate a regular polygon shape mask.

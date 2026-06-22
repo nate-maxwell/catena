@@ -66,7 +66,7 @@ class CloudsProcessor(ProcessorNode):
         self.seed = seed
 
     def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
+        self, inputs: dict[str, Optional[numpy.ndarray]] | None = None
     ) -> Optional[numpy.ndarray]:
         """
         Generate soft cloud-like multi-octave value noise.

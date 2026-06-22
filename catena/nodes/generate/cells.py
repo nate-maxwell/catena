@@ -26,7 +26,7 @@ class CellsProcessor(ProcessorNode):
         self.invert = invert
 
     def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
+        self, inputs: dict[str, Optional[numpy.ndarray]] | None = None
     ) -> Optional[numpy.ndarray]:
         """
         Generate cellular (Worley) noise using KD-tree nearest-neighbor lookup.

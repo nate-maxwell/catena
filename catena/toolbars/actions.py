@@ -35,6 +35,8 @@ from catena.nodes.generate.fibers import FibersNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
+from catena.nodes.generate.grunge_one import GrungeOneNode
+from catena.nodes.generate.grunge_two import GrungeTwoNode
 from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.weave import WeaveNode
@@ -395,6 +397,16 @@ class GeneratorActions(object):
     def action_crystal_noise_node(cls, graph_view: GuiGraphView) -> None:
         coords = graph_view.view_center()
         graph_view.add_node(node=VoronoiNoiseNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_grunge_one_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=GrungeOneNode(), x=coords.x(), y=coords.y())
+
+    @classmethod
+    def action_grunge_two_node(cls, graph_view: GuiGraphView) -> None:
+        coords = graph_view.view_center()
+        graph_view.add_node(node=GrungeTwoNode(), x=coords.x(), y=coords.y())
 
 
 class FloodFillActions(object):

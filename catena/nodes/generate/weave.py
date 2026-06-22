@@ -29,7 +29,7 @@ class WeaveProcessor(ProcessorNode):
         self.gap = gap
 
     def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
+        self, inputs: dict[str, Optional[numpy.ndarray]] | None = None
     ) -> Optional[numpy.ndarray]:
         width = preferences.Preferences().general_preferences.texture_resolution
         height = width
