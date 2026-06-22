@@ -13,8 +13,10 @@
 
 import logging
 from dataclasses import asdict
+from dataclasses import fields
 from typing import Any
 from typing import Optional
+from typing import TypeVar
 
 import broker
 import core_utils.structured
@@ -34,6 +36,25 @@ LAYOUT_PREFERENCES = "layout_preferences"
 
 class AppdataError(Exception):
     """Errors for unhandled appdata values."""
+
+
+T = TypeVar("T")
+
+
+def _safe_init(cls: type[T], data: dict[str, Any]) -> T:
+    """
+    Extract fields while logging warning about unknown fields.
+    These fields are likely deprecated.
+    """
+    known = {f.name for f in fields(cls)}
+    unknown = data.keys() - known
+    if unknown:
+        logger.warning(
+            "Dropping unrecognized preference keys for %s: %s",
+            cls.__name__,
+            sorted(unknown),
+        )
+    return cls(**{k: v for k, v in data.items() if k in known})
 
 
 class Preferences(object):
@@ -80,13 +101,17 @@ class Preferences(object):
     def from_dict(self, data: dict[str, appdata.JSON_TYPE]) -> None:
         """Apply a serialized dict into dataclass fields safely."""
         if GENERAL_PREFERENCES in data:
-            self.general_preferences = GeneralPreferences(**data[GENERAL_PREFERENCES])
+            self.general_preferences = _safe_init(
+                GeneralPreferences, data[GENERAL_PREFERENCES]
+            )
         if GRAPH_PREFERENCES in data:
-            self.node_graph_preferences = NodeGraphPreferences(
-                **data[GRAPH_PREFERENCES]
+            self.node_graph_preferences = _safe_init(
+                NodeGraphPreferences, data[GRAPH_PREFERENCES]
             )
         if LAYOUT_PREFERENCES in data:
-            self.layout_preferences = LayoutPreferences(**data[LAYOUT_PREFERENCES])
+            self.layout_preferences = _safe_init(
+                LayoutPreferences, data[LAYOUT_PREFERENCES]
+            )
 
     def load(self) -> None:
         """

@@ -5,7 +5,6 @@ from PySide6TK import QtGui
 
 @dataclass
 class GeneralPreferences(object):
-    auto_save_interval: int = 0
     texture_resolution: int = 1024
 
 
