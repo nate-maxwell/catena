@@ -104,7 +104,7 @@ class GuiGraphView(GraphView):
         """
         box = CatenaCommentBox(label)
         self._node_refs.append(box)
-        self.scene.addItem(box)
+        self.graph_scene.addItem(box)
         box.setPos(x, y)
         return box
 
