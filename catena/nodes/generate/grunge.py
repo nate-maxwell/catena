@@ -11,7 +11,7 @@ from catena.nodes.node_processor import ProcessorNode
 from catena.preferences import preferences
 
 
-class GrungeOneProcessor(ProcessorNode):
+class GrungeProcessor(ProcessorNode):
     """A headless processor that generates a grunge noise map."""
 
     def __init__(
@@ -140,12 +140,12 @@ class GrungeOneProcessor(ProcessorNode):
         return numpy.repeat(result[:, :, None], 3, axis=2).astype(numpy.float32)
 
 
-class GrungeOneNode(GeneratorNode):
+class GrungeNode(GeneratorNode):
     """A node that generates a grunge noise map."""
 
     def __init__(self) -> None:
-        self._processor = GrungeOneProcessor()
-        super().__init__(title="Grunge 1")
+        self._processor = GrungeProcessor()
+        super().__init__(title="Grunge")
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")

@@ -44,9 +44,13 @@ class GeneratorToolbar(ActionToolbar):
         self.add_toolbar_separator(12)
 
         self.add_action_button(
-            "Grunge\n1", actions.GeneratorActions.action_grunge_one_node
+            "Grunge", actions.GeneratorActions.action_grunge_one_node
         )
+        self.add_action_button("Mold", actions.GeneratorActions.action_mold_node)
 
         self.add_toolbar_separator(12)
 
+        self.add_action_button(
+            "Scratch", actions.GeneratorActions.action_scratches_node
+        )
         self.add_action_button("Weave", actions.GeneratorActions.action_weave_node)
