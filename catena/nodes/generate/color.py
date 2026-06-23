@@ -11,7 +11,7 @@ from catena.nodes.node_processor import ProcessorNode
 
 
 class ColorProcessor(ProcessorNode):
-    """A headless processor that outputs a solid color image."""
+    """A headless processor that outputs a solid color modifier."""
 
     def __init__(self, color: tuple[int, int, int, int] = (255, 255, 255, 255)) -> None:
         super().__init__()
@@ -21,13 +21,13 @@ class ColorProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Generate a solid color image.
+        Generate a solid color modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 solid color image of shape
+            numpy.ndarray | None: A float32 solid color modifier of shape
                 (512, 512, 3) with values in [0, 1].
         """
         r, g, b, _ = self.color
@@ -40,7 +40,7 @@ class ColorProcessor(ProcessorNode):
 
 
 class ColorNode(CatenaNode):
-    """A node that outputs a solid color image."""
+    """A node that outputs a solid color modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

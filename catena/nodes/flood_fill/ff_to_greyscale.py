@@ -26,14 +26,14 @@ class FloodFillToGreyscaleProcessor(ProcessorNode):
     ) -> Optional[numpy.ndarray]:
         """
         Remap flood fill region values to an evenly distributed greyscale range,
-        optionally sampling values from a greyscale image.
+        optionally sampling values from a greyscale modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 flood fill image, and optionally "Greyscale"
-                containing a float32 greyscale image to sample values from.
+                containing a float32 flood fill modifier, and optionally "Greyscale"
+                containing a float32 greyscale modifier to sample values from.
         Returns:
-            numpy.ndarray | None: A float32 image of shape (H, W, 3) where
+            numpy.ndarray | None: A float32 modifier of shape (H, W, 3) where
                 each region has a uniformly distributed greyscale value.
         """
         image = inputs.get("Flood Fill")

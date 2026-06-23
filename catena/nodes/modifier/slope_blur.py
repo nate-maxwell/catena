@@ -7,12 +7,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class SlopeBlurProcessor(ProcessorNode):
-    """A headless processor that blurs an image along the gradient of a slope map."""
+    """A headless processor that blurs an modifier along the gradient of a slope map."""
 
     def __init__(self, intensity: float = 10.0, samples: int = 8) -> None:
         super().__init__()
@@ -23,13 +23,13 @@ class SlopeBlurProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Blur an image along the gradient direction of a slope/height map.
+        Blur an modifier along the gradient direction of a slope/height map.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "Input"
-                and "Slope", each containing a float32 image.
+                and "Slope", each containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The slope-blurred float32 image, or the
+            numpy.ndarray | None: The slope-blurred float32 modifier, or the
                 unmodified input if Slope is None or intensity is zero.
         """
         image = inputs.get("Input")
@@ -80,7 +80,7 @@ class SlopeBlurProcessor(ProcessorNode):
 
 
 class SlopeBlurNode(CatenaNode):
-    """A node that blurs an image along the gradient of a slope/height map."""
+    """A node that blurs an modifier along the gradient of a slope/height map."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

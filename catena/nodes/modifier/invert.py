@@ -4,24 +4,24 @@ import numpy
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class InvertProcessor(ProcessorNode):
-    """A headless processor that inverts the colors of an image."""
+    """A headless processor that inverts the colors of an modifier."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Invert the colors of an input image.
+        Invert the colors of an input modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image with values in [0, 1].
+                containing a float32 modifier with values in [0, 1].
         Returns:
-            numpy.ndarray | None: The inverted float32 image.
+            numpy.ndarray | None: The inverted float32 modifier.
         """
         image = inputs.get("Input")
         if image is None:
@@ -31,7 +31,7 @@ class InvertProcessor(ProcessorNode):
 
 
 class InvertNode(CatenaNode):
-    """A node that inverts the colors of an input image."""
+    """A node that inverts the colors of an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

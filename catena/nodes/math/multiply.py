@@ -20,9 +20,9 @@ class MultiplyProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 image. Both must be connected.
+                each containing a float32 modifier. Both must be connected.
         Returns:
-            numpy.ndarray | None: The multiplied float32 image, or None if
+            numpy.ndarray | None: The multiplied float32 modifier, or None if
                 either input is missing.
         """
         image_a = inputs.get("A")

@@ -7,12 +7,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class SharpenProcessor(ProcessorNode):
-    """A headless processor that sharpens an image using an unsharp mask."""
+    """A headless processor that sharpens an modifier using an unsharp mask."""
 
     def __init__(self, amount: float = 1.0, radius: float = 2.0) -> None:
         super().__init__()
@@ -23,13 +23,13 @@ class SharpenProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Sharpen an input image using an unsharp mask.
+        Sharpen an input modifier using an unsharp mask.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The sharpened float32 image. Values may
+            numpy.ndarray | None: The sharpened float32 modifier. Values may
                 exceed [0, 1] and should be clamped downstream if needed.
         """
         image = inputs.get("Input")
@@ -47,7 +47,7 @@ class SharpenProcessor(ProcessorNode):
 
 
 class SharpenNode(CatenaNode):
-    """A node that sharpens an input image using an unsharp mask."""
+    """A node that sharpens an input modifier using an unsharp mask."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

@@ -7,12 +7,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class HSVProcessor(ProcessorNode):
-    """A headless processor that shifts hue, saturation, and value of an image."""
+    """A headless processor that shifts hue, saturation, and value of an modifier."""
 
     def __init__(
         self,
@@ -29,13 +29,13 @@ class HSVProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Shift hue, saturation, and value of an input image.
+        Shift hue, saturation, and value of an input modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 BGR image with values in [0, 1].
+                containing a float32 BGR modifier with values in [0, 1].
         Returns:
-            numpy.ndarray | None: The adjusted float32 BGR image with
+            numpy.ndarray | None: The adjusted float32 BGR modifier with
                 values in [0, 1].
         """
         image = inputs.get("Input")
@@ -54,7 +54,7 @@ class HSVProcessor(ProcessorNode):
 
 
 class HSVNode(CatenaNode):
-    """A node that shifts hue, saturation, and value of an input image."""
+    """A node that shifts hue, saturation, and value of an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

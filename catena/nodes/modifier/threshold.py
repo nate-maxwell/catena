@@ -7,12 +7,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class ThresholdProcessor(ProcessorNode):
-    """A headless processor that binarizes an image based on a threshold value."""
+    """A headless processor that binarizes an modifier based on a threshold value."""
 
     def __init__(self, threshold: int = 128, invert: bool = False) -> None:
         super().__init__()
@@ -23,11 +23,11 @@ class ThresholdProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Binarize an input image based on a threshold value.
+        Binarize an input modifier based on a threshold value.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image with values in [0, 1].
+                containing a float32 modifier with values in [0, 1].
         Returns:
             numpy.ndarray | None: A float32 binary mask of shape (H, W, 3)
                 with values of 0.0 or 1.0.
@@ -45,7 +45,7 @@ class ThresholdProcessor(ProcessorNode):
 
 
 class ThresholdNode(CatenaNode):
-    """A node that binarizes an input image based on a threshold value."""
+    """A node that binarizes an input modifier based on a threshold value."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

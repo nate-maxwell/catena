@@ -20,10 +20,10 @@ class AddProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 image. Values may exceed [0, 1] and
+                each containing a float32 modifier. Values may exceed [0, 1] and
                 should be clamped downstream if needed.
         Returns:
-            numpy.ndarray | None: The summed float32 image, or whichever
+            numpy.ndarray | None: The summed float32 modifier, or whichever
                 input is non-None if only one is provided.
         """
         image_a = inputs.get("A")

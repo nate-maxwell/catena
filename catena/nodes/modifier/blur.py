@@ -7,12 +7,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class BlurProcessor(ProcessorNode):
-    """A headless processor that applies a Gaussian blur to an image."""
+    """A headless processor that applies a Gaussian blur to an modifier."""
 
     def __init__(self, radius: float = 2.0) -> None:
         super().__init__()
@@ -22,13 +22,13 @@ class BlurProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Apply a Gaussian blur to an input image.
+        Apply a Gaussian blur to an input modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The blurred float32 image, or None if
+            numpy.ndarray | None: The blurred float32 modifier, or None if
                 no input is provided.
         """
         image = inputs.get("Input")
@@ -44,7 +44,7 @@ class BlurProcessor(ProcessorNode):
 
 
 class BlurNode(CatenaNode):
-    """A node that applies a Gaussian blur to an input image."""
+    """A node that applies a Gaussian blur to an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

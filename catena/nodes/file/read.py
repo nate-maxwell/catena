@@ -14,7 +14,7 @@ from catena.nodes.node_processor import ProcessorNode
 
 
 class ReadProcessor(ProcessorNode):
-    """A headless processor that reads an image file from disk."""
+    """A headless processor that reads an modifier file from disk."""
 
     def __init__(self, filepath: str = "") -> None:
         super().__init__()
@@ -24,13 +24,13 @@ class ReadProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Load an image from disk and return it as a float32 array.
+        Load an modifier from disk and return it as a float32 array.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Unused; this node
                 reads from disk rather than upstream nodes.
         Returns:
-            numpy.ndarray | None: A float32 image with values in [0, 1],
+            numpy.ndarray | None: A float32 modifier with values in [0, 1],
                 or None if the filepath is empty or the file does not exist.
         """
         image = self._load_image()
@@ -40,10 +40,10 @@ class ReadProcessor(ProcessorNode):
 
     def _load_image(self) -> Optional[numpy.ndarray]:
         """
-        Read an image file from disk.
+        Read an modifier file from disk.
 
         Returns:
-            numpy.ndarray | None: The raw uint8 image, or None if the file
+            numpy.ndarray | None: The raw uint8 modifier, or None if the file
                 cannot be found or read.
         """
         if not self.filepath:
@@ -64,7 +64,7 @@ class ReadProcessor(ProcessorNode):
 
 
 class ReadNode(CatenaNode):
-    """A node that reads an image file from disk."""
+    """A node that reads an modifier file from disk."""
 
     _COLOR_HEADER = QtGui.QColor(128, 0, 0)
 

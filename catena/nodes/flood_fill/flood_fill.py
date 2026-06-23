@@ -29,9 +29,9 @@ class FloodFillProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image with values in [0, 1].
+                containing a float32 modifier with values in [0, 1].
         Returns:
-            numpy.ndarray | None: A float32 image of shape (H, W, 3) where
+            numpy.ndarray | None: A float32 modifier of shape (H, W, 3) where
                 each connected region has a unique random value in [0, 1],
                 and background pixels are black.
         """

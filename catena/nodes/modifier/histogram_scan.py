@@ -7,7 +7,7 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
 from catena.nodes.node_processor import ProcessorNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 
 
 class HistogramScanProcessor(ProcessorNode):
@@ -33,7 +33,7 @@ class HistogramScanProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
                 containing a float32 height map with values in [0, 1].
         Returns:
-            numpy.ndarray | None: A float32 mask image with values in [0, 1]
+            numpy.ndarray | None: A float32 mask modifier with values in [0, 1]
                 where pixels within the selected height band are white.
         """
         image = inputs.get("Input")

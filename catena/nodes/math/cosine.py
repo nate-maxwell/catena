@@ -28,15 +28,15 @@ class CosineProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Apply a cosine wave remap to an input image, or generate a directional
+        Apply a cosine wave remap to an input modifier, or generate a directional
         cosine wave if no input is connected.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Optionally expects key
-                "Input" containing a float32 image. If None, generates a
+                "Input" containing a float32 modifier. If None, generates a
                 directional wave pattern.
         Returns:
-            numpy.ndarray | None: A float32 image of shape (H, W, 3) with
+            numpy.ndarray | None: A float32 modifier of shape (H, W, 3) with
                 values in [0, 1].
         """
         image = inputs.get("Input")

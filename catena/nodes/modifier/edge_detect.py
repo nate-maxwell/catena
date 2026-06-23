@@ -8,11 +8,11 @@ from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
 from catena.nodes.node_processor import ProcessorNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 
 
 class EdgeDetectProcessor(ProcessorNode):
-    """A headless processor that detects edges in an input image."""
+    """A headless processor that detects edges in an input modifier."""
 
     def __init__(
         self,
@@ -31,11 +31,11 @@ class EdgeDetectProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Detect edges in an input image using Sobel gradients.
+        Detect edges in an input modifier using Sobel gradients.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image with values in [0, 1].
+                containing a float32 modifier with values in [0, 1].
         Returns:
             numpy.ndarray | None: A float32 edge mask of shape (H, W, 3)
                 with values in [0, 1].
@@ -77,7 +77,7 @@ class EdgeDetectProcessor(ProcessorNode):
 
 
 class EdgeDetectNode(CatenaNode):
-    """A node that detects edges in an input image."""
+    """A node that detects edges in an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

@@ -27,7 +27,7 @@ _EXTENSIONS = {
 
 
 class WriteProcessor(ProcessorNode):
-    """A headless processor that writes an image to disk."""
+    """A headless processor that writes an modifier to disk."""
 
     def __init__(
         self,
@@ -42,24 +42,24 @@ class WriteProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Pass the input image through unchanged.
+        Pass the input modifier through unchanged.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The input image unchanged.
+            numpy.ndarray | None: The input modifier unchanged.
         """
         return inputs.get("Input")
 
     def write_image(self, image: Optional[numpy.ndarray]) -> bool:
         """
-        Write an image array to disk.
+        Write an modifier array to disk.
 
         Args:
-            image (numpy.ndarray | None): The float32 image to write.
+            image (numpy.ndarray | None): The float32 modifier to write.
         Returns:
-            bool: True if the image was written successfully, False otherwise.
+            bool: True if the modifier was written successfully, False otherwise.
         """
         if image is None:
             return False
@@ -83,7 +83,7 @@ class WriteProcessor(ProcessorNode):
 
 class WriteNode(CatenaNode):
     """
-    A node that writes its input image to disk.
+    A node that writes its input modifier to disk.
     Additionally, will update the model viewer.
     """
 
@@ -136,7 +136,7 @@ class WriteNode(CatenaNode):
         Evaluate this node's input and write the result to disk.
 
         Returns:
-            bool: True if the image was written successfully, False otherwise.
+            bool: True if the modifier was written successfully, False otherwise.
         """
         self._processor.filepath = self.get_field_value("filepath")
         self._processor.file_type = self.get_field_value("file_type")

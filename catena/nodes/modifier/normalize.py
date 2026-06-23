@@ -4,25 +4,25 @@ import numpy
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class NormalizeProcessor(ProcessorNode):
-    """A headless processor that remaps an image's value range to [0, 1]."""
+    """A headless processor that remaps an modifier's value range to [0, 1]."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Remap an image's value range so its minimum becomes 0 and maximum becomes 1.
+        Remap an modifier's value range so its minimum becomes 0 and maximum becomes 1.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The normalized float32 image with values
-                in [0, 1], or a zero image if the input has no range.
+            numpy.ndarray | None: The normalized float32 modifier with values
+                in [0, 1], or a zero modifier if the input has no range.
         """
         image = inputs.get("Input")
         if image is None:

@@ -10,20 +10,20 @@ from catena.nodes.node_processor import ProcessorNode
 
 
 class SplitProcessor(ProcessorNode):
-    """A headless processor that splits a vector4 image into individual channel outputs."""
+    """A headless processor that splits a vector4 modifier into individual channel outputs."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[dict[str, Optional[numpy.ndarray]]]:
         """
-        Split a BGRA image into individual channel outputs.
+        Split a BGRA modifier into individual channel outputs.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 BGRA image.
+                containing a float32 BGRA modifier.
         Returns:
             dict[str, numpy.ndarray | None]: Keys "Red", "Green", "Blue",
-                "Alpha", each a float32 (H, W, 3) grayscale image of that
+                "Alpha", each a float32 (H, W, 3) grayscale modifier of that
                 channel, or None if the input is None.
         """
         image = inputs.get("Input")
@@ -54,7 +54,7 @@ class SplitProcessor(ProcessorNode):
 
 
 class SplitNode(CatenaNode):
-    """A node that splits a vector4 (or smaller) image into individual channel outputs."""
+    """A node that splits a vector4 (or smaller) modifier into individual channel outputs."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

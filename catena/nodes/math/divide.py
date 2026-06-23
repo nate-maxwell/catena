@@ -10,19 +10,19 @@ from catena.nodes.node_processor import ProcessorNode
 
 
 class DivideProcessor(ProcessorNode):
-    """A headless processor that divides one input image by another."""
+    """A headless processor that divides one input modifier by another."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Divide image A by image B per-pixel.
+        Divide modifier A by modifier B per-pixel.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 image. Both must be connected.
+                each containing a float32 modifier. Both must be connected.
         Returns:
-            numpy.ndarray | None: The divided float32 image. Values may
+            numpy.ndarray | None: The divided float32 modifier. Values may
                 exceed [0, 1] and should be clamped downstream if needed.
                 Returns None if either input is missing.
         """
@@ -43,7 +43,7 @@ class DivideProcessor(ProcessorNode):
 
 
 class DivideNode(CatenaNode):
-    """A node that divides one input image by another."""
+    """A node that divides one input modifier by another."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

@@ -14,7 +14,7 @@ from catena.nodes.node_processor import ProcessorNode
 class FloodFillToGradientProcessor(ProcessorNode):
     """
     A headless processor that assigns a directional gradient to each
-    connected region in a flood fill image.
+    connected region in a flood fill modifier.
     """
 
     def __init__(self, seed: int = 0, direction_randomness: float = 1.0) -> None:
@@ -31,9 +31,9 @@ class FloodFillToGradientProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Flood Fill"
-                containing a float32 flood fill image.
+                containing a float32 flood fill modifier.
         Returns:
-            numpy.ndarray | None: A float32 image of shape (H, W, 3) where
+            numpy.ndarray | None: A float32 modifier of shape (H, W, 3) where
                 each region is filled with a gradient spanning its bounds.
         """
         image = inputs.get("Flood Fill")
@@ -86,7 +86,7 @@ class FloodFillToGradientProcessor(ProcessorNode):
 class FloodFillToGradientNode(CatenaNode):
     """
     A node that assigns a directional gradient to each connected region
-    in a flood fill image.
+    in a flood fill modifier.
     """
 
     _COLOR_HEADER = IMAGE_NODE_COLOR

@@ -20,9 +20,9 @@ class ScreenProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 image with values in [0, 1].
+                each containing a float32 modifier with values in [0, 1].
         Returns:
-            numpy.ndarray | None: The screen-blended float32 image, or
+            numpy.ndarray | None: The screen-blended float32 modifier, or
                 whichever input is non-None if only one is provided.
         """
         image_a = inputs.get("A")

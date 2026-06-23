@@ -63,7 +63,7 @@ class ScratchesProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 scratches image of shape
+            numpy.ndarray | None: A float32 scratches modifier of shape
                 (height, width, 3) with values in [0, 1].
         """
         size = preferences.Preferences().general_preferences.texture_resolution

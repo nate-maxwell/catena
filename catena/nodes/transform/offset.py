@@ -11,7 +11,7 @@ from catena.nodes.transform import IMAGE_NODE_COLOR
 
 
 class OffsetProcessor(ProcessorNode):
-    """A headless processor that offsets an image, optionally wrapping content around."""
+    """A headless processor that offsets an modifier, optionally wrapping content around."""
 
     def __init__(self, offset_x: int = 0, offset_y: int = 0, wrap: bool = True) -> None:
         super().__init__()
@@ -23,13 +23,13 @@ class OffsetProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Offset an input image by a given amount, optionally wrapping content.
+        Offset an input modifier by a given amount, optionally wrapping content.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The offset float32 image. Non-wrapped regions
+            numpy.ndarray | None: The offset float32 modifier. Non-wrapped regions
                 outside the original bounds are filled with black.
         """
         image = inputs.get("Input")
@@ -61,7 +61,7 @@ class OffsetProcessor(ProcessorNode):
 
 
 class OffsetNode(CatenaNode):
-    """A node that offsets an input image, optionally wrapping content around."""
+    """A node that offsets an input modifier, optionally wrapping content around."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

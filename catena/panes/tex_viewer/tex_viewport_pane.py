@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 class TexViewportPane(DockablePane):
-    """A dockable pane that displays an image centered on a black background."""
+    """A dockable pane that displays an modifier centered on a black background."""
 
     pane_config = PaneConfig(
         title="Texture",
@@ -41,7 +41,7 @@ class TexViewportPane(DockablePane):
 
     def set_image(self, image: Optional[numpy.ndarray] = None) -> None:
         """
-        Display an image array, or clear the tex_viewer.
+        Display an modifier array, or clear the tex_viewer.
 
         Args:
             image (numpy.ndarray | None): Image in BGR order, as returned by

@@ -44,19 +44,19 @@ from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
-from catena.nodes.image.bevel import BevelNode
-from catena.nodes.image.blur import BlurNode
-from catena.nodes.image.contrast import ContrastNode
-from catena.nodes.image.edge_detect import EdgeDetectNode
-from catena.nodes.image.histogram_scan import HistogramScanNode
-from catena.nodes.image.hsv import HSVNode
-from catena.nodes.image.invert import InvertNode
-from catena.nodes.image.levels import LevelsNode
-from catena.nodes.image.normalize import NormalizeNode
-from catena.nodes.image.overlay import OverlayNode
-from catena.nodes.image.sharpen import SharpenNode
-from catena.nodes.image.slope_blur import SlopeBlurNode
-from catena.nodes.image.threshold import ThresholdNode
+from catena.nodes.modifier.bevel import BevelNode
+from catena.nodes.modifier.blur import BlurNode
+from catena.nodes.modifier.contrast import ContrastNode
+from catena.nodes.modifier.edge_detect import EdgeDetectNode
+from catena.nodes.modifier.histogram_scan import HistogramScanNode
+from catena.nodes.modifier.hsv import HSVNode
+from catena.nodes.modifier.invert import InvertNode
+from catena.nodes.modifier.levels import LevelsNode
+from catena.nodes.modifier.normalize import NormalizeNode
+from catena.nodes.modifier.overlay import OverlayNode
+from catena.nodes.modifier.sharpen import SharpenNode
+from catena.nodes.modifier.slope_blur import SlopeBlurNode
+from catena.nodes.modifier.threshold import ThresholdNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
 from catena.nodes.math.ceil import CeilNode
@@ -255,20 +255,20 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", WhiteNoiseNode)
 
     def _register_image_nodes(self) -> None:
-        logger.info("Registering image nodes...")
-        self.register_node("Image", BevelNode)
-        self.register_node("Image", BlurNode)
-        self.register_node("Image", ContrastNode)
-        self.register_node("Image", EdgeDetectNode)
-        self.register_node("Image", HistogramScanNode)
-        self.register_node("Image", HSVNode)
-        self.register_node("Image", InvertNode)
-        self.register_node("Image", LevelsNode)
-        self.register_node("Image", NormalizeNode)
-        self.register_node("Image", OverlayNode)
-        self.register_node("Image", SharpenNode)
-        self.register_node("Image", SlopeBlurNode)
-        self.register_node("Image", ThresholdNode)
+        logger.info("Registering modifier nodes...")
+        self.register_node("Modifier", BevelNode)
+        self.register_node("Modifier", BlurNode)
+        self.register_node("Modifier", ContrastNode)
+        self.register_node("Modifier", EdgeDetectNode)
+        self.register_node("Modifier", HistogramScanNode)
+        self.register_node("Modifier", HSVNode)
+        self.register_node("Modifier", InvertNode)
+        self.register_node("Modifier", LevelsNode)
+        self.register_node("Modifier", NormalizeNode)
+        self.register_node("Modifier", OverlayNode)
+        self.register_node("Modifier", SharpenNode)
+        self.register_node("Modifier", SlopeBlurNode)
+        self.register_node("Modifier", ThresholdNode)
 
     def _register_math_nodes(self) -> None:
         logger.info("Registering math nodes...")

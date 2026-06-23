@@ -10,20 +10,20 @@ from catena.nodes.node_processor import ProcessorNode
 
 
 class SubtractProcessor(ProcessorNode):
-    """A headless processor that subtracts one input image from another."""
+    """A headless processor that subtracts one input modifier from another."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Subtract image B from image A per-pixel.
+        Subtract modifier B from modifier A per-pixel.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 image. Values may fall below 0 and
+                each containing a float32 modifier. Values may fall below 0 and
                 should be clamped downstream if needed.
         Returns:
-            numpy.ndarray | None: The subtracted float32 image, or whichever
+            numpy.ndarray | None: The subtracted float32 modifier, or whichever
                 input is non-None if only one is provided.
         """
         image_a = inputs.get("A")
@@ -44,7 +44,7 @@ class SubtractProcessor(ProcessorNode):
 
 
 class SubtractNode(CatenaNode):
-    """A node that subtracts one input image from another."""
+    """A node that subtracts one input modifier from another."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

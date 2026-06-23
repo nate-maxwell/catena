@@ -187,7 +187,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         Replace the albedo texture and trigger a repaint.
 
         Args:
-            image (Optional[numpy.ndarray]): New albedo image data as a 2D or
+            image (Optional[numpy.ndarray]): New albedo modifier data as a 2D or
                 3D uint8 array.
         """
         self.makeCurrent()
@@ -205,7 +205,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         Replace the metallic texture and trigger a repaint.
 
         Args:
-            image (Optional[numpy.ndarray]): New metallic image data as a 2D or
+            image (Optional[numpy.ndarray]): New metallic modifier data as a 2D or
                 3D uint8 array.
         """
         self.makeCurrent()
@@ -227,7 +227,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         Replace the roughness texture and trigger a repaint.
 
         Args:
-            image (Optional[numpy.ndarray]): New roughness image data as a 2D
+            image (Optional[numpy.ndarray]): New roughness modifier data as a 2D
                 or 3D uint8 array.
         """
         self.makeCurrent()
@@ -249,7 +249,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         Replace the normal map texture and trigger a repaint.
 
         Args:
-            image (Optional[numpy.ndarray]): New normal map image data as a 2D
+            image (Optional[numpy.ndarray]): New normal map modifier data as a 2D
                 or 3D uint8 array.
         """
         self.makeCurrent()
@@ -271,7 +271,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         Replace the ambient occlusion texture and trigger a repaint.
 
         Args:
-            image (Optional[numpy.ndarray]): New ambient occlusion image data
+            image (Optional[numpy.ndarray]): New ambient occlusion modifier data
             as a 2D or 3D uint8 array.
         """
         self.makeCurrent()
@@ -289,7 +289,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         Replace the height map texture and trigger a repaint.
 
         Args:
-            image (Optional[numpy.ndarray]): New height map image data as a 2D
+            image (Optional[numpy.ndarray]): New height map modifier data as a 2D
                 or 3D uint8 array.
         """
         self.makeCurrent()

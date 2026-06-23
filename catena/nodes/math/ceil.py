@@ -9,20 +9,20 @@ from catena.nodes.math import IMAGE_NODE_COLOR
 
 
 class CeilProcessor(ProcessorNode):
-    """A headless processor that applies a ceiling function to an image."""
+    """A headless processor that applies a ceiling function to an modifier."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Apply a ceiling function to an input image, rounding each value up
+        Apply a ceiling function to an input modifier, rounding each value up
         to the nearest integer.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image with values in [0, 1].
+                containing a float32 modifier with values in [0, 1].
         Returns:
-            numpy.ndarray | None: The ceiled float32 image.
+            numpy.ndarray | None: The ceiled float32 modifier.
         """
         image = inputs.get("Input")
         if image is None:
@@ -32,7 +32,7 @@ class CeilProcessor(ProcessorNode):
 
 
 class CeilNode(CatenaNode):
-    """A node that applies a ceiling function to an input image."""
+    """A node that applies a ceiling function to an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

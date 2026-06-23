@@ -44,19 +44,19 @@ from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
 from catena.nodes.graph_gui import GuiGraphView
-from catena.nodes.image.bevel import BevelNode
-from catena.nodes.image.blur import BlurNode
-from catena.nodes.image.contrast import ContrastNode
-from catena.nodes.image.edge_detect import EdgeDetectNode
-from catena.nodes.image.histogram_scan import HistogramScanNode
-from catena.nodes.image.hsv import HSVNode
-from catena.nodes.image.invert import InvertNode
-from catena.nodes.image.levels import LevelsNode
-from catena.nodes.image.normalize import NormalizeNode
-from catena.nodes.image.overlay import OverlayNode
-from catena.nodes.image.sharpen import SharpenNode
-from catena.nodes.image.slope_blur import SlopeBlurNode
-from catena.nodes.image.threshold import ThresholdNode
+from catena.nodes.modifier.bevel import BevelNode
+from catena.nodes.modifier.blur import BlurNode
+from catena.nodes.modifier.contrast import ContrastNode
+from catena.nodes.modifier.edge_detect import EdgeDetectNode
+from catena.nodes.modifier.histogram_scan import HistogramScanNode
+from catena.nodes.modifier.hsv import HSVNode
+from catena.nodes.modifier.invert import InvertNode
+from catena.nodes.modifier.levels import LevelsNode
+from catena.nodes.modifier.normalize import NormalizeNode
+from catena.nodes.modifier.overlay import OverlayNode
+from catena.nodes.modifier.sharpen import SharpenNode
+from catena.nodes.modifier.slope_blur import SlopeBlurNode
+from catena.nodes.modifier.threshold import ThresholdNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
 from catena.nodes.math.ceil import CeilNode
@@ -158,7 +158,7 @@ class CreateActions(object):
         graph_view.add_node(node=RoughnessNode(), x=coords.x(), y=coords.y())
 
 
-class ImageActions(object):
+class ModifierActions(object):
 
     @classmethod
     def action_overlay_node(cls, graph_view: GuiGraphView) -> None:

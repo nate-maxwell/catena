@@ -12,7 +12,7 @@ from catena.nodes.transform import IMAGE_NODE_COLOR
 
 
 class TileProcessor(ProcessorNode):
-    """A headless processor that repeats an input image across a grid."""
+    """A headless processor that repeats an input modifier across a grid."""
 
     def __init__(self, tiles_x: int = 2, tiles_y: int = 2) -> None:
         super().__init__()
@@ -23,13 +23,13 @@ class TileProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Repeat an input image across a grid of tiles.
+        Repeat an input modifier across a grid of tiles.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: A float32 image of the same size as the
+            numpy.ndarray | None: A float32 modifier of the same size as the
                 input with the content tiled across a grid.
         """
         image = inputs.get("Input")
@@ -48,7 +48,7 @@ class TileProcessor(ProcessorNode):
 
 
 class TileNode(CatenaNode):
-    """A node that repeats an input image across a grid."""
+    """A node that repeats an input modifier across a grid."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

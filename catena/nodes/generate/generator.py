@@ -15,7 +15,7 @@ from catena.preferences import preferences
 
 
 class GeneratorNode(CatenaNode):
-    """A node with an output port and a live preview of its generated image."""
+    """A node with an output port and a live preview of its generated modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
     _PREVIEW_SIZE: int = 96
@@ -77,10 +77,10 @@ class GeneratorNode(CatenaNode):
 
     def _update_preview(self, image: Optional[numpy.ndarray]) -> None:
         """
-        Update the cached preview pixmap from the given image.
+        Update the cached preview pixmap from the given modifier.
 
         Args:
-            image (numpy.ndarray | None): The image to preview, in float32
+            image (numpy.ndarray | None): The modifier to preview, in float32
                 BGR format with values in [0, 1], or None to clear.
         """
         if image is None:
@@ -107,7 +107,7 @@ class GeneratorNode(CatenaNode):
         widget: Optional[QtWidgets.QWidget] = None,
     ) -> None:
         """
-        Paint the node, then draw the preview image below the ports.
+        Paint the node, then draw the preview modifier below the ports.
 
         Args:
             painter (QtGui.QPainter): The painter.

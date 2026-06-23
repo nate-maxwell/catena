@@ -74,7 +74,7 @@ class Timeline(QtWidgets.QWidget):
         self._frame_display.setMinimumWidth(48)
 
         self._total_display = QtWidgets.QLabel(str(self.last_frame))
-        self._total_display.setStyleSheet("image: #666;")
+        self._total_display.setStyleSheet("modifier: #666;")
 
     def _create_layouts(self) -> None:
         controls = QtWidgets.QHBoxLayout()
@@ -94,7 +94,7 @@ class Timeline(QtWidgets.QWidget):
 
         sep = QtWidgets.QFrame()
         sep.setFrameShape(QtWidgets.QFrame.Shape.VLine)
-        sep.setStyleSheet("image: #444;")
+        sep.setStyleSheet("modifier: #444;")
         controls.addWidget(sep)
         controls.addWidget(self._frame_display)
         controls.addWidget(QtWidgets.QLabel("/"))

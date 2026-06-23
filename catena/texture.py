@@ -26,7 +26,7 @@ class TextureType(Enum):
 
 def rgb_to_bgr(image: numpy.ndarray) -> numpy.ndarray:
     """
-    Convert an RGB image array to BGR.
+    Convert an RGB modifier array to BGR.
 
     Args:
         image (numpy.ndarray): Image in RGB order.
@@ -38,7 +38,7 @@ def rgb_to_bgr(image: numpy.ndarray) -> numpy.ndarray:
 
 def rgba_to_bgra(image: numpy.ndarray) -> numpy.ndarray:
     """
-    Convert an RGBA image array to BGRA.
+    Convert an RGBA modifier array to BGRA.
 
     Args:
         image (numpy.ndarray): Image in RGBA order.
@@ -50,7 +50,7 @@ def rgba_to_bgra(image: numpy.ndarray) -> numpy.ndarray:
 
 def bgr_to_rgb(image: numpy.ndarray) -> numpy.ndarray:
     """
-    Convert a BGR image array to RGB.
+    Convert a BGR modifier array to RGB.
 
     Args:
         image (numpy.ndarray): Image in BGR order, as returned by cv2.imread.
@@ -62,7 +62,7 @@ def bgr_to_rgb(image: numpy.ndarray) -> numpy.ndarray:
 
 def bgra_to_rgba(image: numpy.ndarray) -> numpy.ndarray:
     """
-    Convert a BGRA image array to RGBA.
+    Convert a BGRA modifier array to RGBA.
 
     Args:
         image (numpy.ndarray): Image in BGRA order, as returned by cv2.imread.
@@ -80,7 +80,7 @@ def ndarray_to_qimage(image: numpy.ndarray) -> QtGui.QImage:
         image (numpy.ndarray): Image in RGB order, contiguous, dtype uint8.
     Returns:
         QtGui.QImage: The resulting QImage. Note the underlying buffer is
-            shared with `image`; copy the QImage if the array may be
+            shared with `modifier`; copy the QImage if the array may be
             mutated or garbage collected afterward.
     """
     image = numpy.ascontiguousarray(image)
@@ -94,7 +94,7 @@ def ndarray_to_qimage(image: numpy.ndarray) -> QtGui.QImage:
 
 def to_uint8(image: numpy.ndarray) -> numpy.ndarray:
     """
-    Convert an image array to uint8, scaling floating-point data from 0.0-1.0
+    Convert an modifier array to uint8, scaling floating-point data from 0.0-1.0
     to 0-255.
 
     Args:
@@ -115,7 +115,7 @@ def create_texture_from_array(
     invert_green_after_flip: bool = False,
 ) -> int:
     """
-    Upload an image array into an OpenGL 2D texture.
+    Upload an modifier array into an OpenGL 2D texture.
 
     Args:
         image (numpy.ndarray): Image data as a 2D (grayscale) or 3D (RGB/RGBA)
@@ -169,10 +169,10 @@ def create_texture_from_array(
 
 
 def load_texture(path: Path, srgb: bool) -> int:
-    """Load an image file into an OpenGL 2D texture.
+    """Load an modifier file into an OpenGL 2D texture.
 
     Args:
-        path (Path): Path to the image file.
+        path (Path): Path to the modifier file.
         srgb (bool): If True, the texture is stored in an sRGB internal format
             (for albedo/color data). If False, a linear format is used (for
             metallic-roughness, normal, etc. data maps).
@@ -196,12 +196,12 @@ def load_normal_texture(path: Path) -> int:
 
 def _load_hdr_image(path: Path) -> Optional[numpy.ndarray]:
     """
-    Load an HDR image from disk as RGB float32.
+    Load an HDR modifier from disk as RGB float32.
 
     Args:
-        path (Path): Path to an HDR/EXR image.
+        path (Path): Path to an HDR/EXR modifier.
     Returns:
-        numpy.ndarray | None: RGB float32 image, or None if loading failed.
+        numpy.ndarray | None: RGB float32 modifier, or None if loading failed.
     """
     if path is None or not path.exists():
         return None
@@ -238,10 +238,10 @@ def _load_hdr_image(path: Path) -> Optional[numpy.ndarray]:
 
 def _upload_hdr_texture(image: numpy.ndarray) -> int:
     """
-    Upload an RGB float32 image as an OpenGL HDR texture.
+    Upload an RGB float32 modifier as an OpenGL HDR texture.
 
     Args:
-        image (numpy.ndarray): RGB float32 image.
+        image (numpy.ndarray): RGB float32 modifier.
     Returns:
         int: OpenGL texture handle.
     """
@@ -281,7 +281,7 @@ def load_hdr_texture(path: Path) -> int:
     Load an HDR/equirectangular environment texture.
 
     Args:
-        path (Path): Path to an HDR or EXR image.
+        path (Path): Path to an HDR or EXR modifier.
     Returns:
         int: OpenGL texture handle.
     """
@@ -301,7 +301,7 @@ def load_hdr_texture_blurred(path: Path) -> int:
     sampling of tiny, extremely bright HDR pixels.
 
     Args:
-        path (Path): Path to an HDR or EXR image.
+        path (Path): Path to an HDR or EXR modifier.
     Returns:
         int: OpenGL texture handle.
     """

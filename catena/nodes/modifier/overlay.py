@@ -7,12 +7,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class OverlayProcessor(ProcessorNode):
-    """A headless processor that overlays a top image onto a bottom image using an alpha mask."""
+    """A headless processor that overlays a top modifier onto a bottom modifier using an alpha mask."""
 
     def __init__(self, mix: float = 1.0) -> None:
         super().__init__()
@@ -22,13 +22,13 @@ class OverlayProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Overlay a top image onto a bottom image using an optional alpha mask.
+        Overlay a top modifier onto a bottom modifier using an optional alpha mask.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "Bottom",
                 "Top", and optionally "Alpha", each containing float32 images.
         Returns:
-            numpy.ndarray | None: The composited float32 image, or None if
+            numpy.ndarray | None: The composited float32 modifier, or None if
                 both Bottom and Top are None.
         """
         bottom = inputs.get("Bottom")
@@ -66,7 +66,7 @@ class OverlayProcessor(ProcessorNode):
 
 
 class OverlayNode(CatenaNode):
-    """A node that overlays a top image onto a bottom image using an alpha mask."""
+    """A node that overlays a top modifier onto a bottom modifier using an alpha mask."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

@@ -9,14 +9,14 @@ from catena import shortcuts
 
 class ImageView(QtWidgets.QWidget):
     """
-    A widget that draws an image centered on a black background.
+    A widget that draws an modifier centered on a black background.
 
     Supports mouse wheel zoom and middle-mouse-button drag to pan.
 
     Args:
         parent (QtWidgets.QWidget | None): Optional parent widget.
     Attributes:
-        image (QtGui.QImage | None): The currently displayed image.
+        image (QtGui.QImage | None): The currently displayed modifier.
     """
 
     _ZOOM_MIN: float = 0.1
@@ -54,20 +54,20 @@ class ImageView(QtWidgets.QWidget):
 
     def set_image(self, image: QtGui.QImage) -> None:
         """
-        Set the image to display and trigger a repaint.
+        Set the modifier to display and trigger a repaint.
 
         Args:
-            image (QtGui.QImage): The image to display.
+            image (QtGui.QImage): The modifier to display.
         """
         self.image = image
         self.update()
 
     def set_image_from_path(self, path: Path) -> None:
         """
-        Load and display an image from disk.
+        Load and display an modifier from disk.
 
         Args:
-            path (Path): Path to the image file.
+            path (Path): Path to the modifier file.
         """
         self.set_image(QtGui.QImage(path.as_posix()))
 
@@ -106,7 +106,7 @@ class ImageView(QtWidgets.QWidget):
         painter.end()
 
     def clear(self) -> None:
-        """Clear the displayed image and trigger a repaint."""
+        """Clear the displayed modifier and trigger a repaint."""
         self.image = None
         self.update()
 

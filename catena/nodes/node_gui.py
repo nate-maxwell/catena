@@ -94,7 +94,7 @@ class CatenaNode(BaseNode):
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         """
         Called when the node is double-clicked. Opens the properties panel
-        and sends this node's evaluated image to the tex_viewer.
+        and sends this node's evaluated modifier to the tex_viewer.
 
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
@@ -172,7 +172,7 @@ class CatenaNode(BaseNode):
         Evaluate all connected upstream nodes, keyed by input port name.
 
         Returns:
-            dict[str, numpy.ndarray | None]: Evaluated image for each input
+            dict[str, numpy.ndarray | None]: Evaluated modifier for each input
                 port name. Unconnected ports map to None.
         """
         results: dict[str, Optional[numpy.ndarray]] = {}
@@ -211,13 +211,13 @@ class CatenaNode(BaseNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Override in derived node classes to process incoming image data.
+        Override in derived node classes to process incoming modifier data.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Evaluated images keyed
                 by input port name. Empty for nodes with no input ports
                 (e.g. a Panel/source node).
         Returns:
-            numpy.ndarray | None: The processed image to pass downstream.
+            numpy.ndarray | None: The processed modifier to pass downstream.
         """
         return None

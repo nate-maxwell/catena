@@ -97,7 +97,7 @@ class GrungeProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 grunge image with values in [0, 1].
+            numpy.ndarray | None: A float32 grunge modifier with values in [0, 1].
         """
         width = preferences.Preferences().general_preferences.texture_resolution
         height = width

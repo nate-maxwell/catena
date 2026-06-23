@@ -40,8 +40,8 @@ class MoldProcessor(ProcessorNode):
         Generate smooth value noise by resizing a random lattice.
 
         Args:
-            height (int): Output image height in pixels.
-            width (int): Output image width in pixels.
+            height (int): Output modifier height in pixels.
+            width (int): Output modifier width in pixels.
             cell_size (float): Size of each noise cell in pixels.
             rng (numpy.random.Generator): Seeded random generator.
         Returns:
@@ -98,7 +98,7 @@ class MoldProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 BGR image of shape (H, W, 3)
+            numpy.ndarray | None: A float32 BGR modifier of shape (H, W, 3)
                 with values in [0, 1].
         """
         width = preferences.Preferences().general_preferences.texture_resolution

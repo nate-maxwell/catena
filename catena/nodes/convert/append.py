@@ -10,19 +10,19 @@ from catena.nodes.node_processor import ProcessorNode
 
 
 class AppendProcessor(ProcessorNode):
-    """A headless processor that combines individual channel inputs into a vector4 image."""
+    """A headless processor that combines individual channel inputs into a vector4 modifier."""
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Combine Red, Green, Blue, and Alpha channel inputs into a BGRA image.
+        Combine Red, Green, Blue, and Alpha channel inputs into a BGRA modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Evaluated images keyed
                 by port name. Expects keys "Red", "Green", "Blue", "Alpha".
         Returns:
-            numpy.ndarray | None: A float32 BGRA image of shape (H, W, 4).
+            numpy.ndarray | None: A float32 BGRA modifier of shape (H, W, 4).
         """
         red = inputs.get("Red")
         green = inputs.get("Green")
@@ -51,7 +51,7 @@ class AppendProcessor(ProcessorNode):
 
 
 class AppendNode(CatenaNode):
-    """A node that combines individual channel inputs into a vector4 image."""
+    """A node that combines individual channel inputs into a vector4 modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

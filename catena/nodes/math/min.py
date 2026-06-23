@@ -20,9 +20,9 @@ class MinProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 image.
+                each containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The per-pixel minimum float32 image, or
+            numpy.ndarray | None: The per-pixel minimum float32 modifier, or
                 whichever input is non-None if only one is provided.
         """
         image_a = inputs.get("A")

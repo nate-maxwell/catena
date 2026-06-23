@@ -28,7 +28,7 @@ class CheckerProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 checker image of shape
+            numpy.ndarray | None: A float32 checker modifier of shape
                 (width, height, 3) with values of 0.0 or 1.0.
         """
         width = preferences.Preferences().general_preferences.texture_resolution

@@ -34,7 +34,7 @@ class GradientProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 gradient image of shape
+            numpy.ndarray | None: A float32 gradient modifier of shape
                 (width, height, 3) with values in [0, 1].
         """
         r_a, g_a, b_a, _ = self.color_a

@@ -14,7 +14,7 @@ _FLIP_CODES = {"Horizontal": 1, "Vertical": 0, "Both": -1}
 
 
 class FlipProcessor(ProcessorNode):
-    """A headless processor that flips an image horizontally, vertically, or both."""
+    """A headless processor that flips an modifier horizontally, vertically, or both."""
 
     def __init__(self, direction: str = "Horizontal") -> None:
         super().__init__()
@@ -24,13 +24,13 @@ class FlipProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Flip an input image horizontally, vertically, or both.
+        Flip an input modifier horizontally, vertically, or both.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The flipped float32 image.
+            numpy.ndarray | None: The flipped float32 modifier.
         """
         image = inputs.get("Input")
         if image is None:
@@ -40,7 +40,7 @@ class FlipProcessor(ProcessorNode):
 
 
 class FlipNode(CatenaNode):
-    """A node that flips an input image horizontally, vertically, or both."""
+    """A node that flips an input modifier horizontally, vertically, or both."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

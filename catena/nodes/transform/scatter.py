@@ -12,7 +12,7 @@ from catena.nodes.transform import IMAGE_NODE_COLOR
 
 
 class ScatterProcessor(ProcessorNode):
-    """A headless processor that scatters copies of an input image at random positions."""
+    """A headless processor that scatters copies of an input modifier at random positions."""
 
     def __init__(
         self,
@@ -33,13 +33,13 @@ class ScatterProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Scatter copies of an input image at random positions on a black canvas.
+        Scatter copies of an input modifier at random positions on a black canvas.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image to use as the stamp.
+                containing a float32 modifier to use as the stamp.
         Returns:
-            numpy.ndarray | None: A float32 image of the same size as the input
+            numpy.ndarray | None: A float32 modifier of the same size as the input
                 with scattered copies composited via maximum blending.
         """
         image = inputs.get("Input")
@@ -96,7 +96,7 @@ class ScatterProcessor(ProcessorNode):
 
 
 class ScatterNode(CatenaNode):
-    """A node that scatters copies of an input image at random positions."""
+    """A node that scatters copies of an input modifier at random positions."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

@@ -12,7 +12,7 @@ from catena.nodes.transform import IMAGE_NODE_COLOR
 
 
 class RotateScaleProcessor(ProcessorNode):
-    """A headless processor that rotates an image by an arbitrary angle."""
+    """A headless processor that rotates an modifier by an arbitrary angle."""
 
     def __init__(self, angle: float = 0.0, scale: float = 1.0) -> None:
         super().__init__()
@@ -23,13 +23,13 @@ class RotateScaleProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Rotate an input image by an arbitrary angle.
+        Rotate an input modifier by an arbitrary angle.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The rotated float32 image.
+            numpy.ndarray | None: The rotated float32 modifier.
         """
         image = inputs.get("Input")
         if image is None:
@@ -43,7 +43,7 @@ class RotateScaleProcessor(ProcessorNode):
 
 
 class RotateScaleNode(CatenaNode):
-    """A node that rotates an input image by an arbitrary angle."""
+    """A node that rotates an input modifier by an arbitrary angle."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

@@ -23,13 +23,13 @@ class FloodFillToRandomColorProcessor(ProcessorNode):
     ) -> Optional[numpy.ndarray]:
         """
         Assign a unique random BGR color to each connected region in a
-        flood fill image.
+        flood fill modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Flood Fill"
-                containing a float32 flood fill image.
+                containing a float32 flood fill modifier.
         Returns:
-            numpy.ndarray | None: A float32 image of shape (H, W, 3) with
+            numpy.ndarray | None: A float32 modifier of shape (H, W, 3) with
                 values in [0, 1] where each region has a unique random color.
         """
         image = inputs.get("Flood Fill")

@@ -9,7 +9,7 @@ from catena.toolbars.action_sub_bars.file import CreateToolbar
 from catena.toolbars.action_sub_bars.flood_fill import FloodFillToolbar
 from catena.toolbars.action_sub_bars.generator import GeneratorToolbar
 from catena.toolbars.action_sub_bars.graph import GraphToolbar
-from catena.toolbars.action_sub_bars.image import ImageToolbar
+from catena.toolbars.action_sub_bars.modifier import ModifierToolbar
 from catena.toolbars.action_sub_bars.math import MathToolbar
 from catena.toolbars.action_sub_bars.switcher import ToolbarSwitcher
 from catena.toolbars.action_sub_bars.transform import TransformToolbar
@@ -35,8 +35,8 @@ class EditorActionToolbar(QtWrappers.Toolbar):
         switcher.add_toolbar("Create", CreateToolbar(self, self.graph_view))
         switcher.add_toolbar("Flood Fill", FloodFillToolbar(self, self.graph_view))
         switcher.add_toolbar("Generators", GeneratorToolbar(self, self.graph_view))
-        switcher.add_toolbar("Image", ImageToolbar(self, self.graph_view))
         switcher.add_toolbar("Math", MathToolbar(self, self.graph_view))
+        switcher.add_toolbar("Modifier", ModifierToolbar(self, self.graph_view))
         switcher.add_toolbar("Transform", TransformToolbar(self, self.graph_view))
 
         self.addWidget(switcher)

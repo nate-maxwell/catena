@@ -27,10 +27,10 @@ class WarpProcessor(ProcessorNode):
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "Input"
-                and optionally "Displacement", each containing a float32 image.
-                If Displacement is None, a uniform full-image displacement is applied.
+                and optionally "Displacement", each containing a float32 modifier.
+                If Displacement is None, a uniform full-modifier displacement is applied.
         Returns:
-            numpy.ndarray | None: The warped float32 image, or the unmodified
+            numpy.ndarray | None: The warped float32 modifier, or the unmodified
                 input if strength is zero or no input is provided.
         """
         image = inputs.get("Input")

@@ -6,12 +6,12 @@ from PySide6TK.Nodes import FieldType
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.node_gui import CatenaNode
-from catena.nodes.image import IMAGE_NODE_COLOR
+from catena.nodes.modifier import IMAGE_NODE_COLOR
 from catena.nodes.node_processor import ProcessorNode
 
 
 class ContrastProcessor(ProcessorNode):
-    """A headless processor that adjusts brightness and contrast of an image."""
+    """A headless processor that adjusts brightness and contrast of an modifier."""
 
     def __init__(self, contrast: float = 1.0, brightness: float = 0.0) -> None:
         super().__init__()
@@ -22,13 +22,13 @@ class ContrastProcessor(ProcessorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Adjust brightness and contrast of an input image.
+        Adjust brightness and contrast of an input modifier.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
+                containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The adjusted float32 image. Values may
+            numpy.ndarray | None: The adjusted float32 modifier. Values may
                 exceed [0, 1] and should be clamped downstream if needed.
         """
         image = inputs.get("Input")
@@ -40,7 +40,7 @@ class ContrastProcessor(ProcessorNode):
 
 
 class ContrastNode(CatenaNode):
-    """A node that adjusts brightness and contrast of an input image."""
+    """A node that adjusts brightness and contrast of an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 

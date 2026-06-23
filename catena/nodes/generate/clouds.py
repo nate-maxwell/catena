@@ -75,7 +75,7 @@ class CloudsProcessor(ProcessorNode):
             inputs (dict[str, numpy.ndarray | None]): Unused; generators
                 produce output from parameters only.
         Returns:
-            numpy.ndarray | None: A float32 cloud noise image of shape
+            numpy.ndarray | None: A float32 cloud noise modifier of shape
                 (width, height, 3) with values in [0, 1].
         """
         width = preferences.Preferences().general_preferences.texture_resolution
