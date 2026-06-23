@@ -39,25 +39,22 @@ class PropertiesPane(DockablePane):
         QtWrappers.clear_layout(self.content_layout)
 
         # Node name
-        row = QtWidgets.QHBoxLayout()
-        row.setSpacing(6)
-        label = QtWidgets.QLabel(node.title, self.content_widget)
-        label.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
-        row.addWidget(label)
-        self.content_layout.addLayout(row)
+        name_label = QtWidgets.QLabel(node.title, self.content_widget)
+        name_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
+        self.content_layout.addWidget(name_label)
 
         # Node fields
-        for definition in node.get_fields():
-            row = QtWidgets.QHBoxLayout()
-            row.setSpacing(6)
+        form = QtWidgets.QFormLayout()
+        form.setSpacing(6)
+        form.setLabelAlignment(
+            QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignVCenter
+        )
+        form.setFieldGrowthPolicy(
+            QtWidgets.QFormLayout.FieldGrowthPolicy.ExpandingFieldsGrow
+        )
 
+        for definition in node.get_fields():
             label = QtWidgets.QLabel(definition.label, self.content_widget)
-            label.setAlignment(
-                QtCore.Qt.AlignmentFlag.AlignRight
-                | QtCore.Qt.AlignmentFlag.AlignVCenter
-            )
-            label.setFixedWidth(100)
-            row.addWidget(label)
 
             if definition.field_type == FieldType.FLOAT:
                 widget = self._parse_float(node, definition)
@@ -82,9 +79,9 @@ class PropertiesPane(DockablePane):
                 QtWidgets.QSizePolicy.Policy.Expanding,
                 QtWidgets.QSizePolicy.Policy.Fixed,
             )
-            row.addWidget(widget)
-            self.content_layout.addLayout(row)
+            form.addRow(label, widget)
 
+        self.content_layout.addLayout(form)
         self.content_layout.addStretch()
 
     def _parse_float(
