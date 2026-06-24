@@ -8,10 +8,8 @@ from catena.toolbars.action_sub_bars.base import ActionToolbar
 
 class ConvertToolbar(ActionToolbar):
 
-    def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
-        super().__init__(
-            "ConvertToolbar", parent, graph_view, Resources.BUTTON_BLUE_40X40
-        )
+    def __init__(self, parent: QtWidgets.QWidget) -> None:
+        super().__init__("ConvertToolbar", parent, Resources.BUTTON_BLUE_40X40)
 
     def build(self) -> None:
         self.add_action_button("Split", actions.ConvertActions.action_split_node)

@@ -1,15 +1,14 @@
 from PySide6TK import QtWidgets
 from PySide6TK import Resources
 
-from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars import actions
 from catena.toolbars.action_sub_bars.base import ActionToolbar
 
 
 class CreateToolbar(ActionToolbar):
 
-    def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
-        super().__init__("FileToolbar", parent, graph_view, Resources.BUTTON_RED_40X40)
+    def __init__(self, parent: QtWidgets.QWidget) -> None:
+        super().__init__("FileToolbar", parent, Resources.BUTTON_RED_40X40)
 
     def build(self) -> None:
         self.add_action_button("Read", actions.CreateActions.action_read_node)

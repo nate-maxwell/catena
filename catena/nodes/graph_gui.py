@@ -44,19 +44,6 @@ from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
-from catena.nodes.modifier.bevel import BevelNode
-from catena.nodes.modifier.blur import BlurNode
-from catena.nodes.modifier.contrast import ContrastNode
-from catena.nodes.modifier.edge_detect import EdgeDetectNode
-from catena.nodes.modifier.histogram_scan import HistogramScanNode
-from catena.nodes.modifier.hsv import HSVNode
-from catena.nodes.modifier.invert import InvertNode
-from catena.nodes.modifier.levels import LevelsNode
-from catena.nodes.modifier.normalize import NormalizeNode
-from catena.nodes.modifier.overlay import OverlayNode
-from catena.nodes.modifier.sharpen import SharpenNode
-from catena.nodes.modifier.slope_blur import SlopeBlurNode
-from catena.nodes.modifier.threshold import ThresholdNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
 from catena.nodes.math.ceil import CeilNode
@@ -71,7 +58,23 @@ from catena.nodes.math.sin import SinNode
 from catena.nodes.math.subtract import SubtractNode
 from catena.nodes.math.tan import TangentNode
 from catena.nodes.misc.reroute import RerouteNode
+from catena.nodes.modifier.bevel import BevelNode
+from catena.nodes.modifier.blur import BlurNode
+from catena.nodes.modifier.contrast import ContrastNode
+from catena.nodes.modifier.edge_detect import EdgeDetectNode
+from catena.nodes.modifier.histogram_scan import HistogramScanNode
+from catena.nodes.modifier.hsv import HSVNode
+from catena.nodes.modifier.invert import InvertNode
+from catena.nodes.modifier.levels import LevelsNode
+from catena.nodes.modifier.normalize import NormalizeNode
+from catena.nodes.modifier.overlay import OverlayNode
+from catena.nodes.modifier.sharpen import SharpenNode
+from catena.nodes.modifier.slope_blur import SlopeBlurNode
+from catena.nodes.modifier.threshold import ThresholdNode
 from catena.nodes.node_gui import CatenaNode
+from catena.nodes.subgraph.input import GraphInputNode
+from catena.nodes.subgraph.output import GraphOutputNode
+from catena.nodes.subgraph.subgraph import SubgraphNode
 from catena.nodes.transform.flip import FlipNode
 from catena.nodes.transform.offset import OffsetNode
 from catena.nodes.transform.rotate_scale import RotateScaleNode
@@ -195,6 +198,10 @@ class GuiGraphView(GraphView):
             node = data[1]()
             self.add_node(node, data[2].x(), data[2].y())
 
+    def add_node_to_center(self, node: CatenaNode) -> None:
+        coords = self.view_center()
+        self.add_node(node=node, x=coords.x(), y=coords.y())
+
     def _register_nodes(self) -> None:
         logger.info("-" * 30)
         logger.info("Graph view registering standard node library")
@@ -205,6 +212,7 @@ class GuiGraphView(GraphView):
         self._register_image_nodes()
         self._register_math_nodes()
         self._register_misc_nodes()
+        self._register_subgraph_nodes()
         self._register_transform_nodes()
         logger.info("Graph view node registry complete")
         logger.info("-" * 30)
@@ -289,6 +297,12 @@ class GuiGraphView(GraphView):
     def _register_misc_nodes(self) -> None:
         logger.info("Registering misc nodes...")
         self.register_node("Misc", RerouteNode)
+
+    def _register_subgraph_nodes(self) -> None:
+        logger.info("Registering sub graph nodes...")
+        self.register_node("Subgraph", SubgraphNode)
+        self.register_node("Subgraph", GraphInputNode)
+        self.register_node("Subgraph", GraphOutputNode)
 
     def _register_transform_nodes(self) -> None:
         logger.info("Registering transform nodes...")

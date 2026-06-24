@@ -8,6 +8,8 @@ NODE_WRITE_FILE = "node.write.write"
 
 NODE_DISPLACEMENT_UPDATED = "node.displacement.updated"
 
+GRAPH_OPEN_SUBGRAPH = "graph.subgraph.open"
+
 # -----Model Viewport Events---------------------------------------------------
 MODEL_UPDATED_TEXTURE = "model.update.texture"
 

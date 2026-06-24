@@ -1,17 +1,14 @@
 from PySide6TK import QtWidgets
 from PySide6TK import Resources
 
-from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars import actions
 from catena.toolbars.action_sub_bars.base import ActionToolbar
 
 
 class ModifierToolbar(ActionToolbar):
 
-    def __init__(self, parent: QtWidgets.QWidget, graph_view: GuiGraphView) -> None:
-        super().__init__(
-            "ModifierToolbar", parent, graph_view, Resources.BUTTON_YELLOW_40X40
-        )
+    def __init__(self, parent: QtWidgets.QWidget) -> None:
+        super().__init__("ModifierToolbar", parent, Resources.BUTTON_YELLOW_40X40)
 
     def build(self) -> None:
         self.add_action_button("Bevel", actions.ModifierActions.action_bevel_node)

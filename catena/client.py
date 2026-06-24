@@ -19,6 +19,7 @@ from catena.preferences import preferences
 from catena.toolbars.actions_toolbar import EditorActionToolbar
 from catena.toolbars.client_toolbar import ClientWindowToolbar
 from catena.toolbars.status_bar import StatusBar
+from catena.toolbars import actions
 
 logger = logging.getLogger(__name__)
 
@@ -63,14 +64,14 @@ class CatenaEditor(QtWrappers.MainWindow):
         logger.info("-" * 30)
 
     def _create_widgets(self) -> None:
-
         self.pane_object_viewport = ObjViewportPane(self)
         self.pane_texture_viewport = TexViewportPane(self)
         self.pane_node_graph = NodeGraphPane(self)
+        actions.init_graph_pane(self.pane_node_graph)
         self.pane_properties = PropertiesPane(self)
 
         self.shortcut_toolbar = ClientWindowToolbar(self)
-        self.editor_toolbar = EditorActionToolbar(self, self.pane_node_graph.graph_view)
+        self.editor_toolbar = EditorActionToolbar(self)
         self.status_bar = StatusBar(self)
 
     def _create_layouts(self) -> None:

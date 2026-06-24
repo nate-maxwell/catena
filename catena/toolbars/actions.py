@@ -43,20 +43,6 @@ from catena.nodes.generate.shape import ShapeNode
 from catena.nodes.generate.voronoi_noise import VoronoiNoiseNode
 from catena.nodes.generate.weave import WeaveNode
 from catena.nodes.generate.white_noise import WhiteNoiseNode
-from catena.nodes.graph_gui import GuiGraphView
-from catena.nodes.modifier.bevel import BevelNode
-from catena.nodes.modifier.blur import BlurNode
-from catena.nodes.modifier.contrast import ContrastNode
-from catena.nodes.modifier.edge_detect import EdgeDetectNode
-from catena.nodes.modifier.histogram_scan import HistogramScanNode
-from catena.nodes.modifier.hsv import HSVNode
-from catena.nodes.modifier.invert import InvertNode
-from catena.nodes.modifier.levels import LevelsNode
-from catena.nodes.modifier.normalize import NormalizeNode
-from catena.nodes.modifier.overlay import OverlayNode
-from catena.nodes.modifier.sharpen import SharpenNode
-from catena.nodes.modifier.slope_blur import SlopeBlurNode
-from catena.nodes.modifier.threshold import ThresholdNode
 from catena.nodes.math.add import AddNode
 from catena.nodes.math.arctan import ArctangentNode
 from catena.nodes.math.ceil import CeilNode
@@ -70,12 +56,44 @@ from catena.nodes.math.screen import ScreenNode
 from catena.nodes.math.sin import SinNode
 from catena.nodes.math.subtract import SubtractNode
 from catena.nodes.math.tan import TangentNode
+from catena.nodes.modifier.bevel import BevelNode
+from catena.nodes.modifier.blur import BlurNode
+from catena.nodes.modifier.contrast import ContrastNode
+from catena.nodes.modifier.edge_detect import EdgeDetectNode
+from catena.nodes.modifier.histogram_scan import HistogramScanNode
+from catena.nodes.modifier.hsv import HSVNode
+from catena.nodes.modifier.invert import InvertNode
+from catena.nodes.modifier.levels import LevelsNode
+from catena.nodes.modifier.normalize import NormalizeNode
+from catena.nodes.modifier.overlay import OverlayNode
+from catena.nodes.modifier.sharpen import SharpenNode
+from catena.nodes.modifier.slope_blur import SlopeBlurNode
+from catena.nodes.modifier.threshold import ThresholdNode
+from catena.nodes.subgraph.input import GraphInputNode
+from catena.nodes.subgraph.output import GraphOutputNode
+from catena.nodes.subgraph.subgraph import SubgraphNode
 from catena.nodes.transform.flip import FlipNode
 from catena.nodes.transform.offset import OffsetNode
 from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
+from catena.panes.node_graph import NodeGraphPane
+
+_graph_pane: NodeGraphPane | None = None
+
+
+def init_graph_pane(graph_pane: NodeGraphPane | None = None) -> None:
+    global _graph_pane
+    if graph_pane is None:
+        return
+
+    _graph_pane = graph_pane
+
+
+def add_to_focussed(node) -> None:
+    if graph_view := _graph_pane.get_focused_graph():
+        graph_view.add_node_to_center(node())
 
 
 class ClientActions(object):
@@ -97,344 +115,293 @@ class ClientActions(object):
         broker.emit(namespace.NODE_WRITE_FILE)
 
 
+class SubgraphActions(object):
+
+    @classmethod
+    def action_graph_input_node(cls) -> None:
+        add_to_focussed(GraphInputNode)
+
+    @classmethod
+    def action_graph_output_node(cls) -> None:
+        add_to_focussed(GraphOutputNode)
+
+    @classmethod
+    def action_sub_graph_node(cls) -> None:
+        add_to_focussed(SubgraphNode)
+
+
 class ConvertActions(object):
 
     @classmethod
-    def action_h2m_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=HeightToNormalNode(), x=coords.x(), y=coords.y())
+    def action_h2m_node(cls) -> None:
+        add_to_focussed(HeightToNormalNode)
 
     @classmethod
-    def action_h2ao_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=HeightToAONode(), x=coords.x(), y=coords.y())
+    def action_h2ao_node(cls) -> None:
+        add_to_focussed(HeightToAONode)
 
     @classmethod
-    def action_split_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=SplitNode(), x=coords.x(), y=coords.y())
+    def action_split_node(cls) -> None:
+        add_to_focussed(SplitNode)
 
     @classmethod
-    def action_append_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=AppendNode(), x=coords.x(), y=coords.y())
+    def action_append_node(cls) -> None:
+        add_to_focussed(AppendNode)
 
 
 class CreateActions(object):
 
     @classmethod
-    def action_read_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ReadNode(), x=coords.x(), y=coords.y())
+    def action_read_node(cls) -> None:
+        add_to_focussed(ReadNode)
 
     @classmethod
-    def action_albedo_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=AlbedoNode(), x=coords.x(), y=coords.y())
+    def action_albedo_node(cls) -> None:
+        add_to_focussed(AlbedoNode)
 
     @classmethod
-    def action_ao_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=AmbientOcclusionNode(), x=coords.x(), y=coords.y())
+    def action_ao_node(cls) -> None:
+        add_to_focussed(AmbientOcclusionNode)
 
     @classmethod
-    def action_height_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=HeightNode(), x=coords.x(), y=coords.y())
+    def action_height_node(cls) -> None:
+        add_to_focussed(HeightNode)
 
     @classmethod
-    def action_metallic_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=MetallicNode(), x=coords.x(), y=coords.y())
+    def action_metallic_node(cls) -> None:
+        add_to_focussed(MetallicNode)
 
     @classmethod
-    def action_normal_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=NormalNode(), x=coords.x(), y=coords.y())
+    def action_normal_node(cls) -> None:
+        add_to_focussed(NormalNode)
 
     @classmethod
-    def action_roughness_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=RoughnessNode(), x=coords.x(), y=coords.y())
+    def action_roughness_node(cls) -> None:
+        add_to_focussed(RoughnessNode)
 
 
 class ModifierActions(object):
 
     @classmethod
-    def action_overlay_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=OverlayNode(), x=coords.x(), y=coords.y())
+    def action_overlay_node(cls) -> None:
+        add_to_focussed(OverlayNode)
 
     @classmethod
-    def action_blur_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=BlurNode(), x=coords.x(), y=coords.y())
+    def action_blur_node(cls) -> None:
+        add_to_focussed(BlurNode)
 
     @classmethod
-    def action_hsv_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=HSVNode(), x=coords.x(), y=coords.y())
+    def action_hsv_node(cls) -> None:
+        add_to_focussed(HSVNode)
 
     @classmethod
-    def action_levels_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=LevelsNode(), x=coords.x(), y=coords.y())
+    def action_levels_node(cls) -> None:
+        add_to_focussed(LevelsNode)
 
     @classmethod
-    def action_sharpen_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=SharpenNode(), x=coords.x(), y=coords.y())
+    def action_sharpen_node(cls) -> None:
+        add_to_focussed(SharpenNode)
 
     @classmethod
-    def action_contrast_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ContrastNode(), x=coords.x(), y=coords.y())
+    def action_contrast_node(cls) -> None:
+        add_to_focussed(ContrastNode)
 
     @classmethod
-    def action_threshold_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ThresholdNode(), x=coords.x(), y=coords.y())
+    def action_threshold_node(cls) -> None:
+        add_to_focussed(ThresholdNode)
 
     @classmethod
-    def action_historgram_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=HistogramScanNode(), x=coords.x(), y=coords.y())
+    def action_historgram_node(cls) -> None:
+        add_to_focussed(HistogramScanNode)
 
     @classmethod
-    def action_edge_detect_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=EdgeDetectNode(), x=coords.x(), y=coords.y())
+    def action_edge_detect_node(cls) -> None:
+        add_to_focussed(EdgeDetectNode)
 
     @classmethod
-    def action_invert_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=InvertNode(), x=coords.x(), y=coords.y())
+    def action_invert_node(cls) -> None:
+        add_to_focussed(InvertNode)
 
     @classmethod
-    def action_bevel_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=BevelNode(), x=coords.x(), y=coords.y())
+    def action_bevel_node(cls) -> None:
+        add_to_focussed(BevelNode)
 
     @classmethod
-    def action_slope_blur_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=SlopeBlurNode(), x=coords.x(), y=coords.y())
+    def action_slope_blur_node(cls) -> None:
+        add_to_focussed(SlopeBlurNode)
 
     @classmethod
-    def action_normalize_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=NormalizeNode(), x=coords.x(), y=coords.y())
+    def action_normalize_node(cls) -> None:
+        add_to_focussed(NormalizeNode)
 
 
 class XformActions(object):
 
     @classmethod
-    def action_flip_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=FlipNode(), x=coords.x(), y=coords.y())
+    def action_flip_node(cls) -> None:
+        add_to_focussed(FlipNode)
 
     @classmethod
-    def action_rotate_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=RotateScaleNode(), x=coords.x(), y=coords.y())
+    def action_rotate_node(cls) -> None:
+        add_to_focussed(RotateScaleNode)
 
     @classmethod
-    def action_offset_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=OffsetNode(), x=coords.x(), y=coords.y())
+    def action_offset_node(cls) -> None:
+        add_to_focussed(OffsetNode)
 
     @classmethod
-    def action_tile_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=TileNode(), x=coords.x(), y=coords.y())
+    def action_tile_node(cls) -> None:
+        add_to_focussed(TileNode)
 
     @classmethod
-    def action_scatter_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ScatterNode(), x=coords.x(), y=coords.y())
+    def action_scatter_node(cls) -> None:
+        add_to_focussed(ScatterNode)
 
     @classmethod
-    def action_warp_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=WarpNode(), x=coords.x(), y=coords.y())
+    def action_warp_node(cls) -> None:
+        add_to_focussed(WarpNode)
 
 
 class MathActions(object):
 
     @classmethod
-    def action_add_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=AddNode(), x=coords.x(), y=coords.y())
+    def action_add_node(cls) -> None:
+        add_to_focussed(AddNode)
 
     @classmethod
-    def action_multiply_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=MultiplyNode(), x=coords.x(), y=coords.y())
+    def action_multiply_node(cls) -> None:
+        add_to_focussed(MultiplyNode)
 
     @classmethod
-    def action_subtract_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=SubtractNode(), x=coords.x(), y=coords.y())
+    def action_subtract_node(cls) -> None:
+        add_to_focussed(SubtractNode)
 
     @classmethod
-    def action_divide_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=DivideNode(), x=coords.x(), y=coords.y())
+    def action_divide_node(cls) -> None:
+        add_to_focussed(DivideNode)
 
     @classmethod
-    def action_min_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=MinNode(), x=coords.x(), y=coords.y())
+    def action_min_node(cls) -> None:
+        add_to_focussed(MinNode)
 
     @classmethod
-    def action_ceil_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=CeilNode(), x=coords.x(), y=coords.y())
+    def action_ceil_node(cls) -> None:
+        add_to_focussed(CeilNode)
 
     @classmethod
-    def action_floor_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=FloorNode(), x=coords.x(), y=coords.y())
+    def action_floor_node(cls) -> None:
+        add_to_focussed(FloorNode)
 
     @classmethod
-    def action_max_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=MaxNode(), x=coords.x(), y=coords.y())
+    def action_max_node(cls) -> None:
+        add_to_focussed(MaxNode)
 
     @classmethod
-    def action_screen_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ScreenNode(), x=coords.x(), y=coords.y())
+    def action_screen_node(cls) -> None:
+        add_to_focussed(ScreenNode)
 
     @classmethod
-    def action_sin_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=SinNode(), x=coords.x(), y=coords.y())
+    def action_sin_node(cls) -> None:
+        add_to_focussed(SinNode)
 
     @classmethod
-    def action_cosine_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=CosineNode(), x=coords.x(), y=coords.y())
+    def action_cosine_node(cls) -> None:
+        add_to_focussed(CosineNode)
 
     @classmethod
-    def action_tan_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=TangentNode(), x=coords.x(), y=coords.y())
+    def action_tan_node(cls) -> None:
+        add_to_focussed(TangentNode)
 
     @classmethod
-    def action_arctan_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ArctangentNode(), x=coords.x(), y=coords.y())
+    def action_arctan_node(cls) -> None:
+        add_to_focussed(ArctangentNode)
 
 
 class GeneratorActions(object):
 
     @classmethod
-    def action_perlin_noise_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=PerlinNoiseNode(), x=coords.x(), y=coords.y())
+    def action_perlin_noise_node(cls) -> None:
+        add_to_focussed(PerlinNoiseNode)
 
     @classmethod
-    def action_blue_noise_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=BlueNoiseNode(), x=coords.x(), y=coords.y())
+    def action_blue_noise_node(cls) -> None:
+        add_to_focussed(BlueNoiseNode)
 
     @classmethod
-    def action_bnw_spots_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=BNWSpotsNode(), x=coords.x(), y=coords.y())
+    def action_bnw_spots_node(cls) -> None:
+        add_to_focussed(BNWSpotsNode)
 
     @classmethod
-    def action_checker_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=CheckerNode(), x=coords.x(), y=coords.y())
+    def action_checker_node(cls) -> None:
+        add_to_focussed(CheckerNode)
 
     @classmethod
-    def action_weave_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=WeaveNode(), x=coords.x(), y=coords.y())
+    def action_weave_node(cls) -> None:
+        add_to_focussed(WeaveNode)
 
     @classmethod
-    def action_fibers_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=FibersNode(), x=coords.x(), y=coords.y())
+    def action_fibers_node(cls) -> None:
+        add_to_focussed(FibersNode)
 
     @classmethod
-    def action_cells_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=CellsNode(), x=coords.x(), y=coords.y())
+    def action_cells_node(cls) -> None:
+        add_to_focussed(CellsNode)
 
     @classmethod
-    def action_clouds_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=CloudsNode(), x=coords.x(), y=coords.y())
+    def action_clouds_node(cls) -> None:
+        add_to_focussed(CloudsNode)
 
     @classmethod
-    def action_gradient_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=GradientNode(), x=coords.x(), y=coords.y())
+    def action_gradient_node(cls) -> None:
+        add_to_focussed(GradientNode)
 
     @classmethod
-    def action_white_noise_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=WhiteNoiseNode(), x=coords.x(), y=coords.y())
+    def action_white_noise_node(cls) -> None:
+        add_to_focussed(WhiteNoiseNode)
 
     @classmethod
-    def action_shape_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ShapeNode(), x=coords.x(), y=coords.y())
+    def action_shape_node(cls) -> None:
+        add_to_focussed(ShapeNode)
 
     @classmethod
-    def action_polygon_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=PolygonNode(), x=coords.x(), y=coords.y())
+    def action_polygon_node(cls) -> None:
+        add_to_focussed(PolygonNode)
 
     @classmethod
-    def action_voronoi_noise_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=VoronoiNoiseNode(), x=coords.x(), y=coords.y())
+    def action_voronoi_noise_node(cls) -> None:
+        add_to_focussed(VoronoiNoiseNode)
 
     @classmethod
-    def action_grunge_one_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=GrungeNode(), x=coords.x(), y=coords.y())
+    def action_grunge_one_node(cls) -> None:
+        add_to_focussed(GrungeNode)
 
     @classmethod
-    def action_color_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ColorNode(), x=coords.x(), y=coords.y())
+    def action_color_node(cls) -> None:
+        add_to_focussed(ColorNode)
 
     @classmethod
-    def action_scratches_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=ScratchesNode(), x=coords.x(), y=coords.y())
+    def action_scratches_node(cls) -> None:
+        add_to_focussed(ScratchesNode)
 
     @classmethod
-    def action_mold_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=MoldNode(), x=coords.x(), y=coords.y())
+    def action_mold_node(cls) -> None:
+        add_to_focussed(MoldNode)
 
 
 class FloodFillActions(object):
 
     @classmethod
-    def action_flood_fill_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=FloodFillNode(), x=coords.x(), y=coords.y())
+    def action_flood_fill_node(cls) -> None:
+        add_to_focussed(FloodFillNode)
 
     @classmethod
-    def action_ff_to_greyscale_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=FloodFillToGreyscaleNode(), x=coords.x(), y=coords.y())
+    def action_ff_to_greyscale_node(cls) -> None:
+        add_to_focussed(FloodFillToGreyscaleNode)
 
     @classmethod
-    def action_ff_to_gradient_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(node=FloodFillToGradientNode(), x=coords.x(), y=coords.y())
+    def action_ff_to_gradient_node(cls) -> None:
+        add_to_focussed(FloodFillToGradientNode)
 
     @classmethod
-    def action_ff_to_rand_color_node(cls, graph_view: GuiGraphView) -> None:
-        coords = graph_view.view_center()
-        graph_view.add_node(
-            node=FloodFillToRandomColorNode(), x=coords.x(), y=coords.y()
-        )
+    def action_ff_to_rand_color_node(cls) -> None:
+        add_to_focussed(FloodFillToRandomColorNode)
