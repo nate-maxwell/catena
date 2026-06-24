@@ -32,6 +32,7 @@ from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.grunge import GrungeNode
 from catena.nodes.generate.mold import MoldNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
+from catena.nodes.generate.pink_noise import PinkNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.scratches import ScratchesNode
 from catena.nodes.generate.shape import ShapeNode
@@ -250,6 +251,7 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", GrungeNode)
         self.register_node("Generator", MoldNode)
         self.register_node("Generator", PerlinNoiseNode)
+        self.register_node("Generator", PinkNoiseNode)
         self.register_node("Generator", PolygonNode)
         self.register_node("Generator", ScratchesNode)
         self.register_node("Generator", ShapeNode)

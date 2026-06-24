@@ -21,6 +21,9 @@ class GeneratorToolbar(ActionToolbar):
         self.add_action_button("Clouds", actions.GeneratorActions.action_clouds_node)
         self.add_action_button("Fibers", actions.GeneratorActions.action_fibers_node)
         self.add_action_button(
+            "Fibers", actions.GeneratorActions.action_pink_noise_node
+        )
+        self.add_action_button(
             "Perlin\nNoise", actions.GeneratorActions.action_perlin_noise_node
         )
         self.add_action_button(

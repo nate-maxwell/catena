@@ -203,7 +203,7 @@ class MoldNode(GeneratorNode):
                 field_type=FieldType.INT,
                 default=180,
                 min_value=10,
-                max_value=800,
+                max_value=999999,
             )
         )
         self.add_field(

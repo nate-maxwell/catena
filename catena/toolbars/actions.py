@@ -17,12 +17,6 @@ from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
-from catena.nodes.file.write_albedo import AlbedoNode
-from catena.nodes.file.write_ambient_occlusion import AmbientOcclusionNode
-from catena.nodes.file.write_height import HeightNode
-from catena.nodes.file.write_metallic import MetallicNode
-from catena.nodes.file.write_normal import NormalNode
-from catena.nodes.file.write_roughness import RoughnessNode
 from catena.nodes.flood_fill.ff_to_gradient import FloodFillToGradientNode
 from catena.nodes.flood_fill.ff_to_greyscale import FloodFillToGreyscaleNode
 from catena.nodes.flood_fill.ff_to_rand_color import FloodFillToRandomColorNode
@@ -38,6 +32,7 @@ from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.grunge import GrungeNode
 from catena.nodes.generate.mold import MoldNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
+from catena.nodes.generate.pink_noise import PinkNoiseNode
 from catena.nodes.generate.polygon import PolygonNode
 from catena.nodes.generate.scratches import ScratchesNode
 from catena.nodes.generate.shape import ShapeNode
@@ -364,6 +359,10 @@ class GeneratorActions(object):
     @classmethod
     def action_mold_node(cls) -> None:
         add_to_focussed(MoldNode)
+
+    @classmethod
+    def action_pink_noise_node(cls) -> None:
+        add_to_focussed(PinkNoiseNode)
 
 
 class FloodFillActions(object):
