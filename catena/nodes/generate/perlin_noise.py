@@ -143,5 +143,8 @@ class PerlinNoiseNode(GeneratorNode):
     ) -> Optional[numpy.ndarray]:
         self._processor.scale = self.get_field_value("scale")
         self._processor.octaves = self.get_field_value("octaves")
-        self._processor.seed = self.get_field_value("seed")
+
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)

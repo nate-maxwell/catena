@@ -145,5 +145,8 @@ class FibersNode(GeneratorNode):
         self._processor.length_max = self.get_field_value("length_max")
         self._processor.softness = self.get_field_value("softness")
         self._processor.direction = self.get_field_value("direction")
-        self._processor.seed = self.get_field_value("seed")
+
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)

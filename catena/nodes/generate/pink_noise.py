@@ -104,5 +104,8 @@ class PinkNoiseNode(GeneratorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         self._processor.exponent = self.get_field_value("exponent")
-        self._processor.seed = self.get_field_value("seed")
+
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)

@@ -350,5 +350,8 @@ class ScratchesNode(GeneratorNode):
         self._processor.luminance_random = self.get_field_value("luminance_random")
         self._processor.fade_mode = self.get_field_value("fade_mode")
         self._processor.fade_length = self.get_field_value("fade_length")
-        self._processor.seed = self.get_field_value("seed")
+
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)

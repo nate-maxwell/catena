@@ -122,6 +122,9 @@ class CellsNode(GeneratorNode):
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         self._processor.cells = self.get_field_value("cells")
-        self._processor.seed = self.get_field_value("seed")
         self._processor.invert = self.get_field_value("invert")
+
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)

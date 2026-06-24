@@ -244,6 +244,8 @@ class MoldNode(GeneratorNode):
         self._processor.num_drops = self.get_field_value("num_drops")
         self._processor.drop_scale = self.get_field_value("drop_scale")
         self._processor.grunge = self.get_field_value("grunge")
+
         seed = self.get_field_value("seed")
         self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)

@@ -168,5 +168,8 @@ class CloudsNode(GeneratorNode):
         self._processor.octaves = self.get_field_value("octaves")
         self._processor.persistence = self.get_field_value("persistence")
         self._processor.contrast = self.get_field_value("contrast")
-        self._processor.seed = self.get_field_value("seed")
+
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
+
         return self._processor.process(inputs)
