@@ -68,6 +68,7 @@ from catena.nodes.modifier.hsv import HSVNode
 from catena.nodes.modifier.invert import InvertNode
 from catena.nodes.modifier.levels import LevelsNode
 from catena.nodes.modifier.normalize import NormalizeNode
+from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
 from catena.nodes.modifier.overlay import OverlayNode
 from catena.nodes.modifier.sharpen import SharpenNode
 from catena.nodes.modifier.slope_blur import SlopeBlurNode
@@ -274,6 +275,7 @@ class GuiGraphView(GraphView):
 
     def _register_image_nodes(self) -> None:
         logger.info("Registering modifier nodes...")
+        self.register_node("Modifier", AnisotropicBlurNode)
         self.register_node("Modifier", BevelNode)
         self.register_node("Modifier", BlurNode)
         self.register_node("Modifier", ContrastNode)

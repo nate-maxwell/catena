@@ -62,6 +62,7 @@ from catena.nodes.modifier.blur import BlurNode
 from catena.nodes.modifier.contrast import ContrastNode
 from catena.nodes.modifier.edge_detect import EdgeDetectNode
 from catena.nodes.modifier.histogram_scan import HistogramScanNode
+from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
 from catena.nodes.modifier.hsv import HSVNode
 from catena.nodes.modifier.invert import InvertNode
 from catena.nodes.modifier.levels import LevelsNode
@@ -227,6 +228,10 @@ class ModifierActions(object):
     @classmethod
     def action_normalize_node(cls) -> None:
         add_to_focussed(NormalizeNode)
+
+    @classmethod
+    def action_blur_anisotropic_node(cls) -> None:
+        add_to_focussed(AnisotropicBlurNode)
 
 
 class XformActions(object):
