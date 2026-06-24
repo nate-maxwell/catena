@@ -60,10 +60,13 @@ from catena.nodes.math.tan import TangentNode
 from catena.nodes.modifier.bevel import BevelNode
 from catena.nodes.modifier.blur import BlurNode
 from catena.nodes.modifier.contrast import ContrastNode
+from catena.nodes.modifier.quantize import QuantizeNode
 from catena.nodes.modifier.edge_detect import EdgeDetectNode
 from catena.nodes.modifier.histogram_scan import HistogramScanNode
 from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
 from catena.nodes.modifier.hsv import HSVNode
+from catena.nodes.modifier.median_filter import MedianFilterNode
+from catena.nodes.modifier.blur_radial import RadialBlurNode
 from catena.nodes.modifier.invert import InvertNode
 from catena.nodes.modifier.levels import LevelsNode
 from catena.nodes.modifier.normalize import NormalizeNode
@@ -80,6 +83,7 @@ from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
+from catena.nodes.transform.warp_directional import DirectionalWarpNode
 from catena.panes.node_graph.node_graph import NodeGraphPane
 
 _graph_pane: NodeGraphPane | None = None
@@ -233,6 +237,18 @@ class ModifierActions(object):
     def action_blur_anisotropic_node(cls) -> None:
         add_to_focussed(AnisotropicBlurNode)
 
+    @classmethod
+    def action_blur_radial_node(cls) -> None:
+        add_to_focussed(RadialBlurNode)
+
+    @classmethod
+    def action_median_filter_node(cls) -> None:
+        add_to_focussed(MedianFilterNode)
+
+    @classmethod
+    def action_quantize_node(cls) -> None:
+        add_to_focussed(QuantizeNode)
+
 
 class XformActions(object):
 
@@ -259,6 +275,10 @@ class XformActions(object):
     @classmethod
     def action_warp_node(cls) -> None:
         add_to_focussed(WarpNode)
+
+    @classmethod
+    def action_directional_warp_node(cls) -> None:
+        add_to_focussed(DirectionalWarpNode)
 
 
 class MathActions(object):

@@ -116,12 +116,11 @@ class AnisotropicBlurProcessor(ProcessorNode):
 class AnisotropicBlurNode(CatenaNode):
     """A node that applies directional anisotropic blur."""
 
+    _COLOR_HEADER = IMAGE_NODE_COLOR
+
     def __init__(self) -> None:
         self._processor = AnisotropicBlurProcessor()
         super().__init__(title="Anisotropic Blur")
-
-    def _get_node_color(self) -> tuple[int, int, int]:
-        return IMAGE_NODE_COLOR
 
     def _build(self) -> None:
         self.port_in = self.add_port(PortType.INPUT, "Input")

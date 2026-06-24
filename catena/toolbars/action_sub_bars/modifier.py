@@ -16,7 +16,13 @@ class ModifierToolbar(ActionToolbar):
         )
         self.add_action_button("Blur", actions.ModifierActions.action_blur_node)
         self.add_action_button(
+            "Radial\nBlur", actions.ModifierActions.action_blur_radial_node
+        )
+        self.add_action_button(
             "Slope\nBlur", actions.ModifierActions.action_slope_blur_node
+        )
+        self.add_action_button(
+            "Median\nFilter", actions.ModifierActions.action_median_filter_node
         )
         self.add_action_button("Sharpen", actions.ModifierActions.action_sharpen_node)
 
@@ -42,3 +48,4 @@ class ModifierToolbar(ActionToolbar):
 
         self.add_action_button("Nrmlize", actions.ModifierActions.action_normalize_node)
         self.add_action_button("Thresh", actions.ModifierActions.action_threshold_node)
+        self.add_action_button("Quant", actions.ModifierActions.action_quantize_node)

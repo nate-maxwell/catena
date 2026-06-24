@@ -61,15 +61,18 @@ from catena.nodes.math.tan import TangentNode
 from catena.nodes.misc.reroute import RerouteNode
 from catena.nodes.modifier.bevel import BevelNode
 from catena.nodes.modifier.blur import BlurNode
+from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
+from catena.nodes.modifier.blur_radial import RadialBlurNode
 from catena.nodes.modifier.contrast import ContrastNode
 from catena.nodes.modifier.edge_detect import EdgeDetectNode
 from catena.nodes.modifier.histogram_scan import HistogramScanNode
 from catena.nodes.modifier.hsv import HSVNode
 from catena.nodes.modifier.invert import InvertNode
 from catena.nodes.modifier.levels import LevelsNode
+from catena.nodes.modifier.median_filter import MedianFilterNode
 from catena.nodes.modifier.normalize import NormalizeNode
-from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
 from catena.nodes.modifier.overlay import OverlayNode
+from catena.nodes.modifier.quantize import QuantizeNode
 from catena.nodes.modifier.sharpen import SharpenNode
 from catena.nodes.modifier.slope_blur import SlopeBlurNode
 from catena.nodes.modifier.threshold import ThresholdNode
@@ -83,6 +86,7 @@ from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
+from catena.nodes.transform.warp_directional import DirectionalWarpNode
 
 logger = logging.getLogger(__name__)
 
@@ -216,7 +220,7 @@ class GuiGraphView(GraphView):
         self._register_create_nodes()
         self._register_flood_fill_nodes()
         self._register_generator_nodes()
-        self._register_image_nodes()
+        self._register_modifier_nodes()
         self._register_math_nodes()
         self._register_misc_nodes()
         self._register_subgraph_nodes()
@@ -273,7 +277,7 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", WeaveNode)
         self.register_node("Generator", WhiteNoiseNode)
 
-    def _register_image_nodes(self) -> None:
+    def _register_modifier_nodes(self) -> None:
         logger.info("Registering modifier nodes...")
         self.register_node("Modifier", AnisotropicBlurNode)
         self.register_node("Modifier", BevelNode)
@@ -284,8 +288,11 @@ class GuiGraphView(GraphView):
         self.register_node("Modifier", HSVNode)
         self.register_node("Modifier", InvertNode)
         self.register_node("Modifier", LevelsNode)
+        self.register_node("Modifier", MedianFilterNode)
         self.register_node("Modifier", NormalizeNode)
         self.register_node("Modifier", OverlayNode)
+        self.register_node("Modifier", RadialBlurNode)
+        self.register_node("Modifier", QuantizeNode)
         self.register_node("Modifier", SharpenNode)
         self.register_node("Modifier", SlopeBlurNode)
         self.register_node("Modifier", ThresholdNode)
@@ -318,6 +325,7 @@ class GuiGraphView(GraphView):
 
     def _register_transform_nodes(self) -> None:
         logger.info("Registering transform nodes...")
+        self.register_node("Transform", DirectionalWarpNode)
         self.register_node("Transform", FlipNode)
         self.register_node("Transform", OffsetNode)
         self.register_node("Transform", RotateScaleNode)
