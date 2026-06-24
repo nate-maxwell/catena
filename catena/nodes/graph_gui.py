@@ -81,6 +81,7 @@ logger = logging.getLogger(__name__)
 
 class GuiGraphView(GraphView):
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
+        self.count = 0
         super().__init__(parent)
         self.comment_type = CatenaCommentBox
         self._register_nodes()
@@ -196,6 +197,10 @@ class GuiGraphView(GraphView):
         coords = self.view_center()
         self.add_node(node=node, x=coords.x(), y=coords.y())
 
+    def register_node(self, category: str, node: type[CatenaNode]) -> None:
+        super().register_node(category, node)
+        self.count += 1
+
     def _register_nodes(self) -> None:
         logger.info("-" * 30)
         logger.info("Graph view registering standard node library")
@@ -209,6 +214,7 @@ class GuiGraphView(GraphView):
         self._register_subgraph_nodes()
         self._register_transform_nodes()
         logger.info("Graph view node registry complete")
+        logger.info(f"Finished registering {self.count} nodes")
         logger.info("-" * 30)
 
     def _register_convert_nodes(self) -> None:
