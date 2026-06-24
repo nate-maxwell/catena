@@ -19,6 +19,7 @@ from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.preferences.preferences import Preferences
 from catena.preferences import category_data
+from catena.panes.node_graph import serialize
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +117,7 @@ class NodeGraphPane(DockablePane):
                 return
 
         view = self._open_new_tab(file_path)
-        Nodes.load(view, file_path)
+        serialize.load(view, file_path)
         QtCore.QTimer.singleShot(0, lambda: self._update_preview_from_load(view))
 
     def get_focused_graph(self) -> Optional[GuiGraphView]:
@@ -148,7 +149,7 @@ class NodeGraphPane(DockablePane):
             self.save_graph_as()
             return
 
-        Nodes.save(self.graph_view, tab.file_path)
+        serialize.save(self.graph_view, tab.file_path)
 
     def save_graph_as(self) -> None:
         file_path = file.save_file_dialog(self)
@@ -167,7 +168,7 @@ class NodeGraphPane(DockablePane):
         sd.project_file = tab.file_path
         sd.save()
 
-        Nodes.save(self.graph_view, tab.file_path)
+        serialize.save(self.graph_view, tab.file_path)
         broker.emit(namespace.FILE_CHANGED, file_path=tab.file_path)
 
     def load_previous_graph(self) -> None:
@@ -181,7 +182,7 @@ class NodeGraphPane(DockablePane):
         index = self.tab_widget.currentIndex()
         self.tab_widget.setTabText(index, sd.project_file.stem)
 
-        Nodes.load(self.graph_view, sd.project_file)
+        serialize.load(self.graph_view, sd.project_file)
         QtCore.QTimer.singleShot(
             0, lambda: self._update_preview_from_load(self.graph_view)
         )
@@ -202,7 +203,7 @@ class NodeGraphPane(DockablePane):
         sd.save()
 
         view = self._open_new_tab(to_load)
-        Nodes.load(view, to_load)
+        serialize.load(view, to_load)
         QtCore.QTimer.singleShot(0, lambda: self._update_preview_from_load(view))
         broker.emit(namespace.FILE_CHANGED, file_path=to_load)
 

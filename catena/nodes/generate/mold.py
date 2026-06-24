@@ -103,11 +103,12 @@ class MoldProcessor(ProcessorNode):
         """
         width = preferences.Preferences().general_preferences.texture_resolution
         height = width
+        seed = int(self.seed)
 
-        rng = numpy.random.default_rng(self.seed)
-        rng_base = numpy.random.default_rng(self.seed + 11)
-        rng_warp = numpy.random.default_rng(self.seed + 99)
-        rng_grng = numpy.random.default_rng(self.seed + 3)
+        rng = numpy.random.default_rng(int(seed))
+        rng_base = numpy.random.default_rng(seed + 11)
+        rng_warp = numpy.random.default_rng(seed + 99)
+        rng_grng = numpy.random.default_rng(seed + 3)
 
         # Large-scale uneven base: smooth low-frequency noise in mid-tone range
         # so the surface reads as damp without pure black or white.
@@ -243,5 +244,6 @@ class MoldNode(GeneratorNode):
         self._processor.num_drops = self.get_field_value("num_drops")
         self._processor.drop_scale = self.get_field_value("drop_scale")
         self._processor.grunge = self.get_field_value("grunge")
-        self._processor.seed = self.get_field_value("seed")
+        seed = self.get_field_value("seed")
+        self._processor.seed = int(seed * 255) if isinstance(seed, float) else int(seed)
         return self._processor.process(inputs)

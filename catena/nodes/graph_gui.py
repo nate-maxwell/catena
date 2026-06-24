@@ -11,8 +11,12 @@ from core_utils import regex
 from catena import namespace
 from catena.nodes.comment import CatenaCommentBox
 from catena.nodes.convert.append import AppendNode
+from catena.nodes.convert.float_to_int import FloatToIntNode
+from catena.nodes.convert.float_to_vec4 import FloatToVec4Node
 from catena.nodes.convert.height_to_ao import HeightToAONode
 from catena.nodes.convert.height_to_normal import HeightToNormalNode
+from catena.nodes.convert.int_to_float import IntToFloatNode
+from catena.nodes.convert.int_to_vec4 import IntToVec4Node
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
@@ -28,8 +32,10 @@ from catena.nodes.generate.clouds import CloudsNode
 from catena.nodes.generate.color import ColorNode
 from catena.nodes.generate.directional_noise import DirectionalNoiseNode
 from catena.nodes.generate.fibers import FibersNode
+from catena.nodes.generate.float import FloatNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.grunge import GrungeNode
+from catena.nodes.generate.integer import IntegerNode
 from catena.nodes.generate.mold import MoldNode
 from catena.nodes.generate.perlin_noise import PerlinNoiseNode
 from catena.nodes.generate.pink_noise import PinkNoiseNode
@@ -225,6 +231,11 @@ class GuiGraphView(GraphView):
         self.register_node("Convert", HeightToNormalNode)
         self.register_node("Convert", SplitNode)
 
+        self.register_node("Convert", IntToFloatNode)
+        self.register_node("Convert", IntToVec4Node)
+        self.register_node("Convert", FloatToIntNode)
+        self.register_node("Convert", FloatToVec4Node)
+
     def _register_create_nodes(self) -> None:
         logger.info("Registering create nodes...")
         self.register_node("File", ReadNode)
@@ -247,8 +258,10 @@ class GuiGraphView(GraphView):
         self.register_node("Generator", ColorNode)
         self.register_node("Generator", DirectionalNoiseNode)
         self.register_node("Generator", FibersNode)
+        self.register_node("Generator", FloatNode)
         self.register_node("Generator", GradientNode)
         self.register_node("Generator", GrungeNode)
+        self.register_node("Generator", IntegerNode)
         self.register_node("Generator", MoldNode)
         self.register_node("Generator", PerlinNoiseNode)
         self.register_node("Generator", PinkNoiseNode)

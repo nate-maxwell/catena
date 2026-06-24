@@ -36,6 +36,7 @@ class GeneratorToolbar(ActionToolbar):
         self.add_toolbar_separator(12)
 
         self.add_action_button("Color", actions.GeneratorActions.action_color_node)
+        self.add_action_button("Float", actions.GeneratorActions.action_float_node)
         self.add_action_button("Grad", actions.GeneratorActions.action_gradient_node)
         self.add_action_button("Checker", actions.GeneratorActions.action_checker_node)
         self.add_action_button("Poly", actions.GeneratorActions.action_polygon_node)

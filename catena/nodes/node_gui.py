@@ -8,9 +8,11 @@ from PySide6 import QtWidgets
 from PySide6TK.Nodes import BaseNode
 from PySide6TK.Nodes import Port
 from PySide6TK.Nodes import PortType
+from PySide6TK.Nodes import FieldType
 
 from catena import namespace
 from catena.nodes.data import PortDataType
+from catena.nodes.data import FIELD_PORT_DATA_TYPES
 from catena.nodes.data import DATA_TYPE_COLORS
 
 logger = logging.getLogger(__name__)
@@ -23,6 +25,7 @@ class CatenaNode(BaseNode):
     def __init__(self, title: str, width: int = 160, body_height: int = 40) -> None:
         super().__init__(title, width, body_height)
         self._is_active_preview: bool = False
+        self._promoted_fields: dict[str, Port] = {}
 
         self._cached_value: Any = None
         """The last evaluated value. Updates when field values change."""
@@ -64,6 +67,93 @@ class CatenaNode(BaseNode):
         self._resize_to_fit_ports()
 
         return port
+
+    def promote_field(self, name: str) -> None:
+        """
+        Promote a field to an input port, allowing it to receive upstream
+        image data instead of a fixed field value.
+
+        When the port is connected, the mean of the upstream image is used
+        as the field value. When disconnected, the field value is used as
+        normal.
+
+        Args:
+            name (str): The field name to promote.
+        """
+        if name in self._promoted_fields:
+            return
+
+        definition = self._fields.get(name)
+        if definition is None:
+            return
+
+        if definition.field_type == FieldType.BOOL:
+            return
+
+        data_type = FIELD_PORT_DATA_TYPES.get(
+            definition.field_type, PortDataType.VECTOR4
+        )
+        port = self.add_port(PortType.INPUT, name, data_type)
+        port.set_color(DATA_TYPE_COLORS[data_type])
+        self._promoted_fields[name] = port
+
+    def demote_field(self, name: str) -> None:
+        """
+        Demote a promoted field back to a regular field, removing its
+        input port.
+
+        Args:
+            name (str): The field name to demote.
+        """
+        port = self._promoted_fields.pop(name, None)
+        if port is None:
+            return
+        self.remove_port(port)
+
+    def get_field_value(self, name: str) -> object:
+        """
+        Return the current value of a field. If the field is promoted and
+        its port is connected, returns the mean of the upstream image instead.
+
+        Args:
+            name (str): The field's identifier key.
+        Returns:
+            Any: The current value, either from the upstream port or the field.
+        """
+        port = self._promoted_fields.get(name)
+        if port is None or not port.wires:
+            return self._field_values[name]
+
+        for wire in port.wires:
+            source_node = wire.source.parentItem()
+            if not isinstance(source_node, CatenaNode):
+                continue
+
+            evaluated = source_node.evaluate()
+
+            if evaluated is None or not isinstance(evaluated, numpy.ndarray):
+                continue
+
+            definition = self._fields.get(name)
+            raw = float(evaluated.mean())
+
+            if definition is not None and definition.max_value is not None:
+                return type(definition.default)(raw * definition.max_value)
+
+            return raw
+
+        return self._field_values[name]
+
+    def is_promoted(self, name: str) -> bool:
+        """
+        Return whether a field is currently promoted to an input port.
+
+        Args:
+            name (str): The field name to check.
+        Returns:
+            bool: True if the field is promoted.
+        """
+        return name in self._promoted_fields
 
     def on_input_connection_changed(self, port: Port) -> None:
         """

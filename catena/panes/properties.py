@@ -8,9 +8,9 @@ from PySide6TK.Nodes import FieldDefinition
 from PySide6TK.Nodes import FieldType
 
 from catena import namespace
+from catena.nodes.node_gui import CatenaNode
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
-from catena.nodes.node_gui import CatenaNode
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,7 @@ class PropertiesPane(DockablePane):
     )
 
     def __post_init__(self) -> None:
+        self._current_node: CatenaNode | None = None
         self._create_subscriptions()
         logger.info("Properties pane initialized")
 
@@ -36,14 +37,13 @@ class PropertiesPane(DockablePane):
         self.content_layout.addStretch()
 
     def _refresh_properties(self, node: CatenaNode) -> None:
+        self._current_node = node
         QtWrappers.clear_layout(self.content_layout)
 
-        # Node name
         name_label = QtWidgets.QLabel(node.title, self.content_widget)
         name_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter)
         self.content_layout.addWidget(name_label)
 
-        # Node fields
         form = QtWidgets.QFormLayout()
         form.setSpacing(6)
         form.setLabelAlignment(
@@ -56,7 +56,9 @@ class PropertiesPane(DockablePane):
         for definition in node.get_fields():
             label = QtWidgets.QLabel(definition.label, self.content_widget)
 
-            if definition.field_type == FieldType.FLOAT:
+            if node.is_promoted(definition.name):
+                widget = self._make_promoted_widget()
+            elif definition.field_type == FieldType.FLOAT:
                 widget = self._parse_float(node, definition)
             elif definition.field_type == FieldType.INT:
                 widget = self._parse_int(node, definition)
@@ -79,10 +81,70 @@ class PropertiesPane(DockablePane):
                 QtWidgets.QSizePolicy.Policy.Expanding,
                 QtWidgets.QSizePolicy.Policy.Fixed,
             )
-            form.addRow(label, widget)
+
+            row_widget = self._make_row(node, definition, widget)
+            form.addRow(label, row_widget)
 
         self.content_layout.addLayout(form)
         self.content_layout.addStretch()
+
+    def _make_row(
+        self,
+        node: CatenaNode,
+        definition: FieldDefinition,
+        field_widget: QtWidgets.QWidget,
+    ) -> QtWidgets.QWidget:
+        """
+        Wrap a field widget with a promote/demote button.
+
+        Args:
+            node (CatenaNode): The node owning the field.
+            definition (FieldDefinition): The field definition.
+            field_widget (QtWidgets.QWidget): The field's input widget.
+        Returns:
+            QtWidgets.QWidget: A container with the field widget and promote
+                button, or just the field widget for non-promotable fields.
+        """
+        if definition.field_type == FieldType.BOOL:
+            return field_widget
+
+        container = QtWidgets.QWidget(self.content_widget)
+        layout = QtWidgets.QHBoxLayout(container)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(4)
+        layout.addWidget(field_widget)
+
+        promote_btn = QtWidgets.QPushButton(container)
+        promote_btn.setFixedSize(16, 16)
+        promote_btn.setToolTip(
+            "Demote to field"
+            if node.is_promoted(definition.name)
+            else "Promote to port"
+        )
+        promote_btn.setText("●" if node.is_promoted(definition.name) else "○")
+
+        def _toggle() -> None:
+            if node.is_promoted(definition.name):
+                node.demote_field(definition.name)
+            else:
+                node.promote_field(definition.name)
+            self._refresh_properties(node)
+
+        promote_btn.clicked.connect(_toggle)
+        layout.addWidget(promote_btn)
+
+        return container
+
+    def _make_promoted_widget(self) -> QtWidgets.QWidget:
+        """
+        Return a label indicating the field is driven by a port.
+
+        Returns:
+            QtWidgets.QWidget: A label widget.
+        """
+        label = QtWidgets.QLabel("Driven by port", self.content_widget)
+        label.setStyleSheet("color: #888888; font-style: italic;")
+        return label
 
     def _parse_float(
         self, node: CatenaNode, definition: FieldDefinition

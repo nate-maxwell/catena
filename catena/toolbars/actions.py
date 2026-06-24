@@ -15,6 +15,10 @@ from catena.nodes.convert.append import AppendNode
 from catena.nodes.convert.height_to_ao import HeightToAONode
 from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.split import SplitNode
+from catena.nodes.convert.int_to_float import IntToFloatNode
+from catena.nodes.convert.int_to_vec4 import IntToVec4Node
+from catena.nodes.convert.float_to_int import FloatToIntNode
+from catena.nodes.convert.float_to_vec4 import FloatToVec4Node
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
 from catena.nodes.flood_fill.ff_to_gradient import FloodFillToGradientNode
@@ -28,6 +32,7 @@ from catena.nodes.generate.checker import CheckerNode
 from catena.nodes.generate.clouds import CloudsNode
 from catena.nodes.generate.color import ColorNode
 from catena.nodes.generate.fibers import FibersNode
+from catena.nodes.generate.float import FloatNode
 from catena.nodes.generate.gradient import GradientNode
 from catena.nodes.generate.grunge import GrungeNode
 from catena.nodes.generate.mold import MoldNode
@@ -74,7 +79,7 @@ from catena.nodes.transform.rotate_scale import RotateScaleNode
 from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
-from catena.panes.node_graph import NodeGraphPane
+from catena.panes.node_graph.node_graph import NodeGraphPane
 
 _graph_pane: NodeGraphPane | None = None
 
@@ -151,6 +156,22 @@ class ConvertActions(object):
     @classmethod
     def action_append_node(cls) -> None:
         add_to_focussed(AppendNode)
+
+    @classmethod
+    def action_int_to_float_node(cls) -> None:
+        add_to_focussed(IntToFloatNode)
+
+    @classmethod
+    def action_int_to_vec4_node(cls) -> None:
+        add_to_focussed(IntToVec4Node)
+
+    @classmethod
+    def action_float_to_int_node(cls) -> None:
+        add_to_focussed(FloatToIntNode)
+
+    @classmethod
+    def action_float_to_vec4_node(cls) -> None:
+        add_to_focussed(FloatToVec4Node)
 
 
 class ModifierActions(object):
@@ -363,6 +384,10 @@ class GeneratorActions(object):
     @classmethod
     def action_pink_noise_node(cls) -> None:
         add_to_focussed(PinkNoiseNode)
+
+    @classmethod
+    def action_float_node(cls) -> None:
+        add_to_focussed(FloatNode)
 
 
 class FloodFillActions(object):
