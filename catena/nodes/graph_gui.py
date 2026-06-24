@@ -87,6 +87,7 @@ from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
 from catena.nodes.transform.warp_directional import DirectionalWarpNode
+from catena.nodes.transform.warp_vector import VectorWarpNode
 
 logger = logging.getLogger(__name__)
 
@@ -331,4 +332,5 @@ class GuiGraphView(GraphView):
         self.register_node("Transform", RotateScaleNode)
         self.register_node("Transform", ScatterNode)
         self.register_node("Transform", TileNode)
+        self.register_node("Transform", VectorWarpNode)
         self.register_node("Transform", WarpNode)

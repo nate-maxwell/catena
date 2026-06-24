@@ -12,13 +12,13 @@ import broker
 
 from catena import namespace
 from catena.nodes.convert.append import AppendNode
-from catena.nodes.convert.height_to_ao import HeightToAONode
-from catena.nodes.convert.height_to_normal import HeightToNormalNode
-from catena.nodes.convert.split import SplitNode
-from catena.nodes.convert.int_to_float import IntToFloatNode
-from catena.nodes.convert.int_to_vec4 import IntToVec4Node
 from catena.nodes.convert.float_to_int import FloatToIntNode
 from catena.nodes.convert.float_to_vec4 import FloatToVec4Node
+from catena.nodes.convert.height_to_ao import HeightToAONode
+from catena.nodes.convert.height_to_normal import HeightToNormalNode
+from catena.nodes.convert.int_to_float import IntToFloatNode
+from catena.nodes.convert.int_to_vec4 import IntToVec4Node
+from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
 from catena.nodes.flood_fill.ff_to_gradient import FloodFillToGradientNode
@@ -59,18 +59,18 @@ from catena.nodes.math.subtract import SubtractNode
 from catena.nodes.math.tan import TangentNode
 from catena.nodes.modifier.bevel import BevelNode
 from catena.nodes.modifier.blur import BlurNode
+from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
+from catena.nodes.modifier.blur_radial import RadialBlurNode
 from catena.nodes.modifier.contrast import ContrastNode
-from catena.nodes.modifier.quantize import QuantizeNode
 from catena.nodes.modifier.edge_detect import EdgeDetectNode
 from catena.nodes.modifier.histogram_scan import HistogramScanNode
-from catena.nodes.modifier.blur_anisotropic import AnisotropicBlurNode
 from catena.nodes.modifier.hsv import HSVNode
-from catena.nodes.modifier.median_filter import MedianFilterNode
-from catena.nodes.modifier.blur_radial import RadialBlurNode
 from catena.nodes.modifier.invert import InvertNode
 from catena.nodes.modifier.levels import LevelsNode
+from catena.nodes.modifier.median_filter import MedianFilterNode
 from catena.nodes.modifier.normalize import NormalizeNode
 from catena.nodes.modifier.overlay import OverlayNode
+from catena.nodes.modifier.quantize import QuantizeNode
 from catena.nodes.modifier.sharpen import SharpenNode
 from catena.nodes.modifier.slope_blur import SlopeBlurNode
 from catena.nodes.modifier.threshold import ThresholdNode
@@ -84,6 +84,7 @@ from catena.nodes.transform.scatter import ScatterNode
 from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
 from catena.nodes.transform.warp_directional import DirectionalWarpNode
+from catena.nodes.transform.warp_vector import VectorWarpNode
 from catena.panes.node_graph.node_graph import NodeGraphPane
 
 _graph_pane: NodeGraphPane | None = None
@@ -279,6 +280,10 @@ class XformActions(object):
     @classmethod
     def action_directional_warp_node(cls) -> None:
         add_to_focussed(DirectionalWarpNode)
+
+    @classmethod
+    def action_vector_warp_node(cls) -> None:
+        add_to_focussed(VectorWarpNode)
 
 
 class MathActions(object):

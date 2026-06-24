@@ -26,3 +26,6 @@ class TransformToolbar(ActionToolbar):
         self.add_action_button(
             "Dir\nWarp", actions.XformActions.action_directional_warp_node
         )
+        self.add_action_button(
+            "Vector\nWarp", actions.XformActions.action_vector_warp_node
+        )

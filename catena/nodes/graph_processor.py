@@ -12,7 +12,6 @@ import numpy
 
 import catena.nodes as nodes_package
 from catena.nodes.node_processor import ProcessorNode
-from catena.nodes.file.write import WriteProcessor
 
 T = TypeVar("T", bound=ProcessorNode)
 
@@ -52,13 +51,6 @@ def auto_register_processors() -> None:
             ):
                 node_type_name = obj.__name__.replace("Processor", "Node")
                 _NODE_TYPE_REGISTRY[node_type_name] = obj
-
-    _NODE_TYPE_REGISTRY["AlbedoNode"] = WriteProcessor
-    _NODE_TYPE_REGISTRY["NormalNode"] = WriteProcessor
-    _NODE_TYPE_REGISTRY["RoughnessNode"] = WriteProcessor
-    _NODE_TYPE_REGISTRY["MetallicNode"] = WriteProcessor
-    _NODE_TYPE_REGISTRY["AONode"] = WriteProcessor
-    _NODE_TYPE_REGISTRY["HeightNode"] = WriteProcessor
 
 
 # Ensure the registry is populated with the standard node library.
