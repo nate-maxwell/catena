@@ -13,12 +13,12 @@ class GraphToolbar(ActionToolbar):
     def build(self) -> None:
         self.add_toolbar_command(
             "Save",
-            command=lambda: actions.ClientActions.action_save(),
+            command=lambda: actions.GraphActions.action_save(),
             image_path=Resources.BUTTON_BLACK_40X40,
         )
         self.add_toolbar_command(
             "Pub\nFiles",
-            command=lambda: actions.ClientActions.action_write_files(),
+            command=lambda: actions.GraphActions.action_write_files(),
             image_path=Resources.BUTTON_BLACK_40X40,
         )
 
@@ -26,11 +26,24 @@ class GraphToolbar(ActionToolbar):
 
         self.add_toolbar_command(
             "Undo",
-            command=lambda: actions.ClientActions.action_undo(),
+            command=lambda: actions.GraphActions.action_undo(),
             image_path=Resources.BUTTON_BLACK_40X40,
         )
         self.add_toolbar_command(
             "Redo",
-            command=lambda: actions.ClientActions.action_redo(),
+            command=lambda: actions.GraphActions.action_redo(),
+            image_path=Resources.BUTTON_BLACK_40X40,
+        )
+
+        self.add_toolbar_separator(12)
+
+        self.add_toolbar_command(
+            "Read",
+            command=lambda: actions.GraphActions.action_read_node(),
+            image_path=Resources.BUTTON_BLACK_40X40,
+        )
+        self.add_toolbar_command(
+            "Write",
+            command=lambda: actions.GraphActions.action_write_node(),
             image_path=Resources.BUTTON_BLACK_40X40,
         )

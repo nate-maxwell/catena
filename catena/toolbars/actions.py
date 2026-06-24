@@ -16,6 +16,7 @@ from catena.nodes.convert.height_to_ao import HeightToAONode
 from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
+from catena.nodes.file.write import WriteNode
 from catena.nodes.file.write_albedo import AlbedoNode
 from catena.nodes.file.write_ambient_occlusion import AmbientOcclusionNode
 from catena.nodes.file.write_height import HeightNode
@@ -96,7 +97,7 @@ def add_to_focussed(node) -> None:
         graph_view.add_node_to_center(node())
 
 
-class ClientActions(object):
+class GraphActions(object):
 
     @classmethod
     def action_save(cls) -> None:
@@ -113,6 +114,14 @@ class ClientActions(object):
     @classmethod
     def action_write_files(cls) -> None:
         broker.emit(namespace.NODE_WRITE_FILE)
+
+    @classmethod
+    def action_read_node(cls) -> None:
+        add_to_focussed(ReadNode)
+
+    @classmethod
+    def action_write_node(cls) -> None:
+        add_to_focussed(WriteNode)
 
 
 class SubgraphActions(object):
@@ -147,37 +156,6 @@ class ConvertActions(object):
     @classmethod
     def action_append_node(cls) -> None:
         add_to_focussed(AppendNode)
-
-
-class CreateActions(object):
-
-    @classmethod
-    def action_read_node(cls) -> None:
-        add_to_focussed(ReadNode)
-
-    @classmethod
-    def action_albedo_node(cls) -> None:
-        add_to_focussed(AlbedoNode)
-
-    @classmethod
-    def action_ao_node(cls) -> None:
-        add_to_focussed(AmbientOcclusionNode)
-
-    @classmethod
-    def action_height_node(cls) -> None:
-        add_to_focussed(HeightNode)
-
-    @classmethod
-    def action_metallic_node(cls) -> None:
-        add_to_focussed(MetallicNode)
-
-    @classmethod
-    def action_normal_node(cls) -> None:
-        add_to_focussed(NormalNode)
-
-    @classmethod
-    def action_roughness_node(cls) -> None:
-        add_to_focussed(RoughnessNode)
 
 
 class ModifierActions(object):

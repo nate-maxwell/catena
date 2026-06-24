@@ -4,7 +4,6 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 from catena.toolbars.action_sub_bars.convert import ConvertToolbar
-from catena.toolbars.action_sub_bars.file import CreateToolbar
 from catena.toolbars.action_sub_bars.flood_fill import FloodFillToolbar
 from catena.toolbars.action_sub_bars.generator import GeneratorToolbar
 from catena.toolbars.action_sub_bars.graph import GraphToolbar
@@ -29,9 +28,8 @@ class EditorActionToolbar(QtWrappers.Toolbar):
     def build(self) -> None:
         switcher = ToolbarSwitcher(self)
 
-        switcher.add_toolbar("File", GraphToolbar(self))
+        switcher.add_toolbar("Graph", GraphToolbar(self))
         switcher.add_toolbar("Convert", ConvertToolbar(self))
-        switcher.add_toolbar("Create", CreateToolbar(self))
         switcher.add_toolbar("Flood Fill", FloodFillToolbar(self))
         switcher.add_toolbar("Generators", GeneratorToolbar(self))
         switcher.add_toolbar("Math", MathToolbar(self))

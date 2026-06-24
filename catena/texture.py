@@ -4,7 +4,6 @@ BGR channel layout.
 """
 
 from enum import Enum
-from enum import auto
 from pathlib import Path
 from typing import Optional
 
@@ -16,12 +15,12 @@ from PySide6TK import QtGui
 
 
 class TextureType(Enum):
-    ALBEDO = auto()
-    ROUGHNESS = auto()
-    METALLIC = auto()
-    AO = auto()
-    HEIGHT = auto()
-    NORMAL = auto()
+    ALBEDO = "Albedo"
+    AO = "AO"
+    HEIGHT = "Height"
+    METALLIC = "Metallic"
+    NORMAL = "Normal"
+    ROUGHNESS = "Roughness"
 
 
 def rgb_to_bgr(image: numpy.ndarray) -> numpy.ndarray:

@@ -16,12 +16,6 @@ from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
-from catena.nodes.file.write_albedo import AlbedoNode
-from catena.nodes.file.write_ambient_occlusion import AmbientOcclusionNode
-from catena.nodes.file.write_height import HeightNode
-from catena.nodes.file.write_metallic import MetallicNode
-from catena.nodes.file.write_normal import NormalNode
-from catena.nodes.file.write_roughness import RoughnessNode
 from catena.nodes.flood_fill.ff_to_gradient import FloodFillToGradientNode
 from catena.nodes.flood_fill.ff_to_greyscale import FloodFillToGreyscaleNode
 from catena.nodes.flood_fill.ff_to_rand_color import FloodFillToRandomColorNode
@@ -227,12 +221,7 @@ class GuiGraphView(GraphView):
     def _register_create_nodes(self) -> None:
         logger.info("Registering create nodes...")
         self.register_node("File", ReadNode)
-        self.register_node("File", AlbedoNode)
-        self.register_node("File", AmbientOcclusionNode)
-        self.register_node("File", HeightNode)
-        self.register_node("File", MetallicNode)
-        self.register_node("File", NormalNode)
-        self.register_node("File", RoughnessNode)
+        self.register_node("File", WriteNode)
 
     def _register_flood_fill_nodes(self) -> None:
         logger.info("Registering flood fill nodes...")
