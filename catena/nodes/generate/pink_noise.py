@@ -69,12 +69,11 @@ class PinkNoiseProcessor(ProcessorNode):
 class PinkNoiseNode(GeneratorNode):
     """A node that generates 1/f^exponent colored noise via FFT shaping."""
 
+    _COLOR_HEADER = IMAGE_NODE_COLOR
+
     def __init__(self) -> None:
         self._processor = PinkNoiseProcessor()
         super().__init__(title="Pink Noise")
-
-    def _get_node_color(self) -> tuple[int, int, int]:
-        return IMAGE_NODE_COLOR
 
     def _build(self) -> None:
         self.port_out = self.add_port(PortType.OUTPUT, "Output")
