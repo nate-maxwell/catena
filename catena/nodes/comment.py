@@ -25,6 +25,7 @@ class CatenaCommentBox(CommentBox):
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
+        print(1)
         broker.emit(namespace.NODE_SELECTED, node=self)
         super().mouseDoubleClickEvent(event)
 

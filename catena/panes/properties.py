@@ -56,7 +56,7 @@ class PropertiesPane(DockablePane):
         for definition in node.get_fields():
             label = QtWidgets.QLabel(definition.label, self.content_widget)
 
-            if node.is_promoted(definition.name):
+            if hasattr(node, "is_promoted") and node.is_promoted(definition.name):
                 widget = self._make_promoted_widget()
             elif definition.field_type == FieldType.FLOAT:
                 widget = self._parse_float(node, definition)
@@ -106,6 +106,9 @@ class PropertiesPane(DockablePane):
                 button, or just the field widget for non-promotable fields.
         """
         if definition.field_type == FieldType.BOOL:
+            return field_widget
+
+        if not hasattr(node, "is_promoted"):
             return field_widget
 
         container = QtWidgets.QWidget(self.content_widget)
