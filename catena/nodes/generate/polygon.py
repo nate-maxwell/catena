@@ -55,7 +55,7 @@ class PolygonProcessor(ProcessorNode):
         cv2.fillPoly(canvas, [points], 255)
 
         gray = canvas.astype(numpy.float32) / 255.0
-        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(gray[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class PolygonNode(GeneratorNode):

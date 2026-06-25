@@ -75,7 +75,7 @@ class VoronoiNoiseProcessor(ProcessorNode):
 
         nearest = values[all_indices[indices]].reshape(height, width)
 
-        return numpy.repeat(nearest[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(nearest[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class VoronoiNoiseNode(GeneratorNode):

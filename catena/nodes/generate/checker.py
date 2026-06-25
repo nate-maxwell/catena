@@ -49,7 +49,7 @@ class CheckerProcessor(ProcessorNode):
         checker = (numpy.floor(rx) + numpy.floor(ry)).astype(int) % 2
         checker = checker.astype(numpy.float32)
 
-        return numpy.repeat(checker[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(checker[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class CheckerNode(GeneratorNode):

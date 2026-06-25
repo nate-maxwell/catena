@@ -92,7 +92,7 @@ class PerlinNoiseProcessor(ProcessorNode):
             current_scale = max(current_scale, 2.0)
 
         total /= max_amplitude
-        return numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(total[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class PerlinNoiseNode(GeneratorNode):

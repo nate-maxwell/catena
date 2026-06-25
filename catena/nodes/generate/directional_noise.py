@@ -137,7 +137,7 @@ class DirectionalNoiseProcessor(ProcessorNode):
         if fibers.max() > 0:
             fibers /= fibers.max()
 
-        return numpy.repeat(fibers[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(fibers[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class DirectionalNoiseNode(GeneratorNode):

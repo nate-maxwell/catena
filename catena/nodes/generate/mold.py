@@ -181,7 +181,7 @@ class MoldProcessor(ProcessorNode):
         result -= speck * self.grunge * 0.15
 
         result = numpy.clip(result, 0.0, 1.0)
-        return numpy.repeat(result[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(result[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class MoldNode(GeneratorNode):

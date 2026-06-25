@@ -74,7 +74,7 @@ class FibersProcessor(ProcessorNode):
                 result, matrix, (width, height), borderMode=cv2.BORDER_WRAP
             )
 
-        return numpy.repeat(result[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(result[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class FibersNode(GeneratorNode):

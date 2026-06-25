@@ -35,7 +35,7 @@ class WhiteNoiseProcessor(ProcessorNode):
         rng = numpy.random.default_rng(self.seed)
 
         gray = rng.random((height, width), dtype=numpy.float32)
-        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(gray[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class WhiteNoiseNode(GeneratorNode):

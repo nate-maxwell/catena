@@ -76,7 +76,7 @@ class CellsProcessor(ProcessorNode):
         if self.invert:
             min_dist = 1.0 - min_dist
 
-        return numpy.repeat(min_dist[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(min_dist[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class CellsNode(GeneratorNode):

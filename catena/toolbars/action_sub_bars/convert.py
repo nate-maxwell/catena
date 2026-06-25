@@ -1,7 +1,6 @@
 from PySide6TK import QtWidgets
 from PySide6TK import Resources
 
-from catena.nodes.graph_gui import GuiGraphView
 from catena.toolbars import actions
 from catena.toolbars.action_sub_bars.base import ActionToolbar
 
@@ -17,8 +16,15 @@ class ConvertToolbar(ActionToolbar):
 
         self.add_toolbar_separator(12)
 
-        self.add_action_button("H2AO", actions.ConvertActions.action_h2ao_node)
-        self.add_action_button("H2N", actions.ConvertActions.action_h2m_node)
+        self.add_action_button(
+            "Height\nto\nAO", actions.ConvertActions.action_h2ao_node
+        )
+        self.add_action_button(
+            "Vec4\nto\nNormal", actions.ConvertActions.action_h2m_node
+        )
+        self.add_action_button(
+            "Normal\nto\nVec4", actions.ConvertActions.action_normal_to_vec4_node
+        )
 
         self.add_toolbar_separator(12)
 

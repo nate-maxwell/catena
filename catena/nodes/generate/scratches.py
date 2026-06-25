@@ -157,7 +157,7 @@ class ScratchesProcessor(ProcessorNode):
                     local_width,
                 )
 
-        return numpy.repeat(canvas[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(canvas[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class ScratchesNode(GeneratorNode):

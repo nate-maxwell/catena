@@ -17,6 +17,7 @@ from catena.nodes.convert.height_to_ao import HeightToAONode
 from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.int_to_float import IntToFloatNode
 from catena.nodes.convert.int_to_vec4 import IntToVec4Node
+from catena.nodes.convert.normal_to_vec4 import NormalToVector4Node
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
@@ -235,6 +236,7 @@ class GuiGraphView(GraphView):
         self.register_node("Convert", AppendNode)
         self.register_node("Convert", HeightToAONode)
         self.register_node("Convert", HeightToNormalNode)
+        self.register_node("Convert", NormalToVector4Node)
         self.register_node("Convert", SplitNode)
 
         self.register_node("Convert", IntToFloatNode)

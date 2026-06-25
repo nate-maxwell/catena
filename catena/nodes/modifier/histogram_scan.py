@@ -51,7 +51,7 @@ class HistogramScanProcessor(ProcessorNode):
         high_fade = numpy.clip((high - luminance) / (half_width + epsilon), 0.0, 1.0)
         mask = numpy.minimum(low_fade, high_fade).astype(numpy.float32)
 
-        return numpy.repeat(mask[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(mask[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class HistogramScanNode(CatenaNode):

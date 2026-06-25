@@ -71,7 +71,7 @@ class BNWSpotsProcessor(ProcessorNode):
                     cv2.circle(canvas, (px, py), self.size, int(color), -1)
 
         gray = canvas.astype(numpy.float32) / 255.0
-        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(gray[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class BNWSpotsNode(GeneratorNode):

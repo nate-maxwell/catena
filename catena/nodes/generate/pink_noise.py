@@ -63,7 +63,7 @@ class PinkNoiseProcessor(ProcessorNode):
         if result.max() > 0.0:
             result /= result.max()
 
-        return numpy.repeat(result[:, :, None], 3, axis=2)
+        return numpy.repeat(result[:, :, None], 4, axis=2)
 
 
 class PinkNoiseNode(GeneratorNode):

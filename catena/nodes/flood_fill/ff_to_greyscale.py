@@ -71,7 +71,7 @@ class FloodFillToGreyscaleProcessor(ProcessorNode):
         for v, mapped in value_map.items():
             result[quantized == v] = mapped
 
-        return numpy.repeat(result[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(result[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class FloodFillToGreyscaleNode(CatenaNode):

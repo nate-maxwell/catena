@@ -33,7 +33,7 @@ class ColorProcessor(ProcessorNode):
         r, g, b, _ = self.color
 
         width, height = 512, 512
-        result = numpy.zeros((height, width, 3), dtype=numpy.float32)
+        result = numpy.zeros((height, width, 4), dtype=numpy.float32)
         result[:, :] = (b / 255.0, g / 255.0, r / 255.0)
 
         return result

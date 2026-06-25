@@ -37,8 +37,8 @@ class GradientProcessor(ProcessorNode):
             numpy.ndarray | None: A float32 gradient modifier of shape
                 (width, height, 3) with values in [0, 1].
         """
-        r_a, g_a, b_a, _ = self.color_a
-        r_b, g_b, b_b, _ = self.color_b
+        r_a, g_a, b_a, a_a = self.color_a
+        r_b, g_b, b_b, a_b = self.color_b
 
         width = preferences.Preferences().general_preferences.texture_resolution
         height = width
@@ -56,8 +56,8 @@ class GradientProcessor(ProcessorNode):
         t = (projection / max_extent + 1.0) / 2.0
         t = numpy.clip(t, 0.0, 1.0)
 
-        color_a = numpy.array([b_a, g_a, r_a], dtype=numpy.float32) / 255.0
-        color_b = numpy.array([b_b, g_b, r_b], dtype=numpy.float32) / 255.0
+        color_a = numpy.array([b_a, g_a, r_a, a_a], dtype=numpy.float32) / 255.0
+        color_b = numpy.array([b_b, g_b, r_b, a_b], dtype=numpy.float32) / 255.0
 
         result = (
             color_a[None, None, :] * (1 - t[:, :, None])

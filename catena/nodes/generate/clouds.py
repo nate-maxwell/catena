@@ -97,7 +97,7 @@ class CloudsProcessor(ProcessorNode):
         total /= max_amplitude
         total = numpy.clip((total - 0.5) * self.contrast + 0.5, 0.0, 1.0)
 
-        return numpy.repeat(total[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(total[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class CloudsNode(GeneratorNode):

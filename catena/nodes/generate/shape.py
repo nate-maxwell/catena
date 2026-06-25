@@ -71,7 +71,7 @@ class ShapeProcessor(ProcessorNode):
 
         generator = generators.get(self.shape, self._generate_circle)
         result = numpy.clip(generator(rx, ry, scale), 0.0, 1.0)
-        return numpy.repeat(result[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(result[:, :, None], 4, axis=2).astype(numpy.float32)
 
     @staticmethod
     def _generate_square(

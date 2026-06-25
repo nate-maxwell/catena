@@ -41,7 +41,7 @@ class ThresholdProcessor(ProcessorNode):
         gray = image.mean(axis=2)
         _, mask = cv2.threshold(gray, threshold, 1.0, mode)
 
-        return numpy.repeat(mask[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(mask[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class ThresholdNode(CatenaNode):

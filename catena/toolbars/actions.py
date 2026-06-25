@@ -18,6 +18,7 @@ from catena.nodes.convert.height_to_ao import HeightToAONode
 from catena.nodes.convert.height_to_normal import HeightToNormalNode
 from catena.nodes.convert.int_to_float import IntToFloatNode
 from catena.nodes.convert.int_to_vec4 import IntToVec4Node
+from catena.nodes.convert.normal_to_vec4 import NormalToVector4Node
 from catena.nodes.convert.split import SplitNode
 from catena.nodes.file.read import ReadNode
 from catena.nodes.file.write import WriteNode
@@ -178,6 +179,10 @@ class ConvertActions(object):
     @classmethod
     def action_float_to_vec4_node(cls) -> None:
         add_to_focussed(FloatToVec4Node)
+
+    @classmethod
+    def action_normal_to_vec4_node(cls) -> None:
+        add_to_focussed(NormalToVector4Node)
 
 
 class ModifierActions(object):

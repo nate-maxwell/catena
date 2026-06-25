@@ -71,7 +71,7 @@ class BevelProcessor(ProcessorNode):
 
         height_field = (height_field + 1.0) * 0.5
 
-        return numpy.repeat(height_field[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(height_field[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class BevelNode(CatenaNode):

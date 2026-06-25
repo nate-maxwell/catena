@@ -57,7 +57,7 @@ class BlueNoiseProcessor(ProcessorNode):
             result /= result.max()
 
         gray = result.astype(numpy.float32)
-        return numpy.repeat(gray[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(gray[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class BlueNoiseNode(GeneratorNode):

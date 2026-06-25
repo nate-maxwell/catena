@@ -42,15 +42,24 @@ class HSVProcessor(ProcessorNode):
         if image is None:
             return None
 
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        has_alpha = image.shape[2] == 4
+        alpha = image[:, :, 3:] if has_alpha else None
+        bgr = image[:, :, :3]
+
+        hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
 
         hsv[..., 0] = (hsv[..., 0] + self.hue_shift * 2.0) % 360.0
         hsv[..., 1] = numpy.clip(hsv[..., 1] * self.saturation, 0.0, 1.0)
         hsv[..., 2] = numpy.clip(hsv[..., 2] * self.value, 0.0, 1.0)
 
-        return cv2.cvtColor(hsv.astype(numpy.float32), cv2.COLOR_HSV2BGR).astype(
+        result = cv2.cvtColor(hsv.astype(numpy.float32), cv2.COLOR_HSV2BGR).astype(
             numpy.float32
         )
+
+        if has_alpha:
+            result = numpy.concatenate([result, alpha], axis=2)
+
+        return result
 
 
 class HSVNode(CatenaNode):

@@ -73,7 +73,7 @@ class EdgeDetectProcessor(ProcessorNode):
         if self.invert:
             edges = 1.0 - edges
 
-        return numpy.repeat(edges[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(edges[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class EdgeDetectNode(CatenaNode):

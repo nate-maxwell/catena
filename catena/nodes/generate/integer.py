@@ -35,7 +35,7 @@ class IntegerProcessor(ProcessorNode):
         height = width
 
         value = numpy.clip(self.value / 255.0, 0.0, 1.0)
-        return numpy.full((height, width, 3), value, dtype=numpy.float32)
+        return numpy.full((height, width, 4), value, dtype=numpy.float32)
 
 
 class IntegerNode(CatenaNode):

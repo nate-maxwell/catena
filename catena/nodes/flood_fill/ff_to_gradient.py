@@ -80,7 +80,7 @@ class FloodFillToGradientProcessor(ProcessorNode):
                 normalized = (full_projection[mask] - proj_min) / proj_range
                 result[mask] = numpy.clip(normalized, 0.0, 1.0)
 
-        return numpy.repeat(result[:, :, None], 3, axis=2).astype(numpy.float32)
+        return numpy.repeat(result[:, :, None], 4, axis=2).astype(numpy.float32)
 
 
 class FloodFillToGradientNode(CatenaNode):

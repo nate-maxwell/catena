@@ -43,14 +43,14 @@ class FloodFillToRandomColorProcessor(ProcessorNode):
         unique_values = unique_values[unique_values > 0]
 
         if len(unique_values) == 0:
-            return numpy.zeros((*source.shape, 3), dtype=numpy.float32)
+            return numpy.zeros((*source.shape, 4), dtype=numpy.float32)
 
         rng = numpy.random.default_rng(self.seed)
-        colors = rng.random((len(unique_values), 3)).astype(numpy.float32)
+        colors = rng.random((len(unique_values), 4)).astype(numpy.float32)
         color_map = dict(zip(unique_values.tolist(), colors))
 
         height, width = source.shape[:2]
-        result = numpy.zeros((height, width, 3), dtype=numpy.float32)
+        result = numpy.zeros((height, width, 4), dtype=numpy.float32)
 
         for v, color in color_map.items():
             mask = quantized == v
