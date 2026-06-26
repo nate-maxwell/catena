@@ -11,6 +11,7 @@ from catena import namespace
 from catena import output_log
 from catena import shortcuts
 from catena.preferences import menu as preferences_menu
+from catena.plugins import dialog
 
 if TYPE_CHECKING:
     from catena.client import CatenaEditor
@@ -61,6 +62,7 @@ class ClientWindowToolbar(QtWrappers.Toolbar):
             "Settings",
             lambda: preferences_menu.show_preferences_widget(self.parent()),
         )
+        self.add_menu_command(menu, "Plugins", dialog.show_plugins_menu)
 
     def _view_section(self) -> None:
         menu = self.add_menu("View")

@@ -53,7 +53,7 @@ class LogWidget(QtWidgets.QWidget):
 class LogMainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
-        super().__init__(parent)
+        super().__init__(parent, QtCore.Qt.WindowType.WindowStaysOnTopHint)
         self._log_widget = LogWidget()
         self.setCentralWidget(self._log_widget)
         self.resize(700, 450)

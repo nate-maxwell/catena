@@ -16,6 +16,7 @@ CATENA_APPDATA_PATH.mkdir(parents=True, exist_ok=True)
 
 CATENA_PREFERENCES_PATH = CATENA_APPDATA_PATH / "Preferences.json"
 CATENA_SESSION_DATA_PATH = CATENA_APPDATA_PATH / "SessionData.json"
+CATENA_PLUGIN_RECORD_PATH = CATENA_APPDATA_PATH / "PluginRecord.json"
 
 CATENA_FILE_SUFFIX = ".cg"
 INITIAL_CATENA_FILE = CATENA_APPDATA_PATH / f"__catena_initial__{CATENA_FILE_SUFFIX}"
@@ -24,3 +25,11 @@ INITIAL_CATENA_FILE = CATENA_APPDATA_PATH / f"__catena_initial__{CATENA_FILE_SUF
 
 STATUS_IDLE = "Catena Engine Running..."
 STATUS_PREFERENCES_UPDATING = "Updating Preferences..."
+
+# -----Plugins-----------------------------------------------------------------
+
+BUILT_IN_PLUGINS_PATH = Path(__file__).parent.parent / "plugins"
+"""The directory containing plugins shipped with the program."""
+
+PLUGINS_ENV_VAR = "CATENA_PLUGIN_PATHS"
+"""The environ var checked for user-implemented plugins."""

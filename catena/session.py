@@ -92,6 +92,6 @@ class SessionData(object):
 
 
 def initialize() -> None:
-    """Call on startup to ensure the singletons are loaded."""
-    _ = SessionData()
+    """Call on startup to ensure the singleton is loaded."""
+    SessionData()
     logger.info("Session system initialized")

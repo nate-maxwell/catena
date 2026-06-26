@@ -15,11 +15,12 @@ from catena.panes.properties import PropertiesPane
 from catena.panes.resize import split_horizontal
 from catena.panes.resize import split_vertical
 from catena.panes.tex_viewer.tex_viewport_pane import TexViewportPane
+from catena.plugins import plugin_record
 from catena.preferences import preferences
+from catena.toolbars import actions
 from catena.toolbars.actions_toolbar import EditorActionToolbar
 from catena.toolbars.client_toolbar import ClientWindowToolbar
 from catena.toolbars.status_bar import StatusBar
-from catena.toolbars import actions
 
 logger = logging.getLogger(__name__)
 
@@ -46,9 +47,7 @@ class CatenaEditor(QtWrappers.MainWindow):
             min_size=(800, 600),
             icon_path=resources.ICON_CATENA,
         )
-        preferences.initialize()
-        session.initialize()
-        shortcuts.ShortcutManager(self)
+        self._initialize_singleton_subsystems()
 
         options = QtWidgets.QMainWindow.DockOption
         self.setDockOptions(
@@ -62,6 +61,13 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._restore_window_state()
         QtCore.QTimer.singleShot(0, self.pane_node_graph.load_previous_graph)
         logger.info("-" * 30)
+
+    def _initialize_singleton_subsystems(self) -> None:
+        """Ensures all the singleton classes for "global" data are loaded."""
+        preferences.initialize()
+        plugin_record.initialize()
+        session.initialize()
+        shortcuts.ShortcutManager(self)
 
     def _create_widgets(self) -> None:
         self.pane_object_viewport = ObjViewportPane(self)
