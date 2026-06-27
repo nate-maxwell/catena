@@ -13,6 +13,10 @@ _editor_actions_toolbar: EditorActionToolbar | None = None
 
 
 def init_actions_toolbar_ref(toolbar: EditorActionToolbar | None = None) -> None:
+    """
+    Used by the client at startup to inject the actions toolbar which manages all
+    node category and button toolbars.
+    """
     global _editor_actions_toolbar
     if toolbar is None:
         return
