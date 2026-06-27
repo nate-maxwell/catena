@@ -84,6 +84,7 @@ class CatenaEditor(QtWrappers.MainWindow):
 
         self.shortcut_toolbar = ClientWindowToolbar(self)
         self.editor_toolbar = EditorActionToolbar(self)
+        graph_api.init_actions_toolbar_ref(self.editor_toolbar)
         self.status_bar = StatusBar(self)
 
     def _create_layouts(self) -> None:

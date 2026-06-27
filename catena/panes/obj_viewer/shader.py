@@ -1,4 +1,4 @@
-import math
+import std_math_nodes
 from pathlib import Path
 
 import OpenGL.GL as gl
@@ -71,7 +71,9 @@ def load_obj(path: Path) -> tuple[list[float], list[int]]:
                     computed_normals[idx][1] += ny
                     computed_normals[idx][2] += nz
         for normal in computed_normals:
-            length = math.sqrt(normal[0] ** 2 + normal[1] ** 2 + normal[2] ** 2)
+            length = std_math_nodes.sqrt(
+                normal[0] ** 2 + normal[1] ** 2 + normal[2] ** 2
+            )
             if length > 0.0:
                 normal[0] /= length
                 normal[1] /= length
@@ -164,7 +166,9 @@ def compute_tangents(interleaved: list[float], indices: list[int]) -> list[float
     for vertex_index in range(vertex_count):
         vertex_data = interleaved[vertex_index * 8 : vertex_index * 8 + 8]
         tangent = tangents[vertex_index]
-        length = math.sqrt(tangent[0] ** 2 + tangent[1] ** 2 + tangent[2] ** 2)
+        length = std_math_nodes.sqrt(
+            tangent[0] ** 2 + tangent[1] ** 2 + tangent[2] ** 2
+        )
         if length > 0.0:
             tangent = [component / length for component in tangent]
         else:

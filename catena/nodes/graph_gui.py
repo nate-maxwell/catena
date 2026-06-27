@@ -208,6 +208,9 @@ class GuiGraphView(GraphView):
             self.add_node(node, data[2].x(), data[2].y())
 
     def add_node_to_center(self, node: CatenaNode) -> None:
+        print(
+            "DEPRECATION WARNING - add_node_to_center should be removed after node to plugin migration!"
+        )
         coords = self.view_center()
         self.add_node(node=node, x=coords.x(), y=coords.y())
 
@@ -301,7 +304,7 @@ class GuiGraphView(GraphView):
         self.register_node("Modifier", ThresholdNode)
 
     def _register_math_nodes(self) -> None:
-        logger.info("Registering math nodes...")
+        logger.info("Registering std_math_nodes nodes...")
         self.register_node("Math", AddNode)
         self.register_node("Math", ArctangentNode)
         self.register_node("Math", CeilNode)

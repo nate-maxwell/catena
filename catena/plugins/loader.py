@@ -23,11 +23,15 @@ def _run_startup(plugin_path: Path) -> None:
         spec = importlib.util.spec_from_file_location(
             f"{plugin_path.name}.startup", startup
         )
+        if spec is None or spec.loader is None:
+            raise ImportError(f"Could not load startup module from {startup}")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         logger.info(f"Ran startup.py for plugin: {plugin_path.name}")
     except Exception as e:
-        logger.error(f"Failed to run startup.py for plugin {plugin_path.name}: {e}")
+        logger.exception(
+            f"Failed to run startup.py for plugin {plugin_path.name}: {e}"
+        )
 
 
 def _extend_path_to_plugin(plugin_path: Path) -> None:

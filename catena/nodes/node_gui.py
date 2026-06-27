@@ -110,7 +110,7 @@ class CatenaNode(BaseNode):
             return
         self.remove_port(port)
 
-    def get_field_value(self, name: str) -> object:
+    def get_field_value(self, name: str) -> Any:
         """
         Return the current value of a field. If the field is promoted and
         its port is connected, returns the mean of the upstream image instead.

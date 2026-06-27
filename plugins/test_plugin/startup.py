@@ -1,1 +1,1 @@
-print("This should be printed on startup")
+print("This text should print on startup...")
