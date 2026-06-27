@@ -6,6 +6,7 @@ from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
+import catena.plugins.loader
 from catena import resources
 from catena import session
 from catena import shortcuts
@@ -61,6 +62,11 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._restore_window_state()
         QtCore.QTimer.singleShot(0, self.pane_node_graph.load_previous_graph)
         logger.info("-" * 30)
+
+        # Although not strictly necessary, plugin loading should happen after
+        # everything else is initialized so that any references to existing
+        # systems or widgets is valid.
+        catena.plugins.loader.load_plugins()
 
     def _initialize_singleton_subsystems(self) -> None:
         """Ensures all the singleton classes for "global" data are loaded."""
