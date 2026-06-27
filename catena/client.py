@@ -7,6 +7,7 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 import catena.plugins.loader
+from catena.api import graph_api
 from catena import resources
 from catena import session
 from catena import shortcuts
@@ -18,7 +19,6 @@ from catena.panes.resize import split_vertical
 from catena.panes.tex_viewer.tex_viewport_pane import TexViewportPane
 from catena.plugins import plugin_record
 from catena.preferences import preferences
-from catena.toolbars import actions
 from catena.toolbars.actions_toolbar import EditorActionToolbar
 from catena.toolbars.client_toolbar import ClientWindowToolbar
 from catena.toolbars.status_bar import StatusBar
@@ -79,7 +79,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         self.pane_object_viewport = ObjViewportPane(self)
         self.pane_texture_viewport = TexViewportPane(self)
         self.pane_node_graph = NodeGraphPane(self)
-        actions.init_graph_pane(self.pane_node_graph)
+        graph_api.init_graph_pane(self.pane_node_graph)
         self.pane_properties = PropertiesPane(self)
 
         self.shortcut_toolbar = ClientWindowToolbar(self)

@@ -11,6 +11,7 @@ need to be invoked independent of the shelves.
 import broker
 
 from catena import namespace
+from catena.api import add_to_focussed
 from catena.nodes.convert.append import AppendNode
 from catena.nodes.convert.float_to_int import FloatToIntNode
 from catena.nodes.convert.float_to_vec4 import FloatToVec4Node
@@ -86,22 +87,6 @@ from catena.nodes.transform.tile import TileNode
 from catena.nodes.transform.warp import WarpNode
 from catena.nodes.transform.warp_directional import DirectionalWarpNode
 from catena.nodes.transform.warp_vector import VectorWarpNode
-from catena.panes.node_graph.node_graph import NodeGraphPane
-
-_graph_pane: NodeGraphPane | None = None
-
-
-def init_graph_pane(graph_pane: NodeGraphPane | None = None) -> None:
-    global _graph_pane
-    if graph_pane is None:
-        return
-
-    _graph_pane = graph_pane
-
-
-def add_to_focussed(node) -> None:
-    if graph_view := _graph_pane.get_focused_graph():
-        graph_view.add_node_to_center(node())
 
 
 class GraphActions(object):
