@@ -8,6 +8,7 @@ from PySide6TK import QtWrappers
 
 import catena.plugins.loader
 from catena.api import graph_api
+from catena.api import toolbar_api
 from catena import resources
 from catena import session
 from catena import shortcuts
@@ -84,7 +85,7 @@ class CatenaEditor(QtWrappers.MainWindow):
 
         self.shortcut_toolbar = ClientWindowToolbar(self)
         self.editor_toolbar = EditorActionToolbar(self)
-        graph_api.init_actions_toolbar_ref(self.editor_toolbar)
+        toolbar_api.init_actions_toolbar_ref(self.editor_toolbar)
         self.status_bar = StatusBar(self)
 
     def _create_layouts(self) -> None:

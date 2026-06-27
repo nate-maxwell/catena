@@ -1,5 +1,6 @@
 from PySide6TK.Nodes import FieldDefinition
 from PySide6TK.Nodes import FieldType
+from PySide6TK.Nodes import Port
 from PySide6TK.Nodes import PortType
 
 from catena.nodes.data import PortDataType
@@ -16,6 +17,7 @@ __all__ = [
     "FieldType",
     "FIELD_PORT_DATA_TYPES",
     "PortDataType",
+    "Port",
     "PortType",
     "TEXTURE_DATA_TYPES",
 ]
