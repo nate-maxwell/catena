@@ -23,7 +23,6 @@ def add_to_focussed(node: type[CatenaNode]) -> None:
     if graph_view := _graph_pane.get_focused_graph():
         coords = graph_view.view_center()
         graph_view.add_node(node=node(), x=coords.x(), y=coords.y())
-        graph_view.add_node_to_center(node())
 
 
 _editor_actions_toolbar: EditorActionToolbar | None = None

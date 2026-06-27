@@ -175,7 +175,7 @@ class GuiGraphView(GraphView):
             broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())
 
     def _on_context_menu(self, viewport_pos: QtCore.QPoint) -> None:
-        """Overridden from parent to convert names from 'BevelNode' to 'Bevel'."""
+        """Overridden from parent to std_convert_nodes names from 'BevelNode' to 'Bevel'."""
         item = self.itemAt(viewport_pos)
         if item is not None:
             return
@@ -235,7 +235,7 @@ class GuiGraphView(GraphView):
         logger.info("-" * 30)
 
     def _register_convert_nodes(self) -> None:
-        logger.info("Registering convert nodes...")
+        logger.info("Registering std_convert_nodes nodes...")
         self.register_node("Convert", AppendNode)
         self.register_node("Convert", HeightToAONode)
         self.register_node("Convert", HeightToNormalNode)

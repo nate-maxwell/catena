@@ -20,6 +20,4 @@ class ActionToolbar(QtWrappers.Toolbar):
         )
 
     def add_action_button(self, label: str, action: Callable) -> None:
-        self.add_toolbar_command(
-            label, command=lambda: action(), image_path=self.image_path
-        )
+        self.add_toolbar_command(label, command=action, image_path=self.image_path)
