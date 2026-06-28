@@ -78,7 +78,7 @@ class MinimapWidget(QtWidgets.QWidget):
         result.adjust(-40, -40, 40, 40)
         return result
 
-    def _scene_to_mini(self, scene_rect: QtCore.QRectF) -> QtCore.QTransform:
+    def _scene_to_mini(self, scene_rect: QtCore.QRectF) -> QtGui.QTransform:
         """Transform from scene coordinates to minimap widget coordinates."""
         inner = QtCore.QRectF(4, 4, self._WIDTH - 8, self._HEIGHT - 8)
         sx = inner.width() / max(scene_rect.width(), 1)
