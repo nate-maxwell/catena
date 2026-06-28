@@ -1,4 +1,4 @@
-import std_math_nodes
+import math
 
 import numpy
 
@@ -17,7 +17,7 @@ def perspective(
     Returns:
         numpy.ndarray: Column-major 4x4 projection matrix (float32).
     """
-    f = 1.0 / std_math_nodes.tan(std_math_nodes.radians(fov_y_degrees) / 2.0)
+    f = 1.0 / math.tan(math.radians(fov_y_degrees) / 2.0)
     matrix = numpy.zeros((4, 4), dtype=numpy.float32)
     matrix[0, 0] = f / aspect_ratio
     matrix[1, 1] = f
@@ -54,8 +54,8 @@ def rotation_x(angle_degrees: float) -> numpy.ndarray:
     Returns:
         numpy.ndarray: Column-major 4x4 rotation matrix (float32).
     """
-    angle = std_math_nodes.radians(angle_degrees)
-    cos_a, sin_a = std_math_nodes.cos(angle), std_math_nodes.sin(angle)
+    angle = math.radians(angle_degrees)
+    cos_a, sin_a = math.cos(angle), math.sin(angle)
     matrix = numpy.identity(4, dtype=numpy.float32)
     matrix[1, 1] = cos_a
     matrix[1, 2] = -sin_a
@@ -73,8 +73,8 @@ def rotation_y(angle_degrees: float) -> numpy.ndarray:
     Returns:
         numpy.ndarray: Column-major 4x4 rotation matrix (float32).
     """
-    angle = std_math_nodes.radians(angle_degrees)
-    cos_a, sin_a = std_math_nodes.cos(angle), std_math_nodes.sin(angle)
+    angle = math.radians(angle_degrees)
+    cos_a, sin_a = math.cos(angle), math.sin(angle)
     matrix = numpy.identity(4, dtype=numpy.float32)
     matrix[0, 0] = cos_a
     matrix[0, 2] = sin_a
