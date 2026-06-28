@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 class MenuToolbar(QtWrappers.Toolbar):
     def __init__(self, parent: CatenaEditor) -> None:
         self._editor = parent
+        self._menus: dict[str, QtWidgets.QMenu] = {}
         super().__init__("MenuToolbar", parent)
         self.setMinimumHeight(22)
         self.setMaximumHeight(26)
@@ -30,6 +31,15 @@ class MenuToolbar(QtWrappers.Toolbar):
             }
         """)
 
+    def create_menu(self, label: str) -> QtWidgets.QMenu:
+        """Adds a menu using the given label and returns a reference to it."""
+        if label in self._menus:
+            return self._menus[label]
+
+        menu = self.add_menu(label)
+        self._menus[label] = menu
+        return menu
+
     def build(self) -> None:
         self._file_section()
         self._edit_section()
@@ -37,7 +47,7 @@ class MenuToolbar(QtWrappers.Toolbar):
         self._help_section()
 
     def _file_section(self) -> None:
-        menu = self.add_menu("File")
+        menu = self.create_menu("File")
         self.add_menu_command(menu, "New File", lambda: broker.emit(namespace.FILE_NEW))
         self.add_menu_command(
             menu, "Open File", lambda: broker.emit(namespace.FILE_LOAD)
@@ -53,7 +63,7 @@ class MenuToolbar(QtWrappers.Toolbar):
     def _edit_section(self) -> None:
         manager = shortcuts.init_shortcut_manager(self.parent())
 
-        menu = self.add_menu("Edit")
+        menu = self.create_menu("Edit")
         self.add_menu_command(menu, "Undo", lambda: broker.emit(namespace.FILE_UNDO))
         self.add_menu_command(menu, "Redo", lambda: broker.emit(namespace.FILE_REDO))
         self.add_menu_command(menu, "Shortcuts", manager.show_editor)
@@ -65,7 +75,7 @@ class MenuToolbar(QtWrappers.Toolbar):
         self.add_menu_command(menu, "Plugins", dialog.show_plugins_menu)
 
     def _view_section(self) -> None:
-        menu = self.add_menu("View")
+        menu = self.create_menu("View")
         self.add_menu_command(
             menu,
             "Texture Viewport",
@@ -87,5 +97,5 @@ class MenuToolbar(QtWrappers.Toolbar):
         self.add_menu_command(menu, "Output Log", output_log.show_log_window)
 
     def _help_section(self) -> None:
-        menu = self.add_menu("Help")
+        menu = self.create_menu("Help")
         self.add_menu_command(menu, "About", lambda: about.show_about_widget(self))

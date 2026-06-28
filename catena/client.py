@@ -7,6 +7,7 @@ from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
 import catena.plugins.loader
+from catena.api import client_api
 from catena.api import graph_api
 from catena.api import toolbar_api
 from catena import resources
@@ -63,6 +64,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         self._restore_window_state()
         QtCore.QTimer.singleShot(0, self.pane_node_graph.load_previous_graph)
         logger.info("-" * 30)
+        client_api.init_client_ref(self)
 
         # Although not strictly necessary, plugin loading should happen after
         # everything else is initialized so that any references to existing

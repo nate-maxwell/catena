@@ -1,5 +1,6 @@
 from pathlib import Path
 from typing import Callable
+from typing import TYPE_CHECKING
 
 import broker
 from PySide6 import QtWidgets
@@ -11,15 +12,19 @@ from catena.nodes.node import CatenaNode
 from catena.toolbars.menu_toolbar import MenuToolbar
 from catena.toolbars.shelf_toolbar.actions_toolbar import EditorActionToolbar
 
+if TYPE_CHECKING:
+    from catena.client import CatenaEditor
+
 __all__ = [
     "add_node_to_shelf",
     "add_seperator_to_shelf",
     "add_shelf_command",
-    "add_toolbar_menu",
+    "add_menu",
     "add_toolbar_menu_item",
     "set_status",
     "reset_status",
 ]
+
 
 # -----Editor Actions Toolbar--------------------------------------------------
 
@@ -105,14 +110,18 @@ def init_menu_toolbar_ref(toolbar: MenuToolbar | None = None) -> None:
     _menu_toolbar = toolbar
 
 
-def add_toolbar_menu(label: str) -> QtWidgets.QMenu:
+def add_menu(label: str) -> QtWidgets.QMenu:
     """
     Adds a menu to the menu toolbar using the given label.
     Returns the QMenu object that was created.
+
     This QMenu object can be passed into api.add_menu_command to add a callable
     command to this returned submenu.
+
+    If one already exists by the given label, it is returned, otherwise it is
+    created instead.
     """
-    return _menu_toolbar.add_menu(label)
+    return _menu_toolbar.create_menu(label)
 
 
 def add_toolbar_menu_item(
