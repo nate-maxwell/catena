@@ -37,12 +37,12 @@ class ColorNode(api.CatenaNode):
                 produce output from parameters only.
         Returns:
             numpy.ndarray | None: A float32 solid color modifier of shape
-                (512, 512, 3) with values in [0, 1].
+                (512, 512, 4) with values in [0, 1].
         """
         color = self.get_field_value("color")
-        r, g, b, _ = color
+        r, g, b, a = color
         width, height = 512, 512
         result = numpy.zeros((height, width, 4), dtype=numpy.float32)
-        result[:, :] = (b / 255.0, g / 255.0, r / 255.0)
+        result[:, :] = (b / 255.0, g / 255.0, r / 255.0, a / 255.0)
 
         return result
