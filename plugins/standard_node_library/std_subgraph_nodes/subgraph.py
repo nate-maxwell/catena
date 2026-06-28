@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from typing import Optional
 
 import broker
 from PySide6TK import QtWidgets

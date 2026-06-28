@@ -1,6 +1,3 @@
-from typing import Optional
-
-import numpy
 from catena import api
 from std_subgraph_nodes import IMAGE_NODE_COLOR
 
