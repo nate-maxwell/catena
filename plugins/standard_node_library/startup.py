@@ -7,11 +7,16 @@ from std_modifier_nodes import modifier_toolbar
 from std_subgraph_nodes import subgraph_toolbar
 from std_transform_nodes import transform_toolbar
 
-file_toolbar.build_shelf()
-convert_toolbar.build_shelf()
-flood_fill_toolbar.build_shelf()
-generator_toolbar.build_shelf()
-math_toolbar.build_shelf()
-modifier_toolbar.build_shelf()
-subgraph_toolbar.build_shelf()
-transform_toolbar.build_shelf()
+
+def build_standard_toolbars() -> None:
+    file_toolbar.build_shelf()
+    convert_toolbar.build_shelf()
+    flood_fill_toolbar.build_shelf()
+    generator_toolbar.build_shelf()
+    math_toolbar.build_shelf()
+    modifier_toolbar.build_shelf()
+    subgraph_toolbar.build_shelf()
+    transform_toolbar.build_shelf()
+
+
+build_standard_toolbars()
