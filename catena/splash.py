@@ -9,9 +9,11 @@ logger = logging.getLogger(__name__)
 
 class CatenaSplashScreen(QtWidgets.QSplashScreen):
 
-    def __init__(self, pixmap: QtGui.QPixmap) -> None:
+    def __init__(self, pixmap: QtGui.QPixmap, icon: QtGui.QIcon | None = None) -> None:
         super().__init__(pixmap, QtCore.Qt.WindowType.WindowStaysOnTopHint)
         logger.info("Splash screen initialized")
+        if icon is not None:
+            self.setWindowIcon(icon)
         self._left_text = ""
         self._right_text = ""
 

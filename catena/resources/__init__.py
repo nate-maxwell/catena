@@ -1,3 +1,4 @@
+import platform
 from pathlib import Path
 
 _resources_dir = Path(__file__).parent
@@ -5,7 +6,14 @@ _resources_dir = Path(__file__).parent
 # -----Client------------------------------------------------------------------
 
 ICON_CATENA = _resources_dir / "ICON_Catena.png"
+ICON_CATENA_WINDOWS = _resources_dir / "ICON_Catena.ico"
 SPLASH_IMAGE = _resources_dir / "T_Splash.png"
+
+
+def get_window_icon_path() -> Path:
+    if platform.system() == "Windows" and ICON_CATENA_WINDOWS.exists():
+        return ICON_CATENA_WINDOWS
+    return ICON_CATENA
 
 # -----Texture-----------------------------------------------------------------
 

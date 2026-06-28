@@ -48,7 +48,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         super().__init__(
             window_name="Catena",
             min_size=(800, 600),
-            icon_path=resources.ICON_CATENA,
+            icon_path=resources.get_window_icon_path(),
         )
         self._initialize_singleton_subsystems()
 
