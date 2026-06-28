@@ -1,6 +1,8 @@
 import logging
+import json
 
 import broker
+from PySide6 import QtGui
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView
@@ -94,6 +96,51 @@ class GuiGraphView(GraphView):
         node = CatenaNode.active_preview_node
         if node is not None:
             broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())
+
+    def copy_selected(self) -> None:
+        """
+        Copy selected nodes using Catena's registry-aware serializer.
+
+        The base PySide6TK implementation only knows about the graph view's
+        internal node registry, which Catena does not populate. That causes
+        clipboard paste to drop custom nodes silently.
+        """
+        from catena.panes.node_graph import serialize as graph_serialize
+
+        selected_nodes = [
+            item
+            for item in self.graph_scene.selectedItems()
+            if isinstance(item, CatenaNode)
+        ]
+        if not selected_nodes:
+            return
+
+        data = graph_serialize.serialize_nodes(self, selected_nodes)
+        QtGui.QGuiApplication.clipboard().setText(json.dumps(data))
+
+    def paste_clipboard(self, x: float, y: float) -> None:
+        """
+        Paste nodes using Catena's registry-aware deserializer.
+
+        This bypasses the base PySide6TK deserializer, which only consults the
+        graph view's internal registry and therefore cannot resolve Catena's
+        globally registered node classes.
+        """
+        from catena.panes.node_graph import serialize as graph_serialize
+
+        text = QtGui.QGuiApplication.clipboard().text()
+        if not text:
+            return
+
+        try:
+            data = json.loads(text)
+        except json.JSONDecodeError:
+            return
+
+        if "nodes" not in data or not data["nodes"]:
+            return
+
+        graph_serialize.deserialize_nodes(self, data, offset=(x, y))
 
     def _on_context_menu(self, viewport_pos: QtCore.QPoint) -> None:
         """Overridden from parent to std_convert_nodes names from 'BevelNode' to 'Bevel'."""
