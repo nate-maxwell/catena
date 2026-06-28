@@ -10,7 +10,6 @@ from core_utils import regex
 
 from catena import namespace
 from catena.nodes.comment import CatenaCommentBox
-from catena.nodes.file.write import WriteNode
 from catena.nodes.node_gui import CatenaNode
 from catena.nodes.node_registry import NodeRegistry
 
@@ -81,7 +80,7 @@ class GuiGraphView(GraphView):
 
             visited.add(current)
 
-            if isinstance(current, WriteNode):
+            if hasattr(current, "WRITE_NODE_PREVIEW"):
                 current._emit_preview_update()
 
             for output_port in current.output_ports():

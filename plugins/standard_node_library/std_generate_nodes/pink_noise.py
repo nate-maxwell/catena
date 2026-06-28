@@ -2,15 +2,12 @@ from typing import Optional
 
 import numpy
 
-from catena.nodes.generate import IMAGE_NODE_COLOR
 from catena import api
 from std_generate_nodes.generator import GeneratorNode
 
 
 class PinkNoiseNode(GeneratorNode):
     """A node that generates 1/f^exponent colored noise via FFT shaping."""
-
-    _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
         super().__init__(title="Pink Noise")

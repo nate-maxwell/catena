@@ -3,7 +3,6 @@ from typing import Optional
 import numpy
 
 from catena import api
-from catena.nodes.generate import IMAGE_NODE_COLOR
 from std_generate_nodes.generator import GeneratorNode
 
 
@@ -46,8 +45,6 @@ def _value_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarr
 
 class PerlinNoiseNode(GeneratorNode):
     """A node that generates Perlin-style value noise."""
-
-    _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
         super().__init__(title="Perlin Noise")

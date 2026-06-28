@@ -11,9 +11,6 @@ need to be invoked independent of the shelves.
 import broker
 
 from catena import namespace
-from catena.api import add_to_focussed
-from catena.nodes.file.read import ReadNode
-from catena.nodes.file.write import WriteNode
 
 
 class GraphActions(object):
@@ -33,11 +30,3 @@ class GraphActions(object):
     @classmethod
     def action_write_files(cls) -> None:
         broker.emit(namespace.NODE_WRITE_FILE)
-
-    @classmethod
-    def action_read_node(cls) -> None:
-        add_to_focussed(ReadNode)
-
-    @classmethod
-    def action_write_node(cls) -> None:
-        add_to_focussed(WriteNode)

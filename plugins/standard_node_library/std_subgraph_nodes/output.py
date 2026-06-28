@@ -1,6 +1,3 @@
-from typing import Optional
-
-import numpy
 from catena import api
 from std_subgraph_nodes import IMAGE_NODE_COLOR
 
@@ -50,17 +47,3 @@ class GraphOutputNode(api.CatenaNode):
         self.port_in.set_color(api.DATA_TYPE_COLORS[data_type])
 
         super()._on_field_changed(node)
-
-    def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
-    ) -> Optional[numpy.ndarray]:
-        """
-        Pass the input image through as the subgraph output.
-
-        Args:
-            inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
-                containing a float32 image.
-        Returns:
-            numpy.ndarray | None: The subgraph output image.
-        """
-        return next(iter(inputs.values()), None)

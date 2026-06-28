@@ -3,7 +3,7 @@ from typing import Optional
 import numpy
 
 from catena import api
-from catena.nodes.math import IMAGE_NODE_COLOR
+from std_math_nodes import IMAGE_NODE_COLOR
 
 
 class IntegerNode(api.CatenaNode):

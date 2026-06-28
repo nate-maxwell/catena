@@ -27,6 +27,7 @@ class WriteNode(api.CatenaNode):
     """
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
+    WRITE_NODE_PREVIEW = True
 
     def __init__(
         self,

@@ -1,7 +1,6 @@
 from typing import Optional
 
 import numpy
-
 from catena import api
 from std_subgraph_nodes import IMAGE_NODE_COLOR
 
@@ -51,25 +50,3 @@ class GraphInputNode(api.CatenaNode):
         self.port_out.set_color(api.DATA_TYPE_COLORS[data_type])
 
         super()._on_field_changed(node)
-
-    def inject(self, value: Optional[numpy.ndarray]) -> None:
-        """
-        Inject an input value from the outer graph into this subgraph input.
-
-        Args:
-            value (numpy.ndarray | None): The image to inject.
-        """
-        self._injected = value
-
-    def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
-    ) -> Optional[numpy.ndarray]:
-        """
-        Return the injected value from the outer graph.
-
-        Args:
-            inputs (dict[str, numpy.ndarray | None]): Unused.
-        Returns:
-            numpy.ndarray | None: The injected image.
-        """
-        return self._injected

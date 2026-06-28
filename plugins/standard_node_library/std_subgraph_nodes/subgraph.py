@@ -3,22 +3,18 @@ from pathlib import Path
 from typing import Optional
 
 import broker
-import numpy
 from PySide6TK import QtWidgets
 
 from catena import api
 from catena import namespace
-from catena.nodes.subgraph import IMAGE_NODE_COLOR
-from catena.nodes.subgraph.input import GraphInputProcessor
-from catena.nodes.subgraph.output import GraphOutputProcessor
-from catena.nodes.graph_processor import ProcessorGraph
+from std_subgraph_nodes import IMAGE_NODE_COLOR
 
 
 class SubgraphNode(api.CatenaNode):
     """
-    A node that loads and evaluates a subgraph from a .cg file.
-    Input and output ports are created dynamically based on the
-    GraphInputNode and GraphOutputNode nodes found in the subgraph.
+    A node that loads a subgraph from a .cg file and dynamically builds
+    input and output ports based on the GraphInputNode and GraphOutputNode
+    nodes found within it.
     """
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
@@ -26,7 +22,6 @@ class SubgraphNode(api.CatenaNode):
     def __init__(self) -> None:
         self._input_ports: dict[str, object] = {}
         self._output_ports: dict[str, object] = {}
-        self._cached_graph: Optional[ProcessorGraph] = None
         self._cached_filepath: str = ""
         self._graph_name: str = "Subgraph"
         super().__init__(title="Subgraph")
@@ -51,7 +46,6 @@ class SubgraphNode(api.CatenaNode):
         filepath = self.get_field_value("filepath")
         if filepath != self._cached_filepath:
             self._cached_filepath = filepath
-            self._cached_graph = None
             self._rebuild_ports()
         super()._on_field_changed(node)
 
@@ -64,11 +58,10 @@ class SubgraphNode(api.CatenaNode):
             tuple[list[tuple[str, str]], list[tuple[str, str]]]: Input
                 (name, data_type) pairs and output (name, data_type) pairs.
         """
-        filepath = self._cached_filepath
-        if not filepath:
+        if not self._cached_filepath:
             return [], []
 
-        path = Path(filepath)
+        path = Path(self._cached_filepath)
         if not path.exists():
             return [], []
 
@@ -121,36 +114,3 @@ class SubgraphNode(api.CatenaNode):
             self._output_ports[name] = port
 
         self.update()
-
-    def process(
-        self, inputs: dict[str, Optional[numpy.ndarray]]
-    ) -> Optional[numpy.ndarray] | dict[str, Optional[numpy.ndarray]]:
-        filepath = self.get_field_value("filepath")
-
-        if self._cached_graph is None and filepath:
-            path = Path(filepath)
-            if path.exists():
-                self._cached_graph = ProcessorGraph.from_json(path)
-
-        if self._cached_graph is None:
-            return None
-
-        input_processors = self._cached_graph.get_all_nodes_of_type(GraphInputProcessor)
-        for processor in input_processors:
-            processor.inject(inputs.get(processor.name))
-            processor._cached_value = None
-
-        output_processors = self._cached_graph.get_all_nodes_of_type(
-            GraphOutputProcessor
-        )
-
-        if not output_processors:
-            return None
-
-        for processor in self._cached_graph._nodes.values():
-            processor._cached_value = None
-
-        if len(output_processors) == 1:
-            return output_processors[0].evaluate()
-
-        return {processor.name: processor.evaluate() for processor in output_processors}
