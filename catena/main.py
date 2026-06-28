@@ -7,7 +7,6 @@ from PySide6TK import QtCore
 from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 
-from catena import appdata
 from catena import output_log
 from catena import resources
 from catena.client import CatenaEditor
