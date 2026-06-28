@@ -139,7 +139,7 @@ def add_toolbar_menu_item(
         cmd (Callable): The callable command to invoke on selection.
     Example:
         >>> from catena import api
-        >>> menu = api.add_toolbar_menu("My Menu")
+        >>> menu = api.add_menu("My Menu")
         >>> api.add_toolbar_menu_item(menu, "Print", lambda: print("hello world"))
     """
     _menu_toolbar.add_menu_command(submenu, cmd_name, cmd)
