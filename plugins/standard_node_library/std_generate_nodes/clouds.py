@@ -127,14 +127,13 @@ class CloudsNode(GeneratorNode):
         total = numpy.zeros((height, width), dtype=numpy.float32)
         amplitude = 1.0
         max_amplitude = 0.0
-        current_scale = self.scale
 
+        current_scale = scale
         for i in range(octaves):
-            total += _value_noise((height, width), scale, seed + i) * amplitude
+            total += _value_noise((height, width), current_scale, seed + i) * amplitude
             max_amplitude += amplitude
             amplitude *= persistence
-            current_scale *= 0.5
-            current_scale = max(scale, 2.0)
+            current_scale = max(current_scale * 0.5, 2.0)
 
         total /= max_amplitude
         total = numpy.clip((total - 0.5) * contrast + 0.5, 0.0, 1.0)

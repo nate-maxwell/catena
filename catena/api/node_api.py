@@ -7,9 +7,9 @@ from catena.nodes.data import PortDataType
 from catena.nodes.data import DATA_TYPE_COLORS
 from catena.nodes.data import FIELD_PORT_DATA_TYPES
 from catena.nodes.data import TEXTURE_DATA_TYPES
-from catena.nodes.node_registry import NodeRegistry
+from catena.nodes.registry import NodeRegistry
 
-from catena.nodes.node_gui import CatenaNode
+from catena.nodes.node import CatenaNode
 
 __all__ = [
     "CatenaNode",

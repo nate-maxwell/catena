@@ -13,7 +13,7 @@ from catena import file
 from catena import namespace
 from catena import session
 from catena import shortcuts
-from catena.nodes.graph_gui import GuiGraphView
+from catena.nodes.graph import GuiGraphView
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.preferences.preferences import Preferences

@@ -10,8 +10,8 @@ from core_utils import regex
 
 from catena import namespace
 from catena.nodes.comment import CatenaCommentBox
-from catena.nodes.node_gui import CatenaNode
-from catena.nodes.node_registry import NodeRegistry
+from catena.nodes.node import CatenaNode
+from catena.nodes.registry import NodeRegistry
 
 logger = logging.getLogger(__name__)
 

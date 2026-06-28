@@ -1,4 +1,4 @@
-from catena.nodes.node_gui import CatenaNode
+from catena.nodes.node import CatenaNode
 from catena.panes.node_graph.node_graph import NodeGraphPane
 
 __all__ = ["add_to_focussed"]

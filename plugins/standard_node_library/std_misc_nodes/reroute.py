@@ -14,7 +14,6 @@ class RerouteNode(api.CatenaNode):
     def __init__(self) -> None:
         self._HEADER_HEIGHT = 5
         super().__init__(title="", width=20, body_height=20)
-        self._processor = RerouteProcessor()
 
     def _build(self) -> None:
         self.port_in = self.add_port(api.PortType.INPUT, "")

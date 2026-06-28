@@ -2,7 +2,7 @@ from collections import defaultdict
 from typing import Any
 from typing import Optional
 
-from catena.nodes.node_gui import CatenaNode
+from catena.nodes.node import CatenaNode
 
 
 class NodeRegistry(object):
@@ -48,7 +48,7 @@ class NodeRegistry(object):
         data = {}
 
         for category, nodes in self._node_table.items():
-            value = [node for node in list(nodes)]
+            value = sorted(nodes, key=lambda n: n.__name__)  # alphabetically sorted
             data[category] = value
 
         return data

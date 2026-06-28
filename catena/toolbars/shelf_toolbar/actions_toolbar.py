@@ -7,7 +7,7 @@ from PySide6TK import QtWrappers
 from PySide6TK import Resources
 
 from catena import api
-from catena.nodes.node_gui import CatenaNode
+from catena.nodes.node import CatenaNode
 from catena.toolbars.shelf_toolbar.base import ActionToolbar
 from catena.toolbars.shelf_toolbar.switcher import ToolbarSwitcher
 
