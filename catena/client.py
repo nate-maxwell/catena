@@ -20,7 +20,7 @@ from catena.panes.resize import split_vertical
 from catena.panes.tex_viewer.tex_viewport_pane import TexViewportPane
 from catena.plugins import plugin_record
 from catena.preferences import preferences
-from catena.toolbars.actions_toolbar import EditorActionToolbar
+from catena.toolbars.shelf_toolbar.actions_toolbar import EditorActionToolbar
 from catena.toolbars.client_toolbar import ClientWindowToolbar
 from catena.toolbars.status_bar import StatusBar
 

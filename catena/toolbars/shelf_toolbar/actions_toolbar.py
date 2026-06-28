@@ -8,8 +8,8 @@ from PySide6TK import Resources
 
 from catena import api
 from catena.nodes.node_gui import CatenaNode
-from catena.toolbars.action_sub_bars.base import ActionToolbar
-from catena.toolbars.action_sub_bars.switcher import ToolbarSwitcher
+from catena.toolbars.shelf_toolbar.base import ActionToolbar
+from catena.toolbars.shelf_toolbar.switcher import ToolbarSwitcher
 
 logger = logging.getLogger(__name__)
 

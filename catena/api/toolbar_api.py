@@ -4,7 +4,7 @@ from typing import Callable
 from PySide6TK import Resources
 
 from catena.nodes.node_gui import CatenaNode
-from catena.toolbars.actions_toolbar import EditorActionToolbar
+from catena.toolbars.shelf_toolbar.actions_toolbar import EditorActionToolbar
 
 __all__ = ["add_node_to_toolbar", "add_seperator_to_toolbar", "add_toolbar_command"]
 
