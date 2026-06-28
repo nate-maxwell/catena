@@ -26,7 +26,7 @@ from catena.toolbars.status_bar import StatusBar
 
 logger = logging.getLogger(__name__)
 
-WINDOW_STATE_VERSION = 9
+WINDOW_STATE_VERSION = 10
 """
 A version number representing the initial pane structure.
 This should be incremented whenever a new pane is added to the default layout.
@@ -110,9 +110,9 @@ class CatenaEditor(QtWrappers.MainWindow):
         self.split_horizontal(self.pane_object_viewport, self.pane_node_graph, 0.3)
         self.split_vertical(self.pane_object_viewport, self.pane_texture_viewport, 0.5)
 
-        self.addToolBar(self.menu_toolbar)
-        self.addToolBarBreak()
-        self.addToolBar(self.editor_toolbar)
+        self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, self.menu_toolbar)
+        self.addToolBar(QtCore.Qt.ToolBarArea.TopToolBarArea, self.editor_toolbar)
+        self.insertToolBarBreak(self.editor_toolbar)
         self.addToolBar(QtCore.Qt.ToolBarArea.BottomToolBarArea, self.status_bar)
 
     def _initialize_shortcut_manager(self) -> None:

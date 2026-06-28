@@ -7,6 +7,8 @@ from catena import appdata
 from catena.plugins import plugin_record
 from catena.plugins.descriptor import PluginDescriptor
 
+CONFIG_FILE = "plugin.json"
+
 
 def discover_client_plugins() -> list[PluginDescriptor]:
     """Returns a list of plugin descriptions for all built-in Catena plugins."""
@@ -19,7 +21,7 @@ def discover_client_plugins() -> list[PluginDescriptor]:
         if not plugin_path.is_dir():
             continue
 
-        cfg = Path(plugin_path, "config.json")
+        cfg = Path(plugin_path, CONFIG_FILE)
         if cfg.exists():
             cfg_data = core_utils.structured.import_data_from_json(cfg)
             if cfg_data is None:
@@ -43,7 +45,7 @@ def discover_user_plugins() -> list[PluginDescriptor]:
         if not plugin_path.is_dir():
             continue
 
-        cfg = plugin_path / "config.json"
+        cfg = plugin_path / CONFIG_FILE
         if cfg.exists():
             cfg_data = core_utils.structured.import_data_from_json(cfg)
             if cfg_data is None:
