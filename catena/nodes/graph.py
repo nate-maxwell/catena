@@ -7,6 +7,7 @@ from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import GraphView
 from PySide6TK.Nodes import Port
+from PySide6TK.Nodes import PortType
 from PySide6TK.Nodes import Wire
 from core_utils import regex
 
@@ -176,3 +177,55 @@ class GuiGraphView(GraphView):
         elif data[0] == "node":
             node = data[1]()
             self.add_node(node, data[2].x(), data[2].y())
+
+    def _open_drop_menu(
+        self,
+        viewport_pos: QtCore.QPoint,
+        scene_pos: QtCore.QPointF,
+        drag_port: Port,
+        reverse: bool,
+    ) -> None:
+        """
+        Open the node-pick menu when a wire is dragged off a port.
+
+        The base GraphView implementation uses ``self.node_registry``. Catena
+        registers nodes globally, so we mirror the background context menu
+        here to keep drop-spawn behavior consistent.
+        """
+        menu = QtWidgets.QMenu(self)
+
+        for category, node_types in sorted(NodeRegistry().to_dict().items()):
+            submenu = menu.addMenu(category)
+            for node_type in node_types:
+                snake_case = regex.pascal_to_snake(node_type.__name__)
+                name = snake_case.replace("_", " ").replace("node", "")
+                action = submenu.addAction(name.title())
+                action.setData(node_type)
+
+        chosen = menu.exec(self.viewport().mapToGlobal(viewport_pos))
+        if chosen is None:
+            return
+
+        node_type = chosen.data()
+        node = node_type()
+        self.add_node(node, scene_pos.x(), scene_pos.y())
+
+        candidate_ports = (
+            node.input_ports()
+            if drag_port.port_type == PortType.OUTPUT
+            else node.output_ports()
+        )
+        if not candidate_ports:
+            return
+
+        target = candidate_ports[0]
+        if reverse:
+            source, target_final = target, drag_port
+        else:
+            source, target_final = drag_port, target
+
+        if target_final.port_type == PortType.INPUT:
+            for wire in list(target_final.wires):
+                self.destroy_wire(wire)
+
+        self.connect_ports(source, target_final)
