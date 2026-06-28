@@ -8,6 +8,8 @@ from typing import Any
 
 from PySide6TK.Nodes.node import BaseNode
 
+from catena.api.node_api import node_registry_to_dict
+
 if TYPE_CHECKING:
     from PySide6TK.Nodes.graph import GraphView
 
@@ -127,9 +129,16 @@ def deserialize_nodes(
 
     registry = {
         node_type.__name__: node_type
-        for node_types in view.node_registry.values()
+        for node_types in node_registry_to_dict().values()
         for node_type in node_types
     }
+    registry.update(
+        {
+            node_type.__name__: node_type
+            for node_types in view.node_registry.values()
+            for node_type in node_types
+        }
+    )
     registry[view.comment_type.__name__] = view.comment_type
 
     nodes_by_id: dict[str, BaseNode] = {}
@@ -217,7 +226,7 @@ def deserialize(view: GraphView, data: dict[str, Any]) -> None:
         view (GraphView): The graph view to load into.
         data (dict[str, Any]): Serialized graph data from ``serialize``.
     """
-    view.graph_scene.clear()
+    view.clear()
     deserialize_nodes(view, data, offset=None)
 
 
