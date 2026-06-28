@@ -1,5 +1,5 @@
 import ctypes
-import std_math_nodes
+import math
 from pathlib import Path
 from typing import Optional
 
@@ -37,7 +37,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._height_path: Path = resources.SHD_DEFAULT_H
         self._environment_path: Path = resources.HDR_DEFAULT
 
-        # texture std_math_nodes values
+        # texture math values
         self._index_count: int = 0
         self._vao: int = 0
         self._vertex_buffer: int = 0
@@ -51,7 +51,7 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._height_texture: int = 0
         self._environment_strength: float = 1.0
 
-        # viewport std_math_nodes values
+        # viewport math values
         self._displacement_scale: float = 0.0
         self._rotation_x: float = -20.0
         self._rotation_y: float = 30.0
@@ -351,9 +351,9 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         normal_matrix = matrix.normal_matrix(model)
 
         camera_position = numpy.array([0.0, 0.0, self._distance], dtype=numpy.float32)
-        light_yaw = std_math_nodes.radians(self._light_azimuth)
+        light_yaw = math.radians(self._light_azimuth)
         light_direction = numpy.array(
-            [std_math_nodes.sin(light_yaw), -1.0, std_math_nodes.cos(light_yaw)],
+            [math.sin(light_yaw), -1.0, math.cos(light_yaw)],
             dtype=numpy.float32,
         )
         light_color = numpy.array([3.0, 3.0, 3.0], dtype=numpy.float32)
