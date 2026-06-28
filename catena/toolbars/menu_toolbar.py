@@ -17,10 +17,10 @@ if TYPE_CHECKING:
     from catena.client import CatenaEditor
 
 
-class ClientWindowToolbar(QtWrappers.Toolbar):
+class MenuToolbar(QtWrappers.Toolbar):
     def __init__(self, parent: CatenaEditor) -> None:
         self._editor = parent
-        super().__init__("EditorClientToolbar", parent)
+        super().__init__("MenuToolbar", parent)
         self.setMinimumHeight(22)
         self.setMaximumHeight(26)
         self.setStyleSheet("""

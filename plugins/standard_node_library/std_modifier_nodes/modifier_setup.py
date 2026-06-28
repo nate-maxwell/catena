@@ -27,7 +27,7 @@ CATEGORY = "Modifier"
 
 
 def _add_node(node: type[api.CatenaNode], label: str) -> None:
-    api.add_node_to_toolbar(CATEGORY, node, label, Resources.BUTTON_YELLOW_40X40)
+    api.add_node_to_shelf(CATEGORY, node, label, Resources.BUTTON_YELLOW_40X40)
 
 
 def build_shelf() -> None:
@@ -39,17 +39,17 @@ def build_shelf() -> None:
     _add_node(SlopeBlurNode, "Slope\nBlur")
     _add_node(MedianFilterNode, "Median\nFilter")
     _add_node(SharpenNode, "Sharpen")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(BevelNode, "Bevel")
     _add_node(EdgeDetectNode, "Edge\nDetect")
     _add_node(HistogramScanNode, "Histo\ngram")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(ContrastNode, "Contrst")
     _add_node(HSVNode, "HSV")
     _add_node(InvertNode, "Invert")
     _add_node(LevelsNode, "Levels")
     _add_node(OverlayNode, "Overlay")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(NormalizeNode, "Nrmlize")
     _add_node(ThresholdNode, "Thresh")
     _add_node(QuantizeNode, "Quant")

@@ -21,7 +21,7 @@ from catena.panes.tex_viewer.tex_viewport_pane import TexViewportPane
 from catena.plugins import plugin_record
 from catena.preferences import preferences
 from catena.toolbars.shelf_toolbar.actions_toolbar import EditorActionToolbar
-from catena.toolbars.client_toolbar import ClientWindowToolbar
+from catena.toolbars.menu_toolbar import MenuToolbar
 from catena.toolbars.status_bar import StatusBar
 
 logger = logging.getLogger(__name__)
@@ -83,7 +83,8 @@ class CatenaEditor(QtWrappers.MainWindow):
         graph_api.init_graph_pane(self.pane_node_graph)
         self.pane_properties = PropertiesPane(self)
 
-        self.shortcut_toolbar = ClientWindowToolbar(self)
+        self.menu_toolbar = MenuToolbar(self)
+        toolbar_api.init_menu_toolbar_ref(self.menu_toolbar)
         self.editor_toolbar = EditorActionToolbar(self)
         toolbar_api.init_actions_toolbar_ref(self.editor_toolbar)
         self.status_bar = StatusBar(self)
@@ -109,7 +110,7 @@ class CatenaEditor(QtWrappers.MainWindow):
         self.split_horizontal(self.pane_object_viewport, self.pane_node_graph, 0.3)
         self.split_vertical(self.pane_object_viewport, self.pane_texture_viewport, 0.5)
 
-        self.addToolBar(self.shortcut_toolbar)
+        self.addToolBar(self.menu_toolbar)
         self.addToolBarBreak()
         self.addToolBar(self.editor_toolbar)
         self.addToolBar(QtCore.Qt.ToolBarArea.BottomToolBarArea, self.status_bar)

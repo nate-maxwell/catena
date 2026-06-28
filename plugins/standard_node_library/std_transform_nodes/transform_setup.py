@@ -18,7 +18,7 @@ CATEGORY = "Transform"
 
 
 def _add_node(node: type[api.CatenaNode], label: str) -> None:
-    api.add_node_to_toolbar(CATEGORY, node, label, Resources.BUTTON_GREEN_40X40)
+    api.add_node_to_shelf(CATEGORY, node, label, Resources.BUTTON_GREEN_40X40)
 
 
 def build_shelf() -> None:
@@ -27,10 +27,10 @@ def build_shelf() -> None:
     _add_node(FlipNode, "Flip")
     _add_node(OffsetNode, "Offset")
     _add_node(RotateScaleNode, "Rotate\nScale")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(ScatterNode, "Scatter")
     _add_node(TileNode, "Tile")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(WarpNode, "Warp")
     _add_node(DirectionalWarpNode, "Dir\nWarp")
     _add_node(VectorWarpNode, "Vector\nWarp")

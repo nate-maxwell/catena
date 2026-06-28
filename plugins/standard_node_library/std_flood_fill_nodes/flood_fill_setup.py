@@ -14,7 +14,7 @@ CATEGORY = "Flood Fill"
 
 
 def _add_node(node: type[api.CatenaNode], label: str) -> None:
-    api.add_node_to_toolbar(CATEGORY, node, label, Resources.BUTTON_MAGENTA_40X40)
+    api.add_node_to_shelf(CATEGORY, node, label, Resources.BUTTON_MAGENTA_40X40)
 
 
 def build_shelf() -> None:
@@ -22,7 +22,7 @@ def build_shelf() -> None:
 
     _add_node(FloodFillNode, "Flood\nFill")
 
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
 
     _add_node(FloodFillToGradientNode, "FF To\nGrad")
     _add_node(FloodFillToGreyscaleNode, "FF To\nGrey")

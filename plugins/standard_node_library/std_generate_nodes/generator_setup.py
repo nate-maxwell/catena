@@ -31,7 +31,7 @@ CATEGORY = "Generator"
 
 
 def _add_node(node: type[api.CatenaNode], label: str) -> None:
-    api.add_node_to_toolbar(CATEGORY, node, label, Resources.BUTTON_PURPLE_40X40)
+    api.add_node_to_shelf(CATEGORY, node, label, Resources.BUTTON_PURPLE_40X40)
 
 
 def build_shelf() -> None:
@@ -47,7 +47,7 @@ def build_shelf() -> None:
     _add_node(PerlinNoiseNode, "Perlin\nNoise")
     _add_node(WhiteNoiseNode, "White\nNoise")
     _add_node(VoronoiNoiseNode, "Voronoi")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(ColorNode, "Color")
     _add_node(FloatNode, "Float")
     _add_node(IntegerNode, "Int")
@@ -55,10 +55,10 @@ def build_shelf() -> None:
     _add_node(CheckerNode, "Checker")
     _add_node(PolygonNode, "Poly")
     _add_node(ShapeNode, "Shape")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(GrungeNode, "Grunge")
     _add_node(MoldNode, "Mold")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(ScratchesNode, "Scratch")
     _add_node(WeaveNode, "Weave")
 

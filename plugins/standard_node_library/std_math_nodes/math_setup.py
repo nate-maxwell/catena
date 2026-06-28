@@ -23,7 +23,7 @@ CATEGORY = "Math"
 
 
 def _add_node(node: type[api.CatenaNode], label: str) -> None:
-    api.add_node_to_toolbar(CATEGORY, node, label, Resources.BUTTON_CYAN_40X40)
+    api.add_node_to_shelf(CATEGORY, node, label, Resources.BUTTON_CYAN_40X40)
 
 
 def build_shelf() -> None:
@@ -33,14 +33,14 @@ def build_shelf() -> None:
     _add_node(SubtractNode, "Sub")
     _add_node(MultiplyNode, "Mul")
     _add_node(DivideNode, "Div")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(MinNode, "Min")
     _add_node(MaxNode, "Max")
     _add_node(CeilNode, "Ceil")
     _add_node(FloorNode, "Floor")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(ScreenNode, "Screen")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(SinNode, "Sin")
     _add_node(CosineNode, "Cosine")
     _add_node(TangentNode, "Tan")

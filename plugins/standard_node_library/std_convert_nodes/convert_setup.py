@@ -19,7 +19,7 @@ CATEGORY = "Convert"
 
 
 def _add_node(node: type[api.CatenaNode], label: str) -> None:
-    api.add_node_to_toolbar(CATEGORY, node, label, Resources.BUTTON_BLUE_40X40)
+    api.add_node_to_shelf(CATEGORY, node, label, Resources.BUTTON_BLUE_40X40)
 
 
 def build_shelf() -> None:
@@ -27,11 +27,11 @@ def build_shelf() -> None:
 
     _add_node(SplitNode, "Split")
     _add_node(AppendNode, "Append")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(HeightToAONode, "Height\nto\nAO")
     _add_node(HeightToNormalNode, "Vec4\nto\nNormal")
     _add_node(NormalToVector4Node, "Normal\nto\nVec4")
-    api.add_seperator_to_toolbar(CATEGORY)
+    api.add_seperator_to_shelf(CATEGORY)
     _add_node(IntToFloatNode, "Int\nto\nFloat")
     _add_node(IntToVec4Node, "Int\nto\nVec4")
     _add_node(FloatToIntNode, "Float\nto\nInt")
