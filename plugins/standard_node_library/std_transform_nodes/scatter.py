@@ -97,7 +97,7 @@ class ScatterNode(api.CatenaNode):
         height, width = image.shape[:2]
         rng = numpy.random.default_rng(seed)
 
-        canvas = numpy.zeros((height, width, 3), dtype=numpy.float32)
+        canvas = numpy.zeros_like(image, dtype=numpy.float32)
 
         for _ in range(count):
             local_scale = scale * (1.0 + rng.uniform(-scale_variance, scale_variance))

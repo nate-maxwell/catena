@@ -39,11 +39,12 @@ class NormalizeNode(api.CatenaNode):
         if image is None:
             return None
 
-        minimum = image.min()
-        maximum = image.max()
+        result = image.astype(numpy.float32)
+        minimum = float(result.min())
+        maximum = float(result.max())
 
         range_value = maximum - minimum
         if range_value <= 1e-6:
-            return numpy.zeros_like(image, dtype=numpy.float32)
+            return numpy.zeros_like(result, dtype=numpy.float32)
 
-        return ((image - minimum) / range_value).astype(numpy.float32)
+        return ((result - minimum) / range_value).astype(numpy.float32)

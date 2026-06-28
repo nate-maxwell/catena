@@ -9,13 +9,13 @@ from std_math_nodes import IMAGE_NODE_COLOR
 _PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
 
 
-class DivideNode(api.CatenaNode):
-    """A node that divides one input modifier by another."""
+class PowerNode(api.CatenaNode):
+    """A node that raises one input image to the power of another."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Divide")
+        super().__init__(title="Power")
 
     def _build(self) -> None:
         self.port_in_a = self.add_port(api.PortType.INPUT, "A", api.PortDataType.VECTOR4)
@@ -34,7 +34,7 @@ class DivideNode(api.CatenaNode):
             )
         )
 
-    def _on_field_changed(self, node: "DivideNode") -> None:
+    def _on_field_changed(self, node: "PowerNode") -> None:
         data_type = self.get_field_value("data_type")
         for port in (self.port_in_a, self.port_in_b, self.port_out):
             port.data_type = data_type
@@ -42,38 +42,49 @@ class DivideNode(api.CatenaNode):
 
         super()._on_field_changed(node)
 
+    @staticmethod
+    def _collapse_scalar(image: numpy.ndarray) -> numpy.ndarray:
+        if image.ndim == 3:
+            return image.mean(axis=2, keepdims=True)
+        return image
+
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
         """
-        Divide modifier A by modifier B per-pixel.
+        Raise modifier A to modifier B per-pixel.
 
         Args:
             inputs (dict[str, numpy.ndarray | None]): Expects keys "A" and "B",
-                each containing a float32 modifier. Both must be connected.
+                each containing a float32 modifier.
         Returns:
-            numpy.ndarray | None: The divided float32 modifier. Values may
-                exceed [0, 1] and should be clamped downstream if needed.
-                Returns None if either input is missing.
+            numpy.ndarray | None: The powered float32 modifier, or whichever
+                input is non-None if only one is provided.
         """
         image_a = inputs.get("A")
         image_b = inputs.get("B")
         data_type = self.get_field_value("data_type")
 
-        if image_a is None or image_b is None:
+        if image_a is None and image_b is None:
             return None
+        if image_a is None:
+            return image_b
+        if image_b is None:
+            return image_a
 
         if image_a.shape != image_b.shape:
             height, width = image_a.shape[:2]
             image_b = cv2.resize(image_b, (width, height))
 
-        if data_type in (api.PortDataType.FLOAT, api.PortDataType.INT, api.PortDataType.VECTOR1):
-            if image_a.ndim == 3:
-                image_a = image_a.mean(axis=2, keepdims=True)
-            if image_b.ndim == 3:
-                image_b = image_b.mean(axis=2, keepdims=True)
+        if data_type in (
+            api.PortDataType.FLOAT,
+            api.PortDataType.INT,
+            api.PortDataType.VECTOR1,
+        ):
+            image_a = self._collapse_scalar(image_a)
+            image_b = self._collapse_scalar(image_b)
 
-        a = image_a.astype(numpy.float32)
-        b = numpy.where(image_b == 0, 1e-6, image_b.astype(numpy.float32))
-
-        return (a / b).astype(numpy.float32)
+        base = numpy.clip(image_a.astype(numpy.float32), 0.0, None)
+        exponent = image_b.astype(numpy.float32)
+        result = numpy.power(base, exponent)
+        return numpy.clip(result, 0.0, 1e6).astype(numpy.float32)
