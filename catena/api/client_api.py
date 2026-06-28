@@ -19,6 +19,10 @@ _client_ref: CatenaEditor | None = None
 
 
 def init_client_ref(client_ref: CatenaEditor | None = None) -> None:
+    """
+    Used by the client at startup to inject a reference to the client window
+    itself.
+    """
     global _client_ref
     if client_ref is None:
         return
