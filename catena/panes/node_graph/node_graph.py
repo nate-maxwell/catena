@@ -13,8 +13,7 @@ from catena import file
 from catena import namespace
 from catena import session
 from catena import shortcuts
-from catena.nodes.file.write import WriteNode
-from catena.nodes.graph_gui import GuiGraphView
+from catena.nodes.graph import GuiGraphView
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.preferences.preferences import Preferences
@@ -209,7 +208,7 @@ class NodeGraphPane(DockablePane):
 
     def _update_preview_from_load(self, view: GuiGraphView) -> None:
         for node in view._node_refs:
-            if isinstance(node, WriteNode):
+            if hasattr(node, "WRITE_NODE_PREVIEW"):
                 node._emit_preview_update()
 
     def _create_subscriptions(self) -> None:

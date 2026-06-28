@@ -1,4 +1,5 @@
 import logging
+import html
 from typing import Optional
 
 from PySide6TK import QtCore
@@ -39,10 +40,16 @@ class LogWidget(QtWidgets.QWidget):
 
     def append_record(self, record: logging.LogRecord) -> None:
         color = self.LEVEL_COLORS.get(record.levelno, "#dddddd")
-
-        # Format: [LEVEL]  message
-        line = f'<span style="color:{color}">[{record.levelname:<8}] {record.getMessage()}</span>'
+        message = html.escape(record.getMessage())
+        line = f'<span style="color:{color}">[{record.levelname:<8}] {message}</span>'
         self._text.appendHtml(line)
+
+        if record.exc_info:
+            formatter = logging.Formatter()
+            traceback_text = html.escape(formatter.formatException(record.exc_info))
+            self._text.appendHtml(
+                f'<pre style="color:{color}; white-space:pre-wrap">{traceback_text}</pre>'
+            )
 
         # Auto-scroll to bottom
         self._text.verticalScrollBar().setValue(
@@ -53,7 +60,7 @@ class LogWidget(QtWidgets.QWidget):
 class LogMainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, parent: QtWidgets.QWidget | None = None) -> None:
-        super().__init__(parent)
+        super().__init__(parent, QtCore.Qt.WindowType.WindowStaysOnTopHint)
         self._log_widget = LogWidget()
         self.setCentralWidget(self._log_widget)
         self.resize(700, 450)

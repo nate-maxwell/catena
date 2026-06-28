@@ -28,3 +28,4 @@ LOG_ENTRY = "Client.log.message"
 
 PREFERENCES_UPDATED = "prefs.updated"
 SESSION_DATA_UPDATED = "session.updated"
+PLUGIN_DATA_UPDATED = "plugins.updated"

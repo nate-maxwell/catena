@@ -140,6 +140,6 @@ class Preferences(object):
 
 
 def initialize() -> None:
-    """Call on startup to ensure the singletons are loaded."""
-    _ = Preferences()
+    """Call on startup to ensure the singleton is loaded."""
+    Preferences()
     logger.info("Preferences system initialized")
