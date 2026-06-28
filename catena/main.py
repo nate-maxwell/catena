@@ -1,7 +1,5 @@
 import logging
-import os
 import sys
-from pathlib import Path
 
 from PySide6TK import QtCore
 from PySide6TK import QtGui
