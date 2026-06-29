@@ -25,6 +25,7 @@ class OffsetNode(api.CatenaNode):
                 label="X",
                 field_type=api.FieldType.INT,
                 default=0,
+                max_value=4096,
             )
         )
         self.add_field(
@@ -33,6 +34,7 @@ class OffsetNode(api.CatenaNode):
                 label="Y",
                 field_type=api.FieldType.INT,
                 default=0,
+                max_value=4096,
             )
         )
         self.add_field(

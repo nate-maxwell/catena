@@ -16,6 +16,36 @@ class ScatterNode(api.CatenaNode):
 
         super().__init__(title="Scatter")
 
+    @staticmethod
+    def _rotate_stamp(
+        stamp: numpy.ndarray, angle_degrees: float
+    ) -> numpy.ndarray:
+        """Rotate a stamp and expand the canvas so the full result is preserved."""
+        if abs(angle_degrees) <= 1e-6:
+            return stamp
+
+        height, width = stamp.shape[:2]
+        center = (width / 2.0, height / 2.0)
+
+        matrix = cv2.getRotationMatrix2D(center, angle_degrees, 1.0)
+        cos_a = abs(matrix[0, 0])
+        sin_a = abs(matrix[0, 1])
+
+        new_width = max(1, int(numpy.ceil((height * sin_a) + (width * cos_a))))
+        new_height = max(1, int(numpy.ceil((height * cos_a) + (width * sin_a))))
+
+        matrix[0, 2] += (new_width / 2.0) - center[0]
+        matrix[1, 2] += (new_height / 2.0) - center[1]
+
+        return cv2.warpAffine(
+            stamp,
+            matrix,
+            (new_width, new_height),
+            flags=cv2.INTER_LINEAR,
+            borderMode=cv2.BORDER_CONSTANT,
+            borderValue=0,
+        )
+
     def _build(self) -> None:
         self.port_in = self.add_port(api.PortType.INPUT, "Input")
         self.port_out = self.add_port(api.PortType.OUTPUT, "Output")
@@ -106,13 +136,11 @@ class ScatterNode(api.CatenaNode):
             stamp_w = max(1, int(width * local_scale))
             stamp_h = max(1, int(height * local_scale))
 
-            stamp = cv2.resize(image, (stamp_w, stamp_h))
+            stamp = cv2.resize(image, (stamp_w, stamp_h), interpolation=cv2.INTER_LINEAR)
 
             rotation = rng.uniform(-rotation_variance, rotation_variance)
-            if rotation != 0.0:
-                center = (stamp_w / 2.0, stamp_h / 2.0)
-                matrix = cv2.getRotationMatrix2D(center, rotation, 1.0)
-                stamp = cv2.warpAffine(stamp, matrix, (stamp_w, stamp_h))
+            stamp = self._rotate_stamp(stamp, rotation)
+            stamp_h, stamp_w = stamp.shape[:2]
 
             cx = rng.integers(0, width)
             cy = rng.integers(0, height)

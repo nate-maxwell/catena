@@ -26,7 +26,7 @@ class IntegerNode(api.CatenaNode):
                 field_type=api.FieldType.INT,
                 default=0,
                 min_value=0,
-                max_value=255,
+                max_value=999999,
             )
         )
 
