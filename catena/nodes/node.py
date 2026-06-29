@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 import logging
 from typing import Any
 from typing import Optional
@@ -21,6 +22,7 @@ logger = logging.getLogger(__name__)
 class CatenaNode(BaseNode):
 
     active_preview_node: Optional["CatenaNode"] = None
+    _preview_update_depth: int = 0
 
     def __init__(self, title: str, width: int = 160, body_height: int = 40) -> None:
         super().__init__(title, width, body_height)
@@ -31,6 +33,20 @@ class CatenaNode(BaseNode):
         """The last evaluated value. Updates when field values change."""
 
         logger.info(f"{title} node created")
+
+    @classmethod
+    @contextmanager
+    def suspend_preview_updates(cls):
+        """Temporarily suppress preview broadcasts while rebuilding graphs."""
+        cls._preview_update_depth += 1
+        try:
+            yield
+        finally:
+            cls._preview_update_depth -= 1
+
+    @classmethod
+    def _preview_updates_suppressed(cls) -> bool:
+        return cls._preview_update_depth > 0
 
     def add_port(
         self, port_type: str, name: str, data_type: str = PortDataType.VECTOR4
@@ -199,12 +215,16 @@ class CatenaNode(BaseNode):
 
     def _set_active_preview(self) -> None:
         CatenaNode.active_preview_node = self
-        broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+        if not self._preview_updates_suppressed():
+            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
 
     def _on_field_changed(self, node: "CatenaNode") -> None:
         # dead args are required to meet subscription signature
         inputs = self.get_inputs()
         self._cached_value = self.process(inputs)
+
+        if self._preview_updates_suppressed():
+            return
 
         if node is self and CatenaNode.active_preview_node is self:
             broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
@@ -238,6 +258,9 @@ class CatenaNode(BaseNode):
 
     def _refresh_downstream_write_nodes(self) -> None:
         """Refresh write nodes downstream of this node."""
+        if self._preview_updates_suppressed():
+            return
+
         visited: set[CatenaNode] = set()
         stack: list[CatenaNode] = [self]
 

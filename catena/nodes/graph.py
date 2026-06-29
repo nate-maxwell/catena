@@ -73,6 +73,9 @@ class GuiGraphView(GraphView):
 
     @staticmethod
     def _refresh_downstream_write_nodes(node: CatenaNode) -> None:
+        if CatenaNode._preview_updates_suppressed():
+            return
+
         visited: set[CatenaNode] = set()
         stack: list[CatenaNode] = [node]
 
@@ -94,6 +97,9 @@ class GuiGraphView(GraphView):
 
     @staticmethod
     def _refresh_active_preview() -> None:
+        if CatenaNode._preview_updates_suppressed():
+            return
+
         node = CatenaNode.active_preview_node
         if node is not None:
             broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())

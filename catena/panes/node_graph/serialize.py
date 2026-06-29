@@ -9,6 +9,7 @@ from typing import Any
 from PySide6TK.Nodes.node import BaseNode
 
 from catena.api.node_api import node_registry_to_dict
+from catena.nodes.node import CatenaNode
 
 if TYPE_CHECKING:
     from PySide6TK.Nodes.graph import GraphView
@@ -127,93 +128,94 @@ def deserialize_nodes(
             return tuple(value_)
         return value_
 
-    registry = {
-        node_type.__name__: node_type
-        for node_types in node_registry_to_dict().values()
-        for node_type in node_types
-    }
-    registry.update(
-        {
+    with CatenaNode.suspend_preview_updates():
+        registry = {
             node_type.__name__: node_type
-            for node_types in view.node_registry.values()
+            for node_types in node_registry_to_dict().values()
             for node_type in node_types
         }
-    )
-    registry[view.comment_type.__name__] = view.comment_type
-
-    nodes_by_id: dict[str, BaseNode] = {}
-    created: list[BaseNode] = []
-
-    origin_x = 0.0
-    origin_y = 0.0
-    if offset is not None and data["nodes"]:
-        origin_x = data["nodes"][0]["x"]
-        origin_y = data["nodes"][0]["y"]
-
-    view.graph_scene.clearSelection()
-
-    for node_data in data["nodes"]:
-        node_type = registry.get(node_data["type"])
-        if node_type is None:
-            continue
-
-        node = node_type()
-        if node_data.get("width") is not None:
-            node._box_width = node_data["width"]
-        if node_data.get("height") is not None:
-            node._box_height = node_data["height"]
-        node.title = node_data.get("title", node.title)
-        for name, value in node_data["fields"].items():
-            if name in node._fields:
-                node.set_field_value(name, _deserialize_value(value))
-
-        for name in node_data.get("promoted_fields", []):
-            if hasattr(node, "promote_field"):
-                node.promote_field(name)
-
-        if offset is not None:
-            new_x = offset[0] + (node_data["x"] - origin_x)
-            new_y = offset[1] + (node_data["y"] - origin_y)
-        else:
-            new_x = node_data["x"]
-            new_y = node_data["y"]
-
-        view.add_node(node, new_x, new_y)
-        nodes_by_id[node_data["id"]] = node
-        created.append(node)
-
-        if offset is not None:
-            node.setSelected(True)
-
-    for wire_data in data["wires"]:
-        source_node = nodes_by_id.get(wire_data["source_node"])
-        target_node = nodes_by_id.get(wire_data["target_node"])
-        if source_node is None or target_node is None:
-            continue
-
-        source_port = next(
-            (
-                p
-                for p in source_node.output_ports()
-                if p.name == wire_data["source_port"]
-            ),
-            None,
+        registry.update(
+            {
+                node_type.__name__: node_type
+                for node_types in view.node_registry.values()
+                for node_type in node_types
+            }
         )
-        target_port = next(
-            (
-                p
-                for p in target_node.input_ports()
-                if p.name == wire_data["target_port"]
-            ),
-            None,
-        )
+        registry[view.comment_type.__name__] = view.comment_type
 
-        if source_port is None or target_port is None:
-            continue
+        nodes_by_id: dict[str, BaseNode] = {}
+        created: list[BaseNode] = []
 
-        view.connect_ports(source_port, target_port)
+        origin_x = 0.0
+        origin_y = 0.0
+        if offset is not None and data["nodes"]:
+            origin_x = data["nodes"][0]["x"]
+            origin_y = data["nodes"][0]["y"]
 
-    return created
+        view.graph_scene.clearSelection()
+
+        for node_data in data["nodes"]:
+            node_type = registry.get(node_data["type"])
+            if node_type is None:
+                continue
+
+            node = node_type()
+            if node_data.get("width") is not None:
+                node._box_width = node_data["width"]
+            if node_data.get("height") is not None:
+                node._box_height = node_data["height"]
+            node.title = node_data.get("title", node.title)
+            for name, value in node_data["fields"].items():
+                if name in node._fields:
+                    node.set_field_value(name, _deserialize_value(value))
+
+            for name in node_data.get("promoted_fields", []):
+                if hasattr(node, "promote_field"):
+                    node.promote_field(name)
+
+            if offset is not None:
+                new_x = offset[0] + (node_data["x"] - origin_x)
+                new_y = offset[1] + (node_data["y"] - origin_y)
+            else:
+                new_x = node_data["x"]
+                new_y = node_data["y"]
+
+            view.add_node(node, new_x, new_y)
+            nodes_by_id[node_data["id"]] = node
+            created.append(node)
+
+            if offset is not None:
+                node.setSelected(True)
+
+        for wire_data in data["wires"]:
+            source_node = nodes_by_id.get(wire_data["source_node"])
+            target_node = nodes_by_id.get(wire_data["target_node"])
+            if source_node is None or target_node is None:
+                continue
+
+            source_port = next(
+                (
+                    p
+                    for p in source_node.output_ports()
+                    if p.name == wire_data["source_port"]
+                ),
+                None,
+            )
+            target_port = next(
+                (
+                    p
+                    for p in target_node.input_ports()
+                    if p.name == wire_data["target_port"]
+                ),
+                None,
+            )
+
+            if source_port is None or target_port is None:
+                continue
+
+            view.connect_ports(source_port, target_port)
+
+        return created
 
 
 def deserialize(view: GraphView, data: dict[str, Any]) -> None:
@@ -226,8 +228,9 @@ def deserialize(view: GraphView, data: dict[str, Any]) -> None:
         view (GraphView): The graph view to load into.
         data (dict[str, Any]): Serialized graph data from ``serialize``.
     """
-    view.clear()
-    deserialize_nodes(view, data, offset=None)
+    with CatenaNode.suspend_preview_updates():
+        view.clear()
+        deserialize_nodes(view, data, offset=None)
 
 
 def load(graph: GraphView, path: Path) -> None:
