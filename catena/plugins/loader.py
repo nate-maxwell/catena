@@ -68,6 +68,7 @@ def load_plugins() -> None:
 
         _extend_path_to_plugin(descriptor.path)
 
+    logger.info("Loading main queue plugins")
     for descriptor in plugins:
         if not descriptor.enabled:
             continue
@@ -77,5 +78,6 @@ def load_plugins() -> None:
         else:
             _run_startup(descriptor.path)
 
+    logger.info("Loading deferred queue plugins")
     for plugin_path in deferred_queue:
         _run_startup(plugin_path)
