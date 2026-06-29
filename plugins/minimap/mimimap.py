@@ -4,6 +4,8 @@ from PySide6 import QtCore
 from PySide6 import QtGui
 from PySide6 import QtWidgets
 
+from catena.nodes.node import CatenaNode
+
 
 class MinimapWidget(QtWidgets.QWidget):
     """
@@ -67,7 +69,9 @@ class MinimapWidget(QtWidgets.QWidget):
 
     def _scene_rect(self) -> QtCore.QRectF:
         """Bounding rect of all items in the scene, falling back to sceneRect."""
-        items = self._graph_view.graph_scene.items()
+        items = [
+            item for item in self._graph_view.graph_scene.items() if isinstance(item, CatenaNode)
+        ]
         if not items:
             return self._graph_view.graph_scene.sceneRect()
         rects = [i.mapToScene(i.boundingRect()).boundingRect() for i in items]
@@ -125,6 +129,8 @@ class MinimapWidget(QtWidgets.QWidget):
         painter.setPen(QtCore.Qt.PenStyle.NoPen)
         painter.setBrush(self._NODE_COLOR)
         for item in self._graph_view.graph_scene.items():
+            if not isinstance(item, CatenaNode):
+                continue
             br = item.mapToScene(item.boundingRect()).boundingRect()
             painter.drawRect(br)
 

@@ -5,3 +5,4 @@ _subgraph_path = Path(__file__).parent / "subgraphs"
 
 MOISTURE_NOISE_GRAPH = _subgraph_path / "moisture_noise.cg"
 GRUNGE_01_GRAPH = _subgraph_path / "grunge_01.cg"
+GRUNGE_02_GRAPH = _subgraph_path / "grunge_02.cg"
