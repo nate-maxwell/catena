@@ -8,7 +8,7 @@ from std_transform_nodes import IMAGE_NODE_COLOR
 
 
 class RotateScaleNode(api.CatenaNode):
-    """A node that rotates an input modifier by an arbitrary angle."""
+    """A node that rotates and non-uniformly scales an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
@@ -32,8 +32,18 @@ class RotateScaleNode(api.CatenaNode):
         )
         self.add_field(
             api.FieldDefinition(
-                name="scale",
-                label="Scale",
+                name="scale_x",
+                label="Scale X",
+                field_type=api.FieldType.FLOAT,
+                default=1.0,
+                min_value=0.01,
+                max_value=10.0,
+            )
+        )
+        self.add_field(
+            api.FieldDefinition(
+                name="scale_y",
+                label="Scale Y",
                 field_type=api.FieldType.FLOAT,
                 default=1.0,
                 min_value=0.01,
@@ -54,7 +64,8 @@ class RotateScaleNode(api.CatenaNode):
             numpy.ndarray | None: The rotated float32 modifier.
         """
         angle = self.get_field_value("angle")
-        scale = self.get_field_value("scale")
+        scale_x = self.get_field_value("scale_x")
+        scale_y = self.get_field_value("scale_y")
 
         image = inputs.get("Input")
         if image is None:
@@ -63,5 +74,23 @@ class RotateScaleNode(api.CatenaNode):
         height, width = image.shape[:2]
         center = (width / 2.0, height / 2.0)
 
-        matrix = cv2.getRotationMatrix2D(center, angle, scale)
+        radians = numpy.deg2rad(angle)
+        cos_a = numpy.cos(radians)
+        sin_a = numpy.sin(radians)
+
+        matrix = numpy.array(
+            [
+                [cos_a * scale_x, sin_a * scale_y, 0.0],
+                [-sin_a * scale_x, cos_a * scale_y, 0.0],
+            ],
+            dtype=numpy.float32,
+        )
+
+        matrix[0, 2] = (
+            center[0] - matrix[0, 0] * center[0] - matrix[0, 1] * center[1]
+        )
+        matrix[1, 2] = (
+            center[1] - matrix[1, 0] * center[0] - matrix[1, 1] * center[1]
+        )
+
         return cv2.warpAffine(image, matrix, (width, height)).astype(numpy.float32)
