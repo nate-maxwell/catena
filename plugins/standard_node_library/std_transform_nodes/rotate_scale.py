@@ -37,7 +37,7 @@ class RotateScaleNode(api.CatenaNode):
                 field_type=api.FieldType.FLOAT,
                 default=1.0,
                 min_value=0.01,
-                max_value=10.0,
+                max_value=999999.0,
             )
         )
         self.add_field(
@@ -47,7 +47,7 @@ class RotateScaleNode(api.CatenaNode):
                 field_type=api.FieldType.FLOAT,
                 default=1.0,
                 min_value=0.01,
-                max_value=10.0,
+                max_value=999999.0,
             )
         )
 
@@ -86,11 +86,7 @@ class RotateScaleNode(api.CatenaNode):
             dtype=numpy.float32,
         )
 
-        matrix[0, 2] = (
-            center[0] - matrix[0, 0] * center[0] - matrix[0, 1] * center[1]
-        )
-        matrix[1, 2] = (
-            center[1] - matrix[1, 0] * center[0] - matrix[1, 1] * center[1]
-        )
+        matrix[0, 2] = center[0] - matrix[0, 0] * center[0] - matrix[0, 1] * center[1]
+        matrix[1, 2] = center[1] - matrix[1, 0] * center[0] - matrix[1, 1] * center[1]
 
         return cv2.warpAffine(image, matrix, (width, height)).astype(numpy.float32)
