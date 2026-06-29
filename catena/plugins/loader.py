@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def _run_startup(plugin_path: Path) -> None:
-    """Run a startup.py file, if it can be found, in the given plugin path."""
+    """Run a startup.py file if it can be found, in the given plugin path."""
     startup = plugin_path / "startup.py"
     if not startup.exists():
         return
