@@ -1,7 +1,7 @@
 from catena.preferences import preferences
 from catena.shortcuts import ShortcutManager
 
-__all__ = ["get_texture_resolution"]
+__all__ = ["get_texture_resolution", "ShortcutManager"]
 
 _prefs = preferences.Preferences()
 
