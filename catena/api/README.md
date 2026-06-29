@@ -25,7 +25,7 @@ Each plugin folder should contain:
 my_plugin/
   plugin.json
   startup.py
-  my_nodes.py
+  my_files.py
 ```
 
 `startup.py` is the entrypoint Catena runs when the plugin is enabled. The
@@ -39,7 +39,7 @@ The manifest is a small JSON object with these fields:
 
 - `name`: display name for the plugin
 - `version`: plugin version string
-- `author`: author name
+- `author`: author name(s)
 - `description`: short summary shown in the plugin manager
 - `deferred_load`: optional boolean that delays `startup.py` until all other
   non-deferred plugins have been initialized
@@ -105,6 +105,8 @@ The node API also re-exports the core building blocks used by node classes:
 - `api.DATA_TYPE_COLORS`
 - `api.FIELD_PORT_DATA_TYPES`
 - `api.TEXTURE_DATA_TYPES`
+
+You can read more about custom node construction [here](docs/nodes.md).
 
 Shelf and menu actions
 ----------------------
