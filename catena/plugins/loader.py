@@ -29,14 +29,12 @@ def _run_startup(plugin_path: Path) -> None:
         spec.loader.exec_module(module)
         logger.info(f"Ran startup.py for plugin: {plugin_path.name}")
     except Exception as e:
-        logger.exception(
-            f"Failed to run startup.py for plugin {plugin_path.name}: {e}"
-        )
+        logger.exception(f"Failed to run startup.py for plugin {plugin_path.name}: {e}")
 
 
 def _extend_path_to_plugin(plugin_path: Path) -> None:
     """
-    Extend the sys path to the given plugin path, if it hasn't been extended
+    Extend the sys path to the given plugin path if it hasn't been extended
     already.
     """
     path_str = str(plugin_path)
@@ -52,11 +50,32 @@ def load_plugins() -> None:
     - Run startup.py if present
     """
     plugins = discover_plugins()
+    deferred_queue = []
+
+    # We load in three phases - one to extend the path to all enabled plguins,
+    # then to run startup.py for all enabled plugins, and finally to run
+    # startup.py for all plugins that have deferred_load set to True.
+    #
+    # This is to ensure that all plugins are loaded before any nodes are
+    # created and that all code required for nodes to be created is seen, as
+    # some nodes may be dependent on nodes from other plugins.
+    #
+    # Additionally, users may create function libraries, widgets, or
+    # application systems that may be depended on other files on the PATH.
+    for descriptor in plugins:
+        if not descriptor.enabled:
+            continue
+
+        _extend_path_to_plugin(descriptor.path)
 
     for descriptor in plugins:
         if not descriptor.enabled:
             continue
 
-        plugin_path = descriptor.path
-        _extend_path_to_plugin(plugin_path)
+        if descriptor.deferred_load:
+            deferred_queue.append(descriptor.path)
+        else:
+            _run_startup(descriptor.path)
+
+    for plugin_path in deferred_queue:
         _run_startup(plugin_path)

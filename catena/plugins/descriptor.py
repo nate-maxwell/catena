@@ -12,3 +12,4 @@ class PluginDescriptor(object):
     author: str
     description: str
     enabled: bool = True
+    deferred_load: bool = False

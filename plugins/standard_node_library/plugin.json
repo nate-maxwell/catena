@@ -2,5 +2,6 @@
     "name": "Standard Node Library",
     "version": "1.0.0",
     "author": "Nate",
-    "description": "The standard library of nodes that ships with Catena."
+    "description": "The standard library of nodes that ships with Catena.",
+    "deferred_load": false
 }
