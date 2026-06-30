@@ -1,6 +1,5 @@
+from noise_subgraphs import MOISTURE_NOISE_GRAPH
 from std_graph_nodes.subgraph import SubgraphNode
-
-from subgraphs import MOISTURE_NOISE_GRAPH
 
 
 class MoistureNoiseNode(SubgraphNode):

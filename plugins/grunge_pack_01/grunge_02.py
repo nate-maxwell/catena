@@ -1,6 +1,5 @@
+from grunge_subgraphs import GRUNGE_02_GRAPH
 from std_graph_nodes.subgraph import SubgraphNode
-
-from subgraphs import GRUNGE_02_GRAPH
 
 
 class Grunge02Node(SubgraphNode):

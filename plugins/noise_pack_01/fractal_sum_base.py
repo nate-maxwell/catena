@@ -1,6 +1,5 @@
+from noise_subgraphs import FRACTAL_NOISE_GRAPH
 from std_graph_nodes.subgraph import SubgraphNode
-
-from subgraphs import FRACTAL_NOISE_GRAPH
 
 
 class FractalSumBaseNode(SubgraphNode):
