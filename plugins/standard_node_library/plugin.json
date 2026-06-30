@@ -1,7 +1,7 @@
 {
     "name": "Standard Node Library",
     "version": "1.0.0",
-    "author": "Nate",
+    "author": "Catena Core Team",
     "description": "The standard library of nodes that ships with Catena.",
     "deferred_load": false
 }

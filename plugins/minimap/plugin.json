@@ -1,7 +1,7 @@
 {
     "name": "Graph Mini Map",
     "version": "1.0.0",
-    "author": "Nate",
+    "author": "Catena Core Team",
     "description": "A minimap widget for navigating node graph views.",
     "deferred_load": false
 }

@@ -29,9 +29,9 @@ class PluginEntry(QtWrappers.GroupBox):
         enabled = metadata.enabled
         super().__init__(name)
 
-        entry_layout = QtWidgets.QHBoxLayout()
-        entry_layout.setContentsMargins(0, 0, 0, 0)
-        entry_layout.setSpacing(12)
+        layout_main = QtWidgets.QHBoxLayout()
+        layout_main.setContentsMargins(0, 0, 0, 0)
+        layout_main.setSpacing(12)
 
         scale = 256 - 64
 
@@ -50,10 +50,10 @@ class PluginEntry(QtWrappers.GroupBox):
                 )
                 icon_label.setFixedSize(scale, scale)
                 icon_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
-                entry_layout.addWidget(icon_label)
+                layout_main.addWidget(icon_label)
 
         grid = QtWrappers.GridLayout()
-        entry_layout.addLayout(grid)
+        layout_main.addLayout(grid)
         grid.add_to_new_row(QtWidgets.QLabel("Description:"))
         grid.add_to_last_row(QtWidgets.QLabel(description))
         grid.add_to_new_row(QtWidgets.QLabel("Version:"))
@@ -61,7 +61,9 @@ class PluginEntry(QtWrappers.GroupBox):
         grid.add_to_new_row(QtWidgets.QLabel("Author:"))
         grid.add_to_last_row(QtWidgets.QLabel(author))
 
-        self.add_layout(entry_layout)
+        layout_main.addStretch()
+
+        self.add_layout(layout_main)
 
         self.check_box = QtWidgets.QCheckBox("Enabled")
         self.check_box.setChecked(enabled)

@@ -1,7 +1,7 @@
 {
   "name": "Grunge Pack 01",
   "version": "1.0.0",
-  "author": "Nate",
+  "author": "Catena Core Team",
   "description": "A pack of grunge generator subgraphs.",
   "deferred_load": true,
   "dependencies": ["standard_node_library", "noise_pack_01"]
