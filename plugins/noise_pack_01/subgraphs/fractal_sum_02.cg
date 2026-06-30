@@ -189,79 +189,13 @@
       "source_node": "11",
       "source_port": "Output",
       "target_node": "12",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "8",
-      "source_port": "Output",
-      "target_node": "11",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "10",
-      "source_port": "Output",
-      "target_node": "7",
-      "target_port": "B"
-    },
-    {
-      "source_node": "6",
-      "source_port": "Output",
-      "target_node": "10",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "9",
-      "source_port": "Output",
-      "target_node": "8",
-      "target_port": "B"
-    },
-    {
-      "source_node": "7",
-      "source_port": "Output",
-      "target_node": "9",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "7",
-      "source_port": "Output",
-      "target_node": "8",
-      "target_port": "A"
-    },
-    {
-      "source_node": "6",
-      "source_port": "Output",
-      "target_node": "7",
-      "target_port": "A"
-    },
-    {
-      "source_node": "1",
-      "source_port": "Output",
-      "target_node": "6",
-      "target_port": "B"
-    },
-    {
-      "source_node": "2",
-      "source_port": "Output",
-      "target_node": "6",
-      "target_port": "A"
-    },
-    {
-      "source_node": "3",
-      "source_port": "Output",
-      "target_node": "5",
-      "target_port": "B"
-    },
-    {
-      "source_node": "4",
-      "source_port": "Seed",
-      "target_node": "5",
-      "target_port": "A"
+      "target_port": "Output"
     },
     {
       "source_node": "5",
       "source_port": "Output",
-      "target_node": "1",
-      "target_port": "seed"
+      "target_node": "2",
+      "target_port": "Seed"
     },
     {
       "source_node": "0",
@@ -272,8 +206,74 @@
     {
       "source_node": "5",
       "source_port": "Output",
-      "target_node": "2",
-      "target_port": "Seed"
+      "target_node": "1",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Seed",
+      "target_node": "5",
+      "target_port": "A"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "B"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "A"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "B"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "A"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "A"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "B"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "B"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "Input"
     }
   ]
 }
