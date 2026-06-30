@@ -16,6 +16,26 @@ from std_graph_nodes.output import GraphOutputNode
 from std_graph_nodes import IMAGE_NODE_COLOR
 
 
+def _field_type_for_port_data_type(data_type: str) -> api.FieldType:
+    if data_type == api.PortDataType.FLOAT:
+        return api.FieldType.FLOAT
+    if data_type == api.PortDataType.INT:
+        return api.FieldType.INT
+    if data_type == api.PortDataType.BOOL:
+        return api.FieldType.BOOL
+    if data_type == api.PortDataType.VECTOR2:
+        return api.FieldType.VEC2
+    if data_type == api.PortDataType.VECTOR3:
+        return api.FieldType.VEC3
+    if data_type in (
+        api.PortDataType.VECTOR4,
+        api.PortDataType.NORMAL,
+        api.PortDataType.FLOOD_FILL,
+    ):
+        return api.FieldType.COLOR
+    return api.FieldType.STR
+
+
 class SubgraphNode(api.CatenaNode):
     """
     A node that loads a subgraph from a .cg file and dynamically builds
@@ -28,6 +48,7 @@ class SubgraphNode(api.CatenaNode):
     def __init__(self) -> None:
         self._input_ports: dict[str, object] = {}
         self._output_ports: dict[str, object] = {}
+        self._dynamic_input_names: list[str] = []
         self._cached_filepath: str = ""
         self._graph_name: str = "Subgraph"
         self._cached_graph_view: GuiGraphView | None = None
@@ -105,6 +126,22 @@ class SubgraphNode(api.CatenaNode):
 
         return input_ports, output_ports
 
+    def _clear_dynamic_interface(self) -> None:
+        """
+        Remove the currently generated ports and backing fields.
+        """
+        for name in list(self._dynamic_input_names):
+            self.demote_field(name)
+            self._fields.pop(name, None)
+            self._field_values.pop(name, None)
+
+        for port in list(self._output_ports.values()):
+            self.remove_port(port)
+
+        self._dynamic_input_names.clear()
+        self._input_ports.clear()
+        self._output_ports.clear()
+
     def _load_graph_view(self) -> GuiGraphView | None:
         """
         Return a cached in-memory graph view for the current subgraph file.
@@ -134,21 +171,26 @@ class SubgraphNode(api.CatenaNode):
         Remove all existing dynamic ports and rebuild them based on the
         GraphInputNode and GraphOutputNode nodes in the subgraph file.
         """
-        for port in list(self._input_ports.values()):
-            self.remove_port(port)
-        for port in list(self._output_ports.values()):
-            self.remove_port(port)
-
-        self._input_ports.clear()
-        self._output_ports.clear()
+        self._clear_dynamic_interface()
 
         input_ports, output_ports = self._load_interface()
+
         self.title = self._graph_name
         self.update()
 
         for name, data_type in input_ports:
+            definition = api.FieldDefinition(
+                name=name,
+                label=name,
+                field_type=_field_type_for_port_data_type(data_type),
+                default=None,
+            )
+            self.add_field(definition)
+
             port = self.add_port(api.PortType.INPUT, name, data_type)
             port.set_color(api.DATA_TYPE_COLORS[data_type])
+            self._promoted_fields[name] = port
+            self._dynamic_input_names.append(name)
             self._input_ports[name] = port
 
         for name, data_type in output_ports:
@@ -181,8 +223,9 @@ class SubgraphNode(api.CatenaNode):
                 continue
 
             input_name = node.get_field_value("name")
-            if input_name in inputs:
-                node._cached_value = inputs[input_name]
+            node._cached_value = inputs.get(input_name)
+            if node._cached_value is None:
+                node._cached_value = self._field_values.get(input_name)
 
         output_values: dict[str, Optional[numpy.ndarray]] = {}
 
