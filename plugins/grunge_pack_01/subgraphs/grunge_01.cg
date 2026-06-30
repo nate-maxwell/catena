@@ -5,7 +5,7 @@
       "type": "ShapeNode",
       "title": "Shape",
       "x": -400.0,
-      "y": 100.0,
+      "y": 0.0,
       "width": null,
       "height": null,
       "fields": {
@@ -20,7 +20,7 @@
       "type": "RotateScaleNode",
       "title": "Rotate Scale",
       "x": -200.0,
-      "y": 100.0,
+      "y": 0.0,
       "width": null,
       "height": null,
       "fields": {
@@ -35,7 +35,7 @@
       "type": "ScatterNode",
       "title": "Scatter",
       "x": 0.0,
-      "y": 100.0,
+      "y": 0.0,
       "width": null,
       "height": null,
       "fields": {
@@ -49,26 +49,9 @@
     },
     {
       "id": "3",
-      "type": "CellsNode",
-      "title": "Cells",
-      "x": -400.0,
-      "y": -300.0,
-      "width": null,
-      "height": null,
-      "fields": {
-        "cells": 64,
-        "seed": 0,
-        "invert": false
-      },
-      "promoted_fields": [
-        "seed"
-      ]
-    },
-    {
-      "id": "4",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": -200.0,
+      "x": 0.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -82,10 +65,10 @@
       "promoted_fields": []
     },
     {
-      "id": "5",
+      "id": "4",
       "type": "DirectionalWarpNode",
       "title": "Directional Warp",
-      "x": 0.0,
+      "x": 200.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -96,10 +79,10 @@
       "promoted_fields": []
     },
     {
-      "id": "6",
+      "id": "5",
       "type": "WarpNode",
       "title": "Warp",
-      "x": 200.0,
+      "x": 400.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -110,10 +93,10 @@
       "promoted_fields": []
     },
     {
-      "id": "7",
+      "id": "6",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": 400.0,
+      "x": 600.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -127,10 +110,10 @@
       "promoted_fields": []
     },
     {
-      "id": "8",
+      "id": "7",
       "type": "DirectionalWarpNode",
       "title": "Directional Warp",
-      "x": 600.0,
+      "x": 800.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -141,11 +124,11 @@
       "promoted_fields": []
     },
     {
-      "id": "9",
+      "id": "8",
       "type": "DirectionalWarpNode",
       "title": "Directional Warp",
       "x": 600.0,
-      "y": 100.0,
+      "y": 0.0,
       "width": null,
       "height": null,
       "fields": {
@@ -155,10 +138,10 @@
       "promoted_fields": []
     },
     {
-      "id": "10",
+      "id": "9",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": 600.0,
+      "x": 800.0,
       "y": -100.0,
       "width": null,
       "height": null,
@@ -172,7 +155,7 @@
       "promoted_fields": []
     },
     {
-      "id": "11",
+      "id": "10",
       "type": "SubtractNode",
       "title": "Subtract",
       "x": 1000.0,
@@ -185,11 +168,11 @@
       "promoted_fields": []
     },
     {
-      "id": "12",
+      "id": "11",
       "type": "LevelsNode",
       "title": "Levels",
       "x": 800.0,
-      "y": 100.0,
+      "y": 0.0,
       "width": null,
       "height": null,
       "fields": {
@@ -202,7 +185,7 @@
       "promoted_fields": []
     },
     {
-      "id": "13",
+      "id": "12",
       "type": "OverlayNode",
       "title": "Overlay",
       "x": 1200.0,
@@ -215,10 +198,10 @@
       "promoted_fields": []
     },
     {
-      "id": "14",
+      "id": "13",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": 600.0,
+      "x": 800.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -232,7 +215,7 @@
       "promoted_fields": []
     },
     {
-      "id": "15",
+      "id": "14",
       "type": "DirectionalWarpNode",
       "title": "Directional Warp",
       "x": 1200.0,
@@ -246,7 +229,7 @@
       "promoted_fields": []
     },
     {
-      "id": "16",
+      "id": "15",
       "type": "FibersNode",
       "title": "Fibers",
       "x": 600.0,
@@ -263,7 +246,7 @@
       "promoted_fields": []
     },
     {
-      "id": "17",
+      "id": "16",
       "type": "BlurNode",
       "title": "Blur",
       "x": 800.0,
@@ -276,7 +259,7 @@
       "promoted_fields": []
     },
     {
-      "id": "18",
+      "id": "17",
       "type": "OverlayNode",
       "title": "Overlay",
       "x": 1400.0,
@@ -289,7 +272,7 @@
       "promoted_fields": []
     },
     {
-      "id": "19",
+      "id": "18",
       "type": "NormalizeNode",
       "title": "Normalize",
       "x": 1640.0,
@@ -300,7 +283,7 @@
       "promoted_fields": []
     },
     {
-      "id": "20",
+      "id": "19",
       "type": "MultiplyNode",
       "title": "Multiply",
       "x": 1600.0,
@@ -313,7 +296,7 @@
       "promoted_fields": []
     },
     {
-      "id": "21",
+      "id": "20",
       "type": "OverlayNode",
       "title": "Overlay",
       "x": 2000.0,
@@ -326,7 +309,7 @@
       "promoted_fields": []
     },
     {
-      "id": "22",
+      "id": "21",
       "type": "NormalizeNode",
       "title": "Normalize",
       "x": 1800.0,
@@ -337,7 +320,7 @@
       "promoted_fields": []
     },
     {
-      "id": "23",
+      "id": "22",
       "type": "HistogramScanNode",
       "title": "Histogram Scan",
       "x": 2200.0,
@@ -351,10 +334,10 @@
       "promoted_fields": []
     },
     {
-      "id": "24",
+      "id": "23",
       "type": "GraphInputNode",
       "title": "Graph Input",
-      "x": -900.0,
+      "x": -800.0,
       "y": -100.0,
       "width": null,
       "height": null,
@@ -366,7 +349,7 @@
       "promoted_fields": []
     },
     {
-      "id": "25",
+      "id": "24",
       "type": "GraphOutputNode",
       "title": "Graph Output",
       "x": 2400.0,
@@ -380,10 +363,10 @@
       "promoted_fields": []
     },
     {
-      "id": "26",
+      "id": "25",
       "type": "PerlinNoiseNode",
       "title": "Perlin Noise",
-      "x": 200.0,
+      "x": -600.0,
       "y": -100.0,
       "width": null,
       "height": null,
@@ -395,157 +378,123 @@
       "promoted_fields": [
         "seed"
       ]
+    },
+    {
+      "id": "26",
+      "type": "RerouteNode",
+      "title": "",
+      "x": 500.0,
+      "y": -80.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "27",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": -200.0,
+      "y": -300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 0.0,
+        "scale_x": 2.0,
+        "scale_y": 2.0
+      },
+      "promoted_fields": []
     }
   ],
   "wires": [
     {
-      "source_node": "24",
-      "source_port": "Seed",
-      "target_node": "26",
-      "target_port": "seed"
+      "source_node": "27",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Output",
+      "target_node": "27",
+      "target_port": "Input"
     },
     {
       "source_node": "26",
-      "source_port": "Output",
-      "target_node": "9",
-      "target_port": "Displacement"
-    },
-    {
-      "source_node": "26",
-      "source_port": "Output",
+      "source_port": "",
       "target_node": "8",
       "target_port": "Displacement"
     },
     {
       "source_node": "26",
-      "source_port": "Output",
-      "target_node": "10",
+      "source_port": "",
+      "target_node": "7",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "26",
+      "source_port": "",
+      "target_node": "13",
       "target_port": "Input"
     },
     {
       "source_node": "26",
-      "source_port": "Output",
-      "target_node": "14",
+      "source_port": "",
+      "target_node": "9",
       "target_port": "Input"
     },
     {
-      "source_node": "24",
-      "source_port": "Seed",
-      "target_node": "3",
-      "target_port": "seed"
-    },
-    {
-      "source_node": "21",
+      "source_node": "25",
       "source_port": "Output",
-      "target_node": "23",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "15",
-      "source_port": "Output",
-      "target_node": "18",
-      "target_port": "Top"
+      "target_node": "26",
+      "target_port": ""
     },
     {
       "source_node": "22",
       "source_port": "Output",
-      "target_node": "21",
-      "target_port": "Top"
+      "target_node": "24",
+      "target_port": "Output"
     },
     {
-      "source_node": "20",
+      "source_node": "0",
       "source_port": "Output",
-      "target_node": "22",
+      "target_node": "1",
       "target_port": "Input"
     },
     {
-      "source_node": "19",
+      "source_node": "1",
       "source_port": "Output",
-      "target_node": "21",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "8",
-      "source_port": "Output",
-      "target_node": "20",
-      "target_port": "A"
-    },
-    {
-      "source_node": "18",
-      "source_port": "Output",
-      "target_node": "20",
-      "target_port": "B"
-    },
-    {
-      "source_node": "18",
-      "source_port": "Output",
-      "target_node": "19",
+      "target_node": "2",
       "target_port": "Input"
     },
     {
-      "source_node": "13",
+      "source_node": "3",
       "source_port": "Output",
-      "target_node": "18",
-      "target_port": "Bottom"
+      "target_node": "4",
+      "target_port": "Input"
     },
     {
-      "source_node": "17",
+      "source_node": "3",
       "source_port": "Output",
-      "target_node": "15",
+      "target_node": "4",
       "target_port": "Displacement"
     },
     {
-      "source_node": "16",
+      "source_node": "4",
       "source_port": "Output",
-      "target_node": "17",
+      "target_node": "5",
       "target_port": "Input"
-    },
-    {
-      "source_node": "14",
-      "source_port": "Output",
-      "target_node": "15",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "13",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "10",
-      "source_port": "Output",
-      "target_node": "13",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "12",
-      "source_port": "Output",
-      "target_node": "11",
-      "target_port": "B"
-    },
-    {
-      "source_node": "9",
-      "source_port": "Output",
-      "target_node": "12",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "10",
-      "source_port": "Output",
-      "target_node": "11",
-      "target_port": "A"
     },
     {
       "source_node": "2",
       "source_port": "Output",
-      "target_node": "9",
-      "target_port": "Input"
+      "target_node": "5",
+      "target_port": "Displacement"
     },
     {
-      "source_node": "7",
+      "source_node": "5",
       "source_port": "Output",
-      "target_node": "8",
+      "target_node": "6",
       "target_port": "Input"
     },
     {
@@ -557,50 +506,116 @@
     {
       "source_node": "2",
       "source_port": "Output",
-      "target_node": "6",
+      "target_node": "8",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "A"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "B"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Output",
+      "target_node": "14",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "16",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Output",
+      "target_node": "14",
       "target_port": "Displacement"
     },
     {
-      "source_node": "5",
+      "source_node": "12",
       "source_port": "Output",
-      "target_node": "6",
+      "target_node": "17",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "17",
+      "source_port": "Output",
+      "target_node": "18",
       "target_port": "Input"
     },
     {
-      "source_node": "4",
+      "source_node": "17",
       "source_port": "Output",
-      "target_node": "5",
-      "target_port": "Displacement"
+      "target_node": "19",
+      "target_port": "B"
     },
     {
-      "source_node": "4",
+      "source_node": "7",
       "source_port": "Output",
-      "target_node": "5",
+      "target_node": "19",
+      "target_port": "A"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "20",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "19",
+      "source_port": "Output",
+      "target_node": "21",
       "target_port": "Input"
     },
     {
-      "source_node": "3",
+      "source_node": "21",
       "source_port": "Output",
-      "target_node": "4",
-      "target_port": "Input"
+      "target_node": "20",
+      "target_port": "Top"
     },
     {
-      "source_node": "1",
+      "source_node": "14",
       "source_port": "Output",
-      "target_node": "2",
-      "target_port": "Input"
+      "target_node": "17",
+      "target_port": "Top"
     },
     {
-      "source_node": "0",
+      "source_node": "20",
       "source_port": "Output",
-      "target_node": "1",
+      "target_node": "22",
       "target_port": "Input"
     },
     {
       "source_node": "23",
-      "source_port": "Output",
+      "source_port": "Seed",
       "target_node": "25",
-      "target_port": "Output"
+      "target_port": "seed"
     }
   ]
 }

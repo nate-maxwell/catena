@@ -215,8 +215,8 @@
       "width": null,
       "height": null,
       "fields": {
-        "offset_x": 512,
-        "offset_y": 512,
+        "offset_x": 50.0,
+        "offset_y": 50.0,
         "wrap": true
       },
       "promoted_fields": []
@@ -241,99 +241,9 @@
   ],
   "wires": [
     {
-      "source_node": "15",
+      "source_node": "14",
       "source_port": "Output",
-      "target_node": "14",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "15",
-      "source_port": "Output",
-      "target_node": "4",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "13",
-      "source_port": "Seed",
-      "target_node": "15",
-      "target_port": "seed"
-    },
-    {
-      "source_node": "9",
-      "source_port": "Output",
-      "target_node": "12",
-      "target_port": "Output"
-    },
-    {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "3",
-      "target_port": "B"
-    },
-    {
-      "source_node": "2",
-      "source_port": "Color",
-      "target_node": "3",
-      "target_port": "A"
-    },
-    {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "5",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
-      "source_port": "Output",
-      "target_node": "1",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "3",
-      "source_port": "Output",
-      "target_node": "1",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "5",
-      "source_port": "Output",
-      "target_node": "6",
-      "target_port": "A"
-    },
-    {
-      "source_node": "2",
-      "source_port": "Color",
-      "target_node": "6",
-      "target_port": "B"
-    },
-    {
-      "source_node": "6",
-      "source_port": "Output",
-      "target_node": "7",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "4",
-      "source_port": "Output",
-      "target_node": "7",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "7",
-      "source_port": "Output",
-      "target_node": "8",
-      "target_port": "A"
-    },
-    {
-      "source_node": "1",
-      "source_port": "Output",
-      "target_node": "8",
-      "target_port": "B"
-    },
-    {
-      "source_node": "8",
-      "source_port": "Output",
-      "target_node": "9",
+      "target_node": "0",
       "target_port": "Input"
     },
     {
@@ -343,9 +253,99 @@
       "target_port": "Input"
     },
     {
-      "source_node": "14",
+      "source_node": "8",
       "source_port": "Output",
-      "target_node": "0",
+      "target_node": "9",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "B"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "A"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Color",
+      "target_node": "6",
+      "target_port": "B"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "A"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Color",
+      "target_node": "3",
+      "target_port": "A"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "B"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Seed",
+      "target_node": "15",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "14",
       "target_port": "Input"
     }
   ]
