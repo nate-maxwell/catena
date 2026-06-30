@@ -12,28 +12,9 @@ from catena.nodes.graph import GuiGraphView
 from catena.nodes.node import CatenaNode
 from catena.nodes import serialize as graph_serialize
 from std_graph_nodes.input import GraphInputNode
+from std_graph_nodes.input import _default_field_for_data_type
 from std_graph_nodes.output import GraphOutputNode
 from std_graph_nodes import IMAGE_NODE_COLOR
-
-
-def _field_type_for_port_data_type(data_type: str) -> api.FieldType:
-    if data_type == api.PortDataType.FLOAT:
-        return api.FieldType.FLOAT
-    if data_type == api.PortDataType.INT:
-        return api.FieldType.INT
-    if data_type == api.PortDataType.BOOL:
-        return api.FieldType.BOOL
-    if data_type == api.PortDataType.VECTOR2:
-        return api.FieldType.VEC2
-    if data_type == api.PortDataType.VECTOR3:
-        return api.FieldType.VEC3
-    if data_type in (
-        api.PortDataType.VECTOR4,
-        api.PortDataType.NORMAL,
-        api.PortDataType.FLOOD_FILL,
-    ):
-        return api.FieldType.COLOR
-    return api.FieldType.STR
 
 
 class SubgraphNode(api.CatenaNode):
@@ -89,14 +70,21 @@ class SubgraphNode(api.CatenaNode):
             self._rebuild_ports()
         super()._on_field_changed(node)
 
-    def _load_interface(self) -> tuple[list[tuple[str, str]], list[tuple[str, str]]]:
+    def _load_interface(
+        self,
+    ) -> tuple[
+        list[tuple[str, str, object]],
+        list[tuple[str, str]],
+    ]:
         """
-        Read the subgraph file and return the names and data types of all
-        GraphInput and GraphOutput nodes, in the order they appear.
+        Read the subgraph file and return the names, data types, and default
+        values of all GraphInput nodes, plus the names and data types of all
+        GraphOutput nodes, in the order they appear.
 
         Returns:
-            tuple[list[tuple[str, str]], list[tuple[str, str]]]: Input
-                (name, data_type) pairs and output (name, data_type) pairs.
+            tuple[list[tuple[str, str, object]], list[tuple[str, str]]]: Input
+                (name, data_type, default_value) tuples and output
+                (name, data_type) tuples.
         """
         if not self._cached_filepath:
             return [], []
@@ -118,9 +106,10 @@ class SubgraphNode(api.CatenaNode):
             fields = node_data.get("fields", {})
             name = fields.get("name", "")
             data_type = fields.get("data_type", api.PortDataType.VECTOR4)
+            default_value = fields.get("default_value")
 
             if node_type == "GraphInputNode":
-                input_ports.append((name, data_type))
+                input_ports.append((name, data_type, default_value))
             elif node_type == "GraphOutputNode":
                 output_ports.append((name, data_type))
 
@@ -178,12 +167,17 @@ class SubgraphNode(api.CatenaNode):
         self.title = self._graph_name
         self.update()
 
-        for name, data_type in input_ports:
+        for name, data_type, default_value in input_ports:
+            default_field_type, fallback_default = _default_field_for_data_type(
+                data_type
+            )
+            if default_value is None:
+                default_value = fallback_default
             definition = api.FieldDefinition(
                 name=name,
                 label=name,
-                field_type=_field_type_for_port_data_type(data_type),
-                default=None,
+                field_type=default_field_type,
+                default=default_value,
             )
             self.add_field(definition)
 

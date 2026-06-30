@@ -1,7 +1,24 @@
+import broker
+
 from catena import api
+from catena import namespace
 from std_graph_nodes import IMAGE_NODE_COLOR
 
 _PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
+
+
+def _default_field_for_data_type(data_type: str) -> tuple[str, object]:
+    if data_type in (api.PortDataType.FLOAT, api.PortDataType.VECTOR1):
+        return api.FieldType.FLOAT, 0.0
+    if data_type == api.PortDataType.INT:
+        return api.FieldType.INT, 0
+    if data_type == api.PortDataType.BOOL:
+        return api.FieldType.BOOL, False
+    if data_type == api.PortDataType.VECTOR2:
+        return api.FieldType.VEC2, (0.0, 0.0)
+    if data_type == api.PortDataType.VECTOR3:
+        return api.FieldType.VEC3, (0.0, 0.0, 0.0)
+    return api.FieldType.COLOR, (255, 255, 255, 255)
 
 
 class GraphInputNode(api.CatenaNode):
@@ -37,10 +54,22 @@ class GraphInputNode(api.CatenaNode):
                 options=_PORT_TYPES,
             )
         )
+        default_field_type, default_value = _default_field_for_data_type(
+            api.PortDataType.VECTOR4
+        )
+        self.add_field(
+            api.FieldDefinition(
+                name="default_value",
+                label="Default",
+                field_type=default_field_type,
+                default=default_value,
+            )
+        )
 
     def _on_field_changed(self, node: "GraphInputNode") -> None:
         name = self.get_field_value("name")
         data_type = self.get_field_value("data_type")
+        default_field_type, default_value = _default_field_for_data_type(data_type)
 
         self.port_out.name = name
         self.port_out.data_type = data_type
@@ -48,5 +77,15 @@ class GraphInputNode(api.CatenaNode):
         for wire in list(self.port_out.wires):
             wire.refresh_color()
             wire.update_path()
+
+        definition = self._fields.get("default_value")
+        if definition is not None and definition.field_type != default_field_type:
+            definition.field_type = default_field_type
+            definition.default = default_value
+            definition.min_value = None
+            definition.max_value = None
+            self._field_values["default_value"] = default_value
+            self.update()
+            broker.emit(namespace.NODE_SELECTED, node=self)
 
         super()._on_field_changed(node)
