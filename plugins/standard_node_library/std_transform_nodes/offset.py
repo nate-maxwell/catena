@@ -22,19 +22,21 @@ class OffsetNode(api.CatenaNode):
         self.add_field(
             api.FieldDefinition(
                 name="offset_x",
-                label="X",
-                field_type=api.FieldType.INT,
-                default=0,
-                max_value=4096,
+                label="X %",
+                field_type=api.FieldType.FLOAT,
+                default=0.0,
+                min_value=-100.0,
+                max_value=100.0,
             )
         )
         self.add_field(
             api.FieldDefinition(
                 name="offset_y",
-                label="Y",
-                field_type=api.FieldType.INT,
-                default=0,
-                max_value=4096,
+                label="Y %",
+                field_type=api.FieldType.FLOAT,
+                default=0.0,
+                min_value=-100.0,
+                max_value=100.0,
             )
         )
         self.add_field(
@@ -67,13 +69,16 @@ class OffsetNode(api.CatenaNode):
         if image is None:
             return None
 
+        height, width = image.shape[:2]
+        offset_x = int(round(width * (offset_x / 100.0)))
+        offset_y = int(round(height * (offset_y / 100.0)))
+
         if wrap:
             return numpy.roll(image, shift=(offset_y, offset_x), axis=(0, 1)).astype(
                 numpy.float32
             )
 
         result = numpy.zeros_like(image)
-        height, width = image.shape[:2]
 
         src_x0 = max(0, -offset_x)
         src_x1 = min(width, width - offset_x)
