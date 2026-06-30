@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from PySide6TK import QtCore
+from PySide6TK import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
@@ -27,8 +29,31 @@ class PluginEntry(QtWrappers.GroupBox):
         enabled = metadata.enabled
         super().__init__(name)
 
+        entry_layout = QtWidgets.QHBoxLayout()
+        entry_layout.setContentsMargins(0, 0, 0, 0)
+        entry_layout.setSpacing(12)
+
+        scale = 256 - 64
+
+        icon_path = self._find_icon_path()
+        if icon_path is not None:
+            icon_label = QtWidgets.QLabel()
+            icon_pixmap = QtGui.QPixmap(icon_path.as_posix())
+            if not icon_pixmap.isNull():
+                icon_label.setPixmap(
+                    icon_pixmap.scaled(
+                        scale,
+                        scale,
+                        QtCore.Qt.AspectRatioMode.KeepAspectRatio,
+                        QtCore.Qt.TransformationMode.SmoothTransformation,
+                    )
+                )
+                icon_label.setFixedSize(scale, scale)
+                icon_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignTop)
+                entry_layout.addWidget(icon_label)
+
         grid = QtWrappers.GridLayout()
-        self.add_layout(grid)
+        entry_layout.addLayout(grid)
         grid.add_to_new_row(QtWidgets.QLabel("Description:"))
         grid.add_to_last_row(QtWidgets.QLabel(description))
         grid.add_to_new_row(QtWidgets.QLabel("Version:"))
@@ -36,11 +61,19 @@ class PluginEntry(QtWrappers.GroupBox):
         grid.add_to_new_row(QtWidgets.QLabel("Author:"))
         grid.add_to_last_row(QtWidgets.QLabel(author))
 
+        self.add_layout(entry_layout)
+
         self.check_box = QtWidgets.QCheckBox("Enabled")
         self.check_box.setChecked(enabled)
         self.add_widget(self.check_box)
 
         self.check_box.toggled.connect(self._update_parent)
+
+    def _find_icon_path(self) -> Path | None:
+        for candidate in self.path.rglob("icon.png"):
+            if candidate.is_file():
+                return candidate
+        return None
 
     def _update_parent(self) -> None:
         self.parent.set_plugin_enabled(self.check_box.isChecked(), self.path)
