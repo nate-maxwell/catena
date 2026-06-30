@@ -6,6 +6,7 @@ from catena import api
 from std_generate_nodes.blue_noise import BlueNoiseNode
 from std_generate_nodes.bnw_spots import BNWSpotsNode
 from std_generate_nodes.fibers import FibersNode
+from std_generate_nodes.gaussian_noise import GaussianNoiseNode
 from std_generate_nodes.pink_noise import PinkNoiseNode
 from std_generate_nodes.perlin_noise import PerlinNoiseNode
 from std_generate_nodes.white_noise import WhiteNoiseNode
@@ -39,6 +40,7 @@ def build_shelf() -> None:
     _add_node(BNWSpotsNode, "BnW\nSpots")
     _add_node(DirectionalNoiseNode, "Dir\nNoise")
     _add_node(FibersNode, "Fibers")
+    _add_node(GaussianNoiseNode, "Gaus\nNoise")
     _add_node(PinkNoiseNode, "Pink\nNoise")
     _add_node(PerlinNoiseNode, "Perlin\nNoise")
     _add_node(WhiteNoiseNode, "White\nNoise")
@@ -69,6 +71,7 @@ def build_registry() -> None:
     api.register_node(CATEGORY, DirectionalNoiseNode)
     api.register_node(CATEGORY, FibersNode)
     api.register_node(CATEGORY, FloatNode)
+    api.register_node(CATEGORY, GaussianNoiseNode)
     api.register_node(CATEGORY, GradientNode)
     api.register_node(CATEGORY, GrungeNode)
     api.register_node(CATEGORY, IntegerNode)
