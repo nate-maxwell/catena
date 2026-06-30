@@ -12,8 +12,8 @@ from catena.nodes.graph import GuiGraphView
 from catena.nodes.node import CatenaNode
 from catena.nodes import serialize as graph_serialize
 from std_graph_nodes.input import GraphInputNode
-from std_graph_nodes.input import _default_field_for_data_type
-from std_graph_nodes.input import _numeric_field_limits_for_data_type
+from std_graph_nodes.input import default_field_for_data_type
+from std_graph_nodes.input import numeric_field_limits_for_data_type
 from std_graph_nodes.output import GraphOutputNode
 from std_graph_nodes import IMAGE_NODE_COLOR
 
@@ -169,10 +169,10 @@ class SubgraphNode(api.CatenaNode):
         self.update()
 
         for name, data_type, default_value in input_ports:
-            default_field_type, fallback_default = _default_field_for_data_type(
+            default_field_type, fallback_default = default_field_for_data_type(
                 data_type
             )
-            min_value, max_value = _numeric_field_limits_for_data_type(data_type)
+            min_value, max_value = numeric_field_limits_for_data_type(data_type)
             if default_value is None:
                 default_value = fallback_default
             definition = api.FieldDefinition(

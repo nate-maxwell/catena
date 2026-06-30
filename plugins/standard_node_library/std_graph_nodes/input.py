@@ -7,7 +7,8 @@ from std_graph_nodes import IMAGE_NODE_COLOR
 _PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
 
 
-def _default_field_for_data_type(data_type: str) -> tuple[str, object]:
+def default_field_for_data_type(data_type: str) -> tuple[str, object]:
+    """Generates a default value and type pair for each data type."""
     if data_type in (api.PortDataType.FLOAT, api.PortDataType.VECTOR1):
         return api.FieldType.FLOAT, 0.0
     if data_type == api.PortDataType.INT:
@@ -21,9 +22,10 @@ def _default_field_for_data_type(data_type: str) -> tuple[str, object]:
     return api.FieldType.COLOR, (255, 255, 255, 255)
 
 
-def _numeric_field_limits_for_data_type(
+def numeric_field_limits_for_data_type(
     data_type: str,
 ) -> tuple[object | None, object | None]:
+    """Sets the upper bounds of the input values to 999999.0 for numeric types."""
     if data_type in (api.PortDataType.FLOAT, api.PortDataType.VECTOR1):
         return 0.0, 999999.0
     if data_type == api.PortDataType.INT:
@@ -64,7 +66,7 @@ class GraphInputNode(api.CatenaNode):
                 options=_PORT_TYPES,
             )
         )
-        default_field_type, default_value = _default_field_for_data_type(
+        default_field_type, default_value = default_field_for_data_type(
             api.PortDataType.VECTOR4
         )
         self.add_field(
@@ -79,7 +81,7 @@ class GraphInputNode(api.CatenaNode):
     def _on_field_changed(self, node: "GraphInputNode") -> None:
         name = self.get_field_value("name")
         data_type = self.get_field_value("data_type")
-        default_field_type, default_value = _default_field_for_data_type(data_type)
+        default_field_type, default_value = default_field_for_data_type(data_type)
 
         self.port_out.name = name
         self.port_out.data_type = data_type
@@ -92,8 +94,8 @@ class GraphInputNode(api.CatenaNode):
         if definition is not None and definition.field_type != default_field_type:
             definition.field_type = default_field_type
             definition.default = default_value
-            definition.min_value, definition.max_value = _numeric_field_limits_for_data_type(
-                data_type
+            definition.min_value, definition.max_value = (
+                numeric_field_limits_for_data_type(data_type)
             )
             self._field_values["default_value"] = default_value
             self.update()
