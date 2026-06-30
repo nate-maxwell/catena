@@ -25,12 +25,13 @@ class CatenaNode(BaseNode):
     _preview_update_depth: int = 0
 
     def __init__(self, title: str, width: int = 160, body_height: int = 40) -> None:
-        super().__init__(title, width, body_height)
         self._is_active_preview: bool = False
         self._promoted_fields: dict[str, Port] = {}
 
         self._cached_value: Any = None
         """The last evaluated value. Updates when field values change."""
+
+        super().__init__(title, width, body_height)
 
         logger.info(f"{title} node created")
 

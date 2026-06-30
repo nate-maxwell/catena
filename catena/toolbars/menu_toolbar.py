@@ -58,6 +58,9 @@ class MenuToolbar(QtWrappers.Toolbar):
         self.add_menu_command(
             menu, "Save As", lambda: broker.emit(namespace.FILE_SAVE_AS)
         )
+        self.add_menu_command(
+            menu, "Publish Textures", lambda: broker.emit(namespace.NODE_WRITE_FILE)
+        )
         self.add_menu_command(menu, "Quit", QtWidgets.QApplication.quit)
 
     def _edit_section(self) -> None:
