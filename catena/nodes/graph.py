@@ -112,7 +112,7 @@ class GuiGraphView(GraphView):
         internal node registry, which Catena does not populate. That causes
         clipboard paste to drop custom nodes silently.
         """
-        from catena.panes.node_graph import serialize as graph_serialize
+        from catena.nodes import serialize as graph_serialize
 
         selected_nodes = [
             item
@@ -133,7 +133,7 @@ class GuiGraphView(GraphView):
         graph view's internal registry and therefore cannot resolve Catena's
         globally registered node classes.
         """
-        from catena.panes.node_graph import serialize as graph_serialize
+        from catena.nodes import serialize as graph_serialize
 
         text = QtGui.QGuiApplication.clipboard().text()
         if not text:

@@ -6,7 +6,7 @@ from functools import wraps
 from PySide6 import QtWidgets
 
 from catena.nodes.graph import GuiGraphView
-from catena.panes.node_graph.node_graph import NodeGraphPane
+from catena.panes.node_graph import NodeGraphPane
 
 from mimimap import MinimapWidget
 

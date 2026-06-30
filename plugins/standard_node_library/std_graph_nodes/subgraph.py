@@ -10,7 +10,7 @@ from catena import api
 from catena import namespace
 from catena.nodes.graph import GuiGraphView
 from catena.nodes.node import CatenaNode
-from catena.panes.node_graph import serialize as graph_serialize
+from catena.nodes import serialize as graph_serialize
 from std_graph_nodes.input import GraphInputNode
 from std_graph_nodes.output import GraphOutputNode
 from std_graph_nodes import IMAGE_NODE_COLOR

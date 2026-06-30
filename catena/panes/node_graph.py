@@ -18,7 +18,7 @@ from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
 from catena.preferences.preferences import Preferences
 from catena.preferences import category_data
-from catena.panes.node_graph import serialize
+from catena.nodes import serialize
 
 logger = logging.getLogger(__name__)
 

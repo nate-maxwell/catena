@@ -13,7 +13,7 @@ from catena.api import toolbar_api
 from catena import resources
 from catena import session
 from catena import shortcuts
-from catena.panes.node_graph.node_graph import NodeGraphPane
+from catena.panes.node_graph import NodeGraphPane
 from catena.panes.obj_viewer.obj_viewport_pane import ObjViewportPane
 from catena.panes.properties import PropertiesPane
 from catena.panes.resize import split_horizontal
