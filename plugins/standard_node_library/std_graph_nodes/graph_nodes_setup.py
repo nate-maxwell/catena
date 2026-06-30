@@ -4,9 +4,13 @@ from typing import Callable
 from PySide6TK import Resources
 
 from catena import api
+from std_graph_nodes.comparison import ComparisonNode
 from std_graph_nodes.read import ReadNode
 from std_graph_nodes.switch import SwitchNode
 from std_graph_nodes.write import WriteNode
+from std_graph_nodes.input import GraphInputNode
+from std_graph_nodes.output import GraphOutputNode
+from std_graph_nodes.subgraph import SubgraphNode
 
 logger = logging.getLogger(__name__)
 
@@ -27,12 +31,21 @@ def build_shelf() -> None:
     _add_node(ReadNode, "Read")
     _add_node(WriteNode, "Write")
     api.add_seperator_to_shelf(CATEGORY)
+    _add_node(ComparisonNode, "Compar")
     _add_node(SwitchNode, "Switch")
+    api.add_seperator_to_shelf(CATEGORY)
+    _add_node(SubgraphNode, "Sub\nGraph")
+    _add_node(GraphInputNode, "Input")
+    _add_node(GraphOutputNode, "Output")
 
 
 def build_registry() -> None:
     logger.info("Registering std graph nodes...")
+    api.register_node(CATEGORY, ComparisonNode)
+    api.register_node(CATEGORY, GraphInputNode)
+    api.register_node(CATEGORY, GraphOutputNode)
     api.register_node(CATEGORY, ReadNode)
+    api.register_node(CATEGORY, SubgraphNode)
     api.register_node(CATEGORY, SwitchNode)
     api.register_node(CATEGORY, WriteNode)
 

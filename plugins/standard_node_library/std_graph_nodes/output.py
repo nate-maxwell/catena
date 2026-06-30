@@ -1,5 +1,5 @@
 from catena import api
-from std_subgraph_nodes import IMAGE_NODE_COLOR
+from std_graph_nodes import IMAGE_NODE_COLOR
 
 _PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
 
