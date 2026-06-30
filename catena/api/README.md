@@ -43,6 +43,8 @@ The manifest is a small JSON object with these fields:
 - `description`: short summary shown in the plugin manager
 - `deferred_load`: optional boolean that delays `startup.py` until all other
   non-deferred plugins have been initialized
+- `dependencies`: optional list of plugin names or folder names that must be
+  available before this plugin will load
 
 Example:
 
@@ -52,7 +54,8 @@ Example:
   "version": "1.0.0",
   "author": "Your Name",
   "description": "Adds a custom node pack and a small utility pane.",
-  "deferred_load": false
+  "deferred_load": false,
+  "dependencies": ["standard_node_library"]
 }
 ```
 
@@ -60,6 +63,9 @@ If `deferred_load` is `true`, Catena still adds the plugin directory to
 `sys.path` immediately, but it postpones running `startup.py` until after the
 main plugin queue has finished. Use this when your plugin depends on nodes or
 helpers registered by other plugins.
+
+If any dependency is missing, disabled, or fails to load, Catena skips the
+plugin instead of running its startup code.
 
 What plugins usually do
 -----------------------

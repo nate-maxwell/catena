@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 
 
@@ -13,3 +14,4 @@ class PluginDescriptor(object):
     description: str
     enabled: bool = True
     deferred_load: bool = False
+    dependencies: list[str] = field(default_factory=list)

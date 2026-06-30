@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "author": "Nate",
   "description": "A pack of noise generator subgraphs.",
-  "deferred_load": true
+  "deferred_load": true,
+  "dependencies": ["standard_node_library"]
 }
