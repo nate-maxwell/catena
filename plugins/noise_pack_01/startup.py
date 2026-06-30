@@ -5,6 +5,9 @@ from PySide6TK import Resources
 from catena import api
 from moisture_noise import MoistureNoiseNode
 from fractal_sum_base import FractalSumBaseNode
+from fractal_sum_01 import FractalSum01Node
+from fractal_sum_02 import FractalSum02Node
+from fractal_sum_03 import FractalSum03Node
 
 CATEGORY = "Noise Pack 01"
 
@@ -19,6 +22,12 @@ def build_shelf() -> None:
     logger.info("Building noise pack shelf...")
 
     _add_node(FractalSumBaseNode, "Fractal\nSum\nBase")
+    _add_node(FractalSum01Node, "Fractal\nSum\n01")
+    _add_node(FractalSum02Node, "Fractal\nSum\n02")
+    _add_node(FractalSum03Node, "Fractal\nSum\n03")
+
+    api.add_seperator_to_shelf(CATEGORY)
+
     _add_node(MoistureNoiseNode, "Moistur\nNoise")
 
 
@@ -26,6 +35,9 @@ def build_registry() -> None:
     logger.info("Registering noise pack nodes...")
 
     api.register_node(CATEGORY, FractalSumBaseNode)
+    api.register_node(CATEGORY, FractalSum01Node)
+    api.register_node(CATEGORY, FractalSum02Node)
+    api.register_node(CATEGORY, FractalSum03Node)
     api.register_node(CATEGORY, MoistureNoiseNode)
 
 

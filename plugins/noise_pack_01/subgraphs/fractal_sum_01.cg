@@ -1,0 +1,189 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "FractalSumBaseNode",
+      "title": "Fractal Sum Base",
+      "x": -100.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "filepath": "C:\\git\\catena\\plugins\\noise_pack_01\\subgraphs\\fractal_sum_base.cg",
+        "Levels": null,
+        "Seed": 4
+      },
+      "promoted_fields": [
+        "Levels",
+        "Seed"
+      ]
+    },
+    {
+      "id": "1",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 700.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Output",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "WhiteNoiseNode",
+      "title": "White Noise",
+      "x": -100.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "seed": 0
+      },
+      "promoted_fields": [
+        "seed"
+      ]
+    },
+    {
+      "id": "3",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 100.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 150,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 300.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "5",
+      "type": "NormalizeNode",
+      "title": "Normalize",
+      "x": 500.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "6",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -500.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Input",
+        "data_type": "int",
+        "default_value": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "7",
+      "type": "AddNode",
+      "title": "Add",
+      "x": -300.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "int"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "8",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": -500.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 1
+      },
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "B"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "A"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Input",
+      "target_node": "0",
+      "target_port": "Levels"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Input",
+      "target_node": "7",
+      "target_port": "B"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "A"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Output"
+    }
+  ]
+}
