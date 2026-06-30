@@ -7,13 +7,54 @@ from catena import api
 from std_modifier_nodes import IMAGE_NODE_COLOR
 
 
+def _detect_edges(
+    image: numpy.ndarray,
+    edge_width: float,
+    roundedness: float,
+    invert: bool,
+    tolerance: float,
+) -> numpy.ndarray:
+    if image.ndim == 3:
+        gray = image.mean(axis=2)
+    else:
+        gray = image
+
+    gray = numpy.clip(gray.astype(numpy.float32), 0.0, 1.0)
+
+    if edge_width > 1.0:
+        blur_sigma = max(0.25, (edge_width - 1.0) * 0.5)
+        gray = cv2.GaussianBlur(gray, (0, 0), sigmaX=blur_sigma, sigmaY=blur_sigma)
+
+    sobel_x = cv2.Sobel(gray, cv2.CV_32F, 1, 0, ksize=3)
+    sobel_y = cv2.Sobel(gray, cv2.CV_32F, 0, 1, ksize=3)
+
+    edges = cv2.magnitude(sobel_x, sobel_y) * 32.0
+
+    if roundedness > 0.0:
+        blur_sigma = max(0.25, roundedness * max(1.0, edge_width) * 0.5)
+        edges = cv2.GaussianBlur(edges, (0, 0), sigmaX=blur_sigma, sigmaY=blur_sigma)
+
+    edges = numpy.clip(edges - tolerance, 0.0, 1.0)
+
+    if edge_width > 1.0:
+        kernel_size = int(numpy.ceil(edge_width)) * 2 + 1
+        kernel = cv2.getStructuringElement(
+            cv2.MORPH_ELLIPSE, (kernel_size, kernel_size)
+        )
+        edges = cv2.dilate(edges, kernel)
+
+    if invert:
+        edges = 1.0 - edges
+
+    return numpy.repeat(edges[:, :, None], 4, axis=2).astype(numpy.float32)
+
+
 class EdgeDetectNode(api.CatenaNode):
     """A node that detects edges in an input modifier."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-
         super().__init__(title="Edge Detect")
 
     def _build(self) -> None:
@@ -69,7 +110,7 @@ class EdgeDetectNode(api.CatenaNode):
             inputs (dict[str, numpy.ndarray | None]): Expects key "Input"
                 containing a float32 modifier with values in [0, 1].
         Returns:
-            numpy.ndarray | None: A float32 edge mask of shape (H, W, 3)
+            numpy.ndarray | None: A float32 edge mask of shape (H, W, 4)
                 with values in [0, 1].
         """
 
@@ -82,31 +123,4 @@ class EdgeDetectNode(api.CatenaNode):
         if image is None:
             return None
 
-        gray = image.mean(axis=2) if image.ndim == 3 else image
-        gray_uint8 = numpy.clip(gray * 255.0, 0, 255).astype(numpy.uint8)
-
-        sobel_x = cv2.Sobel(gray_uint8, cv2.CV_32F, 1, 0, ksize=3)
-        sobel_y = cv2.Sobel(gray_uint8, cv2.CV_32F, 0, 1, ksize=3)
-        magnitude = numpy.sqrt(sobel_x**2 + sobel_y**2)
-        magnitude = magnitude / (magnitude.max() + 1e-6)
-
-        edges = numpy.clip((magnitude - tolerance) / (1.0 - tolerance + 1e-6), 0.0, 1.0)
-
-        if edge_width > 1.0:
-            kernel_size = int(edge_width) * 2 + 1
-            if roundedness > 0.0:
-                blur_radius = roundedness * edge_width
-                edges = cv2.GaussianBlur(
-                    edges, (0, 0), sigmaX=blur_radius, sigmaY=blur_radius
-                )
-            kernel = cv2.getStructuringElement(
-                cv2.MORPH_ELLIPSE, (kernel_size, kernel_size)
-            )
-            edges = cv2.dilate(edges, kernel)
-
-        edges = numpy.clip(edges, 0.0, 1.0)
-
-        if invert:
-            edges = 1.0 - edges
-
-        return numpy.repeat(edges[:, :, None], 4, axis=2).astype(numpy.float32)
+        return _detect_edges(image, edge_width, roundedness, invert, tolerance)
