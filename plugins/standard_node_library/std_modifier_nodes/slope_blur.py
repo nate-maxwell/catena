@@ -41,7 +41,7 @@ class SlopeBlurNode(api.CatenaNode):
                 field_type=api.FieldType.FLOAT,
                 default=10.0,
                 min_value=0.0,
-                max_value=16.0,
+                max_value=999999.0,
             )
         )
         self.add_field(
