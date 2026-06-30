@@ -1,0 +1,540 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "ScratchesNode",
+      "title": "Scratches",
+      "x": -300.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "sp_count": 100,
+        "max_segments": 16,
+        "rotation": 0.35,
+        "rotation_random": 0.05,
+        "scale": 0.3,
+        "scale_random": 0.0,
+        "distortion": 0.0,
+        "distortion_random": 0.0,
+        "distortion_frequency": 0.5,
+        "width": 0.002,
+        "width_random": 0.0,
+        "position_random": 0.8,
+        "luminance_random": 0.0,
+        "fade_mode": "End",
+        "fade_length": 0.8,
+        "seed": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "1",
+      "type": "ShapeNode",
+      "title": "Shape",
+      "x": -300.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "shape": "Gaussian",
+        "size": 0.5,
+        "rotation": 0.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -100.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "3",
+      "type": "ShapeNode",
+      "title": "Shape",
+      "x": -300.0,
+      "y": 300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "shape": "Paraboloid",
+        "size": 1.0,
+        "rotation": 0.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "DirectionalWarpNode",
+      "title": "Directional Warp",
+      "x": 100.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 400.0,
+        "direction": 45.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "5",
+      "type": "DirectionalWarpNode",
+      "title": "Directional Warp",
+      "x": 100.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 400.0,
+        "direction": 45.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "6",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -100.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "7",
+      "type": "ScratchesNode",
+      "title": "Scratches",
+      "x": -300.0,
+      "y": -300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "sp_count": 50,
+        "max_segments": 16,
+        "rotation": 0.35,
+        "rotation_random": 0.05,
+        "scale": 0.3,
+        "scale_random": 0.0,
+        "distortion": 0.0,
+        "distortion_random": 0.0,
+        "distortion_frequency": 0.5,
+        "width": 0.002,
+        "width_random": 0.0,
+        "position_random": 0.8,
+        "luminance_random": 0.0,
+        "fade_mode": "End",
+        "fade_length": 0.8,
+        "seed": 2
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "8",
+      "type": "ScatterNode",
+      "title": "Scatter",
+      "x": 300.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "count": 10,
+        "scale": 0.8,
+        "scale_variance": 0.0,
+        "rotation_variance": 180.0,
+        "seed": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "9",
+      "type": "ScatterNode",
+      "title": "Scatter",
+      "x": 300.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "count": 10,
+        "scale": 0.8,
+        "scale_variance": 0.0,
+        "rotation_variance": 180.0,
+        "seed": 2
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "10",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 500.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "11",
+      "type": "MoistureNoiseNode",
+      "title": "Moisture Noise",
+      "x": -300.0,
+      "y": 500.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "filepath": "C:\\git\\catena\\plugins\\noise_pack_01\\subgraphs\\moisture_noise.cg",
+        "Seed": 0
+      },
+      "promoted_fields": [
+        "Seed"
+      ]
+    },
+    {
+      "id": "12",
+      "type": "SlopeBlurNode",
+      "title": "Slope Blur",
+      "x": -100.0,
+      "y": 500.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "samples": 8,
+        "intensity": 16.0,
+        "mode": "Blur"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "13",
+      "type": "DirectionalWarpNode",
+      "title": "Directional Warp",
+      "x": 100.0,
+      "y": 500.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 64.0,
+        "direction": 270.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "14",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 300.0,
+      "y": 500.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 50,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "15",
+      "type": "BlurNode",
+      "title": "Blur",
+      "x": 500.0,
+      "y": 500.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "radius": 4.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "16",
+      "type": "WarpNode",
+      "title": "Warp",
+      "x": 1000.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 35.0,
+        "direction": 270.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "17",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 1200.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 135.0,
+        "scale_x": 1.4,
+        "scale_y": 1.4
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "18",
+      "type": "GrungeGradientNode",
+      "title": "Grunge Gradient",
+      "x": -300.0,
+      "y": 700.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "filepath": "C:\\git\\catena\\plugins\\grunge_pack_01\\subgraphs\\grunge_gradient.cg",
+        "Scale": 128.0,
+        "Seed": 0
+      },
+      "promoted_fields": [
+        "Scale",
+        "Seed"
+      ]
+    },
+    {
+      "id": "19",
+      "type": "DirectionalWarpNode",
+      "title": "Directional Warp",
+      "x": 100.0,
+      "y": 700.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 400.0,
+        "direction": 270.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "20",
+      "type": "WriteNode",
+      "title": "Output",
+      "x": -100.0,
+      "y": 600.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "texture_type": "Albedo",
+        "filepath": "",
+        "file_type": "PNG"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "21",
+      "type": "GradientNode",
+      "title": "Gradient",
+      "x": -300.0,
+      "y": 800.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color_a": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "color_b": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "angle": 270.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "22",
+      "type": "SlopeBlurNode",
+      "title": "Slope Blur",
+      "x": -100.0,
+      "y": 800.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "samples": 8,
+        "intensity": 16.0,
+        "mode": "Blur"
+      },
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "21",
+      "source_port": "Output",
+      "target_node": "22",
+      "target_port": "Slope"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "22",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "20",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "19",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "19",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "A"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "B"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "A"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "B"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "A"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "B"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Slope"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "13",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "13",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Output",
+      "target_node": "14",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Output",
+      "target_node": "15",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "16",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "16",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Output",
+      "target_node": "17",
+      "target_port": "Input"
+    }
+  ]
+}

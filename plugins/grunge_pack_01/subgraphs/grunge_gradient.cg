@@ -1,0 +1,268 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "CloudsNode",
+      "title": "Clouds",
+      "x": -300.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "scale": 128.0,
+        "octaves": 4,
+        "persistence": 0.7,
+        "contrast": 1.5,
+        "seed": 0
+      },
+      "promoted_fields": [
+        "scale",
+        "seed"
+      ]
+    },
+    {
+      "id": "1",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": 300.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "GradientNode",
+      "title": "Gradient",
+      "x": 100.0,
+      "y": 120.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color_a": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "color_b": [
+          255,
+          255,
+          255,
+          255
+        ],
+        "angle": 90.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "3",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 100.0,
+      "y": -40.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 0.0,
+        "scale_x": 2.0,
+        "scale_y": 2.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 100.0,
+      "y": 40.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 0.0,
+        "scale_x": 4.0,
+        "scale_y": 4.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "5",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": -100.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 30,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "6",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 300.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "7",
+      "type": "ScreenNode",
+      "title": "Screen",
+      "x": 300.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "8",
+      "type": "NormalizeNode",
+      "title": "Normalize",
+      "x": 500.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "9",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 700.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Output",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "10",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -500.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Scale",
+        "data_type": "float",
+        "default_value": 128.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "11",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -500.0,
+      "y": -40.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Seed",
+        "data_type": "int",
+        "default_value": 0
+      },
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Scale",
+      "target_node": "0",
+      "target_port": "scale"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "B"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "A"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "B"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "A"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "B"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "A"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Seed",
+      "target_node": "0",
+      "target_port": "seed"
+    }
+  ]
+}
