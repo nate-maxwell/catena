@@ -48,13 +48,9 @@ class MenuToolbar(QtWrappers.Toolbar):
 
     def _file_section(self) -> None:
         menu = self.create_menu("File")
-        self.add_menu_command(menu, "New File", lambda: broker.emit(namespace.FILE_NEW))
-        self.add_menu_command(
-            menu, "Open File", lambda: broker.emit(namespace.FILE_LOAD)
-        )
-        self.add_menu_command(
-            menu, "Save File", lambda: broker.emit(namespace.FILE_SAVE)
-        )
+        self.add_menu_command(menu, "New", lambda: broker.emit(namespace.FILE_NEW))
+        self.add_menu_command(menu, "Open", lambda: broker.emit(namespace.FILE_LOAD))
+        self.add_menu_command(menu, "Save", lambda: broker.emit(namespace.FILE_SAVE))
         self.add_menu_command(
             menu, "Save As", lambda: broker.emit(namespace.FILE_SAVE_AS)
         )
