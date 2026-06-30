@@ -63,7 +63,7 @@ class LogMainWindow(QtWidgets.QMainWindow):
         super().__init__(parent, QtCore.Qt.WindowType.WindowStaysOnTopHint)
         self._log_widget = LogWidget()
         self.setCentralWidget(self._log_widget)
-        self.resize(700, 450)
+        self.resize(900, 450)
         self.setWindowTitle("Catena Output Log")
 
         # Create handler and connect signal
