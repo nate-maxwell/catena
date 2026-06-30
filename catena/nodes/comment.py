@@ -1,10 +1,29 @@
 from typing import Any
 
 import broker
+from PySide6 import QtCore
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import CommentBox
 
 from catena import namespace
+
+
+class _MoveCommentCommand:
+    def __init__(
+        self,
+        node: CommentBox,
+        old_pos: QtCore.QPointF,
+        new_pos: QtCore.QPointF,
+    ) -> None:
+        self._node = node
+        self._old_pos = QtCore.QPointF(old_pos)
+        self._new_pos = QtCore.QPointF(new_pos)
+
+    def execute(self) -> None:
+        self._node.setPos(self._new_pos)
+
+    def undo(self) -> None:
+        self._node.setPos(self._old_pos)
 
 
 class CatenaCommentBox(CommentBox):
@@ -16,7 +35,58 @@ class CatenaCommentBox(CommentBox):
         height: int = 160,
         parent: QtWidgets.QGraphicsItem | None = None,
     ) -> None:
+        self._allow_click_selection = False
+        self._move_origin: QtCore.QPointF | None = None
         super().__init__(label, width, height, parent)
+
+    def _select_from_click(self) -> None:
+        self.setSelected(True)
+        broker.emit(namespace.NODE_SELECTED, node=self)
+
+    def _graph_commands(self) -> object | None:
+        scene = self.scene()
+        if scene is None:
+            return None
+        views = scene.views()
+        if not views:
+            return None
+        return getattr(views[0], "commands", None)
+
+    def _push_move_command(self) -> None:
+        if self._move_origin is None:
+            return
+
+        new_pos = self.pos()
+        if new_pos == self._move_origin:
+            return
+
+        commands = self._graph_commands()
+        if commands is None or not hasattr(commands, "push"):
+            return
+
+        commands.push(_MoveCommentCommand(self, self._move_origin, new_pos))
+
+    def itemChange(
+        self,
+        change: QtWidgets.QGraphicsItem.GraphicsItemChange,
+        value: object,
+    ) -> object:
+        if (
+            change == QtWidgets.QGraphicsItem.GraphicsItemChange.ItemSelectedChange
+            and value
+            and not self._allow_click_selection
+        ):
+            return self.isSelected()
+        return super().itemChange(change, value)
+
+    def mousePressEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        self._allow_click_selection = True
+        try:
+            self._move_origin = self.pos()
+            self._select_from_click()
+            super().mousePressEvent(event)
+        finally:
+            self._allow_click_selection = False
 
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         """
@@ -25,9 +95,15 @@ class CatenaCommentBox(CommentBox):
         Args:
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
-        print(1)
-        broker.emit(namespace.NODE_SELECTED, node=self)
+        self._select_from_click()
         super().mouseDoubleClickEvent(event)
+
+    def mouseReleaseEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        try:
+            super().mouseReleaseEvent(event)
+        finally:
+            self._push_move_command()
+            self._move_origin = None
 
     def set_field_value(self, name: str, value: Any) -> None:
         super().set_field_value(name, value)
