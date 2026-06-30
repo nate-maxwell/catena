@@ -13,6 +13,7 @@ from catena.nodes.node import CatenaNode
 from catena.nodes import serialize as graph_serialize
 from std_graph_nodes.input import GraphInputNode
 from std_graph_nodes.input import _default_field_for_data_type
+from std_graph_nodes.input import _numeric_field_limits_for_data_type
 from std_graph_nodes.output import GraphOutputNode
 from std_graph_nodes import IMAGE_NODE_COLOR
 
@@ -171,6 +172,7 @@ class SubgraphNode(api.CatenaNode):
             default_field_type, fallback_default = _default_field_for_data_type(
                 data_type
             )
+            min_value, max_value = _numeric_field_limits_for_data_type(data_type)
             if default_value is None:
                 default_value = fallback_default
             definition = api.FieldDefinition(
@@ -178,6 +180,8 @@ class SubgraphNode(api.CatenaNode):
                 label=name,
                 field_type=default_field_type,
                 default=default_value,
+                min_value=min_value,
+                max_value=max_value,
             )
             self.add_field(definition)
 

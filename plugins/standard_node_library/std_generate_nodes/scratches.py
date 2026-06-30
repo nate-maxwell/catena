@@ -13,7 +13,6 @@ class ScratchesNode(GeneratorNode):
     """A node that generates a scratches pattern."""
 
     def __init__(self) -> None:
-        self._processor = ScratchesProcessor()
         super().__init__(title="Scratches")
 
     def _build(self) -> None:

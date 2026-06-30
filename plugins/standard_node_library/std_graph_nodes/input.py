@@ -21,6 +21,16 @@ def _default_field_for_data_type(data_type: str) -> tuple[str, object]:
     return api.FieldType.COLOR, (255, 255, 255, 255)
 
 
+def _numeric_field_limits_for_data_type(
+    data_type: str,
+) -> tuple[object | None, object | None]:
+    if data_type in (api.PortDataType.FLOAT, api.PortDataType.VECTOR1):
+        return 0.0, 999999.0
+    if data_type == api.PortDataType.INT:
+        return 0, 999999
+    return None, None
+
+
 class GraphInputNode(api.CatenaNode):
     """
     A node that defines a named input port for a subgraph.
@@ -82,8 +92,9 @@ class GraphInputNode(api.CatenaNode):
         if definition is not None and definition.field_type != default_field_type:
             definition.field_type = default_field_type
             definition.default = default_value
-            definition.min_value = None
-            definition.max_value = None
+            definition.min_value, definition.max_value = _numeric_field_limits_for_data_type(
+                data_type
+            )
             self._field_values["default_value"] = default_value
             self.update()
             broker.emit(namespace.NODE_SELECTED, node=self)
