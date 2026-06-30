@@ -42,8 +42,11 @@ class GraphInputNode(api.CatenaNode):
         name = self.get_field_value("name")
         data_type = self.get_field_value("data_type")
 
-        self.remove_port(self.port_out)
-        self.port_out = self.add_port(api.PortType.OUTPUT, name, data_type)
+        self.port_out.name = name
+        self.port_out.data_type = data_type
         self.port_out.set_color(api.DATA_TYPE_COLORS[data_type])
+        for wire in list(self.port_out.wires):
+            wire.refresh_color()
+            wire.update_path()
 
         super()._on_field_changed(node)
