@@ -5,7 +5,6 @@ from PySide6TK import Resources
 from catena import api
 from std_generate_nodes.blue_noise import BlueNoiseNode
 from std_generate_nodes.bnw_spots import BNWSpotsNode
-from std_generate_nodes.cells import CellsNode
 from std_generate_nodes.fibers import FibersNode
 from std_generate_nodes.pink_noise import PinkNoiseNode
 from std_generate_nodes.perlin_noise import PerlinNoiseNode
@@ -38,7 +37,6 @@ def build_shelf() -> None:
 
     _add_node(BlueNoiseNode, "Blue\nNoise")
     _add_node(BNWSpotsNode, "BnW\nSpots")
-    _add_node(CellsNode, "Cells")
     _add_node(DirectionalNoiseNode, "Dir\nNoise")
     _add_node(FibersNode, "Fibers")
     _add_node(PinkNoiseNode, "Pink\nNoise")
@@ -66,7 +64,6 @@ def build_registry() -> None:
 
     api.register_node(CATEGORY, BlueNoiseNode)
     api.register_node(CATEGORY, BNWSpotsNode)
-    api.register_node(CATEGORY, CellsNode)
     api.register_node(CATEGORY, CheckerNode)
     api.register_node(CATEGORY, ColorNode)
     api.register_node(CATEGORY, DirectionalNoiseNode)

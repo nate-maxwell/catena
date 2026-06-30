@@ -10,23 +10,29 @@ def _fade(t: numpy.ndarray) -> numpy.ndarray:
     return t * t * t * (t * (t * 6.0 - 15.0) + 10.0)
 
 
-def _perlin_noise(shape: tuple[int, int], scale: float, seed: int) -> numpy.ndarray:
+def _tileable_perlin_noise(
+    shape: tuple[int, int],
+    period_h: int,
+    period_w: int,
+    seed: int,
+    frequency: int = 1,
+) -> numpy.ndarray:
     height, width = shape
     rng = numpy.random.default_rng(seed)
 
-    grid_h = max(2, int(round(height / scale)))
-    grid_w = max(2, int(round(width / scale)))
-    gradients = rng.random((grid_h, grid_w, 2), dtype=numpy.float32) * 2.0 - 1.0
+    gradients = rng.random((period_h, period_w, 2), dtype=numpy.float32) * 2.0 - 1.0
     norms = numpy.linalg.norm(gradients, axis=2, keepdims=True)
     gradients = gradients / numpy.maximum(norms, 1e-8)
 
-    ys = numpy.linspace(0, grid_h, height, endpoint=False, dtype=numpy.float32)
-    xs = numpy.linspace(0, grid_w, width, endpoint=False, dtype=numpy.float32)
+    ys = (numpy.arange(height, dtype=numpy.float32) + 0.5) / height
+    xs = (numpy.arange(width, dtype=numpy.float32) + 0.5) / width
+    ys *= period_h * frequency
+    xs *= period_w * frequency
 
-    y0 = numpy.floor(ys).astype(int) % grid_h
-    x0 = numpy.floor(xs).astype(int) % grid_w
-    y1 = (y0 + 1) % grid_h
-    x1 = (x0 + 1) % grid_w
+    y0 = numpy.floor(ys).astype(int) % period_h
+    x0 = numpy.floor(xs).astype(int) % period_w
+    y1 = (y0 + 1) % period_h
+    x1 = (x0 + 1) % period_w
 
     fy = (ys - numpy.floor(ys))[:, None]
     fx = (xs - numpy.floor(xs))[None, :]
@@ -115,12 +121,23 @@ class PerlinNoiseNode(GeneratorNode):
         amplitude = 1.0
         max_amplitude = 0.0
 
-        current_scale = scale
+        base_period_h = max(2, int(round(height / scale)))
+        base_period_w = max(2, int(round(width / scale)))
+
         for i in range(octaves):
-            total += _perlin_noise((height, width), current_scale, seed + i) * amplitude
+            frequency = 1 << i
+            total += (
+                _tileable_perlin_noise(
+                    (height, width),
+                    base_period_h,
+                    base_period_w,
+                    seed + i,
+                    frequency,
+                )
+                * amplitude
+            )
             max_amplitude += amplitude
             amplitude *= 0.5
-            current_scale = max(current_scale * 0.5, 2.0)
 
         total /= max_amplitude
         total -= total.min()

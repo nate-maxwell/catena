@@ -68,25 +68,7 @@ class CellsNode(GeneratorNode):
         points = rng.random((cells, 2))
         points[:, 0] *= width
         points[:, 1] *= height
-
-        offsets = numpy.array(
-            [
-                (-width, -height),
-                (0, -height),
-                (width, -height),
-                (-width, 0),
-                (0, 0),
-                (width, 0),
-                (-width, height),
-                (0, height),
-                (width, height),
-            ],
-            dtype=numpy.float32,
-        )
-
-        all_points = (points[:, None, :] + offsets[None, :, :]).reshape(-1, 2)
-
-        tree = cKDTree(all_points)
+        tree = cKDTree(points, boxsize=[width, height])
 
         y_idx, x_idx = numpy.indices((height, width), dtype=numpy.float32)
         query_points = numpy.stack([x_idx.ravel(), y_idx.ravel()], axis=1)
