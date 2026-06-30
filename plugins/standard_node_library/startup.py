@@ -1,7 +1,7 @@
 import logging
 
 from std_convert_nodes import convert_setup
-from std_file_nodes import file_setup
+from std_graph_nodes import graph_nodes_setup
 from std_flood_fill_nodes import flood_fill_setup
 from std_generate_nodes import generator_setup
 from std_math_nodes import math_setup
@@ -17,7 +17,7 @@ def build_standard_node_library() -> None:
     logger.info("-" * 30)
     logger.info("Registering standard node library")
 
-    file_setup.initialize()
+    graph_nodes_setup.initialize()
     convert_setup.initialize()
     flood_fill_setup.initialize()
     generator_setup.initialize()

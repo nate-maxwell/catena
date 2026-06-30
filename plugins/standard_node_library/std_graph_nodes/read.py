@@ -5,7 +5,7 @@ import cv2
 import numpy
 
 from catena import api
-from std_file_nodes import IMAGE_NODE_COLOR
+from std_graph_nodes import IMAGE_NODE_COLOR
 
 
 class ReadNode(api.CatenaNode):

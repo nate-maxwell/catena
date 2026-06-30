@@ -7,7 +7,7 @@ import numpy
 
 from catena import api
 from catena import namespace
-from std_file_nodes import IMAGE_NODE_COLOR
+from std_graph_nodes import IMAGE_NODE_COLOR
 
 _EXTENSIONS = {
     "PNG": ".png",

@@ -4,9 +4,9 @@ from typing import Callable
 from PySide6TK import Resources
 
 from catena import api
-from catena.toolbars import actions
-from std_file_nodes.read import ReadNode
-from std_file_nodes.write import WriteNode
+from std_graph_nodes.read import ReadNode
+from std_graph_nodes.switch import SwitchNode
+from std_graph_nodes.write import WriteNode
 
 logger = logging.getLogger(__name__)
 
@@ -22,21 +22,18 @@ def _add_cmd(cmd: Callable, label: str) -> None:
 
 
 def build_shelf() -> None:
-    logger.info("Building std file shelf...")
+    logger.info("Building std graph shelf...")
 
-    _add_cmd(lambda: actions.GraphActions.action_save(), "Save")
-    _add_cmd(lambda: actions.GraphActions.action_write_files(), "Pub\nFiles")
-    api.add_seperator_to_shelf(CATEGORY)
-    _add_cmd(lambda: actions.GraphActions.action_undo(), "Undo")
-    _add_cmd(lambda: actions.GraphActions.action_redo(), "Redo")
-    api.add_seperator_to_shelf(CATEGORY)
     _add_node(ReadNode, "Read")
     _add_node(WriteNode, "Write")
+    api.add_seperator_to_shelf(CATEGORY)
+    _add_node(SwitchNode, "Switch")
 
 
 def build_registry() -> None:
-    logger.info("Registering std file nodes...")
+    logger.info("Registering std graph nodes...")
     api.register_node(CATEGORY, ReadNode)
+    api.register_node(CATEGORY, SwitchNode)
     api.register_node(CATEGORY, WriteNode)
 
 
