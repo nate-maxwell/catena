@@ -1,10 +1,10 @@
-from std_subgraph_nodes.subgraph import SubgraphNode
+from std_graph_nodes.subgraph import SubgraphNode
 
 from subgraphs import GRUNGE_01_GRAPH
 
 
 class Grunge01Node(SubgraphNode):
-    """A node that loads the shipped grunge01 noise subgraph."""
+    """A node that loads the shipped grunge01 subgraph."""
 
     def __init__(self) -> None:
         super().__init__()

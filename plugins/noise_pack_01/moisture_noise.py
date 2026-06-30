@@ -1,4 +1,4 @@
-from std_subgraph_nodes.subgraph import SubgraphNode
+from std_graph_nodes.subgraph import SubgraphNode
 
 from subgraphs import MOISTURE_NOISE_GRAPH
 
