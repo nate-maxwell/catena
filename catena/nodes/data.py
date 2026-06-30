@@ -17,6 +17,7 @@ class PortDataType(object):
 
 
 DATA_TYPE_COLORS: dict[str, QtGui.QColor] = {
+    "bool": QtGui.QColor(10, 10, 10),
     "int": QtGui.QColor(0, 128, 255),
     "float": QtGui.QColor(0, 255, 0),
     "vector1": QtGui.QColor(255, 0, 0),
