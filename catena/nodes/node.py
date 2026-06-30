@@ -82,6 +82,7 @@ class CatenaNode(BaseNode):
         self._ports.append(port)
 
         self._resize_to_fit_ports()
+        self.update()
 
         return port
 
