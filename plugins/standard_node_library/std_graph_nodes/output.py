@@ -38,6 +38,15 @@ class GraphOutputNode(api.CatenaNode):
             )
         )
 
+    def process(self, inputs: dict[str, object]) -> object:
+        """
+        Return the connected input so the node can be previewed directly.
+
+        This lets double-click preview the output node in the texture viewer
+        using the same data path as the subgraph output.
+        """
+        return inputs.get(self.port_in.name)
+
     def _on_field_changed(self, node: "GraphOutputNode") -> None:
         name = self.get_field_value("name")
         data_type = self.get_field_value("data_type")
