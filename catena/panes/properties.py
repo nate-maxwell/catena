@@ -171,7 +171,7 @@ class PropertiesPane(DockablePane):
                 node, n, w, v
             )
         )
-        widget.lineEdit().editingFinished.connect(
+        widget.lineEdit().returnPressed.connect(
             lambda n=definition.name, w=widget: self._finish_spinbox_edit(node, n, w)
         )
         return widget
@@ -196,7 +196,7 @@ class PropertiesPane(DockablePane):
                 node, n, w, v
             )
         )
-        widget.lineEdit().editingFinished.connect(
+        widget.lineEdit().returnPressed.connect(
             lambda n=definition.name, w=widget: self._finish_spinbox_edit(node, n, w)
         )
         return widget
@@ -274,6 +274,7 @@ class PropertiesPane(DockablePane):
         widget: QtWidgets.QAbstractSpinBox,
     ) -> None:
         if getattr(widget, "_commit_pending", False):
+            widget.interpretText()
             widget._commit_pending = False
             node.set_field_value(field_name, widget.value())
 

@@ -210,6 +210,16 @@ def deserialize_nodes(
                 None,
             )
 
+            if source_port is None and type(source_node).__name__ == "GraphInputNode":
+                source_ports = source_node.output_ports()
+                if source_ports:
+                    source_port = source_ports[0]
+
+            if target_port is None and type(target_node).__name__ == "GraphOutputNode":
+                target_ports = target_node.input_ports()
+                if target_ports:
+                    target_port = target_ports[0]
+
             if source_port is None or target_port is None:
                 continue
 
