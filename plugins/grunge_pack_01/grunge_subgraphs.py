@@ -1,6 +1,6 @@
 from pathlib import Path
 
-_subgraph_path = Path(__file__).parent / "subgraphs"
+_subgraph_path = Path("grunge_pack_01") / "subgraphs"
 """The directory containing subgraphs shipped with the plugin."""
 
 GRUNGE_1 = _subgraph_path / "grunge_1.cg"

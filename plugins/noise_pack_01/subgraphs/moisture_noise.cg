@@ -4,7 +4,7 @@
       "id": "0",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": 300.0,
+      "x": 500.0,
       "y": -100.0,
       "width": null,
       "height": null,
@@ -21,12 +21,12 @@
       "id": "1",
       "type": "OverlayNode",
       "title": "Overlay",
-      "x": 800.0,
+      "x": 900.0,
       "y": -100.0,
       "width": null,
       "height": null,
       "fields": {
-        "mix": 0.4
+        "mix": 0.5
       },
       "promoted_fields": []
     },
@@ -34,7 +34,7 @@
       "id": "2",
       "type": "ColorNode",
       "title": "Color",
-      "x": 300.0,
+      "x": 500.0,
       "y": -20.0,
       "width": null,
       "height": null,
@@ -52,7 +52,7 @@
       "id": "3",
       "type": "MultiplyNode",
       "title": "Multiply",
-      "x": 500.0,
+      "x": 700.0,
       "y": -20.0,
       "width": null,
       "height": null,
@@ -65,7 +65,7 @@
       "id": "4",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": 300.0,
+      "x": 500.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -82,7 +82,7 @@
       "id": "5",
       "type": "InvertNode",
       "title": "Invert",
-      "x": 300.0,
+      "x": 500.0,
       "y": -220.0,
       "width": null,
       "height": null,
@@ -93,7 +93,7 @@
       "id": "6",
       "type": "MultiplyNode",
       "title": "Multiply",
-      "x": 500.0,
+      "x": 700.0,
       "y": -220.0,
       "width": null,
       "height": null,
@@ -106,12 +106,12 @@
       "id": "7",
       "type": "OverlayNode",
       "title": "Overlay",
-      "x": 800.0,
+      "x": 900.0,
       "y": -300.0,
       "width": null,
       "height": null,
       "fields": {
-        "mix": 0.8
+        "mix": 0.5
       },
       "promoted_fields": []
     },
@@ -119,7 +119,7 @@
       "id": "8",
       "type": "MultiplyNode",
       "title": "Multiply",
-      "x": 1000.0,
+      "x": 1100.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -132,7 +132,7 @@
       "id": "9",
       "type": "LevelsNode",
       "title": "Levels",
-      "x": 1200.0,
+      "x": 1300.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -149,7 +149,7 @@
       "id": "10",
       "type": "ShapeNode",
       "title": "Shape",
-      "x": -100.0,
+      "x": -200.0,
       "y": 0.0,
       "width": null,
       "height": null,
@@ -169,11 +169,11 @@
       "width": null,
       "height": null,
       "fields": {
-        "count": 60,
+        "count": 50,
         "scale": 0.2,
         "scale_variance": 1.0,
         "rotation_variance": 0.0,
-        "seed": 1
+        "seed": 123
       },
       "promoted_fields": []
     },
@@ -181,7 +181,7 @@
       "id": "12",
       "type": "GraphOutputNode",
       "title": "Graph Output",
-      "x": 1400.0,
+      "x": 1500.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -195,8 +195,8 @@
       "id": "13",
       "type": "GraphInputNode",
       "title": "Graph Input",
-      "x": -300.0,
-      "y": -300.0,
+      "x": -400.0,
+      "y": -100.0,
       "width": null,
       "height": null,
       "fields": {
@@ -225,7 +225,7 @@
       "id": "15",
       "type": "PerlinNoiseNode",
       "title": "Perlin Noise",
-      "x": -100.0,
+      "x": -200.0,
       "y": -300.0,
       "width": null,
       "height": null,
@@ -237,13 +237,119 @@
       "promoted_fields": [
         "seed"
       ]
+    },
+    {
+      "id": "16",
+      "type": "ScatterNode",
+      "title": "Scatter",
+      "x": 100.0,
+      "y": -220.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "count": 60,
+        "scale": 0.2,
+        "scale_variance": 1.0,
+        "rotation_variance": 0.0,
+        "seed": 2
+      },
+      "promoted_fields": [
+        "seed"
+      ]
+    },
+    {
+      "id": "17",
+      "type": "WarpNode",
+      "title": "Warp",
+      "x": 300.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 50.0,
+        "direction": 270.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "18",
+      "type": "WarpNode",
+      "title": "Warp",
+      "x": 300.0,
+      "y": -220.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "strength": 50.0,
+        "direction": 90.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "19",
+      "type": "RerouteNode",
+      "title": "",
+      "x": 240.0,
+      "y": -280.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
     }
   ],
   "wires": [
     {
+      "source_node": "19",
+      "source_port": "",
+      "target_node": "17",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "19",
+      "source_port": "",
+      "target_node": "18",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "19",
+      "source_port": "",
+      "target_node": "4",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "19",
+      "target_port": ""
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "17",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "B"
+    },
+    {
       "source_node": "14",
       "source_port": "Output",
       "target_node": "0",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "17",
       "target_port": "Input"
     },
     {
@@ -307,22 +413,10 @@
       "target_port": "Bottom"
     },
     {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "5",
-      "target_port": "Input"
-    },
-    {
       "source_node": "2",
       "source_port": "Color",
       "target_node": "3",
       "target_port": "A"
-    },
-    {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "3",
-      "target_port": "B"
     },
     {
       "source_node": "9",
@@ -339,14 +433,20 @@
     {
       "source_node": "15",
       "source_port": "Output",
-      "target_node": "4",
+      "target_node": "14",
       "target_port": "Input"
     },
     {
-      "source_node": "15",
+      "source_node": "10",
       "source_port": "Output",
-      "target_node": "14",
+      "target_node": "16",
       "target_port": "Input"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Seed",
+      "target_node": "16",
+      "target_port": "seed"
     }
   ]
 }

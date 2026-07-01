@@ -8,7 +8,9 @@ from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 
 from catena import api
+from catena import appdata
 from catena import namespace
+from catena import session
 from catena.nodes.graph import GuiGraphView
 from catena.nodes.node import CatenaNode
 from catena.nodes import serialize as graph_serialize
@@ -49,15 +51,49 @@ class SubgraphNode(api.CatenaNode):
             )
         )
 
+    def _resolve_filepath(self, filepath: str | Path | None = None) -> Path | None:
+        """
+        Resolve a subgraph filepath against common relative locations.
+
+        Absolute paths are used as-is. Relative paths are checked against the
+        current working directory, the current project file directory, and the
+        built-in plugins directory.
+        """
+        if filepath is None:
+            filepath = self.get_field_value("filepath")
+
+        if not filepath:
+            return None
+
+        path = Path(filepath)
+        if path.is_absolute():
+            return path if path.exists() else None
+
+        candidates = [
+            Path.cwd() / path,
+        ]
+
+        project_file = session.SessionData().project_file
+        if project_file:
+            candidates.append(project_file.parent / path)
+
+        candidates.append(appdata.BUILT_IN_PLUGINS_PATH / path)
+
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate
+
+        return None
+
     def open_subgraph(self) -> None:
         """
         Open the subgraph referenced by this node's filepath.
         """
-        filepath = self._cached_filepath or self.get_field_value("filepath")
-        if not filepath:
+        path = self._resolve_filepath(self._cached_filepath)
+        if path is None:
             return
 
-        broker.emit(namespace.GRAPH_OPEN_SUBGRAPH, file_path=Path(filepath))
+        broker.emit(namespace.GRAPH_OPEN_SUBGRAPH, file_path=path)
 
     def _preview_value(self) -> Optional[numpy.ndarray]:
         """
@@ -120,19 +156,14 @@ class SubgraphNode(api.CatenaNode):
         """
         Invalidate the cached outer result when the subgraph file changes.
         """
-        filepath = self.get_field_value("filepath")
-        if not filepath:
-            self._cached_value = None
-            return
-
-        path = Path(filepath)
-        if not path.exists():
+        path = self._resolve_filepath()
+        if path is None:
             self._cached_value = None
             return
 
         current_mtime = path.stat().st_mtime_ns
         if (
-            filepath != self._cached_graph_view_path
+            path.as_posix() != self._cached_graph_view_path
             or current_mtime != self._cached_graph_view_mtime
         ):
             self._cached_value = None
@@ -156,8 +187,8 @@ class SubgraphNode(api.CatenaNode):
         if not self._cached_filepath:
             return [], []
 
-        path = Path(self._cached_filepath)
-        if not path.exists():
+        path = self._resolve_filepath(self._cached_filepath)
+        if path is None:
             return [], []
 
         with path.open("r", encoding="utf-8") as f:
@@ -202,18 +233,14 @@ class SubgraphNode(api.CatenaNode):
         """
         Return a cached in-memory graph view for the current subgraph file.
         """
-        filepath = self.get_field_value("filepath")
-        if not filepath:
-            return None
-
-        path = Path(filepath)
-        if not path.exists():
+        path = self._resolve_filepath()
+        if path is None:
             return None
 
         current_mtime = path.stat().st_mtime_ns
         if (
             self._cached_graph_view is not None
-            and self._cached_graph_view_path == filepath
+            and self._cached_graph_view_path == path.as_posix()
             and self._cached_graph_view_mtime == current_mtime
         ):
             return self._cached_graph_view
@@ -221,7 +248,7 @@ class SubgraphNode(api.CatenaNode):
         view = GuiGraphView()
         graph_serialize.load(view, path)
         self._cached_graph_view = view
-        self._cached_graph_view_path = filepath
+        self._cached_graph_view_path = path.as_posix()
         self._cached_graph_view_mtime = current_mtime
 
         def invalidate_cached_result() -> None:
