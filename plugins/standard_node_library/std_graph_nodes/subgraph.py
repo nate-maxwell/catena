@@ -4,6 +4,7 @@ from typing import Optional
 
 import broker
 import numpy
+from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 
 from catena import api
@@ -57,10 +58,42 @@ class SubgraphNode(api.CatenaNode):
 
         broker.emit(namespace.GRAPH_OPEN_SUBGRAPH, file_path=Path(filepath))
 
+    def _preview_value(self) -> Optional[numpy.ndarray]:
+        """
+        Return the most useful preview value for the texture viewer.
+
+        Subgraphs can expose multiple outputs, but the texture viewer accepts a
+        single image. Prefer the first non-None output so double-click preview
+        still works for multi-output graphs.
+        """
+        evaluated = self.evaluate()
+        if isinstance(evaluated, dict):
+            for value in evaluated.values():
+                if isinstance(value, numpy.ndarray):
+                    return value
+            return None
+
+        return evaluated if isinstance(evaluated, numpy.ndarray) else None
+
+    def _preview_image(self) -> Optional[numpy.ndarray]:
+        return self._preview_value()
+
+    def _set_active_preview(self) -> None:
+        broker.emit(namespace.NODE_PREVIEW, image=self._preview_value())
+
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
-        self.open_subgraph()
         broker.emit(namespace.NODE_SELECTED, node=self)
+        self._set_active_preview()
+        super().mouseDoubleClickEvent(event)
         event.accept()
+
+    def mouseReleaseEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        if event.button() == QtCore.Qt.MouseButton.RightButton:
+            self.open_subgraph()
+            event.accept()
+            return
+
+        super().mouseReleaseEvent(event)
 
     def _on_field_changed(self, node: "SubgraphNode") -> None:
         filepath = self.get_field_value("filepath")

@@ -40,7 +40,11 @@ class ResolutionNode(api.CatenaNode):
 
         image = inputs.get("Input")
         if image is not None:
-            height, width = image.shape[:2]
+            image_array = numpy.asarray(image)
+            if image_array.ndim >= 2:
+                height, width = image_array.shape[:2]
+            else:
+                width, height = api.get_texture_resolution()
         else:
             width, height = api.get_texture_resolution()
 

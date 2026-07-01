@@ -225,21 +225,25 @@ class CatenaNode(BaseNode):
     def _set_active_preview(self) -> None:
         CatenaNode.active_preview_node = self
         if not self._preview_updates_suppressed():
-            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+            broker.emit(namespace.NODE_PREVIEW, image=self._preview_image())
+
+    def _preview_image(self) -> Optional[numpy.ndarray]:
+        """Return the image that should be shown in the texture viewer."""
+        return self.evaluate()
 
     def _on_field_changed(self, node: "CatenaNode") -> None:
-        # dead args are required to meet subscription signature
-        inputs = self.get_inputs()
-        self._cached_value = self.process(inputs)
-
         if self._preview_updates_suppressed():
             return
 
+        inputs = self.get_inputs()
+        self._cached_value = self.process(inputs)
+
         if node is self and CatenaNode.active_preview_node is self:
-            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+            broker.emit(namespace.NODE_PREVIEW, image=self._preview_image())
         elif CatenaNode.active_preview_node is not None:
             broker.emit(
-                namespace.NODE_PREVIEW, image=CatenaNode.active_preview_node.evaluate()
+                namespace.NODE_PREVIEW,
+                image=CatenaNode.active_preview_node._preview_image(),
             )
 
     def set_field_value(self, name: str, value: object) -> None:
