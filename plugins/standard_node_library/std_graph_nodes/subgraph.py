@@ -36,6 +36,7 @@ class SubgraphNode(api.CatenaNode):
         self._graph_name: str = "Subgraph"
         self._cached_graph_view: GuiGraphView | None = None
         self._cached_graph_view_path: str = ""
+        self._cached_graph_view_mtime: int | None = None
         super().__init__(title="Subgraph")
 
     def _build(self) -> None:
@@ -82,15 +83,11 @@ class SubgraphNode(api.CatenaNode):
         self,
     ) -> Optional[numpy.ndarray] | dict[str, Optional[numpy.ndarray]]:
         """
-        Recompute the subgraph on every request.
-
-        The loaded subgraph lives in an in-memory graph view that can change
-        independently of this outer node, so a normal cached outer result would
-        go stale as soon as the inner graph is edited.
+        Evaluate the subgraph and cache the outer result until the inner graph
+        or one of this node's exposed values changes.
         """
-        inputs = self.get_inputs()
-        self._cached_value = self.process(inputs)
-        return self._cached_value
+        self._invalidate_cached_result_if_source_changed()
+        return super().evaluate()
 
     def _set_active_preview(self) -> None:
         broker.emit(namespace.NODE_PREVIEW, image=self._preview_value())
@@ -115,8 +112,30 @@ class SubgraphNode(api.CatenaNode):
             self._cached_filepath = filepath
             self._cached_graph_view = None
             self._cached_graph_view_path = ""
+            self._cached_graph_view_mtime = None
             self._rebuild_ports()
         super()._on_field_changed(node)
+
+    def _invalidate_cached_result_if_source_changed(self) -> None:
+        """
+        Invalidate the cached outer result when the subgraph file changes.
+        """
+        filepath = self.get_field_value("filepath")
+        if not filepath:
+            self._cached_value = None
+            return
+
+        path = Path(filepath)
+        if not path.exists():
+            self._cached_value = None
+            return
+
+        current_mtime = path.stat().st_mtime_ns
+        if (
+            filepath != self._cached_graph_view_path
+            or current_mtime != self._cached_graph_view_mtime
+        ):
+            self._cached_value = None
 
     def _load_interface(
         self,
@@ -187,20 +206,29 @@ class SubgraphNode(api.CatenaNode):
         if not filepath:
             return None
 
-        if (
-            self._cached_graph_view is not None
-            and self._cached_graph_view_path == filepath
-        ):
-            return self._cached_graph_view
-
         path = Path(filepath)
         if not path.exists():
             return None
+
+        current_mtime = path.stat().st_mtime_ns
+        if (
+            self._cached_graph_view is not None
+            and self._cached_graph_view_path == filepath
+            and self._cached_graph_view_mtime == current_mtime
+        ):
+            return self._cached_graph_view
 
         view = GuiGraphView()
         graph_serialize.load(view, path)
         self._cached_graph_view = view
         self._cached_graph_view_path = filepath
+        self._cached_graph_view_mtime = current_mtime
+
+        def invalidate_cached_result() -> None:
+            self._cached_value = None
+
+        view.graph_scene.changed.connect(invalidate_cached_result)
+
         return view
 
     def _rebuild_ports(self) -> None:
@@ -258,10 +286,6 @@ class SubgraphNode(api.CatenaNode):
         view = self._load_graph_view()
         if view is None:
             return None
-
-        for node in view._node_refs:
-            if isinstance(node, CatenaNode):
-                node._cached_value = None
 
         for node in view._node_refs:
             if not isinstance(node, GraphInputNode):
