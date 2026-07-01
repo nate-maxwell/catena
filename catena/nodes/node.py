@@ -155,6 +155,13 @@ class CatenaNode(BaseNode):
             definition = self._fields.get(name)
             raw = float(evaluated.mean())
 
+            if port.data_type in (
+                PortDataType.FLOAT,
+                PortDataType.INT,
+                PortDataType.VECTOR1,
+            ):
+                return type(definition.default)(raw) if definition is not None else raw
+
             if definition is not None and definition.max_value is not None:
                 return type(definition.default)(raw * definition.max_value)
 
@@ -218,21 +225,25 @@ class CatenaNode(BaseNode):
     def _set_active_preview(self) -> None:
         CatenaNode.active_preview_node = self
         if not self._preview_updates_suppressed():
-            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+            broker.emit(namespace.NODE_PREVIEW, image=self._preview_image())
+
+    def _preview_image(self) -> Optional[numpy.ndarray]:
+        """Return the image that should be shown in the texture viewer."""
+        return self.evaluate()
 
     def _on_field_changed(self, node: "CatenaNode") -> None:
-        # dead args are required to meet subscription signature
-        inputs = self.get_inputs()
-        self._cached_value = self.process(inputs)
-
         if self._preview_updates_suppressed():
             return
 
+        inputs = self.get_inputs()
+        self._cached_value = self.process(inputs)
+
         if node is self and CatenaNode.active_preview_node is self:
-            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+            broker.emit(namespace.NODE_PREVIEW, image=self._preview_image())
         elif CatenaNode.active_preview_node is not None:
             broker.emit(
-                namespace.NODE_PREVIEW, image=CatenaNode.active_preview_node.evaluate()
+                namespace.NODE_PREVIEW,
+                image=CatenaNode.active_preview_node._preview_image(),
             )
 
     def set_field_value(self, name: str, value: object) -> None:
@@ -259,7 +270,13 @@ class CatenaNode(BaseNode):
                     target_node._invalidate_downstream()
 
     def _refresh_downstream_write_nodes(self) -> None:
-        """Refresh write nodes downstream of this node."""
+        """
+        Refresh downstream nodes that need eager recomputation.
+
+        Write nodes need this so their file/model previews stay current.
+        Nodes with connected promoted fields also need it, so field-driven
+        inputs pick up upstream changes even when nothing is actively previewed.
+        """
         if self._preview_updates_suppressed():
             return
 
@@ -272,6 +289,10 @@ class CatenaNode(BaseNode):
                 continue
 
             visited.add(current)
+
+            promoted_ports = current._promoted_fields.values()
+            if any(port.wires for port in promoted_ports):
+                current.evaluate()
 
             if hasattr(current, "_emit_preview_update"):
                 current._emit_preview_update()

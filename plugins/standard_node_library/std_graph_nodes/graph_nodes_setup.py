@@ -6,6 +6,7 @@ from PySide6TK import Resources
 from catena import api
 from std_graph_nodes.comparison import ComparisonNode
 from std_graph_nodes.read import ReadNode
+from std_graph_nodes.resolution import ResolutionNode
 from std_graph_nodes.switch import SwitchNode
 from std_graph_nodes.write import WriteNode
 from std_graph_nodes.input import GraphInputNode
@@ -32,6 +33,7 @@ def build_shelf() -> None:
     _add_node(WriteNode, "Write")
     api.add_seperator_to_shelf(CATEGORY)
     _add_node(ComparisonNode, "Compar")
+    _add_node(ResolutionNode, "Res\nXY")
     _add_node(SwitchNode, "Switch")
     api.add_seperator_to_shelf(CATEGORY)
     _add_node(SubgraphNode, "Sub\nGraph")
@@ -45,6 +47,7 @@ def build_registry() -> None:
     api.register_node(CATEGORY, GraphInputNode)
     api.register_node(CATEGORY, GraphOutputNode)
     api.register_node(CATEGORY, ReadNode)
+    api.register_node(CATEGORY, ResolutionNode)
     api.register_node(CATEGORY, SubgraphNode)
     api.register_node(CATEGORY, SwitchNode)
     api.register_node(CATEGORY, WriteNode)

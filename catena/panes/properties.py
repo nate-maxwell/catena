@@ -154,6 +154,7 @@ class PropertiesPane(DockablePane):
     ) -> QtWidgets.QWidget:
         current_value = node.get_field_value(definition.name)
         widget = QtWidgets.QDoubleSpinBox(self.content_widget)
+        widget._commit_pending = False
         widget.setDecimals(3)
         widget.setSingleStep(0.1)
 
@@ -164,8 +165,14 @@ class PropertiesPane(DockablePane):
         if current_value is not None:
             widget.setValue(current_value)
 
+        widget.lineEdit().textEdited.connect(lambda *_: setattr(widget, "_commit_pending", True))
         widget.valueChanged.connect(
-            lambda v, n=definition.name: node.set_field_value(n, v)
+            lambda v, n=definition.name, w=widget: self._commit_spinbox_value(
+                node, n, w, v
+            )
+        )
+        widget.lineEdit().returnPressed.connect(
+            lambda n=definition.name, w=widget: self._finish_spinbox_edit(node, n, w)
         )
         return widget
 
@@ -174,6 +181,7 @@ class PropertiesPane(DockablePane):
     ) -> QtWidgets.QWidget:
         current_value = node.get_field_value(definition.name)
         widget = QtWidgets.QSpinBox(self.content_widget)
+        widget._commit_pending = False
 
         if definition.min_value is not None:
             widget.setMinimum(int(definition.min_value))
@@ -182,8 +190,14 @@ class PropertiesPane(DockablePane):
         if current_value is not None:
             widget.setValue(current_value)
 
+        widget.lineEdit().textEdited.connect(lambda *_: setattr(widget, "_commit_pending", True))
         widget.valueChanged.connect(
-            lambda v, n=definition.name: node.set_field_value(n, v)
+            lambda v, n=definition.name, w=widget: self._commit_spinbox_value(
+                node, n, w, v
+            )
+        )
+        widget.lineEdit().returnPressed.connect(
+            lambda n=definition.name, w=widget: self._finish_spinbox_edit(node, n, w)
         )
         return widget
 
@@ -196,8 +210,8 @@ class PropertiesPane(DockablePane):
         if current_value is not None:
             widget.setText(current_value)
 
-        widget.textChanged.connect(
-            lambda v, n=definition.name: node.set_field_value(n, v)
+        widget.editingFinished.connect(
+            lambda n=definition.name, w=widget: node.set_field_value(n, w.text())
         )
         return widget
 
@@ -237,10 +251,32 @@ class PropertiesPane(DockablePane):
         if current_value is not None:
             widget.setText(str(current_value))
 
-        widget.textChanged.connect(
-            lambda v, n=definition.name: node.set_field_value(n, v)
+        widget.editingFinished.connect(
+            lambda n=definition.name, w=widget: node.set_field_value(n, w.text())
         )
         return widget
+
+    @staticmethod
+    def _commit_spinbox_value(
+        node: CatenaNode,
+        field_name: str,
+        widget: QtWidgets.QAbstractSpinBox,
+        value: object,
+    ) -> None:
+        if getattr(widget, "_commit_pending", False):
+            return
+        node.set_field_value(field_name, value)
+
+    @staticmethod
+    def _finish_spinbox_edit(
+        node: CatenaNode,
+        field_name: str,
+        widget: QtWidgets.QAbstractSpinBox,
+    ) -> None:
+        if getattr(widget, "_commit_pending", False):
+            widget.interpretText()
+            widget._commit_pending = False
+            node.set_field_value(field_name, widget.value())
 
     @staticmethod
     def _parse_color(

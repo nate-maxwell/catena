@@ -4,6 +4,7 @@ from typing import Optional
 
 import broker
 import numpy
+from PySide6TK import QtCore
 from PySide6TK import QtWidgets
 
 from catena import api
@@ -35,6 +36,7 @@ class SubgraphNode(api.CatenaNode):
         self._graph_name: str = "Subgraph"
         self._cached_graph_view: GuiGraphView | None = None
         self._cached_graph_view_path: str = ""
+        self._cached_graph_view_mtime: int | None = None
         super().__init__(title="Subgraph")
 
     def _build(self) -> None:
@@ -57,10 +59,52 @@ class SubgraphNode(api.CatenaNode):
 
         broker.emit(namespace.GRAPH_OPEN_SUBGRAPH, file_path=Path(filepath))
 
+    def _preview_value(self) -> Optional[numpy.ndarray]:
+        """
+        Return the most useful preview value for the texture viewer.
+
+        Subgraphs can expose multiple outputs, but the texture viewer accepts a
+        single image. Prefer the first non-None output so double-click preview
+        still works for multi-output graphs.
+        """
+        evaluated = self.evaluate()
+        if isinstance(evaluated, dict):
+            for value in evaluated.values():
+                if isinstance(value, numpy.ndarray):
+                    return value
+            return None
+
+        return evaluated if isinstance(evaluated, numpy.ndarray) else None
+
+    def _preview_image(self) -> Optional[numpy.ndarray]:
+        return self._preview_value()
+
+    def evaluate(
+        self,
+    ) -> Optional[numpy.ndarray] | dict[str, Optional[numpy.ndarray]]:
+        """
+        Evaluate the subgraph and cache the outer result until the inner graph
+        or one of this node's exposed values changes.
+        """
+        self._invalidate_cached_result_if_source_changed()
+        return super().evaluate()
+
+    def _set_active_preview(self) -> None:
+        broker.emit(namespace.NODE_PREVIEW, image=self._preview_value())
+
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
-        self.open_subgraph()
         broker.emit(namespace.NODE_SELECTED, node=self)
+        self._set_active_preview()
+        super().mouseDoubleClickEvent(event)
         event.accept()
+
+    def mouseReleaseEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        if event.button() == QtCore.Qt.MouseButton.RightButton:
+            self.open_subgraph()
+            event.accept()
+            return
+
+        super().mouseReleaseEvent(event)
 
     def _on_field_changed(self, node: "SubgraphNode") -> None:
         filepath = self.get_field_value("filepath")
@@ -68,8 +112,30 @@ class SubgraphNode(api.CatenaNode):
             self._cached_filepath = filepath
             self._cached_graph_view = None
             self._cached_graph_view_path = ""
+            self._cached_graph_view_mtime = None
             self._rebuild_ports()
         super()._on_field_changed(node)
+
+    def _invalidate_cached_result_if_source_changed(self) -> None:
+        """
+        Invalidate the cached outer result when the subgraph file changes.
+        """
+        filepath = self.get_field_value("filepath")
+        if not filepath:
+            self._cached_value = None
+            return
+
+        path = Path(filepath)
+        if not path.exists():
+            self._cached_value = None
+            return
+
+        current_mtime = path.stat().st_mtime_ns
+        if (
+            filepath != self._cached_graph_view_path
+            or current_mtime != self._cached_graph_view_mtime
+        ):
+            self._cached_value = None
 
     def _load_interface(
         self,
@@ -140,20 +206,29 @@ class SubgraphNode(api.CatenaNode):
         if not filepath:
             return None
 
-        if (
-            self._cached_graph_view is not None
-            and self._cached_graph_view_path == filepath
-        ):
-            return self._cached_graph_view
-
         path = Path(filepath)
         if not path.exists():
             return None
+
+        current_mtime = path.stat().st_mtime_ns
+        if (
+            self._cached_graph_view is not None
+            and self._cached_graph_view_path == filepath
+            and self._cached_graph_view_mtime == current_mtime
+        ):
+            return self._cached_graph_view
 
         view = GuiGraphView()
         graph_serialize.load(view, path)
         self._cached_graph_view = view
         self._cached_graph_view_path = filepath
+        self._cached_graph_view_mtime = current_mtime
+
+        def invalidate_cached_result() -> None:
+            self._cached_value = None
+
+        view.graph_scene.changed.connect(invalidate_cached_result)
+
         return view
 
     def _rebuild_ports(self) -> None:
@@ -211,10 +286,6 @@ class SubgraphNode(api.CatenaNode):
         view = self._load_graph_view()
         if view is None:
             return None
-
-        for node in view._node_refs:
-            if isinstance(node, CatenaNode):
-                node._cached_value = None
 
         for node in view._node_refs:
             if not isinstance(node, GraphInputNode):

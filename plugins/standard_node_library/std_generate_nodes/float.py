@@ -40,10 +40,9 @@ class FloatNode(api.CatenaNode):
            inputs (dict[str, numpy.ndarray | None]): Unused.
         Returns:
            numpy.ndarray | None: A float32 image of shape (H, W, 3) filled
-               with the float value, clamped to [0, 1].
+               with the float value.
         """
 
         value = self.get_field_value("value")
         width, height = api.get_texture_resolution()
-        value = numpy.clip(value, 0.0, 1.0)
         return numpy.full((height, width, 4), value, dtype=numpy.float32)

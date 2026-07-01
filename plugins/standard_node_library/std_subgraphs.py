@@ -3,6 +3,4 @@ from pathlib import Path
 _subgraph_path = Path(__file__).parent / "subgraphs"
 """The directory containing subgraphs shipped with the plugin."""
 
-GRUNGE_1 = _subgraph_path / "grunge_1.cg"
-GRUNGE_2 = _subgraph_path / "grunge_2.cg"
-GRUNGE_GRADIENT = _subgraph_path / "grunge_gradient.cg"
+EDGE_DETECT_GRAPH = _subgraph_path / "edge_detect.cg"

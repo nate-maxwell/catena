@@ -1,4 +1,7 @@
+from typing import Optional
+
 import broker
+import numpy
 
 from catena import api
 from catena import namespace
@@ -77,15 +80,20 @@ class GraphInputNode(api.CatenaNode):
                 default=default_value,
             )
         )
+        self._sync_port_from_fields()
 
-    def _on_field_changed(self, node: "GraphInputNode") -> None:
+    def _sync_port_from_fields(self) -> None:
         name = self.get_field_value("name")
         data_type = self.get_field_value("data_type")
-        default_field_type, default_value = default_field_for_data_type(data_type)
 
         self.port_out.name = name
         self.port_out.data_type = data_type
         self.port_out.set_color(api.DATA_TYPE_COLORS[data_type])
+
+    def _on_field_changed(self, node: "GraphInputNode") -> None:
+        self._sync_port_from_fields()
+        data_type = self.get_field_value("data_type")
+        default_field_type, default_value = default_field_for_data_type(data_type)
         for wire in list(self.port_out.wires):
             wire.refresh_color()
             wire.update_path()
@@ -102,3 +110,35 @@ class GraphInputNode(api.CatenaNode):
             broker.emit(namespace.NODE_SELECTED, node=self)
 
         super()._on_field_changed(node)
+
+    def process(
+        self, inputs: dict[str, Optional[numpy.ndarray]]
+    ) -> Optional[numpy.ndarray]:
+        """
+        Emit the current default value as a modifier so downstream promoted
+        fields can consume it.
+        """
+        data_type = self.get_field_value("data_type")
+        value = self.get_field_value("default_value")
+
+        if data_type == api.PortDataType.BOOL:
+            return None
+
+        if data_type in (api.PortDataType.FLOAT, api.PortDataType.VECTOR1):
+            scalar = float(value)
+            return numpy.full((1, 1, 1), scalar, dtype=numpy.float32)
+
+        if data_type == api.PortDataType.INT:
+            scalar = float(value)
+            return numpy.full((1, 1, 1), scalar, dtype=numpy.float32)
+
+        if data_type == api.PortDataType.VECTOR2:
+            x, y = value
+            return numpy.array([[[x, y, 0.0, 1.0]]], dtype=numpy.float32)
+
+        if data_type == api.PortDataType.VECTOR3:
+            x, y, z = value
+            return numpy.array([[[x, y, z, 1.0]]], dtype=numpy.float32)
+
+        r, g, b, a = value
+        return numpy.array([[[r, g, b, a]]], dtype=numpy.float32) / 255.0

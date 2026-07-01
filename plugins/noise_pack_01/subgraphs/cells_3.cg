@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "VoronoiNoiseNode",
+      "title": "Voronoi",
+      "x": -200.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "cells": 256,
+        "seed": 5,
+        "invert": true
+      },
+      "promoted_fields": [
+        "seed",
+        "cells"
+      ]
+    },
+    {
+      "id": "1",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 0.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 100,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -400.0,
+      "y": -140.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Cells",
+        "data_type": "int",
+        "default_value": 256
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "3",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -400.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Seed",
+        "data_type": "int",
+        "default_value": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 200.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Output",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Cells",
+      "target_node": "0",
+      "target_port": "cells"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Seed",
+      "target_node": "0",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Input"
+    }
+  ]
+}

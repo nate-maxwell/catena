@@ -3,8 +3,8 @@ import logging
 from PySide6TK import Resources
 
 from catena import api
-from grunge_01 import Grunge01Node
-from grunge_02 import Grunge02Node
+from grunge_1 import Grunge1Node
+from grunge_2 import Grunge2Node
 from grunge_gradient import GrungeGradientNode
 
 CATEGORY = "Grunge Pack 01"
@@ -21,16 +21,16 @@ def build_shelf() -> None:
 
     _add_node(GrungeGradientNode, "Grunge\nGrad")
     api.add_seperator_to_shelf(CATEGORY)
-    _add_node(Grunge01Node, "Grunge\n01")
-    _add_node(Grunge02Node, "Grunge\n02")
+    _add_node(Grunge1Node, "Grunge\n1")
+    _add_node(Grunge2Node, "Grunge\n2")
 
 
 def build_registry() -> None:
     logger.info("Registering grunge pack nodes...")
 
     api.register_node(CATEGORY, GrungeGradientNode)
-    api.register_node(CATEGORY, Grunge01Node)
-    api.register_node(CATEGORY, Grunge02Node)
+    api.register_node(CATEGORY, Grunge1Node)
+    api.register_node(CATEGORY, Grunge2Node)
 
 
 def initialize() -> None:

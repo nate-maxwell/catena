@@ -37,6 +37,15 @@ class GraphOutputNode(api.CatenaNode):
                 options=_PORT_TYPES,
             )
         )
+        self._sync_port_from_fields()
+
+    def _sync_port_from_fields(self) -> None:
+        name = self.get_field_value("name")
+        data_type = self.get_field_value("data_type")
+
+        self.port_in.name = name
+        self.port_in.data_type = data_type
+        self.port_in.set_color(api.DATA_TYPE_COLORS[data_type])
 
     def process(self, inputs: dict[str, object]) -> object:
         """
@@ -48,11 +57,6 @@ class GraphOutputNode(api.CatenaNode):
         return inputs.get(self.port_in.name)
 
     def _on_field_changed(self, node: "GraphOutputNode") -> None:
-        name = self.get_field_value("name")
-        data_type = self.get_field_value("data_type")
-
-        self.port_in.name = name
-        self.port_in.data_type = data_type
-        self.port_in.set_color(api.DATA_TYPE_COLORS[data_type])
+        self._sync_port_from_fields()
 
         super()._on_field_changed(node)
