@@ -22,9 +22,9 @@ def build_shelf() -> None:
     logger.info("Building noise pack shelf...")
 
     _add_node(FractalSumBaseNode, "Fractal\nSum\nBase")
-    _add_node(FractalSum01Node, "Fractal\nSum\n01")
-    _add_node(FractalSum02Node, "Fractal\nSum\n02")
-    _add_node(FractalSum03Node, "Fractal\nSum\n03")
+    _add_node(FractalSum01Node, "Fractal\nSum\n1")
+    _add_node(FractalSum02Node, "Fractal\nSum\n2")
+    _add_node(FractalSum03Node, "Fractal\nSum\n3")
 
     api.add_seperator_to_shelf(CATEGORY)
 

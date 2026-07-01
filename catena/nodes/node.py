@@ -270,7 +270,13 @@ class CatenaNode(BaseNode):
                     target_node._invalidate_downstream()
 
     def _refresh_downstream_write_nodes(self) -> None:
-        """Refresh write nodes downstream of this node."""
+        """
+        Refresh downstream nodes that need eager recomputation.
+
+        Write nodes need this so their file/model previews stay current.
+        Nodes with connected promoted fields also need it, so field-driven
+        inputs pick up upstream changes even when nothing is actively previewed.
+        """
         if self._preview_updates_suppressed():
             return
 
@@ -283,6 +289,10 @@ class CatenaNode(BaseNode):
                 continue
 
             visited.add(current)
+
+            promoted_ports = current._promoted_fields.values()
+            if any(port.wires for port in promoted_ports):
+                current.evaluate()
 
             if hasattr(current, "_emit_preview_update"):
                 current._emit_preview_update()

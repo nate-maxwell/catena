@@ -78,6 +78,20 @@ class SubgraphNode(api.CatenaNode):
     def _preview_image(self) -> Optional[numpy.ndarray]:
         return self._preview_value()
 
+    def evaluate(
+        self,
+    ) -> Optional[numpy.ndarray] | dict[str, Optional[numpy.ndarray]]:
+        """
+        Recompute the subgraph on every request.
+
+        The loaded subgraph lives in an in-memory graph view that can change
+        independently of this outer node, so a normal cached outer result would
+        go stale as soon as the inner graph is edited.
+        """
+        inputs = self.get_inputs()
+        self._cached_value = self.process(inputs)
+        return self._cached_value
+
     def _set_active_preview(self) -> None:
         broker.emit(namespace.NODE_PREVIEW, image=self._preview_value())
 
