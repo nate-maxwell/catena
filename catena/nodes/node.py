@@ -155,6 +155,13 @@ class CatenaNode(BaseNode):
             definition = self._fields.get(name)
             raw = float(evaluated.mean())
 
+            if port.data_type in (
+                PortDataType.FLOAT,
+                PortDataType.INT,
+                PortDataType.VECTOR1,
+            ):
+                return type(definition.default)(raw) if definition is not None else raw
+
             if definition is not None and definition.max_value is not None:
                 return type(definition.default)(raw * definition.max_value)
 
