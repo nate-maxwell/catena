@@ -5,6 +5,8 @@ import numpy
 from catena import api
 from std_math_nodes import IMAGE_NODE_COLOR
 
+_PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
+
 
 class CeilNode(api.CatenaNode):
     """A node that applies a ceiling function to an input modifier."""
@@ -15,8 +17,30 @@ class CeilNode(api.CatenaNode):
         super().__init__(title="Ceil")
 
     def _build(self) -> None:
-        self.port_in = self.add_port(api.PortType.INPUT, "Input")
-        self.port_out = self.add_port(api.PortType.OUTPUT, "Output")
+        self.port_in = self.add_port(
+            api.PortType.INPUT, "Input", api.PortDataType.VECTOR4
+        )
+        self.port_out = self.add_port(
+            api.PortType.OUTPUT, "Output", api.PortDataType.VECTOR4
+        )
+
+        self.add_field(
+            api.FieldDefinition(
+                name="data_type",
+                label="Type",
+                field_type=api.FieldType.CHOICE,
+                default=api.PortDataType.VECTOR4,
+                options=_PORT_TYPES,
+            )
+        )
+
+    def _on_field_changed(self, node: "CeilNode") -> None:
+        data_type = self.get_field_value("data_type")
+        for port in (self.port_in, self.port_out):
+            port.data_type = data_type
+            port.set_color(api.DATA_TYPE_COLORS[data_type])
+
+        super()._on_field_changed(node)
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
@@ -34,5 +58,13 @@ class CeilNode(api.CatenaNode):
         image = inputs.get("Input")
         if image is None:
             return None
+
+        data_type = self.get_field_value("data_type")
+        if data_type in (
+            api.PortDataType.FLOAT,
+            api.PortDataType.INT,
+            api.PortDataType.VECTOR1,
+        ) and image.ndim == 3:
+            image = image.mean(axis=2, keepdims=True)
 
         return numpy.ceil(image).astype(numpy.float32)

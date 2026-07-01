@@ -42,6 +42,25 @@ class DivideNode(api.CatenaNode):
 
         super()._on_field_changed(node)
 
+    @staticmethod
+    def _collapse_scalar(image: numpy.ndarray) -> numpy.ndarray:
+        if image.ndim == 3:
+            return image.mean(axis=2, keepdims=True)
+        return image
+
+    @staticmethod
+    def _collapse_uniform_scalar(image: numpy.ndarray) -> numpy.ndarray:
+        image = DivideNode._collapse_scalar(image).astype(numpy.float32)
+        if image.size == 0:
+            return image
+
+        minimum = float(numpy.min(image))
+        maximum = float(numpy.max(image))
+        if abs(maximum - minimum) <= 1e-6:
+            return numpy.full((1, 1, 1), float(image.mean()), dtype=numpy.float32)
+
+        return image
+
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
     ) -> Optional[numpy.ndarray]:
@@ -63,15 +82,18 @@ class DivideNode(api.CatenaNode):
         if image_a is None or image_b is None:
             return None
 
-        if image_a.shape != image_b.shape:
-            height, width = image_a.shape[:2]
-            image_b = cv2.resize(image_b, (width, height))
-
         if data_type in (api.PortDataType.FLOAT, api.PortDataType.INT, api.PortDataType.VECTOR1):
-            if image_a.ndim == 3:
-                image_a = image_a.mean(axis=2, keepdims=True)
-            if image_b.ndim == 3:
-                image_b = image_b.mean(axis=2, keepdims=True)
+            image_a = self._collapse_uniform_scalar(image_a)
+            image_b = self._collapse_uniform_scalar(image_b)
+
+        if image_a.shape != image_b.shape:
+            if image_a.shape == (1, 1, 1):
+                image_a = numpy.full(image_b.shape, float(image_a.mean()), dtype=numpy.float32)
+            elif image_b.shape == (1, 1, 1):
+                image_b = numpy.full(image_a.shape, float(image_b.mean()), dtype=numpy.float32)
+            else:
+                height, width = image_a.shape[:2]
+                image_b = cv2.resize(image_b, (width, height))
 
         a = image_a.astype(numpy.float32)
         b = numpy.where(image_b == 0, 1e-6, image_b.astype(numpy.float32))
