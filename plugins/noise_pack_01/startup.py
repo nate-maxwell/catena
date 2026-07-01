@@ -3,11 +3,14 @@ import logging
 from PySide6TK import Resources
 
 from catena import api
+from cells_1 import Cells1Node
+from cells_2 import Cells2Node
+from cells_3 import Cells3Node
 from moisture_noise import MoistureNoiseNode
 from fractal_sum_base import FractalSumBaseNode
-from fractal_sum_1 import FractalSum01Node
-from fractal_sum_2 import FractalSum02Node
-from fractal_sum_3 import FractalSum03Node
+from fractal_sum_1 import FractalSum1Node
+from fractal_sum_2 import FractalSum2Node
+from fractal_sum_3 import FractalSum3Node
 
 CATEGORY = "Noise Pack 01"
 
@@ -21,10 +24,16 @@ def _add_node(node: type[api.CatenaNode], label: str) -> None:
 def build_shelf() -> None:
     logger.info("Building noise pack shelf...")
 
+    _add_node(Cells1Node, "Cells\n1")
+    _add_node(Cells2Node, "Cells\n2")
+    _add_node(Cells3Node, "Cells\n3")
+
+    api.add_seperator_to_shelf(CATEGORY)
+
     _add_node(FractalSumBaseNode, "Fractal\nSum\nBase")
-    _add_node(FractalSum01Node, "Fractal\nSum\n1")
-    _add_node(FractalSum02Node, "Fractal\nSum\n2")
-    _add_node(FractalSum03Node, "Fractal\nSum\n3")
+    _add_node(FractalSum1Node, "Fractal\nSum\n1")
+    _add_node(FractalSum2Node, "Fractal\nSum\n2")
+    _add_node(FractalSum3Node, "Fractal\nSum\n3")
 
     api.add_seperator_to_shelf(CATEGORY)
 
@@ -34,10 +43,13 @@ def build_shelf() -> None:
 def build_registry() -> None:
     logger.info("Registering noise pack nodes...")
 
+    api.register_node(CATEGORY, Cells1Node)
+    api.register_node(CATEGORY, Cells2Node)
+    api.register_node(CATEGORY, Cells3Node)
     api.register_node(CATEGORY, FractalSumBaseNode)
-    api.register_node(CATEGORY, FractalSum01Node)
-    api.register_node(CATEGORY, FractalSum02Node)
-    api.register_node(CATEGORY, FractalSum03Node)
+    api.register_node(CATEGORY, FractalSum1Node)
+    api.register_node(CATEGORY, FractalSum2Node)
+    api.register_node(CATEGORY, FractalSum3Node)
     api.register_node(CATEGORY, MoistureNoiseNode)
 
 
