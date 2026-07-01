@@ -5,9 +5,9 @@ from PySide6TK import Resources
 from catena import api
 from moisture_noise import MoistureNoiseNode
 from fractal_sum_base import FractalSumBaseNode
-from fractal_sum_01 import FractalSum01Node
-from fractal_sum_02 import FractalSum02Node
-from fractal_sum_03 import FractalSum03Node
+from fractal_sum_1 import FractalSum01Node
+from fractal_sum_2 import FractalSum02Node
+from fractal_sum_3 import FractalSum03Node
 
 CATEGORY = "Noise Pack 01"
 

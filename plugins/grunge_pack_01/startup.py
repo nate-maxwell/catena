@@ -3,8 +3,8 @@ import logging
 from PySide6TK import Resources
 
 from catena import api
-from grunge_01 import Grunge01Node
-from grunge_02 import Grunge02Node
+from grunge_1 import Grunge01Node
+from grunge_2 import Grunge02Node
 from grunge_gradient import GrungeGradientNode
 
 CATEGORY = "Grunge Pack 01"
