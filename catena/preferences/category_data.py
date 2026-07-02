@@ -6,6 +6,7 @@ from PySide6TK import QtGui
 @dataclass
 class GeneralPreferences(object):
     texture_resolution: int = 1024
+    displacement_scale: float = 0.0
 
 
 WIRE_STYLE_BEZIER = "Bezier"

@@ -7,6 +7,7 @@ from PySide6TK import QtCore
 
 from catena import namespace
 from catena import texture
+from catena.preferences import preferences
 from catena.panes.obj_viewer import obj_widget
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
@@ -35,6 +36,13 @@ class ObjViewportPane(DockablePane):
 
     def _create_subscriptions(self) -> None:
         broker.register_subscriber(namespace.MODEL_UPDATED_TEXTURE, self._refresh)
+        broker.register_subscriber(
+            namespace.PREFERENCES_UPDATED, self._on_preferences_updated
+        )
+
+    def _on_preferences_updated(self) -> None:
+        topic_prefs = preferences.Preferences().general_preferences
+        self.obj_wid.obj_view.set_displacement_scale(topic_prefs.displacement_scale)
 
     def _refresh(
         self, image: Optional[numpy.ndarray], texture_type: texture.TextureType

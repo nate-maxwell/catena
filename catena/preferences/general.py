@@ -14,7 +14,12 @@ class GeneralPreferencesMenu(PreferenceTopicMenu):
         self.texture_resolution.set_value(self.topic_prefs.texture_resolution)
         self.add_widget(self.texture_resolution)
 
+        self.displacement_scale = QtWrappers.LabeledSpinBox("Displacement Scale", True)
+        self.displacement_scale.set_value(self.topic_prefs.displacement_scale)
+        self.add_widget(self.displacement_scale)
+
         self.add_stretch()
 
     def sync_settings(self) -> None:
         self.topic_prefs.texture_resolution = self.texture_resolution.value()
+        self.topic_prefs.displacement_scale = self.displacement_scale.value()

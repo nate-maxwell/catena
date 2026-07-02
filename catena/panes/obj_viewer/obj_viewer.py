@@ -3,7 +3,6 @@ import math
 from pathlib import Path
 from typing import Optional
 
-import broker
 import OpenGL.GL as gl
 import numpy
 from PySide6TK import QtCore
@@ -11,7 +10,6 @@ from PySide6TK import QtGui
 from PySide6TK import QtOpenGLWidgets
 from PySide6TK import QtWidgets
 
-from catena import namespace
 from catena import resources
 from catena import texture
 from catena.panes.obj_viewer import matrix
@@ -60,13 +58,6 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         self._last_mouse_pos: QtCore.QPoint = QtCore.QPoint()
 
         self.setMinimumSize(400, 400)
-
-        self._create_subscriptions()
-
-    def _create_subscriptions(self) -> None:
-        broker.register_subscriber(
-            namespace.NODE_DISPLACEMENT_UPDATED, self.set_displacement_scale
-        )
 
     def initializeGL(self) -> None:
         gl.glClearColor(0.05, 0.05, 0.07, 1.0)
