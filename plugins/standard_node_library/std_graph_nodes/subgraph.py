@@ -95,26 +95,6 @@ class SubgraphNode(api.CatenaNode):
 
         broker.emit(namespace.GRAPH_OPEN_SUBGRAPH, file_path=path)
 
-    def _preview_value(self) -> Optional[numpy.ndarray]:
-        """
-        Return the most useful preview value for the texture viewer.
-
-        Subgraphs can expose multiple outputs, but the texture viewer accepts a
-        single image. Prefer the first non-None output so double-click preview
-        still works for multi-output graphs.
-        """
-        evaluated = self.evaluate()
-        if isinstance(evaluated, dict):
-            for value in evaluated.values():
-                if isinstance(value, numpy.ndarray):
-                    return value
-            return None
-
-        return evaluated if isinstance(evaluated, numpy.ndarray) else None
-
-    def _preview_image(self) -> Optional[numpy.ndarray]:
-        return self._preview_value()
-
     def evaluate(
         self,
     ) -> Optional[numpy.ndarray] | dict[str, Optional[numpy.ndarray]]:
@@ -125,16 +105,8 @@ class SubgraphNode(api.CatenaNode):
         self._invalidate_cached_result_if_source_changed()
         return super().evaluate()
 
-    def _set_active_preview(self) -> None:
-        broker.emit(namespace.NODE_PREVIEW, image=self._preview_value())
-
-    def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
-        broker.emit(namespace.NODE_SELECTED, node=self)
-        self._set_active_preview()
-        super().mouseDoubleClickEvent(event)
-        event.accept()
-
     def mouseReleaseEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
+        # RMB on subgraph should open the subgraph
         if event.button() == QtCore.Qt.MouseButton.RightButton:
             self.open_subgraph()
             event.accept()
@@ -153,9 +125,7 @@ class SubgraphNode(api.CatenaNode):
         super()._on_field_changed(node)
 
     def _invalidate_cached_result_if_source_changed(self) -> None:
-        """
-        Invalidate the cached outer result when the subgraph file changes.
-        """
+        """Invalidate the cached outer result when the subgraph file changes."""
         path = self._resolve_filepath()
         if path is None:
             self._cached_value = None
@@ -213,22 +183,6 @@ class SubgraphNode(api.CatenaNode):
 
         return input_ports, output_ports
 
-    def _clear_dynamic_interface(self) -> None:
-        """
-        Remove the currently generated ports and backing fields.
-        """
-        for name in list(self._dynamic_input_names):
-            self.demote_field(name)
-            self._fields.pop(name, None)
-            self._field_values.pop(name, None)
-
-        for port in list(self._output_ports.values()):
-            self.remove_port(port)
-
-        self._dynamic_input_names.clear()
-        self._input_ports.clear()
-        self._output_ports.clear()
-
     def _load_graph_view(self) -> GuiGraphView | None:
         """
         Return a cached in-memory graph view for the current subgraph file.
@@ -252,11 +206,26 @@ class SubgraphNode(api.CatenaNode):
         self._cached_graph_view_mtime = current_mtime
 
         def invalidate_cached_result() -> None:
+            # Stupid python gets annoyed when using 'self' in a lambda...
             self._cached_value = None
 
         view.graph_scene.changed.connect(invalidate_cached_result)
 
         return view
+
+    def _clear_dynamic_interface(self) -> None:
+        """Remove the currently generated ports and backing fields."""
+        for name in list(self._dynamic_input_names):
+            self.demote_field(name)
+            self._fields.pop(name, None)
+            self._field_values.pop(name, None)
+
+        for port in list(self._output_ports.values()):
+            self.remove_port(port)
+
+        self._dynamic_input_names.clear()
+        self._input_ports.clear()
+        self._output_ports.clear()
 
     def _rebuild_ports(self) -> None:
         """

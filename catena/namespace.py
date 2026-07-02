@@ -3,6 +3,7 @@
 # -----Node Events-------------------------------------------------------------
 NODE_SELECTED = "node.select.selected"
 NODE_PREVIEW = "node.select.preview"
+NODE_EVALUATED = "node.evaluated"
 
 NODE_WRITE_FILE = "node.write.write"
 

@@ -1,39 +1,13 @@
 from __future__ import annotations
 
-import time
 from typing import Optional
 
 import broker
 from PySide6 import QtCore
 from PySide6 import QtWidgets
 
+from catena import api
 from catena import namespace
-from catena.api import CatenaNode
-
-NODE_EVALUATED = "node.evaluated"
-
-# ── monkey-patch ─────────────────────────────────────────────────────────────
-
-_original_evaluate = CatenaNode.evaluate
-
-
-def _instrumented_evaluate(self: CatenaNode) -> Optional[object]:
-    if self._cached_value is None:
-        inputs = self.get_inputs()
-        t0 = time.perf_counter()
-        self._cached_value = self.process(inputs)
-        elapsed_ms = (time.perf_counter() - t0) * 1000.0
-        broker.emit(
-            NODE_EVALUATED,
-            node_title=self.title,
-            elapsed_ms=elapsed_ms,
-        )
-    return self._cached_value
-
-
-CatenaNode.evaluate = _instrumented_evaluate
-
-# ── widgets ───────────────────────────────────────────────────────────────────
 
 
 class _NodeStatRow(QtWidgets.QWidget):
@@ -79,16 +53,10 @@ class GraphStatsWidget(QtWidgets.QWidget):
         self._stats: dict[str, float] = {}
         self._row_widgets: list[_NodeStatRow] = []
 
-        self._build_ui()
+        self._build()
+        self._create_subscriptions()
 
-        broker.register_subscriber(NODE_EVALUATED, self._on_node_evaluated)
-        broker.register_subscriber(namespace.FILE_NEW, self._reset_stats)
-        broker.register_subscriber(namespace.FILE_LOAD, self._reset_stats)
-        broker.register_subscriber(
-            namespace.GRAPH_OPEN_SUBGRAPH, self._reset_stats_for_graph
-        )
-
-    def _build_ui(self) -> None:
+    def _build(self) -> None:
         root = QtWidgets.QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
         root.setSpacing(0)
@@ -145,10 +113,18 @@ class GraphStatsWidget(QtWidgets.QWidget):
         footer_layout.addWidget(self._lbl_total)
         root.addWidget(footer)
 
-    # ── broker callbacks ─────────────────────────────────────────────────────
+    # ── subscriptions ────────────────────────────────────────────────────────
 
-    def _on_node_evaluated(self, node_title: str, elapsed_ms: float) -> None:
-        self._stats[node_title] = elapsed_ms
+    def _create_subscriptions(self) -> None:
+        broker.register_subscriber(namespace.NODE_EVALUATED, self._on_node_evaluated)
+        broker.register_subscriber(namespace.FILE_NEW, self._reset_stats)
+        broker.register_subscriber(namespace.FILE_LOAD, self._reset_stats)
+        broker.register_subscriber(
+            namespace.GRAPH_OPEN_SUBGRAPH, self._reset_stats_for_graph
+        )
+
+    def _on_node_evaluated(self, node: api.CatenaNode, elapsed_ms: float) -> None:
+        self._stats[node.title] = elapsed_ms
         self._refresh()
 
     def _reset_stats(self) -> None:

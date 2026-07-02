@@ -102,7 +102,7 @@ class GuiGraphView(GraphView):
 
         node = CatenaNode.active_preview_node
         if node is not None:
-            broker.emit(namespace.NODE_PREVIEW, image=node._preview_image())
+            broker.emit(namespace.NODE_PREVIEW, image=node.evaluate())
 
     def copy_selected(self) -> None:
         """

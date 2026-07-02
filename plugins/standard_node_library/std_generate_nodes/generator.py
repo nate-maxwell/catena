@@ -45,6 +45,8 @@ class GeneratorNode(api.CatenaNode):
 
     def _on_field_changed(self, node: api.CatenaNode) -> None:
         super()._on_field_changed(node)
+
+        # value should be cached so this isn't a real second evaluation
         image = self.evaluate()
         self._update_preview(image)
 

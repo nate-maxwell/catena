@@ -1,5 +1,6 @@
-from contextlib import contextmanager
 import logging
+import time
+from contextlib import contextmanager
 from typing import Any
 from typing import Optional
 
@@ -215,21 +216,16 @@ class CatenaNode(BaseNode):
             event (QtWidgets.QGraphicsSceneMouseEvent): The mouse event.
         """
         broker.emit(namespace.NODE_SELECTED, node=self)
-        self._set_active_preview()
+
+        CatenaNode.active_preview_node = self
+        if not self._preview_updates_suppressed():
+            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
+
         super().mouseDoubleClickEvent(event)
 
     def mousePressEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         broker.emit(namespace.NODE_SELECTED, node=self)
         super().mousePressEvent(event)
-
-    def _set_active_preview(self) -> None:
-        CatenaNode.active_preview_node = self
-        if not self._preview_updates_suppressed():
-            broker.emit(namespace.NODE_PREVIEW, image=self._preview_image())
-
-    def _preview_image(self) -> Optional[numpy.ndarray]:
-        """Return the image that should be shown in the texture viewer."""
-        return self.evaluate()
 
     def _on_field_changed(self, node: "CatenaNode") -> None:
         if self._preview_updates_suppressed():
@@ -239,12 +235,19 @@ class CatenaNode(BaseNode):
         self._cached_value = self.process(inputs)
 
         if node is self and CatenaNode.active_preview_node is self:
-            broker.emit(namespace.NODE_PREVIEW, image=self._preview_image())
+            print(1)
+            broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
         elif CatenaNode.active_preview_node is not None:
+            # TODO: This should not necessarily be updating the preview node -
+            #  preview node might not even be downstream of the current node.
+            #  Need is_downstream(n_a, n_b) -> bool helper method.
+            print(2)
             broker.emit(
                 namespace.NODE_PREVIEW,
-                image=CatenaNode.active_preview_node._preview_image(),
+                image=CatenaNode.active_preview_node.evaluate(),
             )
+        else:
+            print(3)
 
     def set_field_value(self, name: str, value: object) -> None:
         """
@@ -337,9 +340,19 @@ class CatenaNode(BaseNode):
         Returns:
             numpy.ndarray | None: The processed output of this node.
         """
-        if self._cached_value is None:
-            inputs = self.get_inputs()
-            self._cached_value = self.process(inputs)
+        if self._cached_value is not None:
+            return self._cached_value
+
+        inputs = self.get_inputs()
+        t0 = time.perf_counter()
+        self._cached_value = self.process(inputs)
+        elapsed_ms = (time.perf_counter() - t0) * 1000.0
+
+        broker.emit(
+            namespace.NODE_EVALUATED,
+            node=self,
+            elapsed_ms=elapsed_ms
+        )
 
         return self._cached_value
 
