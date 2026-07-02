@@ -10,7 +10,6 @@ from catena import decorators
 from catena.preferences import preferences
 from catena.preferences.general import GeneralPreferencesMenu
 from catena.preferences.graph import GraphPreferencesMenu
-from catena.preferences.layout import LayoutPreferencesMenu
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +34,6 @@ class PreferencesMenu(QtWrappers.MainWindow):
         self.stack_topics = QtWidgets.QStackedWidget()
         self.general_preferences = GeneralPreferencesMenu()
         self.graph_preferences = GraphPreferencesMenu()
-        self.layout_preferences = LayoutPreferencesMenu()
 
         # Topic selector
         self.sa_topic_buttons = QtWrappers.ScrollArea()
@@ -57,7 +55,6 @@ class PreferencesMenu(QtWrappers.MainWindow):
         # Topics
         self.stack_topics.addWidget(self.general_preferences)
         self.stack_topics.addWidget(self.graph_preferences)
-        self.stack_topics.addWidget(self.layout_preferences)
         self.stack_topics.addWidget(QtWrappers.VerticalLine())
         self.stack_topics.setCurrentIndex(0)
 
@@ -96,14 +93,10 @@ class PreferencesMenu(QtWrappers.MainWindow):
         self.btn_graph_preferences.clicked.connect(
             lambda: self.stack_topics.setCurrentWidget(self.graph_preferences)
         )
-        self.btn_layout_preferences.clicked.connect(
-            lambda: self.stack_topics.setCurrentWidget(self.layout_preferences)
-        )
 
     def _sync_settings(self) -> None:
         self.general_preferences.sync_settings()
         self.graph_preferences.sync_settings()
-        self.layout_preferences.sync_settings()
 
     @decorators.update_status(appdata.STATUS_PREFERENCES_UPDATING)
     def ok(self) -> None:

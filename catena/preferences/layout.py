@@ -1,7 +1,7 @@
 from PySide6TK import QtWrappers
 
-from catena.preferences.topic_menu import PreferenceTopicMenu
 from catena.preferences import category_data
+from catena.preferences.topic_menu import PreferenceTopicMenu
 
 
 class LayoutPreferencesMenu(PreferenceTopicMenu):
@@ -9,7 +9,7 @@ class LayoutPreferencesMenu(PreferenceTopicMenu):
     def __init__(self) -> None:
         super().__init__("General")
 
-        self.topic_prefs = self.prefs.layout_preferences
+        self.topic_prefs = self.prefs["layout_preferences"]
 
         self.selected_layout = QtWrappers.LabeledComboBox(
             "Layout", category_data.LAYOUTS

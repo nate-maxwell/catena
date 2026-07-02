@@ -8,7 +8,7 @@ class GeneralPreferencesMenu(PreferenceTopicMenu):
     def __init__(self) -> None:
         super().__init__("General")
 
-        self.topic_prefs = self.prefs.general_preferences
+        self.topic_prefs = self.prefs["general_preferences"]
 
         self.texture_resolution = QtWrappers.LabeledSpinBox("Texture Resolution")
         self.texture_resolution.set_value(self.topic_prefs.texture_resolution)

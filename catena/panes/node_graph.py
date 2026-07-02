@@ -329,7 +329,7 @@ class NodeGraphPane(DockablePane):
 
     def _apply_preferences_to_view(self, view: GuiGraphView) -> None:
         """Apply current preference values to a graph view."""
-        graph_settings = Preferences().node_graph_preferences
+        graph_settings = Preferences()["node_graph_preferences"]
 
         wire_style = (
             Nodes.WireStyle.BEZIER

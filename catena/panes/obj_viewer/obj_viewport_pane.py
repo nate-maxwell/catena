@@ -41,7 +41,7 @@ class ObjViewportPane(DockablePane):
         )
 
     def _on_preferences_updated(self) -> None:
-        topic_prefs = preferences.Preferences().general_preferences
+        topic_prefs = preferences.Preferences()["general_preferences"]
         self.obj_wid.obj_view.set_displacement_scale(topic_prefs.displacement_scale)
 
     def _refresh(

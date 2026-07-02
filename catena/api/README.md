@@ -114,6 +114,35 @@ The node API also re-exports the core building blocks used by node classes:
 
 You can read more about custom node construction [here](docs/nodes.md).
 
+Preferences
+-----------
+
+Plugins can register their own dataclass-backed settings objects with the shared
+preferences singleton:
+
+```python
+from dataclasses import dataclass
+from catena import api
+
+
+@dataclass
+class MyPluginPreferences:
+    enabled: bool = True
+    intensity: float = 1.0
+
+
+prefs = api.register_preferences("my_plugin_preferences", MyPluginPreferences)
+prefs.enabled = False
+api.save_preferences()
+```
+
+The object returned by `register_preferences` is the live instance stored by
+Catena. Access sections through `api.get_preferences("my_plugin_preferences")`
+or the singleton's keyed lookup if you need it later. The section is persisted
+automatically when the application saves preferences, or explicitly call
+`api.save_preferences()`. Unknown sections from disk are preserved even if the
+plugin that registered them is not currently loaded.
+
 Shelf and menu actions
 ----------------------
 

@@ -1,8 +1,8 @@
 from PySide6TK import QtWidgets
 from PySide6TK import QtWrappers
 
-from catena.preferences.topic_menu import PreferenceTopicMenu
 from catena.preferences import category_data
+from catena.preferences.topic_menu import PreferenceTopicMenu
 
 
 class GraphPreferencesMenu(PreferenceTopicMenu):
@@ -10,7 +10,7 @@ class GraphPreferencesMenu(PreferenceTopicMenu):
     def __init__(self) -> None:
         super().__init__("Graph")
 
-        self.topic_prefs = self.prefs.node_graph_preferences
+        self.topic_prefs = self.prefs["node_graph_preferences"]
 
         # -----Wire Style-----
         self.wire_style = QtWrappers.LabeledComboBox(
