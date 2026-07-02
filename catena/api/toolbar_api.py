@@ -63,7 +63,7 @@ def add_shelf_command(
     Returns:
 
     """
-    _editor_actions_toolbar.add_command(shelf, command, label, icon_path)
+    _editor_actions_toolbar.add_command(shelf, command, label, Path(icon_path))
 
 
 def add_node_to_shelf(
@@ -84,7 +84,7 @@ def add_node_to_shelf(
         icon_path (pathlib.Path): The button icon. Defaults to the 40x40 white
             image box.
     """
-    _editor_actions_toolbar.add_node(shelf, node, label, icon_path)
+    _editor_actions_toolbar.add_node(shelf, node, label, Path(icon_path))
 
 
 def add_seperator_to_shelf(shelf: str) -> None:
