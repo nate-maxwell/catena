@@ -7,6 +7,7 @@ from catena.nodes.data import PortDataType
 from catena.nodes.data import DATA_TYPE_COLORS
 from catena.nodes.data import FIELD_PORT_DATA_TYPES
 from catena.nodes.data import TEXTURE_DATA_TYPES
+from catena.nodes.data import modifier_value_for_data_type
 from catena.nodes.registry import NodeRegistry
 
 from catena.nodes.node import CatenaNode
@@ -23,6 +24,7 @@ __all__ = [
     "TEXTURE_DATA_TYPES",
     "register_node",
     "node_registry_to_dict",
+    "modifier_value_for_data_type",
 ]
 
 _node_registry = NodeRegistry()

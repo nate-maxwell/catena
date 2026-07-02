@@ -288,9 +288,15 @@ class SubgraphNode(api.CatenaNode):
                 continue
 
             input_name = node.get_field_value("name")
-            node._cached_value = inputs.get(input_name)
-            if node._cached_value is None:
-                node._cached_value = self._field_values.get(input_name)
+            input_data_type = node.get_field_value("data_type")
+            outer_value = inputs.get(input_name)
+            if outer_value is None:
+                outer_value = self._field_values.get(input_name)
+
+            node._invalidate_downstream()
+            node._cached_value = api.modifier_value_for_data_type(
+                input_data_type, outer_value
+            )
 
         output_values: dict[str, Optional[numpy.ndarray]] = {}
 

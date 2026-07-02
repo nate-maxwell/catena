@@ -1,3 +1,7 @@
+from typing import Any
+from typing import Optional
+
+import numpy
 from PySide6TK import QtGui
 from PySide6TK.Nodes import FieldType
 
@@ -46,3 +50,32 @@ TEXTURE_DATA_TYPES: dict[TextureType, str] = {
     TextureType.NORMAL: PortDataType.NORMAL,
     TextureType.ROUGHNESS: PortDataType.VECTOR4,
 }
+
+
+def modifier_value_for_data_type(
+    data_type: PortDataType, value: Any
+) -> Optional[numpy.ndarray]:
+    """Convert a field value into the modifier format used by graph nodes."""
+    if value is None:
+        return None
+
+    if isinstance(value, numpy.ndarray):
+        return value.astype(numpy.float32, copy=False)
+
+    if data_type == PortDataType.BOOL:
+        return None
+
+    if data_type in (PortDataType.FLOAT, PortDataType.VECTOR1, PortDataType.INT):
+        scalar = float(value)
+        return numpy.full((1, 1, 1), scalar, dtype=numpy.float32)
+
+    if data_type == PortDataType.VECTOR2:
+        x, y = value
+        return numpy.array([[[x, y, 0.0, 1.0]]], dtype=numpy.float32)
+
+    if data_type == PortDataType.VECTOR3:
+        x, y, z = value
+        return numpy.array([[[x, y, z, 1.0]]], dtype=numpy.float32)
+
+    r, g, b, a = value
+    return numpy.array([[[r, g, b, a]]], dtype=numpy.float32) / 255.0
