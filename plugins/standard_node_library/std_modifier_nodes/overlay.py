@@ -62,15 +62,24 @@ class OverlayNode(api.CatenaNode):
             height, width = bottom.shape[:2]
             top = cv2.resize(top, (width, height))
 
+        def _to_mask(image: numpy.ndarray) -> numpy.ndarray:
+            if image.ndim == 2:
+                return image.astype(numpy.float32)
+            if image.shape[2] == 1:
+                return image[:, :, 0].astype(numpy.float32)
+            if image.shape[2] >= 4:
+                return image[:, :, 3].astype(numpy.float32)
+            return image[:, :, :3].mean(axis=2).astype(numpy.float32)
+
         if alpha is None:
             mask = numpy.full(bottom.shape[:2], mix, dtype=numpy.float32)
         else:
             if alpha.shape[:2] != bottom.shape[:2]:
                 height, width = bottom.shape[:2]
                 alpha = cv2.resize(alpha, (width, height))
-            if alpha.ndim == 3:
-                alpha = alpha.mean(axis=2)
-            mask = alpha.astype(numpy.float32) * mix
+            mask = _to_mask(alpha) * mix
+
+        mask = numpy.clip(mask, 0.0, 1.0)
 
         mask = mask[:, :, None]
 

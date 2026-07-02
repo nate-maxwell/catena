@@ -235,19 +235,15 @@ class CatenaNode(BaseNode):
         self._cached_value = self.process(inputs)
 
         if node is self and CatenaNode.active_preview_node is self:
-            print(1)
             broker.emit(namespace.NODE_PREVIEW, image=self.evaluate())
         elif CatenaNode.active_preview_node is not None:
             # TODO: This should not necessarily be updating the preview node -
             #  preview node might not even be downstream of the current node.
             #  Need is_downstream(n_a, n_b) -> bool helper method.
-            print(2)
             broker.emit(
                 namespace.NODE_PREVIEW,
                 image=CatenaNode.active_preview_node.evaluate(),
             )
-        else:
-            print(3)
 
     def set_field_value(self, name: str, value: object) -> None:
         """
@@ -348,11 +344,7 @@ class CatenaNode(BaseNode):
         self._cached_value = self.process(inputs)
         elapsed_ms = (time.perf_counter() - t0) * 1000.0
 
-        broker.emit(
-            namespace.NODE_EVALUATED,
-            node=self,
-            elapsed_ms=elapsed_ms
-        )
+        broker.emit(namespace.NODE_EVALUATED, node=self, elapsed_ms=elapsed_ms)
 
         return self._cached_value
 
