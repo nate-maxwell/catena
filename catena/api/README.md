@@ -8,8 +8,8 @@ Plugin code should import it with:
 from catena import api
 ```
 
-The module re-exports the helpers in this directory, so plugin authors do not
-need to import the internal files directly.
+The module contains safe interfaces for plugin authors to leverage without
+needing extensive knowledge of Catena's internals.
 
 Plugin layout
 -------------
@@ -136,37 +136,18 @@ prefs.enabled = False
 api.save_preferences()
 ```
 
-The object returned by `register_preferences` is the live instance stored by
-Catena. Access sections through `api.get_preferences("my_plugin_preferences")`
-or the singleton's keyed lookup if you need it later. The section is persisted
-automatically when the application saves preferences, or explicitly call
-`api.save_preferences()`. Unknown sections from disk are preserved even if the
-plugin that registered them is not currently loaded.
+Use `api.register_preferences`, `api.get_preferences`, `api.list_preferences`,
+and `api.save_preferences` to manage plugin-specific settings.
+
+Click [here](docs/preferences.md) to learn more.
 
 Shelf and menu actions
 ----------------------
 
-Use the toolbar helpers when you want plugin features visible in the main UI.
+Use the toolbar helpers to add shelf buttons, menu actions, and shared status
+updates from plugin code.
 
-- `api.add_node_to_shelf(shelf, node_cls, label, icon_path)`
-- `api.add_shelf_command(shelf, command, label, icon_path)`
-- `api.add_seperator_to_shelf(shelf)`
-- `api.add_menu(label)`
-- `api.add_toolbar_menu_item(menu, label, command)`
-
-Example:
-
-```python
-from catena import api
-
-
-def install_menu() -> None:
-    view_menu = api.add_menu("View")
-    api.add_toolbar_menu_item(view_menu, "My Action", lambda: print("hello"))
-```
-
-For node buttons, pass a node class to `add_node_to_shelf`. For plain commands,
-pass a callable to `add_shelf_command`.
+Click [here](docs/shelf_and_menu_actions.md) to learn more.
 
 Dockable panes
 --------------
@@ -200,32 +181,31 @@ If a pane needs access to the main window, call
 `api.get_reference_to_base_client()` from `startup.py` and pass the reference
 into your pane constructor.
 
+Click [here](docs/dockable_panes.md) to learn more.
+
 System helpers
 --------------
 
-The system API exposes a few application-wide helpers:
+The system API exposes shared helpers for texture resolution, status updates,
+and shortcuts.
 
-- `api.get_texture_resolution()` returns the configured square texture size
-- `api.set_status(text)` sets the status bar text
-- `api.reset_status()` restores the default running status
-- `api.ShortcutManager` exposes the shared shortcut manager singleton
+Click [here](docs/system_helpers.md) to learn more.
 
 Texture helpers
 ---------------
 
-The texture API is a small wrapper around the image conversion helpers used by
-Catena itself. It re-exports:
+The texture API re-exports the image conversion helpers used by Catena's
+rendering pipeline.
 
-- `api.ndarray_to_qimage`
-- `api.create_texture_from_array`
-- `api.bgr_to_rgb`
-- `api.rgb_to_bgr`
-- `api.bgra_to_rgba`
-- `api.rgba_to_bgra`
-- `api.TextureType`
+Click [here](docs/texture_helpers.md) to learn more.
 
-These are useful when a plugin generates image data from `numpy` arrays and
-needs to hand it to Catena's rendering pipeline.
+Application stack
+-----------------
+
+Catena is built on `numpy`, `opencv-python`/`cv2`, `scipy`, `PySide6`, and the
+shared `broker` event system.
+
+Click [here](docs/application_stack.md) to learn more.
 
 Startup pattern
 ---------------
