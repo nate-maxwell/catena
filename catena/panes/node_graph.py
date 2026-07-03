@@ -13,12 +13,12 @@ from catena import file
 from catena import namespace
 from catena import session
 from catena import shortcuts
+from catena.nodes import serialize
 from catena.nodes.graph import GuiGraphView
 from catena.panes.pane import DockablePane
 from catena.panes.pane import PaneConfig
-from catena.preferences.preferences import Preferences
 from catena.preferences import category_data
-from catena.nodes import serialize
+from catena.preferences.preferences import Preferences
 
 logger = logging.getLogger(__name__)
 
