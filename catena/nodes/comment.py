@@ -41,7 +41,12 @@ class CatenaCommentBox(CommentBox):
         super().__init__(label, width, height, parent)
 
     def _select_from_click(self) -> None:
-        self.setSelected(True)
+        self._allow_click_selection = True
+        try:
+            self.setSelected(True)
+        finally:
+            self._allow_click_selection = False
+
         broker.emit(namespace.NODE_SELECTED, node=self)
 
     def _graph_commands(self) -> object | None:
@@ -69,8 +74,11 @@ class CatenaCommentBox(CommentBox):
 
     def shape(self) -> QtGui.QPainterPath:
         path = QtGui.QPainterPath()
-        path.addRect(QtCore.QRectF(0, 0, self._box_width, self._HEADER_HEIGHT))
-        path.addRect(self._handle_rect())
+        path.addRoundedRect(
+            QtCore.QRectF(0, 0, self._box_width, self._box_height),
+            self._CORNER_RADIUS,
+            self._CORNER_RADIUS,
+        )
         return path
 
     def itemChange(
@@ -87,13 +95,13 @@ class CatenaCommentBox(CommentBox):
         return super().itemChange(change, value)
 
     def mousePressEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
-        self._allow_click_selection = True
-        try:
-            self._move_origin = self.pos()
-            self._select_from_click()
+        self._move_origin = self.pos()
+        if self._corner_at(event.pos()) != self._CORNER_NONE:
             super().mousePressEvent(event)
-        finally:
-            self._allow_click_selection = False
+            return
+
+        self._select_from_click()
+        super().mousePressEvent(event)
 
     def mouseDoubleClickEvent(self, event: QtWidgets.QGraphicsSceneMouseEvent) -> None:
         """
