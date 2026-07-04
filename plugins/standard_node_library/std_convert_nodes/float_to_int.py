@@ -19,7 +19,7 @@ class FloatToIntNode(api.CatenaNode):
             api.PortType.INPUT, "Input", api.PortDataType.FLOAT
         )
         self.port_out = self.add_port(
-            api.PortType.OUTPUT, "Output", api.PortDataType.VECTOR1
+            api.PortType.OUTPUT, "Output", api.PortDataType.INT
         )
 
     def process(

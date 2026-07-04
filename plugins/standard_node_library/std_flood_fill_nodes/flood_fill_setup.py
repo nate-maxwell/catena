@@ -4,6 +4,7 @@ from PySide6TK import Resources
 
 from catena import api
 from std_flood_fill_nodes.flood_fill import FloodFillNode
+from std_flood_fill_nodes.ff_to_bbox import FloodFillToBBoxNode
 from std_flood_fill_nodes.ff_to_gradient import FloodFillToGradientNode
 from std_flood_fill_nodes.ff_to_greyscale import FloodFillToGreyscaleNode
 from std_flood_fill_nodes.ff_to_rand_color import FloodFillToRandomColorNode
@@ -24,6 +25,7 @@ def build_shelf() -> None:
 
     api.add_seperator_to_shelf(CATEGORY)
 
+    _add_node(FloodFillToBBoxNode, "FF To\nBBox")
     _add_node(FloodFillToGradientNode, "FF To\nGrad")
     _add_node(FloodFillToGreyscaleNode, "FF To\nGrey")
     _add_node(FloodFillToRandomColorNode, "FF To\nRand\nColor")
@@ -32,6 +34,7 @@ def build_shelf() -> None:
 def build_registry() -> None:
     logger.info("Registering std floodfill nodes...")
     api.register_node(CATEGORY, FloodFillNode)
+    api.register_node(CATEGORY, FloodFillToBBoxNode)
     api.register_node(CATEGORY, FloodFillToGradientNode)
     api.register_node(CATEGORY, FloodFillToGreyscaleNode)
     api.register_node(CATEGORY, FloodFillToRandomColorNode)

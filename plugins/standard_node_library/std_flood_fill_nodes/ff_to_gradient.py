@@ -40,7 +40,7 @@ class FloodFillToGradientNode(api.CatenaNode):
                 field_type=api.FieldType.FLOAT,
                 default=1.0,
                 min_value=0.0,
-                max_value=1.0,
+                max_value=999999.0,
             )
         )
 
