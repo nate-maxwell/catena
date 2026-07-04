@@ -3,15 +3,11 @@ from typing import Optional
 import numpy
 
 from catena import api
-from std_math_nodes import IMAGE_NODE_COLOR
-
-_PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
+from std_math_nodes.math_node import MathNode
 
 
-class ClampNode(api.CatenaNode):
+class ClampNode(MathNode):
     """A node that clamps an input modifier to a configured range."""
-
-    _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
         super().__init__(title="Clamp")
@@ -22,16 +18,6 @@ class ClampNode(api.CatenaNode):
         )
         self.port_out = self.add_port(
             api.PortType.OUTPUT, "Output", api.PortDataType.VECTOR4
-        )
-
-        self.add_field(
-            api.FieldDefinition(
-                name="data_type",
-                label="Type",
-                field_type=api.FieldType.CHOICE,
-                default=api.PortDataType.VECTOR4,
-                options=_PORT_TYPES,
-            )
         )
         self.add_field(
             api.FieldDefinition(
@@ -49,14 +35,7 @@ class ClampNode(api.CatenaNode):
                 default=1.0,
             )
         )
-
-    def _on_field_changed(self, node: "ClampNode") -> None:
-        data_type = self.get_field_value("data_type")
-        for port in (self.port_in, self.port_out):
-            port.data_type = data_type
-            port.set_color(api.DATA_TYPE_COLORS[data_type])
-
-        super()._on_field_changed(node)
+        super()._build()
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]

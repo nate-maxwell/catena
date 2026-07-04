@@ -46,7 +46,7 @@ def resize_like(source: numpy.ndarray, reference: numpy.ndarray) -> numpy.ndarra
     height, width = reference.shape[:2]
     resized = cv2.resize(source, (width, height)).astype(numpy.float32)
 
-    if source.ndim == 3 and source.shape[2] == 1 and resized.ndim == 2:
+    if reference.ndim == 3 and resized.ndim == 2:
         resized = resized[:, :, None]
 
     return resized

@@ -4,22 +4,27 @@ import cv2
 import numpy
 
 from catena import api
-from std_math_nodes import IMAGE_NODE_COLOR
 from catena.api import resize_like
+from std_math_nodes.math_node import MathNode
 
 
-class ScreenNode(api.CatenaNode):
+class ScreenNode(MathNode):
     """A node that combines two input images using the screen blend mode."""
-
-    _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
         super().__init__(title="Screen")
 
     def _build(self) -> None:
-        self.port_in_a = self.add_port(api.PortType.INPUT, "A")
-        self.port_in_b = self.add_port(api.PortType.INPUT, "B")
-        self.port_out = self.add_port(api.PortType.OUTPUT, "Output")
+        self.port_in_a = self.add_port(
+            api.PortType.INPUT, "A", api.PortDataType.VECTOR4
+        )
+        self.port_in_b = self.add_port(
+            api.PortType.INPUT, "B", api.PortDataType.VECTOR4
+        )
+        self.port_out = self.add_port(
+            api.PortType.OUTPUT, "Output", api.PortDataType.VECTOR4
+        )
+        super()._build()
 
     def process(
         self, inputs: dict[str, Optional[numpy.ndarray]]
