@@ -5,6 +5,7 @@ import broker
 from PySide6 import QtGui
 from PySide6TK import QtCore
 from PySide6TK import QtWidgets
+from PySide6TK.Nodes import BaseNode
 from PySide6TK.Nodes import GraphView
 from PySide6TK.Nodes import Port
 from PySide6TK.Nodes import PortType
@@ -124,6 +125,31 @@ class GuiGraphView(GraphView):
 
         data = graph_serialize.serialize_nodes(self, selected_nodes)
         QtGui.QGuiApplication.clipboard().setText(json.dumps(data))
+
+    def delete_selected(self) -> None:
+        """
+        Delete every selected node and wire in the scene.
+
+        The base GraphView implementation only removes selected nodes. Catena
+        lets users select wires as well, so delete needs to honor the full
+        selection rather than a single item type.
+        """
+        selected_items = list(self.graph_scene.selectedItems())
+        if not selected_items:
+            return
+
+        selected_wires = [item for item in selected_items if isinstance(item, Wire)]
+        selected_nodes = [
+            item for item in selected_items if isinstance(item, BaseNode)
+        ]
+
+        for wire in selected_wires:
+            if wire.scene() is not None:
+                self.destroy_wire(wire)
+
+        for node in selected_nodes:
+            if node.scene() is not None:
+                self.remove_node(node)
 
     def paste_clipboard(self, x: float, y: float) -> None:
         """
