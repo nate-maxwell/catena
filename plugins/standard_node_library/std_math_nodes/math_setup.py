@@ -14,6 +14,7 @@ from std_math_nodes.min import MinNode
 from std_math_nodes.multiply import MultiplyNode
 from std_math_nodes.power import PowerNode
 from std_math_nodes.screen import ScreenNode
+from std_math_nodes.round import RoundNode
 from std_math_nodes.sin import SinNode
 from std_math_nodes.subtract import SubtractNode
 from std_math_nodes.tan import TangentNode
@@ -40,6 +41,7 @@ def build_shelf() -> None:
     _add_node(MaxNode, "Max")
     _add_node(CeilNode, "Ceil")
     _add_node(FloorNode, "Floor")
+    _add_node(RoundNode, "Round")
     api.add_seperator_to_shelf(CATEGORY)
     _add_node(ScreenNode, "Screen")
     api.add_seperator_to_shelf(CATEGORY)
@@ -63,6 +65,7 @@ def build_registry() -> None:
     api.register_node(CATEGORY, MultiplyNode)
     api.register_node(CATEGORY, PowerNode)
     api.register_node(CATEGORY, ScreenNode)
+    api.register_node(CATEGORY, RoundNode)
     api.register_node(CATEGORY, SinNode)
     api.register_node(CATEGORY, SubtractNode)
     api.register_node(CATEGORY, TangentNode)
