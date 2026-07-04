@@ -29,6 +29,19 @@ Creates a Catena texture object from a `numpy` array.
 This is the normal handoff point when plugin code already has processed image
 data and needs to pass it into Catena's texture pipeline.
 
+## `api.resize_like`
+
+```python
+resize_like(source: numpy.ndarray, reference: numpy.ndarray) -> numpy.ndarray
+```
+
+Resizes one array to match another array's height and width.
+
+This is useful in node code when two inputs need to be aligned before a
+per-pixel operation. The helper preserves a trailing singleton channel on
+1-channel arrays so scalar-like data still broadcasts cleanly against vector
+images.
+
 ## `api.bgr_to_rgb`
 
 ```python

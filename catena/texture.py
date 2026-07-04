@@ -35,6 +35,23 @@ def rgb_to_bgr(image: numpy.ndarray) -> numpy.ndarray:
     return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
 
+def resize_like(source: numpy.ndarray, reference: numpy.ndarray) -> numpy.ndarray:
+    """
+    Resize source to match the reference's height and width.
+
+    OpenCV drops the trailing singleton channel on 1-channel images. This
+    helper restores that dimension so scalar-like values still broadcast
+    cleanly against vector images.
+    """
+    height, width = reference.shape[:2]
+    resized = cv2.resize(source, (width, height)).astype(numpy.float32)
+
+    if source.ndim == 3 and source.shape[2] == 1 and resized.ndim == 2:
+        resized = resized[:, :, None]
+
+    return resized
+
+
 def rgba_to_bgra(image: numpy.ndarray) -> numpy.ndarray:
     """
     Convert an RGBA modifier array to BGRA.

@@ -5,4 +5,5 @@ _subgraph_path = Path("standard_node_library") / "subgraphs"
 
 EDGE_DETECT = _subgraph_path / "edge_detect.cg"
 HEIGHT_BLEND = _subgraph_path / "height_blend.cg"
+HEIGHT_BLEND2 = _subgraph_path / "height_blend2.cg"
 BREAK_OUT = _subgraph_path / "break_out.cg"

@@ -5,6 +5,7 @@ import numpy
 
 from catena import api
 from std_math_nodes import IMAGE_NODE_COLOR
+from catena.api import resize_like
 
 _PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
 
@@ -92,8 +93,7 @@ class DivideNode(api.CatenaNode):
             elif image_b.shape == (1, 1, 1):
                 image_b = numpy.full(image_a.shape, float(image_b.mean()), dtype=numpy.float32)
             else:
-                height, width = image_a.shape[:2]
-                image_b = cv2.resize(image_b, (width, height))
+                image_b = resize_like(image_b, image_a)
 
         a = image_a.astype(numpy.float32)
         b = numpy.where(image_b == 0, 1e-6, image_b.astype(numpy.float32))

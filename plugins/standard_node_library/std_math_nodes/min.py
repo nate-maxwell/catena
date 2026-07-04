@@ -5,6 +5,7 @@ import numpy
 
 from catena import api
 from std_math_nodes import IMAGE_NODE_COLOR
+from catena.api import resize_like
 
 _PORT_TYPES = [v for k, v in vars(api.PortDataType).items() if not k.startswith("_")]
 
@@ -72,8 +73,7 @@ class MinNode(api.CatenaNode):
             return image_a
 
         if image_a.shape != image_b.shape:
-            height, width = image_a.shape[:2]
-            image_b = cv2.resize(image_b, (width, height))
+            image_b = resize_like(image_b, image_a)
 
         data_type = self.get_field_value("data_type")
 

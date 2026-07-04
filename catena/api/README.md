@@ -197,6 +197,9 @@ Texture helpers
 The texture API re-exports the image conversion helpers used by Catena's
 rendering pipeline.
 
+It also re-exports `api.resize_like`, a small array alignment helper used by
+node code that blends or combines images of differing sizes.
+
 Click [here](docs/texture_helpers.md) to learn more.
 
 Application stack
