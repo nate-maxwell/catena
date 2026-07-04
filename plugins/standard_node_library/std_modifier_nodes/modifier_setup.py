@@ -20,6 +20,7 @@ from std_modifier_nodes.overlay import OverlayNode
 from std_modifier_nodes.normalize import NormalizeNode
 from std_modifier_nodes.threshold import ThresholdNode
 from std_modifier_nodes.quantize import QuantizeNode
+from std_modifier_nodes.height_blend import HeightBlendNode
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,7 @@ def build_shelf() -> None:
     api.add_seperator_to_shelf(CATEGORY)
     _add_node(BevelNode, "Bevel")
     _add_node(EdgeDetectNode, "Edge\nDetect")
+    _add_node(HeightBlendNode, "Height\nBlend")
     _add_node(HistogramScanNode, "Histo\ngram")
     api.add_seperator_to_shelf(CATEGORY)
     _add_node(ContrastNode, "Contrst")
@@ -63,6 +65,7 @@ def build_registry() -> None:
     api.register_node(CATEGORY, BlurNode)
     api.register_node(CATEGORY, ContrastNode)
     api.register_node(CATEGORY, EdgeDetectNode)
+    api.register_node(CATEGORY, HeightBlendNode)
     api.register_node(CATEGORY, HistogramScanNode)
     api.register_node(CATEGORY, HSVNode)
     api.register_node(CATEGORY, InvertNode)
