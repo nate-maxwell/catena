@@ -1,0 +1,742 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "ShapeNode",
+      "title": "Shape",
+      "x": -600.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "shape": "Circle",
+        "size": 0.02,
+        "rotation": 0.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "1",
+      "type": "ScatterNode",
+      "title": "Scatter",
+      "x": 0.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "count": 5000,
+        "scale": 0.25,
+        "scale_variance": 1.0,
+        "rotation_variance": 0.0,
+        "seed": 0
+      },
+      "promoted_fields": [
+        "seed",
+        "count"
+      ]
+    },
+    {
+      "id": "2",
+      "type": "ScatterNode",
+      "title": "Scatter",
+      "x": 0.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "count": 5000,
+        "scale": 0.25,
+        "scale_variance": 1.0,
+        "rotation_variance": 0.0,
+        "seed": 1
+      },
+      "promoted_fields": [
+        "seed",
+        "count"
+      ]
+    },
+    {
+      "id": "3",
+      "type": "ScatterNode",
+      "title": "Scatter",
+      "x": 0.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "count": 5000,
+        "scale": 0.25,
+        "scale_variance": 1.0,
+        "rotation_variance": 0.0,
+        "seed": 2
+      },
+      "promoted_fields": [
+        "seed",
+        "count"
+      ]
+    },
+    {
+      "id": "4",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 800.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "5",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 600.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "6",
+      "type": "SubtractNode",
+      "title": "Subtract",
+      "x": 400.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "7",
+      "type": "SubtractNode",
+      "title": "Subtract",
+      "x": 400.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "8",
+      "type": "ColorNode",
+      "title": "Color",
+      "x": 200.0,
+      "y": -40.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color": [
+          128,
+          128,
+          128,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "9",
+      "type": "ColorNode",
+      "title": "Color",
+      "x": 200.0,
+      "y": -140.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color": [
+          34,
+          34,
+          34,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "10",
+      "type": "RerouteNode",
+      "title": "",
+      "x": 700.0,
+      "y": 20.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "11",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 1000.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 120.0,
+        "scale_x": 1.35,
+        "scale_y": 1.35
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "12",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": 1200.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 0.8
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "13",
+      "type": "OffsetNode",
+      "title": "Offset",
+      "x": 1600.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "offset_x": 50.0,
+        "offset_y": 50.0,
+        "wrap": true
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "14",
+      "type": "FlipNode",
+      "title": "Flip",
+      "x": 1400.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "direction": "Both"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "15",
+      "type": "TileNode",
+      "title": "Tile",
+      "x": 1800.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "tiles_x": 2,
+        "tiles_y": 2
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "16",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 2000.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 100,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "17",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 2000.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 100,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "18",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 2200.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "19",
+      "type": "OffsetNode",
+      "title": "Offset",
+      "x": 2400.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "offset_x": 50.0,
+        "offset_y": 33.0,
+        "wrap": true
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "20",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 2600.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "21",
+      "type": "PerlinNoiseNode",
+      "title": "Perlin Noise",
+      "x": 2400.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "scale": 128.0,
+        "octaves": 4,
+        "seed": 0
+      },
+      "promoted_fields": [
+        "seed"
+      ]
+    },
+    {
+      "id": "22",
+      "type": "BlurNode",
+      "title": "Blur",
+      "x": 2600.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "radius": 16.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "23",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": 2800.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "24",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 3000.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Output",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "25",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -600.0,
+      "y": 100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Seed",
+        "data_type": "int",
+        "default_value": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "26",
+      "type": "AddNode",
+      "title": "Add",
+      "x": -400.0,
+      "y": 160.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "int"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "27",
+      "type": "AddNode",
+      "title": "Add",
+      "x": -400.0,
+      "y": 240.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "int"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "28",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": -600.0,
+      "y": 260.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 2
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "29",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": -600.0,
+      "y": 180.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 1
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "30",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -600.0,
+      "y": 400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Scale",
+        "data_type": "int",
+        "default_value": 5
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "31",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": -600.0,
+      "y": 460.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 1000
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "32",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -400.0,
+      "y": 400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "int"
+      },
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "32",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "count"
+    },
+    {
+      "source_node": "32",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "count"
+    },
+    {
+      "source_node": "17",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "B"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "A"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Seed",
+      "target_node": "21",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "27",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "26",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Seed",
+      "target_node": "1",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "28",
+      "source_port": "Output",
+      "target_node": "27",
+      "target_port": "B"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Seed",
+      "target_node": "27",
+      "target_port": "A"
+    },
+    {
+      "source_node": "29",
+      "source_port": "Output",
+      "target_node": "26",
+      "target_port": "B"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Seed",
+      "target_node": "26",
+      "target_port": "A"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "A"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "A"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "A"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Color",
+      "target_node": "6",
+      "target_port": "B"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Color",
+      "target_node": "7",
+      "target_port": "B"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": ""
+    },
+    {
+      "source_node": "10",
+      "source_port": "",
+      "target_node": "4",
+      "target_port": "B"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "B"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "A"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "14",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Output",
+      "target_node": "13",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Output",
+      "target_node": "15",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "16",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "17",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "19",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "20",
+      "target_port": "A"
+    },
+    {
+      "source_node": "19",
+      "source_port": "Output",
+      "target_node": "20",
+      "target_port": "B"
+    },
+    {
+      "source_node": "21",
+      "source_port": "Output",
+      "target_node": "22",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "20",
+      "source_port": "Output",
+      "target_node": "23",
+      "target_port": "A"
+    },
+    {
+      "source_node": "22",
+      "source_port": "Output",
+      "target_node": "23",
+      "target_port": "B"
+    },
+    {
+      "source_node": "23",
+      "source_port": "Output",
+      "target_node": "24",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "30",
+      "source_port": "Scale",
+      "target_node": "32",
+      "target_port": "A"
+    },
+    {
+      "source_node": "31",
+      "source_port": "Output",
+      "target_node": "32",
+      "target_port": "B"
+    },
+    {
+      "source_node": "32",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "count"
+    }
+  ]
+}

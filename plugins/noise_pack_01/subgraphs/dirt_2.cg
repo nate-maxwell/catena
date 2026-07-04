@@ -1,0 +1,109 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -1800.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Seed",
+        "data_type": "int",
+        "default_value": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "1",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": -1400.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 100,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -1800.0,
+      "y": -40.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Scale",
+        "data_type": "int",
+        "default_value": 5
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "3",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": -1200.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Output",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "Dirt1Node",
+      "title": "Dirt 1",
+      "x": -1600.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "filepath": "noise_pack_01\\subgraphs\\dirt_1.cg",
+        "Seed": 0,
+        "Scale": 5
+      },
+      "promoted_fields": [
+        "Seed",
+        "Scale"
+      ]
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Scale",
+      "target_node": "4",
+      "target_port": "Scale"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Seed",
+      "target_node": "4",
+      "target_port": "Seed"
+    }
+  ]
+}

@@ -39,10 +39,9 @@ class IntegerNode(api.CatenaNode):
         Args:
             inputs (dict[str, numpy.ndarray | None]): Unused.
         Returns:
-            numpy.ndarray | None: A float32 image of shape (H, W, 3) filled
-                with the integer value normalized to [0, 1].
+            numpy.ndarray | None: A float32 image of shape (H, W, 4) filled
+                with the integer value.
         """
         value = self.get_field_value("value")
         width, height = api.get_texture_resolution()
-        value = numpy.clip(value / 255.0, 0.0, 1.0)
-        return numpy.full((height, width, 4), value, dtype=numpy.float32)
+        return numpy.full((height, width, 4), float(value), dtype=numpy.float32)

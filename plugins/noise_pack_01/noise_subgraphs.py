@@ -7,6 +7,9 @@ CELLS_1 = _subgraph_path / "cells_1.cg"
 CELLS_2 = _subgraph_path / "cells_2.cg"
 CELLS_3 = _subgraph_path / "cells_3.cg"
 
+DIRT_1 = _subgraph_path / "dirt_1.cg"
+DIRT_2 = _subgraph_path / "dirt_2.cg"
+
 MOISTURE_NOISE_GRAPH = _subgraph_path / "moisture_noise.cg"
 
 FRACTAL_NOISE_GRAPH = _subgraph_path / "fractal_sum_base.cg"

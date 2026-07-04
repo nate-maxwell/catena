@@ -17,9 +17,7 @@ class ScatterNode(api.CatenaNode):
         super().__init__(title="Scatter")
 
     @staticmethod
-    def _rotate_stamp(
-        stamp: numpy.ndarray, angle_degrees: float
-    ) -> numpy.ndarray:
+    def _rotate_stamp(stamp: numpy.ndarray, angle_degrees: float) -> numpy.ndarray:
         """Rotate a stamp and expand the canvas so the full result is preserved."""
         if abs(angle_degrees) <= 1e-6:
             return stamp
@@ -57,7 +55,7 @@ class ScatterNode(api.CatenaNode):
                 field_type=api.FieldType.INT,
                 default=10,
                 min_value=1,
-                max_value=500,
+                max_value=999999,
             )
         )
         self.add_field(
@@ -136,7 +134,9 @@ class ScatterNode(api.CatenaNode):
             stamp_w = max(1, int(width * local_scale))
             stamp_h = max(1, int(height * local_scale))
 
-            stamp = cv2.resize(image, (stamp_w, stamp_h), interpolation=cv2.INTER_LINEAR)
+            stamp = cv2.resize(
+                image, (stamp_w, stamp_h), interpolation=cv2.INTER_LINEAR
+            )
 
             rotation = rng.uniform(-rotation_variance, rotation_variance)
             stamp = self._rotate_stamp(stamp, rotation)

@@ -6,6 +6,8 @@ from catena import api
 from cells_1 import Cells1Node
 from cells_2 import Cells2Node
 from cells_3 import Cells3Node
+from dirt_1 import Dirt1Node
+from dirt_2 import Dirt2Node
 from moisture_noise import MoistureNoiseNode
 from fractal_sum_base import FractalSumBaseNode
 from fractal_sum_1 import FractalSum1Node
@@ -30,6 +32,11 @@ def build_shelf() -> None:
 
     api.add_seperator_to_shelf(CATEGORY)
 
+    _add_node(Dirt1Node, "Dirt\n1")
+    _add_node(Dirt1Node, "Dirt\n2")
+
+    api.add_seperator_to_shelf(CATEGORY)
+
     _add_node(FractalSumBaseNode, "Fractal\nSum\nBase")
     _add_node(FractalSum1Node, "Fractal\nSum\n1")
     _add_node(FractalSum2Node, "Fractal\nSum\n2")
@@ -46,6 +53,8 @@ def build_registry() -> None:
     api.register_node(CATEGORY, Cells1Node)
     api.register_node(CATEGORY, Cells2Node)
     api.register_node(CATEGORY, Cells3Node)
+    api.register_node(CATEGORY, Dirt1Node)
+    api.register_node(CATEGORY, Dirt2Node)
     api.register_node(CATEGORY, FractalSumBaseNode)
     api.register_node(CATEGORY, FractalSum1Node)
     api.register_node(CATEGORY, FractalSum2Node)
