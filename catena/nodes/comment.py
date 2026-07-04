@@ -2,6 +2,7 @@ from typing import Any
 
 import broker
 from PySide6 import QtCore
+from PySide6 import QtGui
 from PySide6TK import QtWidgets
 from PySide6TK.Nodes import CommentBox
 
@@ -65,6 +66,12 @@ class CatenaCommentBox(CommentBox):
             return
 
         commands.push(_MoveCommentCommand(self, self._move_origin, new_pos))
+
+    def shape(self) -> QtGui.QPainterPath:
+        path = QtGui.QPainterPath()
+        path.addRect(QtCore.QRectF(0, 0, self._box_width, self._HEADER_HEIGHT))
+        path.addRect(self._handle_rect())
+        return path
 
     def itemChange(
         self,
