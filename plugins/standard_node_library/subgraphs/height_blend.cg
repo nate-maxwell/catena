@@ -1,0 +1,855 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "ColorNode",
+      "title": "Color",
+      "x": -2900.0,
+      "y": 800.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color": [
+          154,
+          154,
+          154,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "1",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -2700.0,
+      "y": 780.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "ColorNode",
+      "title": "Color",
+      "x": -2900.0,
+      "y": 860.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color": [
+          255,
+          255,
+          255,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "3",
+      "type": "ColorNode",
+      "title": "Color",
+      "x": -2900.0,
+      "y": 920.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color": [
+          0,
+          0,
+          0,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": -2700.0,
+      "y": 860.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "5",
+      "type": "InvertNode",
+      "title": "Invert",
+      "x": -2500.0,
+      "y": 860.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "6",
+      "type": "MaxNode",
+      "title": "Max",
+      "x": -1800.0,
+      "y": -100.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "7",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": -2500.0,
+      "y": 700.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "8",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": -1100.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "9",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": -1300.0,
+      "y": -400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 0,
+        "output_low": 0,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": [
+        "output_low",
+        "input_high"
+      ]
+    },
+    {
+      "id": "10",
+      "type": "SubtractNode",
+      "title": "Subtract",
+      "x": -1500.0,
+      "y": -400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "11",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -2000.0,
+      "y": -400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "12",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -2900.0,
+      "y": 980.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Mask",
+        "data_type": "vector4",
+        "default_value": [
+          0,
+          0,
+          0,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "13",
+      "type": "ColorNode",
+      "title": "Color",
+      "x": -2660.0,
+      "y": 700.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "color": [
+          0,
+          0,
+          0,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "14",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -1500.0,
+      "y": -300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Opacity",
+        "data_type": "int",
+        "default_value": 255
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "15",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": -1800.0,
+      "y": -240.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 255
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "16",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -1800.0,
+      "y": -180.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Contrast",
+        "data_type": "int",
+        "default_value": 0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "17",
+      "type": "SubtractNode",
+      "title": "Subtract",
+      "x": -1500.0,
+      "y": -240.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "int"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "18",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": -2100.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "19",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": -2320.0,
+      "y": 80.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": [
+        "output_high"
+      ]
+    },
+    {
+      "id": "20",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -3900.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "HeightPos",
+        "data_type": "float",
+        "default_value": 0.5
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "21",
+      "type": "MaxNode",
+      "title": "Max",
+      "x": -3300.0,
+      "y": 300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "22",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -3500.0,
+      "y": 360.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 0.5
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "23",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -3260.0,
+      "y": 240.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 255.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "24",
+      "type": "SubtractNode",
+      "title": "Subtract",
+      "x": -3100.0,
+      "y": 260.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "25",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -2900.0,
+      "y": 300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "26",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -3060.0,
+      "y": 340.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 2.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "27",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -2700.0,
+      "y": 300.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "28",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -2860.0,
+      "y": 380.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 255.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "29",
+      "type": "FloatToIntNode",
+      "title": "Float to Int",
+      "x": -2500.0,
+      "y": 300.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "30",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": -2300.0,
+      "y": -400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 255,
+        "gamma": 1.0
+      },
+      "promoted_fields": [
+        "output_high"
+      ]
+    },
+    {
+      "id": "31",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -3100.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "32",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -3260.0,
+      "y": -120.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 2.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "33",
+      "type": "FloatToIntNode",
+      "title": "Float to Int",
+      "x": -2500.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "34",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -3060.0,
+      "y": -120.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 255.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "35",
+      "type": "MultiplyNode",
+      "title": "Multiply",
+      "x": -2900.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "36",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": -900.0,
+      "y": 0.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Output",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "37",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -2500.0,
+      "y": -400.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Top",
+        "data_type": "vector4",
+        "default_value": [
+          255,
+          255,
+          255,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "38",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -3200.0,
+      "y": 20.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Bottom",
+        "data_type": "vector4",
+        "default_value": [
+          255,
+          255,
+          255,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "39",
+      "type": "RerouteNode",
+      "title": "",
+      "x": -2420.0,
+      "y": 40.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "39",
+      "source_port": "",
+      "target_node": "19",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "39",
+      "source_port": "",
+      "target_node": "18",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "38",
+      "source_port": "Bottom",
+      "target_node": "39",
+      "target_port": ""
+    },
+    {
+      "source_node": "27",
+      "source_port": "Output",
+      "target_node": "29",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "28",
+      "source_port": "Output",
+      "target_node": "27",
+      "target_port": "B"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Output",
+      "target_node": "27",
+      "target_port": "A"
+    },
+    {
+      "source_node": "26",
+      "source_port": "Output",
+      "target_node": "25",
+      "target_port": "B"
+    },
+    {
+      "source_node": "24",
+      "source_port": "Output",
+      "target_node": "25",
+      "target_port": "A"
+    },
+    {
+      "source_node": "21",
+      "source_port": "Output",
+      "target_node": "24",
+      "target_port": "B"
+    },
+    {
+      "source_node": "23",
+      "source_port": "Output",
+      "target_node": "24",
+      "target_port": "A"
+    },
+    {
+      "source_node": "22",
+      "source_port": "Output",
+      "target_node": "21",
+      "target_port": "B"
+    },
+    {
+      "source_node": "20",
+      "source_port": "HeightPos",
+      "target_node": "21",
+      "target_port": "A"
+    },
+    {
+      "source_node": "19",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "17",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "input_high"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Contrast",
+      "target_node": "17",
+      "target_port": "B"
+    },
+    {
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "17",
+      "target_port": "A"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Opacity",
+      "target_node": "9",
+      "target_port": "output_low"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "B"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Color",
+      "target_node": "1",
+      "target_port": "B"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Color",
+      "target_node": "4",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Color",
+      "target_node": "4",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "B"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "A"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Mask",
+      "target_node": "4",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Color",
+      "target_node": "7",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "A"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "B"
+    },
+    {
+      "source_node": "29",
+      "source_port": "Output",
+      "target_node": "19",
+      "target_port": "output_high"
+    },
+    {
+      "source_node": "30",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "A"
+    },
+    {
+      "source_node": "32",
+      "source_port": "Output",
+      "target_node": "31",
+      "target_port": "B"
+    },
+    {
+      "source_node": "20",
+      "source_port": "HeightPos",
+      "target_node": "31",
+      "target_port": "A"
+    },
+    {
+      "source_node": "33",
+      "source_port": "Output",
+      "target_node": "30",
+      "target_port": "output_high"
+    },
+    {
+      "source_node": "34",
+      "source_port": "Output",
+      "target_node": "35",
+      "target_port": "B"
+    },
+    {
+      "source_node": "31",
+      "source_port": "Output",
+      "target_node": "35",
+      "target_port": "A"
+    },
+    {
+      "source_node": "35",
+      "source_port": "Output",
+      "target_node": "33",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "36",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "37",
+      "source_port": "Top",
+      "target_node": "30",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "38",
+      "source_port": "Bottom",
+      "target_node": "1",
+      "target_port": "A"
+    }
+  ]
+}
