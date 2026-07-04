@@ -1,0 +1,263 @@
+{
+  "nodes": [
+    {
+      "id": "0",
+      "type": "SplitNode",
+      "title": "Split",
+      "x": -300.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "1",
+      "type": "AppendNode",
+      "title": "Append",
+      "x": 100.0,
+      "y": -20.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "2",
+      "type": "AppendNode",
+      "title": "Append",
+      "x": 100.0,
+      "y": -140.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "3",
+      "type": "AppendNode",
+      "title": "Append",
+      "x": 100.0,
+      "y": -260.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "4",
+      "type": "AppendNode",
+      "title": "Append",
+      "x": 100.0,
+      "y": -380.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "5",
+      "type": "GraphInputNode",
+      "title": "Graph Input",
+      "x": -500.0,
+      "y": -200.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "Input",
+        "data_type": "vector4",
+        "default_value": [
+          255,
+          255,
+          255,
+          255
+        ]
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "6",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 300.0,
+      "y": -380.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "R",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "7",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 300.0,
+      "y": -260.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "G",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "8",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 300.0,
+      "y": -20.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "A",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "9",
+      "type": "GraphOutputNode",
+      "title": "Graph Output",
+      "x": 300.0,
+      "y": -140.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "name": "B",
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    }
+  ],
+  "wires": [
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "A"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "B"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "G"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "R"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Input",
+      "target_node": "0",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Red",
+      "target_node": "4",
+      "target_port": "Red"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Red",
+      "target_node": "4",
+      "target_port": "Green"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Red",
+      "target_node": "4",
+      "target_port": "Blue"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Red",
+      "target_node": "4",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Alpha",
+      "target_node": "1",
+      "target_port": "Red"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Alpha",
+      "target_node": "1",
+      "target_port": "Green"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Alpha",
+      "target_node": "1",
+      "target_port": "Blue"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Alpha",
+      "target_node": "1",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Blue",
+      "target_node": "2",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Blue",
+      "target_node": "2",
+      "target_port": "Blue"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Blue",
+      "target_node": "2",
+      "target_port": "Green"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Blue",
+      "target_node": "2",
+      "target_port": "Red"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Green",
+      "target_node": "3",
+      "target_port": "Red"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Green",
+      "target_node": "3",
+      "target_port": "Green"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Green",
+      "target_node": "3",
+      "target_port": "Blue"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Green",
+      "target_node": "3",
+      "target_port": "Alpha"
+    }
+  ]
+}
