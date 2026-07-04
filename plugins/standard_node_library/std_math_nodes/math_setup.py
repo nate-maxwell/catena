@@ -6,6 +6,7 @@ from catena import api
 from std_math_nodes.add import AddNode
 from std_math_nodes.arctan import ArctangentNode
 from std_math_nodes.ceil import CeilNode
+from std_math_nodes.clamp import ClampNode
 from std_math_nodes.cosine import CosineNode
 from std_math_nodes.divide import DivideNode
 from std_math_nodes.floor import FloorNode
@@ -39,6 +40,7 @@ def build_shelf() -> None:
     api.add_seperator_to_shelf(CATEGORY)
     _add_node(MinNode, "Min")
     _add_node(MaxNode, "Max")
+    _add_node(ClampNode, "Clamp")
     _add_node(CeilNode, "Ceil")
     _add_node(FloorNode, "Floor")
     _add_node(RoundNode, "Round")
@@ -60,6 +62,7 @@ def build_registry() -> None:
     api.register_node(CATEGORY, CosineNode)
     api.register_node(CATEGORY, DivideNode)
     api.register_node(CATEGORY, FloorNode)
+    api.register_node(CATEGORY, ClampNode)
     api.register_node(CATEGORY, MaxNode)
     api.register_node(CATEGORY, MinNode)
     api.register_node(CATEGORY, MultiplyNode)
