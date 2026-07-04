@@ -48,8 +48,8 @@ def _tileable_perlin_noise(
     dot_top_left = top_left[..., 0] * fx + top_left[..., 1] * fy
     dot_top_right = top_right[..., 0] * (fx - 1.0) + top_right[..., 1] * fy
     dot_bottom_left = bottom_left[..., 0] * fx + bottom_left[..., 1] * (fy - 1.0)
-    dot_bottom_right = (
-        bottom_right[..., 0] * (fx - 1.0) + bottom_right[..., 1] * (fy - 1.0)
+    dot_bottom_right = bottom_right[..., 0] * (fx - 1.0) + bottom_right[..., 1] * (
+        fy - 1.0
     )
 
     top = dot_top_left * (1.0 - u) + dot_top_right * u
@@ -113,6 +113,8 @@ class PerlinNoiseNode(GeneratorNode):
                 (height, width, 4) with values in [0, 1].
         """
         scale = self.get_field_value("scale")
+        if scale < 1:
+            scale = 1
         octaves = self.get_field_value("octaves")
         seed = self.get_field_value("seed")
         seed = int(seed * 255) if isinstance(seed, float) else int(seed)

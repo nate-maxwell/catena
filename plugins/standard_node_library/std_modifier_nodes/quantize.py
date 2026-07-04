@@ -15,7 +15,7 @@ class QuantizeNode(api.CatenaNode):
 
     def __init__(self) -> None:
 
-        super().__init__(title="Retro")
+        super().__init__(title="Quantize")
 
     def _build(self) -> None:
         self.port_in = self.add_port(api.PortType.INPUT, "Input")

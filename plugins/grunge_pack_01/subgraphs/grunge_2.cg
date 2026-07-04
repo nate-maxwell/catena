@@ -339,7 +339,9 @@
       "y": 0.0,
       "width": null,
       "height": null,
-      "fields": {},
+      "fields": {
+        "data_type": "vector4"
+      },
       "promoted_fields": []
     },
     {
@@ -405,14 +407,14 @@
       "id": "29",
       "type": "GraphInputNode",
       "title": "Graph Input",
-      "x": -500.0,
+      "x": -800.0,
       "y": -220.0,
       "width": null,
       "height": null,
       "fields": {
         "name": "Scale",
         "data_type": "float",
-        "default_value": 0.0
+        "default_value": 128.0
       },
       "promoted_fields": []
     },
@@ -470,152 +472,160 @@
       "height": null,
       "fields": {},
       "promoted_fields": []
+    },
+    {
+      "id": "34",
+      "type": "MaxNode",
+      "title": "Max",
+      "x": -600.0,
+      "y": -220.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "35",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -800.0,
+      "y": -160.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 1.0
+      },
+      "promoted_fields": []
     }
   ],
   "wires": [
     {
-      "source_node": "33",
-      "source_port": "",
-      "target_node": "10",
-      "target_port": "Input"
+      "source_node": "34",
+      "source_port": "Output",
+      "target_node": "31",
+      "target_port": "scale"
+    },
+    {
+      "source_node": "35",
+      "source_port": "Output",
+      "target_node": "34",
+      "target_port": "B"
+    },
+    {
+      "source_node": "29",
+      "source_port": "Scale",
+      "target_node": "34",
+      "target_port": "A"
     },
     {
       "source_node": "31",
       "source_port": "Output",
-      "target_node": "33",
+      "target_node": "27",
       "target_port": ""
     },
     {
       "source_node": "27",
       "source_port": "",
-      "target_node": "32",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "27",
-      "source_port": "",
-      "target_node": "3",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "27",
-      "source_port": "",
-      "target_node": "3",
+      "target_node": "7",
       "target_port": "Displacement"
     },
     {
-      "source_node": "29",
-      "source_port": "Scale",
-      "target_node": "31",
-      "target_port": "scale"
+      "source_node": "27",
+      "source_port": "",
+      "target_node": "28",
+      "target_port": ""
     },
     {
-      "source_node": "32",
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "24",
+      "target_port": ""
+    },
+    {
+      "source_node": "3",
       "source_port": "Output",
       "target_node": "4",
-      "target_port": "A"
-    },
-    {
-      "source_node": "25",
-      "source_port": "Output",
-      "target_node": "30",
-      "target_port": "Output"
-    },
-    {
-      "source_node": "14",
-      "source_port": "Output",
-      "target_node": "19",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "14",
-      "source_port": "Output",
-      "target_node": "18",
       "target_port": "B"
     },
     {
-      "source_node": "17",
-      "source_port": "Output",
-      "target_node": "18",
-      "target_port": "A"
-    },
-    {
-      "source_node": "16",
-      "source_port": "Output",
-      "target_node": "17",
-      "target_port": "B"
-    },
-    {
-      "source_node": "13",
-      "source_port": "Output",
-      "target_node": "17",
-      "target_port": "A"
-    },
-    {
-      "source_node": "15",
-      "source_port": "Output",
-      "target_node": "16",
-      "target_port": "Input"
+      "source_node": "28",
+      "source_port": "",
+      "target_node": "20",
+      "target_port": "Displacement"
     },
     {
       "source_node": "8",
       "source_port": "Output",
-      "target_node": "15",
+      "target_node": "9",
       "target_port": "Input"
     },
     {
-      "source_node": "7",
+      "source_node": "26",
+      "source_port": "Position",
+      "target_node": "9",
+      "target_port": "position"
+    },
+    {
+      "source_node": "23",
       "source_port": "Output",
-      "target_node": "14",
+      "target_node": "25",
       "target_port": "Input"
     },
     {
-      "source_node": "11",
+      "source_node": "24",
+      "source_port": "",
+      "target_node": "23",
+      "target_port": "A"
+    },
+    {
+      "source_node": "22",
       "source_port": "Output",
-      "target_node": "13",
+      "target_node": "23",
+      "target_port": "B"
+    },
+    {
+      "source_node": "20",
+      "source_port": "Output",
+      "target_node": "22",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "21",
+      "source_port": "Color",
+      "target_node": "22",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "22",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "19",
+      "source_port": "Output",
+      "target_node": "20",
       "target_port": "Input"
     },
     {
-      "source_node": "12",
+      "source_node": "1",
       "source_port": "Output",
-      "target_node": "11",
-      "target_port": "Displacement"
-    },
-    {
-      "source_node": "12",
-      "source_port": "Output",
-      "target_node": "11",
+      "target_node": "2",
       "target_port": "Input"
     },
     {
-      "source_node": "10",
+      "source_node": "0",
       "source_port": "Output",
-      "target_node": "12",
-      "target_port": "Displacement"
-    },
-    {
-      "source_node": "10",
-      "source_port": "Output",
-      "target_node": "12",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "9",
-      "source_port": "Output",
-      "target_node": "7",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "6",
-      "source_port": "Output",
-      "target_node": "8",
+      "target_node": "1",
       "target_port": "Input"
     },
     {
       "source_node": "2",
       "source_port": "Output",
-      "target_node": "6",
-      "target_port": "A"
+      "target_node": "5",
+      "target_port": "Input"
     },
     {
       "source_node": "5",
@@ -626,110 +636,140 @@
     {
       "source_node": "2",
       "source_port": "Output",
-      "target_node": "5",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
-      "source_port": "Output",
-      "target_node": "1",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "1",
-      "source_port": "Output",
-      "target_node": "2",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "19",
-      "source_port": "Output",
-      "target_node": "20",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "18",
-      "source_port": "Output",
-      "target_node": "22",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "21",
-      "source_port": "Color",
-      "target_node": "22",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "20",
-      "source_port": "Output",
-      "target_node": "22",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "22",
-      "source_port": "Output",
-      "target_node": "23",
-      "target_port": "B"
-    },
-    {
-      "source_node": "24",
-      "source_port": "",
-      "target_node": "23",
+      "target_node": "6",
       "target_port": "A"
     },
     {
-      "source_node": "23",
+      "source_node": "6",
       "source_port": "Output",
-      "target_node": "25",
+      "target_node": "8",
       "target_port": "Input"
     },
     {
-      "source_node": "26",
-      "source_port": "Position",
-      "target_node": "9",
-      "target_port": "position"
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "Displacement"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "13",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "14",
+      "target_port": "Input"
     },
     {
       "source_node": "8",
       "source_port": "Output",
-      "target_node": "9",
+      "target_node": "15",
       "target_port": "Input"
     },
     {
-      "source_node": "28",
-      "source_port": "",
-      "target_node": "20",
-      "target_port": "Displacement"
+      "source_node": "15",
+      "source_port": "Output",
+      "target_node": "16",
+      "target_port": "Input"
     },
     {
-      "source_node": "3",
+      "source_node": "13",
       "source_port": "Output",
-      "target_node": "4",
+      "target_node": "17",
+      "target_port": "A"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Output",
+      "target_node": "17",
       "target_port": "B"
     },
     {
-      "source_node": "4",
+      "source_node": "17",
       "source_port": "Output",
-      "target_node": "24",
-      "target_port": ""
+      "target_node": "18",
+      "target_port": "A"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "B"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Output",
+      "target_node": "19",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "25",
+      "source_port": "Output",
+      "target_node": "30",
+      "target_port": "Output"
+    },
+    {
+      "source_node": "32",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "A"
     },
     {
       "source_node": "27",
       "source_port": "",
-      "target_node": "28",
-      "target_port": ""
-    },
-    {
-      "source_node": "27",
-      "source_port": "",
-      "target_node": "7",
+      "target_node": "3",
       "target_port": "Displacement"
+    },
+    {
+      "source_node": "27",
+      "source_port": "",
+      "target_node": "3",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "27",
+      "source_port": "",
+      "target_node": "32",
+      "target_port": "Input"
     },
     {
       "source_node": "31",
       "source_port": "Output",
-      "target_node": "27",
+      "target_node": "33",
       "target_port": ""
+    },
+    {
+      "source_node": "33",
+      "source_port": "",
+      "target_node": "10",
+      "target_port": "Input"
     }
   ]
 }

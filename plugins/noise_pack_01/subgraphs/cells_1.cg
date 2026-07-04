@@ -22,7 +22,7 @@
       "id": "1",
       "type": "InvertNode",
       "title": "Invert",
-      "x": -100.0,
+      "x": 100.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -33,7 +33,7 @@
       "id": "2",
       "type": "FloodFillNode",
       "title": "Flood Fill",
-      "x": 100.0,
+      "x": 300.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -47,7 +47,7 @@
       "id": "3",
       "type": "FloodFillToGreyscaleNode",
       "title": "Flood Fill to Greyscale",
-      "x": 300.0,
+      "x": 500.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -82,7 +82,7 @@
       "fields": {
         "name": "Cells",
         "data_type": "int",
-        "default_value": 128
+        "default_value": 120
       },
       "promoted_fields": []
     },
@@ -90,7 +90,7 @@
       "id": "6",
       "type": "GraphOutputNode",
       "title": "Graph Output",
-      "x": 500.0,
+      "x": 700.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -104,7 +104,7 @@
       "id": "7",
       "type": "EdgeDetectNode",
       "title": "Edge Detect",
-      "x": -300.0,
+      "x": -100.0,
       "y": -200.0,
       "width": null,
       "height": null,
@@ -115,43 +115,82 @@
           255,
           255,
           255
-        ]
+        ],
+        "Thickness": 2.0
       },
       "promoted_fields": [
-        "Input"
+        "Input",
+        "Thickness"
       ]
+    },
+    {
+      "id": "8",
+      "type": "IntToFloatNode",
+      "title": "Int to Float",
+      "x": -500.0,
+      "y": -20.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "9",
+      "type": "DivideNode",
+      "title": "Divide",
+      "x": -300.0,
+      "y": -20.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "float"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "10",
+      "type": "FloatNode",
+      "title": "Float",
+      "x": -500.0,
+      "y": 40.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 30.0
+      },
+      "promoted_fields": []
     }
   ],
   "wires": [
     {
-      "source_node": "7",
-      "source_port": "Output",
-      "target_node": "1",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
+      "source_node": "9",
       "source_port": "Output",
       "target_node": "7",
-      "target_port": "Input"
+      "target_port": "Thickness"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "B"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "A"
     },
     {
       "source_node": "5",
       "source_port": "Cells",
-      "target_node": "0",
-      "target_port": "cells"
+      "target_node": "8",
+      "target_port": "Input"
     },
     {
-      "source_node": "4",
-      "source_port": "Seed",
-      "target_node": "0",
-      "target_port": "seed"
-    },
-    {
-      "source_node": "2",
+      "source_node": "3",
       "source_port": "Output",
-      "target_node": "3",
-      "target_port": "Flood Fill"
+      "target_node": "6",
+      "target_port": "Output"
     },
     {
       "source_node": "1",
@@ -160,10 +199,34 @@
       "target_port": "Input"
     },
     {
-      "source_node": "3",
+      "source_node": "2",
       "source_port": "Output",
-      "target_node": "6",
-      "target_port": "Output"
+      "target_node": "3",
+      "target_port": "Flood Fill"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Seed",
+      "target_node": "0",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Cells",
+      "target_node": "0",
+      "target_port": "cells"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Input"
     }
   ]
 }

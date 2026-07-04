@@ -5,7 +5,7 @@
       "type": "WhiteNoiseNode",
       "title": "White Noise",
       "x": -300.0,
-      "y": 200.0,
+      "y": 420.0,
       "width": null,
       "height": null,
       "fields": {
@@ -267,7 +267,7 @@
       "type": "AddNode",
       "title": "Add",
       "x": 600.0,
-      "y": 520.0,
+      "y": 900.0,
       "width": null,
       "height": null,
       "fields": {
@@ -280,7 +280,7 @@
       "type": "LevelsNode",
       "title": "Levels",
       "x": 400.0,
-      "y": 540.0,
+      "y": 920.0,
       "width": null,
       "height": null,
       "fields": {
@@ -297,7 +297,7 @@
       "type": "RerouteNode",
       "title": "",
       "x": 0.0,
-      "y": 560.0,
+      "y": 940.0,
       "width": null,
       "height": null,
       "fields": {},
@@ -308,7 +308,7 @@
       "type": "BlurNode",
       "title": "Blur",
       "x": 200.0,
-      "y": 400.0,
+      "y": 420.0,
       "width": null,
       "height": null,
       "fields": {
@@ -321,7 +321,7 @@
       "type": "LevelsNode",
       "title": "Levels",
       "x": 400.0,
-      "y": 400.0,
+      "y": 420.0,
       "width": null,
       "height": null,
       "fields": {
@@ -338,7 +338,7 @@
       "type": "AddNode",
       "title": "Add",
       "x": 600.0,
-      "y": 400.0,
+      "y": 420.0,
       "width": null,
       "height": null,
       "fields": {
@@ -381,7 +381,7 @@
       "type": "RotateScaleNode",
       "title": "Rotate Scale",
       "x": 0.0,
-      "y": 400.0,
+      "y": 420.0,
       "width": null,
       "height": null,
       "fields": {
@@ -396,7 +396,7 @@
       "type": "LevelsNode",
       "title": "Levels",
       "x": 1900.0,
-      "y": 500.0,
+      "y": 880.0,
       "width": null,
       "height": null,
       "fields": {
@@ -426,13 +426,13 @@
       "type": "GraphInputNode",
       "title": "Graph Input",
       "x": -500.0,
-      "y": 700.0,
+      "y": 1140.0,
       "width": null,
       "height": null,
       "fields": {
         "name": "Levels",
         "data_type": "int",
-        "default_value": 6
+        "default_value": 9
       },
       "promoted_fields": []
     },
@@ -476,7 +476,7 @@
       "type": "IntegerNode",
       "title": "Integer",
       "x": 600.0,
-      "y": 700.0,
+      "y": 1140.0,
       "width": null,
       "height": null,
       "fields": {
@@ -491,7 +491,7 @@
       "type": "CatenaCommentBox",
       "title": "Comment",
       "x": 520.0,
-      "y": 660.0,
+      "y": 1100.0,
       "width": 280,
       "height": 100,
       "fields": {
@@ -645,7 +645,7 @@
       "type": "OverlayNode",
       "title": "Overlay",
       "x": 1400.0,
-      "y": 500.0,
+      "y": 880.0,
       "width": null,
       "height": null,
       "fields": {
@@ -658,7 +658,7 @@
       "type": "IntToVec4Node",
       "title": "Int to Vec4",
       "x": 1040.0,
-      "y": 640.0,
+      "y": 1000.0,
       "width": null,
       "height": null,
       "fields": {},
@@ -680,7 +680,7 @@
       "type": "ComparisonNode",
       "title": "Comparison",
       "x": 1200.0,
-      "y": 460.0,
+      "y": 480.0,
       "width": null,
       "height": null,
       "fields": {
@@ -693,7 +693,7 @@
       "type": "OverlayNode",
       "title": "Overlay",
       "x": 1400.0,
-      "y": 380.0,
+      "y": 400.0,
       "width": null,
       "height": null,
       "fields": {
@@ -717,7 +717,7 @@
       "type": "IntegerNode",
       "title": "Integer",
       "x": 920.0,
-      "y": 500.0,
+      "y": 520.0,
       "width": null,
       "height": null,
       "fields": {
@@ -730,7 +730,7 @@
       "type": "IntToVec4Node",
       "title": "Int to Vec4",
       "x": 1040.0,
-      "y": 500.0,
+      "y": 520.0,
       "width": null,
       "height": null,
       "fields": {},
@@ -754,11 +754,11 @@
       "type": "IntegerNode",
       "title": "Integer",
       "x": 920.0,
-      "y": 640.0,
+      "y": 1000.0,
       "width": null,
       "height": null,
       "fields": {
-        "value": 6
+        "value": 9
       },
       "promoted_fields": []
     },
@@ -767,7 +767,7 @@
       "type": "IntToVec4Node",
       "title": "Int to Vec4",
       "x": 1040.0,
-      "y": 440.0,
+      "y": 460.0,
       "width": null,
       "height": null,
       "fields": {},
@@ -791,7 +791,7 @@
       "type": "ComparisonNode",
       "title": "Comparison",
       "x": 1200.0,
-      "y": 580.0,
+      "y": 960.0,
       "width": null,
       "height": null,
       "fields": {
@@ -817,7 +817,7 @@
       "type": "IntToVec4Node",
       "title": "Int to Vec4",
       "x": 1040.0,
-      "y": 580.0,
+      "y": 940.0,
       "width": null,
       "height": null,
       "fields": {},
@@ -828,7 +828,7 @@
       "type": "NormalizeNode",
       "title": "Normalize",
       "x": 1700.0,
-      "y": 500.0,
+      "y": 880.0,
       "width": null,
       "height": null,
       "fields": {},
@@ -840,8 +840,8 @@
       "title": "Comment",
       "x": 900.0,
       "y": -140.0,
-      "width": 720,
-      "height": 840,
+      "width": 700,
+      "height": 1240,
       "fields": {
         "label": "Levels selection switch",
         "color": [
@@ -859,8 +859,8 @@
       "title": "Comment",
       "x": -40.0,
       "y": -140.0,
-      "width": 840.0,
-      "height": 800.0,
+      "width": 840,
+      "height": 1240,
       "fields": {
         "label": "Levels generation",
         "color": [
@@ -877,7 +877,7 @@
       "type": "GraphOutputNode",
       "title": "Graph Output",
       "x": 2100.0,
-      "y": 500.0,
+      "y": 880.0,
       "width": null,
       "height": null,
       "fields": {
@@ -891,7 +891,7 @@
       "type": "GraphInputNode",
       "title": "Graph Input",
       "x": -500.0,
-      "y": 200.0,
+      "y": 420.0,
       "width": null,
       "height": null,
       "fields": {
@@ -900,427 +900,661 @@
         "default_value": 0
       },
       "promoted_fields": []
+    },
+    {
+      "id": "66",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 400.0,
+      "y": 540.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 25,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "67",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 0.0,
+      "y": 540.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 260.0,
+        "scale_x": 6.0,
+        "scale_y": 6.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "68",
+      "type": "BlurNode",
+      "title": "Blur",
+      "x": 200.0,
+      "y": 540.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "radius": 4.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "69",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 600.0,
+      "y": 540.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "70",
+      "type": "ComparisonNode",
+      "title": "Comparison",
+      "x": 1200.0,
+      "y": 600.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "comparison_type": "Greater Than Or Equal"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "71",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": 920.0,
+      "y": 640.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 6
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "72",
+      "type": "IntToVec4Node",
+      "title": "Int to Vec4",
+      "x": 1040.0,
+      "y": 580.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "73",
+      "type": "IntToVec4Node",
+      "title": "Int to Vec4",
+      "x": 1040.0,
+      "y": 640.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "74",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": 1400.0,
+      "y": 520.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "75",
+      "type": "ClampNode",
+      "title": "Clamp",
+      "x": -300.0,
+      "y": 1140.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "minimum": 0.0,
+        "maximum": 9.0,
+        "data_type": "int"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "76",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 400.0,
+      "y": 660.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 25,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "77",
+      "type": "IntToVec4Node",
+      "title": "Int to Vec4",
+      "x": 1040.0,
+      "y": 760.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "78",
+      "type": "BlurNode",
+      "title": "Blur",
+      "x": 200.0,
+      "y": 660.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "radius": 4.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "79",
+      "type": "ComparisonNode",
+      "title": "Comparison",
+      "x": 1200.0,
+      "y": 720.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "comparison_type": "Greater Than Or Equal"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "80",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": 920.0,
+      "y": 760.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 7
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "81",
+      "type": "IntToVec4Node",
+      "title": "Int to Vec4",
+      "x": 1040.0,
+      "y": 700.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "82",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 600.0,
+      "y": 660.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "83",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 0.0,
+      "y": 660.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 305.0,
+        "scale_x": 3.0,
+        "scale_y": 3.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "84",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": 1400.0,
+      "y": 640.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "85",
+      "type": "LevelsNode",
+      "title": "Levels",
+      "x": 400.0,
+      "y": 780.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "input_low": 0,
+        "input_high": 255,
+        "output_low": 0,
+        "output_high": 25,
+        "gamma": 1.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "86",
+      "type": "IntToVec4Node",
+      "title": "Int to Vec4",
+      "x": 1040.0,
+      "y": 880.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "87",
+      "type": "BlurNode",
+      "title": "Blur",
+      "x": 200.0,
+      "y": 780.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "radius": 4.0
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "88",
+      "type": "ComparisonNode",
+      "title": "Comparison",
+      "x": 1200.0,
+      "y": 840.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "comparison_type": "Greater Than Or Equal"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "89",
+      "type": "IntegerNode",
+      "title": "Integer",
+      "x": 920.0,
+      "y": 880.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "value": 8
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "90",
+      "type": "IntToVec4Node",
+      "title": "Int to Vec4",
+      "x": 1040.0,
+      "y": 820.0,
+      "width": null,
+      "height": null,
+      "fields": {},
+      "promoted_fields": []
+    },
+    {
+      "id": "91",
+      "type": "AddNode",
+      "title": "Add",
+      "x": 600.0,
+      "y": 780.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "data_type": "vector4"
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "92",
+      "type": "RotateScaleNode",
+      "title": "Rotate Scale",
+      "x": 0.0,
+      "y": 780.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "angle": 340.0,
+        "scale_x": 1.5,
+        "scale_y": 1.5
+      },
+      "promoted_fields": []
+    },
+    {
+      "id": "93",
+      "type": "OverlayNode",
+      "title": "Overlay",
+      "x": 1400.0,
+      "y": 760.0,
+      "width": null,
+      "height": null,
+      "fields": {
+        "mix": 1.0
+      },
+      "promoted_fields": []
     }
   ],
   "wires": [
     {
-      "source_node": "27",
+      "source_node": "33",
       "source_port": "Output",
-      "target_node": "64",
-      "target_port": "Output"
+      "target_node": "81",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "33",
+      "source_port": "Output",
+      "target_node": "90",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "91",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "A"
+    },
+    {
+      "source_node": "82",
+      "source_port": "Output",
+      "target_node": "91",
+      "target_port": "A"
+    },
+    {
+      "source_node": "69",
+      "source_port": "Output",
+      "target_node": "82",
+      "target_port": "A"
     },
     {
       "source_node": "0",
       "source_port": "Output",
-      "target_node": "26",
+      "target_node": "92",
       "target_port": "Input"
     },
     {
       "source_node": "0",
       "source_port": "Output",
-      "target_node": "25",
+      "target_node": "83",
       "target_port": "Input"
     },
     {
-      "source_node": "0",
+      "source_node": "93",
       "source_port": "Output",
-      "target_node": "24",
+      "target_node": "46",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "84",
+      "source_port": "Output",
+      "target_node": "93",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "74",
+      "source_port": "Output",
+      "target_node": "84",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "87",
+      "source_port": "Output",
+      "target_node": "85",
       "target_port": "Input"
     },
     {
-      "source_node": "26",
+      "source_node": "85",
       "source_port": "Output",
-      "target_node": "21",
+      "target_node": "91",
+      "target_port": "B"
+    },
+    {
+      "source_node": "92",
+      "source_port": "Output",
+      "target_node": "87",
       "target_port": "Input"
     },
     {
-      "source_node": "25",
+      "source_node": "88",
+      "source_port": "Result",
+      "target_node": "93",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "86",
       "source_port": "Output",
-      "target_node": "16",
+      "target_node": "88",
+      "target_port": "B"
+    },
+    {
+      "source_node": "90",
+      "source_port": "Output",
+      "target_node": "88",
+      "target_port": "A"
+    },
+    {
+      "source_node": "89",
+      "source_port": "Output",
+      "target_node": "86",
       "target_port": "Input"
     },
     {
-      "source_node": "24",
+      "source_node": "91",
       "source_port": "Output",
-      "target_node": "13",
+      "target_node": "93",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "78",
+      "source_port": "Output",
+      "target_node": "76",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "76",
+      "source_port": "Output",
+      "target_node": "82",
+      "target_port": "B"
+    },
+    {
+      "source_node": "83",
+      "source_port": "Output",
+      "target_node": "78",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "79",
+      "source_port": "Result",
+      "target_node": "84",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "77",
+      "source_port": "Output",
+      "target_node": "79",
+      "target_port": "B"
+    },
+    {
+      "source_node": "81",
+      "source_port": "Output",
+      "target_node": "79",
+      "target_port": "A"
+    },
+    {
+      "source_node": "80",
+      "source_port": "Output",
+      "target_node": "77",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "82",
+      "source_port": "Output",
+      "target_node": "84",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "75",
+      "source_port": "Output",
+      "target_node": "33",
+      "target_port": "value"
+    },
+    {
+      "source_node": "29",
+      "source_port": "Levels",
+      "target_node": "75",
       "target_port": "Input"
     },
     {
       "source_node": "23",
       "source_port": "Output",
-      "target_node": "18",
+      "target_node": "69",
       "target_port": "A"
-    },
-    {
-      "source_node": "15",
-      "source_port": "Output",
-      "target_node": "23",
-      "target_port": "A"
-    },
-    {
-      "source_node": "22",
-      "source_port": "Output",
-      "target_node": "23",
-      "target_port": "B"
-    },
-    {
-      "source_node": "21",
-      "source_port": "Output",
-      "target_node": "22",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
-      "source_port": "Output",
-      "target_node": "20",
-      "target_port": ""
-    },
-    {
-      "source_node": "20",
-      "source_port": "",
-      "target_node": "19",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "19",
-      "source_port": "Output",
-      "target_node": "18",
-      "target_port": "B"
-    },
-    {
-      "source_node": "14",
-      "source_port": "Output",
-      "target_node": "15",
-      "target_port": "A"
-    },
-    {
-      "source_node": "16",
-      "source_port": "Output",
-      "target_node": "17",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "17",
-      "source_port": "Output",
-      "target_node": "15",
-      "target_port": "B"
-    },
-    {
-      "source_node": "12",
-      "source_port": "Output",
-      "target_node": "14",
-      "target_port": "B"
-    },
-    {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "14",
-      "target_port": "A"
-    },
-    {
-      "source_node": "13",
-      "source_port": "Output",
-      "target_node": "12",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "9",
-      "source_port": "Output",
-      "target_node": "11",
-      "target_port": "B"
-    },
-    {
-      "source_node": "10",
-      "source_port": "Output",
-      "target_node": "11",
-      "target_port": "A"
-    },
-    {
-      "source_node": "8",
-      "source_port": "Output",
-      "target_node": "10",
-      "target_port": "B"
-    },
-    {
-      "source_node": "7",
-      "source_port": "Output",
-      "target_node": "10",
-      "target_port": "A"
-    },
-    {
-      "source_node": "6",
-      "source_port": "Output",
-      "target_node": "9",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "5",
-      "source_port": "Output",
-      "target_node": "8",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "4",
-      "source_port": "Output",
-      "target_node": "7",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "3",
-      "source_port": "Output",
-      "target_node": "6",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "2",
-      "source_port": "Output",
-      "target_node": "5",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "1",
-      "source_port": "Output",
-      "target_node": "4",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
-      "source_port": "Output",
-      "target_node": "3",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
-      "source_port": "Output",
-      "target_node": "2",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "0",
-      "source_port": "Output",
-      "target_node": "1",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "31",
-      "source_port": "Output",
-      "target_node": "32",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "30",
-      "source_port": "Output",
-      "target_node": "28",
-      "target_port": "A"
-    },
-    {
-      "source_node": "32",
-      "source_port": "Output",
-      "target_node": "28",
-      "target_port": "B"
     },
     {
       "source_node": "33",
       "source_port": "Output",
-      "target_node": "30",
+      "target_node": "72",
       "target_port": "Input"
     },
     {
-      "source_node": "28",
-      "source_port": "Result",
-      "target_node": "35",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "40",
-      "source_port": "Result",
-      "target_node": "39",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "37",
+      "source_node": "0",
       "source_port": "Output",
-      "target_node": "40",
-      "target_port": "B"
-    },
-    {
-      "source_node": "36",
-      "source_port": "Output",
-      "target_node": "40",
-      "target_port": "A"
-    },
-    {
-      "source_node": "38",
-      "source_port": "Output",
-      "target_node": "37",
+      "target_node": "67",
       "target_port": "Input"
     },
     {
-      "source_node": "35",
+      "source_node": "69",
       "source_port": "Output",
-      "target_node": "39",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "33",
-      "source_port": "Output",
-      "target_node": "36",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "7",
-      "source_port": "Output",
-      "target_node": "35",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "10",
-      "source_port": "Output",
-      "target_node": "35",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "11",
-      "source_port": "Output",
-      "target_node": "39",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "43",
-      "source_port": "Output",
-      "target_node": "44",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "45",
-      "source_port": "Output",
-      "target_node": "41",
-      "target_port": "A"
-    },
-    {
-      "source_node": "44",
-      "source_port": "Output",
-      "target_node": "41",
-      "target_port": "B"
-    },
-    {
-      "source_node": "41",
-      "source_port": "Result",
-      "target_node": "42",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "39",
-      "source_port": "Output",
-      "target_node": "42",
-      "target_port": "Bottom"
-    },
-    {
-      "source_node": "14",
-      "source_port": "Output",
-      "target_node": "42",
+      "target_node": "74",
       "target_port": "Top"
     },
     {
       "source_node": "50",
       "source_port": "Output",
-      "target_node": "46",
+      "target_node": "74",
       "target_port": "Bottom"
     },
     {
-      "source_node": "58",
-      "source_port": "Result",
-      "target_node": "46",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "47",
+      "source_node": "71",
       "source_port": "Output",
-      "target_node": "58",
-      "target_port": "B"
-    },
-    {
-      "source_node": "60",
-      "source_port": "Output",
-      "target_node": "58",
-      "target_port": "A"
-    },
-    {
-      "source_node": "55",
-      "source_port": "Output",
-      "target_node": "47",
+      "target_node": "73",
       "target_port": "Input"
     },
     {
-      "source_node": "57",
+      "source_node": "72",
+      "source_port": "Output",
+      "target_node": "70",
+      "target_port": "A"
+    },
+    {
+      "source_node": "73",
+      "source_port": "Output",
+      "target_node": "70",
+      "target_port": "B"
+    },
+    {
+      "source_node": "70",
+      "source_port": "Result",
+      "target_node": "74",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "67",
+      "source_port": "Output",
+      "target_node": "68",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "66",
+      "source_port": "Output",
+      "target_node": "69",
+      "target_port": "B"
+    },
+    {
+      "source_node": "68",
+      "source_port": "Output",
+      "target_node": "66",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "65",
+      "source_port": "Seed",
+      "target_node": "0",
+      "target_port": "seed"
+    },
+    {
+      "source_node": "61",
+      "source_port": "Output",
+      "target_node": "27",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "46",
+      "source_port": "Output",
+      "target_node": "61",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "18",
+      "source_port": "Output",
+      "target_node": "46",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "23",
       "source_port": "Output",
       "target_node": "50",
-      "target_port": "Bottom"
+      "target_port": "Top"
     },
     {
-      "source_node": "52",
-      "source_port": "Output",
-      "target_node": "53",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "56",
-      "source_port": "Output",
-      "target_node": "49",
-      "target_port": "A"
-    },
-    {
-      "source_node": "53",
-      "source_port": "Output",
-      "target_node": "49",
-      "target_port": "B"
-    },
-    {
-      "source_node": "49",
-      "source_port": "Result",
-      "target_node": "50",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "59",
-      "source_port": "Result",
-      "target_node": "57",
-      "target_port": "Alpha"
-    },
-    {
-      "source_node": "51",
-      "source_port": "Output",
-      "target_node": "59",
-      "target_port": "B"
-    },
-    {
-      "source_node": "48",
-      "source_port": "Output",
-      "target_node": "59",
-      "target_port": "A"
-    },
-    {
-      "source_node": "54",
-      "source_port": "Output",
-      "target_node": "51",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "42",
+      "source_node": "15",
       "source_port": "Output",
       "target_node": "57",
-      "target_port": "Bottom"
+      "target_port": "Top"
     },
     {
       "source_node": "33",
       "source_port": "Output",
-      "target_node": "45",
-      "target_port": "Input"
-    },
-    {
-      "source_node": "33",
-      "source_port": "Output",
-      "target_node": "48",
+      "target_node": "60",
       "target_port": "Input"
     },
     {
@@ -1332,50 +1566,410 @@
     {
       "source_node": "33",
       "source_port": "Output",
-      "target_node": "60",
+      "target_node": "48",
       "target_port": "Input"
+    },
+    {
+      "source_node": "33",
+      "source_port": "Output",
+      "target_node": "45",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "42",
+      "source_port": "Output",
+      "target_node": "57",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "54",
+      "source_port": "Output",
+      "target_node": "51",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "48",
+      "source_port": "Output",
+      "target_node": "59",
+      "target_port": "A"
+    },
+    {
+      "source_node": "51",
+      "source_port": "Output",
+      "target_node": "59",
+      "target_port": "B"
+    },
+    {
+      "source_node": "59",
+      "source_port": "Result",
+      "target_node": "57",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "49",
+      "source_port": "Result",
+      "target_node": "50",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "53",
+      "source_port": "Output",
+      "target_node": "49",
+      "target_port": "B"
+    },
+    {
+      "source_node": "56",
+      "source_port": "Output",
+      "target_node": "49",
+      "target_port": "A"
+    },
+    {
+      "source_node": "52",
+      "source_port": "Output",
+      "target_node": "53",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "57",
+      "source_port": "Output",
+      "target_node": "50",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "55",
+      "source_port": "Output",
+      "target_node": "47",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "60",
+      "source_port": "Output",
+      "target_node": "58",
+      "target_port": "A"
+    },
+    {
+      "source_node": "47",
+      "source_port": "Output",
+      "target_node": "58",
+      "target_port": "B"
+    },
+    {
+      "source_node": "58",
+      "source_port": "Result",
+      "target_node": "46",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Output",
+      "target_node": "42",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "39",
+      "source_port": "Output",
+      "target_node": "42",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "41",
+      "source_port": "Result",
+      "target_node": "42",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "44",
+      "source_port": "Output",
+      "target_node": "41",
+      "target_port": "B"
+    },
+    {
+      "source_node": "45",
+      "source_port": "Output",
+      "target_node": "41",
+      "target_port": "A"
+    },
+    {
+      "source_node": "43",
+      "source_port": "Output",
+      "target_node": "44",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "39",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "35",
+      "target_port": "Top"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "35",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "33",
+      "source_port": "Output",
+      "target_node": "36",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "35",
+      "source_port": "Output",
+      "target_node": "39",
+      "target_port": "Bottom"
+    },
+    {
+      "source_node": "38",
+      "source_port": "Output",
+      "target_node": "37",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "36",
+      "source_port": "Output",
+      "target_node": "40",
+      "target_port": "A"
+    },
+    {
+      "source_node": "37",
+      "source_port": "Output",
+      "target_node": "40",
+      "target_port": "B"
+    },
+    {
+      "source_node": "40",
+      "source_port": "Result",
+      "target_node": "39",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "28",
+      "source_port": "Result",
+      "target_node": "35",
+      "target_port": "Alpha"
+    },
+    {
+      "source_node": "33",
+      "source_port": "Output",
+      "target_node": "30",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "32",
+      "source_port": "Output",
+      "target_node": "28",
+      "target_port": "B"
+    },
+    {
+      "source_node": "30",
+      "source_port": "Output",
+      "target_node": "28",
+      "target_port": "A"
+    },
+    {
+      "source_node": "31",
+      "source_port": "Output",
+      "target_node": "32",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "1",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "2",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "3",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "1",
+      "source_port": "Output",
+      "target_node": "4",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "2",
+      "source_port": "Output",
+      "target_node": "5",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "3",
+      "source_port": "Output",
+      "target_node": "6",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "4",
+      "source_port": "Output",
+      "target_node": "7",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "5",
+      "source_port": "Output",
+      "target_node": "8",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "6",
+      "source_port": "Output",
+      "target_node": "9",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "7",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "A"
+    },
+    {
+      "source_node": "8",
+      "source_port": "Output",
+      "target_node": "10",
+      "target_port": "B"
+    },
+    {
+      "source_node": "10",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "A"
+    },
+    {
+      "source_node": "9",
+      "source_port": "Output",
+      "target_node": "11",
+      "target_port": "B"
+    },
+    {
+      "source_node": "13",
+      "source_port": "Output",
+      "target_node": "12",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "11",
+      "source_port": "Output",
+      "target_node": "14",
+      "target_port": "A"
+    },
+    {
+      "source_node": "12",
+      "source_port": "Output",
+      "target_node": "14",
+      "target_port": "B"
+    },
+    {
+      "source_node": "17",
+      "source_port": "Output",
+      "target_node": "15",
+      "target_port": "B"
+    },
+    {
+      "source_node": "16",
+      "source_port": "Output",
+      "target_node": "17",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "14",
+      "source_port": "Output",
+      "target_node": "15",
+      "target_port": "A"
+    },
+    {
+      "source_node": "19",
+      "source_port": "Output",
+      "target_node": "18",
+      "target_port": "B"
+    },
+    {
+      "source_node": "20",
+      "source_port": "",
+      "target_node": "19",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "20",
+      "target_port": ""
+    },
+    {
+      "source_node": "21",
+      "source_port": "Output",
+      "target_node": "22",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "22",
+      "source_port": "Output",
+      "target_node": "23",
+      "target_port": "B"
     },
     {
       "source_node": "15",
       "source_port": "Output",
-      "target_node": "57",
-      "target_port": "Top"
+      "target_node": "23",
+      "target_port": "A"
     },
     {
-      "source_node": "23",
+      "source_node": "24",
       "source_port": "Output",
-      "target_node": "50",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "18",
-      "source_port": "Output",
-      "target_node": "46",
-      "target_port": "Top"
-    },
-    {
-      "source_node": "46",
-      "source_port": "Output",
-      "target_node": "61",
+      "target_node": "13",
       "target_port": "Input"
     },
     {
-      "source_node": "61",
+      "source_node": "25",
       "source_port": "Output",
-      "target_node": "27",
+      "target_node": "16",
       "target_port": "Input"
     },
     {
-      "source_node": "29",
-      "source_port": "Levels",
-      "target_node": "33",
-      "target_port": "value"
+      "source_node": "26",
+      "source_port": "Output",
+      "target_node": "21",
+      "target_port": "Input"
     },
     {
-      "source_node": "65",
-      "source_port": "Seed",
-      "target_node": "0",
-      "target_port": "seed"
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "24",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "25",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "0",
+      "source_port": "Output",
+      "target_node": "26",
+      "target_port": "Input"
+    },
+    {
+      "source_node": "27",
+      "source_port": "Output",
+      "target_node": "64",
+      "target_port": "Output"
     }
   ]
 }
