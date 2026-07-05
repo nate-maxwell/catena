@@ -33,7 +33,7 @@ def build_shelf() -> None:
     api.add_seperator_to_shelf(CATEGORY)
 
     _add_node(Dirt1Node, "Dirt\n1")
-    _add_node(Dirt1Node, "Dirt\n2")
+    _add_node(Dirt2Node, "Dirt\n2")
 
     api.add_seperator_to_shelf(CATEGORY)
 
