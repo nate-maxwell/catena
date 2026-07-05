@@ -7,7 +7,7 @@ from std_convert_nodes.append import AppendNode
 from std_convert_nodes.break_out import BreakOutNode
 from std_convert_nodes.float_to_int import FloatToIntNode
 from std_convert_nodes.float_to_vec4 import FloatToVec4Node
-from std_convert_nodes.height_to_ao import HeightToAONode
+from std_convert_nodes.vec4_to_ao import Vec4ToAONode
 from std_convert_nodes.height_to_normal import HeightToNormalNode
 from std_convert_nodes.int_to_float import IntToFloatNode
 from std_convert_nodes.int_to_vec4 import IntToVec4Node
@@ -30,7 +30,7 @@ def build_shelf() -> None:
     _add_node(SplitNode, "Split")
     _add_node(AppendNode, "Append")
     api.add_seperator_to_shelf(CATEGORY)
-    _add_node(HeightToAONode, "Height\nto\nAO")
+    _add_node(Vec4ToAONode, "Vec4\nto\nAO")
     _add_node(HeightToNormalNode, "Vec4\nto\nNormal")
     _add_node(NormalToVector4Node, "Normal\nto\nVec4")
     api.add_seperator_to_shelf(CATEGORY)
@@ -44,7 +44,7 @@ def build_registry() -> None:
     logger.info("Registering std convert nodes...")
     api.register_node(CATEGORY, AppendNode)
     api.register_node(CATEGORY, BreakOutNode)
-    api.register_node(CATEGORY, HeightToAONode)
+    api.register_node(CATEGORY, Vec4ToAONode)
     api.register_node(CATEGORY, HeightToNormalNode)
     api.register_node(CATEGORY, NormalToVector4Node)
     api.register_node(CATEGORY, SplitNode)

@@ -7,13 +7,13 @@ from catena import api
 from std_convert_nodes import IMAGE_NODE_COLOR
 
 
-class HeightToAONode(api.CatenaNode):
+class Vec4ToAONode(api.CatenaNode):
     """A node that approximates ambient occlusion from a height map."""
 
     _COLOR_HEADER = IMAGE_NODE_COLOR
 
     def __init__(self) -> None:
-        super().__init__(title="Height to AO")
+        super().__init__(title="Vec4 to AO")
 
     def _build(self) -> None:
         self.port_in = self.add_port(api.PortType.INPUT, "Input")
@@ -84,5 +84,5 @@ class HeightToAONode(api.CatenaNode):
 
         ao = 1.0 - numpy.clip(occlusion, 0.0, 1.0)
 
-        result = numpy.repeat(ao[:, :, None], 3, axis=2).astype(numpy.float32)
+        result = numpy.repeat(ao[:, :, None], 4, axis=2).astype(numpy.float32)
         return result
