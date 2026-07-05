@@ -193,18 +193,25 @@ class NodeGraphPane(DockablePane):
         if to_load is None or not to_load.exists():
             return
 
+        self.load_filepath(to_load)
+
+    def load_filepath(self, filepath: Path) -> None:
+        """
+        Open the specific filepath in a new graph.
+        Skips if the graph is already open.
+        """
         opened = [tab.file_path for tab in list(self._tabs.values())]
-        if to_load in opened:
+        if filepath in opened:
             return
 
         sd = session.SessionData()
-        sd.project_file = to_load
+        sd.project_file = filepath
         sd.save()
 
-        view = self._open_new_tab(to_load)
-        serialize.load(view, to_load)
+        view = self._open_new_tab(filepath)
+        serialize.load(view, filepath)
         QtCore.QTimer.singleShot(0, lambda: self._update_preview_from_load(view))
-        broker.emit(namespace.FILE_CHANGED, file_path=to_load)
+        broker.emit(namespace.FILE_CHANGED, file_path=filepath)
 
     def _update_preview_from_load(self, view: GuiGraphView) -> None:
         for node in view._node_refs:

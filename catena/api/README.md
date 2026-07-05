@@ -202,6 +202,15 @@ node code that blends or combines images of differing sizes.
 
 Click [here](docs/texture_helpers.md) to learn more.
 
+Graph API
+---------
+
+The graph API exposes a few focused helpers for interacting with the active
+graph view, including adding nodes to the currently focused graph and opening a
+file into the graph workspace.
+
+Click [here](docs/graph_api.md) to learn more.
+
 Application stack
 -----------------
 

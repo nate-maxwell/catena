@@ -1,0 +1,8 @@
+{
+  "name": "Demo Tiles",
+  "version": "1.0.0",
+  "author": "Catena Core Team",
+  "description": "A demonstration graph, showcasing various Catena functionality.",
+  "deferred_load": true,
+  "dependencies": ["standard_node_library", "noise_pack_01"]
+}
