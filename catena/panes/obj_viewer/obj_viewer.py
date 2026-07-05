@@ -187,6 +187,10 @@ class ObjViewer(QtOpenGLWidgets.QOpenGLWidget):
         if image is None:
             self._albedo_texture = texture.load_texture(self._albedo_path, srgb=True)
         else:
+            if image.ndim == 3 and image.shape[2] == 3:
+                image = texture.bgr_to_rgb(image)
+            elif image.ndim == 3 and image.shape[2] == 4:
+                image = texture.bgra_to_rgba(image)
             self._albedo_texture = texture.create_texture_from_array(image, srgb=True)
         self.doneCurrent()
         self.update()
