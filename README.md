@@ -10,7 +10,7 @@ public API documented in [catena/api/README.md](catena/api/README.md).
 
 Extremely work-in-progress
 
-<img src="https://i.imgur.com/pw6gRMh.png">
+<img src="https://i.imgur.com/ikb2RYJ.png">
 <img src="https://i.imgur.com/yp90BAy.png">
 <img src="https://i.imgur.com/1rngrCL.png">
 <img src="https://i.imgur.com/pSxroGW.png">
