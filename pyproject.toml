@@ -27,7 +27,7 @@ dependencies = [
     "imageio",
 
     "core-utils @ git+https://github.com/nate-maxwell/core_utils.git",
-    "broker @ git+https://github.com/nate-maxwell/broker.git",
+    "broker @ git+https://github.com/nate-maxwell/broker.git@v1.14.2",
     "pyside6tk @ git+https://github.com/nate-maxwell/PySide6TK.git",
 ]
 version = "0.1.0"
